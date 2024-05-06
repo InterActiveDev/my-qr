@@ -234,13 +234,9 @@ export default defineComponent({
       if (storedLocations) {
         this.locations = JSON.parse(storedLocations);
         this.locationsLoaded = true; // Set the flag to true after loading locations
-        alert(this.locationsLoaded);
-
-        console.log("this.locations", this.locations);
 
         if (this.locations.length == 1) {
           const locationValue = btoa(this.locations[0].loc_id); // Assuming loc_id is the selected location value
-
           localStorage.setItem("location", locationValue); // Store selected location in localStorage
 
           // action sync
@@ -259,12 +255,7 @@ export default defineComponent({
               );
 
               // set payment method
-              const urlGetPaymentMethod =
-                "/payment/get_payment_method?appid=" +
-                res.data.data[0].appid +
-                "&loc=" +
-                locId;
-
+              const urlGetPaymentMethod = "/payment/get_payment_method?appid=" + res.data.data[0].appid + "&loc=" + locId;
               FetchData.getData(urlGetPaymentMethod, token)
                 .then((resPaymentMethod) => {
                   localStorage.setItem(
@@ -429,7 +420,7 @@ export default defineComponent({
         this.steps = "get table list";
         localStorage.setItem("table_list", JSON.stringify(resp.data.data));
 
-        const response = await FetchData.synchronize(locId, token);
+        const response = await FetchData.synchronize(locId);
         this.steps = "synchronize";
         localStorage.setItem("data_menu", JSON.stringify(response.data.data));
       } catch (error) {
