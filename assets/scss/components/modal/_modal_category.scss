@@ -1,0 +1,80 @@
+#modalAllProduct {
+    .modal-box {
+      background: url("~/assets/images/background-modal.png");
+      background-repeat: no-repeat; /* Prevent background from repeating */
+      background-size: cover;
+      width: 700px;
+      max-width: 700px;
+      height: 800px;
+      max-height: 800px;
+
+      .modal-action {
+        .close-btn {
+          position: fixed;
+          top: 10px;
+          right: 10px;
+          background: none;
+          border: none;
+          font-size: 20px;
+          cursor: pointer;
+          color: #000;
+          box-shadow: none;
+        }
+
+        .close-btn:hover {
+          color: #f00; /* warna ikon close saat dihover */
+        }
+      }
+
+      .row-item {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 19px;
+        margin-top: 40px;
+        padding: 30px;
+
+        .item {
+          display: flex;
+          padding: 16px 24px;
+          align-items: center;
+          gap: 18px;
+          border-radius: 10px;
+          background: #fff;
+          box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.15);
+          width: 115%;
+
+          .description {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 8px;
+
+            span {
+              overflow: hidden;
+              color: #000;
+              text-overflow: ellipsis;
+              font-family: $font-family;
+              font-display: swap;
+              font-size: 24.446px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;
+              letter-spacing: 0.255px;
+            }
+
+            p {
+              color: #919191;
+              font-family: $font-family;
+              font-display: swap;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: 150%; /* 24px */
+            }
+          }
+        }
+      }
+    }
+  }

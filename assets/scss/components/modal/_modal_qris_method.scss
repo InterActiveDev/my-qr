@@ -1,0 +1,115 @@
+#modalQrisMethod {
+    .modal-box {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+      padding: 30px;
+      border-radius: 30px;
+      background: #fff;
+      width: 900px;
+      max-width: 900px;
+      position: relative;
+
+      .buble-img {
+        position: absolute;
+        left: -66px;
+        top: 990px;
+        bottom: 0px;
+        width: 30%;
+        height: auto;
+      }
+
+      .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+
+        .description {
+          color: #000;
+          text-align: center;
+          font-family: $font-family;
+          font-size: 32px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 160%; /* 51.2px */
+        }
+      }
+
+      .total-price {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+
+        .title {
+          color: #656565;
+          text-align: center;
+          font-family: $font-family;
+          font-size: 32px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 160%; /* 51.2px */
+        }
+
+        .price {
+          color: #0b0b0b;
+          text-align: center;
+          font-family: $font-family;
+          font-size: 48px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 160%; /* 76.8px */
+        }
+      }
+
+      .alert {
+        display: inline-flex;
+        padding: 18px 40px;
+        flex-direction: column;
+        align-items: center;
+        gap: 9px;
+        border-radius: 17px;
+        background: rgba(144, 144, 144, 0.1);
+        border: none;
+        .head {
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 9px;
+
+          p {
+            color: #000;
+            text-align: center;
+            font-family: $font-family;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 160%; /* 38.4px */
+          }
+        }
+      }
+
+      .qris {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+
+        img {
+          width: 50%;
+        }
+
+        span {
+          color: #656565;
+          text-align: center;
+          font-family: $font-family;
+          font-size: 32px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 160%; /* 51.2px */
+        }
+      }
+    }
+  }

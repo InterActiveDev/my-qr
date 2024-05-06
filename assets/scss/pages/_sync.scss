@@ -1,0 +1,343 @@
+body {
+  zoom: 1;
+
+  @media screen and (max-width: 1280px) {
+    #synchronize {
+      padding-top: 80px;
+      min-height: 100vh;
+      flex-grow: 1;
+      position: relative;
+      background: #fff;
+      display: flex;
+
+      .buble-top {
+        position: absolute;
+        left: -50px;
+        top: 0;
+        bottom: 0;
+        width: 20%;
+        height: auto;
+      }
+
+      .buble-bottom {
+        position: absolute;
+        right: 0px;
+        top: 2070px;
+        bottom: 0;
+        width: 20%;
+        height: auto;
+      }
+
+      .wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+
+        .content {
+          display: inline-flex;
+          padding: 32px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 27px;
+          border-radius: 30px;
+          background: #fff;
+          box-shadow: 0px 4px 40px 0px rgba(218, 36, 36, 0.15);
+          width: 750px;
+
+          .head {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 27px;
+
+            span {
+              display: flex;
+              gap: 20px;
+              color: #000;
+              text-align: center;
+              font-family: $font-family;
+              font-size: 32px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 150%; /* 48px */
+            }
+
+            p {
+              color: #595959;
+              font-family: $font-family;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: 150%; /* 36px */
+            }
+
+            .head-dark {
+              color: #000;
+              font-family: $font-family;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: 150%; /* 36px */
+            }
+          }
+
+          .body {
+            display: flex;
+            flex-direction: column;
+            gap: 27px;
+            width: 100%;
+
+            .list-disc {
+              margin-left: 30px;
+              li {
+                color: #000;
+                font-family: $font-family;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 150%;
+              }
+            }
+
+            .btn-primary {
+              margin-top: 27px;
+              display: flex;
+              width: 100%;
+              padding: 20px;
+              justify-content: center;
+              align-items: center;
+              gap: 10px;
+              align-self: stretch;
+              border-radius: 58px;
+              background: #da2424;
+              color: #fff;
+              font-family: $font-family;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;
+              height: auto;
+              border: none;
+            }
+
+            .btn-outline-primary {
+              display: flex;
+              width: 100%;
+              padding: 20px;
+              justify-content: center;
+              align-items: center;
+              gap: 10px;
+              align-self: stretch;
+              border-radius: 58px;
+              background: transparent;
+              border: 1px solid #da2424;
+              color: #da2424;
+              font-family: $font-family;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;
+              height: auto;
+            }
+
+            .text-danger {
+              color: #da2424;
+              font-family: $font-family;
+              font-size: 20px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+              text-align: center;
+            }
+
+            .text-muted {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 6px;
+              color: #595959;
+              font-family: $font-family;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 912px) and (max-width: 1280px) {
+    #synchronize {
+      padding-top: 80px;
+      min-height: 100vh;
+      flex-grow: 1;
+      position: relative;
+      background: #fff;
+      display: flex;
+
+      .buble-top {
+        position: absolute;
+        left: -50px;
+        top: 0;
+        bottom: 0;
+        width: 20%;
+        height: auto;
+      }
+
+      .buble-bottom {
+        position: absolute;
+        right: 0px;
+        top: 88vh;
+        bottom: 0;
+        width: 20%;
+        height: auto;
+      }
+
+      .wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+
+        .content {
+          display: inline-flex;
+          padding: 32px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 27px;
+          border-radius: 30px;
+          background: #fff;
+          box-shadow: 0px 4px 40px 0px rgba(218, 36, 36, 0.15);
+          width: 750px;
+
+          .head {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 27px;
+
+            span {
+              display: flex;
+              gap: 20px;
+              color: #000;
+              text-align: center;
+              font-family: $font-family;
+              font-size: 32px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 150%; /* 48px */
+            }
+
+            p {
+              color: #595959;
+              font-family: $font-family;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: 150%; /* 36px */
+            }
+
+            .head-dark {
+              color: #000;
+              font-family: $font-family;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: 150%; /* 36px */
+            }
+          }
+
+          .body {
+            display: flex;
+            flex-direction: column;
+            gap: 27px;
+            width: 100%;
+
+            .list-disc {
+              margin-left: 30px;
+              li {
+                color: #000;
+                font-family: $font-family;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 150%;
+              }
+            }
+
+            .btn-primary {
+              margin-top: 27px;
+              display: flex;
+              width: 100%;
+              padding: 20px;
+              justify-content: center;
+              align-items: center;
+              gap: 10px;
+              align-self: stretch;
+              border-radius: 58px;
+              background: #da2424;
+              color: #fff;
+              font-family: $font-family;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;
+              height: auto;
+              border: none;
+            }
+
+            .btn-outline-primary {
+              display: flex;
+              width: 100%;
+              padding: 20px;
+              justify-content: center;
+              align-items: center;
+              gap: 10px;
+              align-self: stretch;
+              border-radius: 58px;
+              background: transparent;
+              border: 1px solid #da2424;
+              color: #da2424;
+              font-family: $font-family;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;
+              height: auto;
+            }
+
+            .text-danger {
+              color: #da2424;
+              font-family: $font-family;
+              font-size: 20px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+              text-align: center;
+            }
+
+            .text-muted {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 6px;
+              color: #595959;
+              font-family: $font-family;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+            }
+          }
+        }
+      }
+    }
+  }
+}

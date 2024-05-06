@@ -1,0 +1,40 @@
+#modalWaitingBill {
+    .modal-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      padding: 30px;
+      border-radius: 30px;
+      background: #fff;
+      width: 700px;
+      max-width: 700px;
+
+      img {
+        width: 50%;
+      }
+
+      .description {
+        h2 {
+          color: #000;
+          text-align: center;
+          font-family: $font-family;
+          font-size: 40px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 150%; /* 72px */
+        }
+
+        p {
+          color: #595959;
+          text-align: center;
+          font-family: $font-family;
+          font-size: 20px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 150%; /* 42px */
+        }
+      }
+    }
+  }
