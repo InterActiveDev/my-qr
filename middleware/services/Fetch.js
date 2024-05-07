@@ -6,8 +6,8 @@ const baseURL = "https://myorderpwa.hungryline.com/api/myorder"; // prod mode
 
 const FetchService = {
   // CRUD
-  getData(url, token) {
-    return ApiService.get(baseURL+url, token);
+  getData(url) {
+    return ApiService.get(baseURL+url);
   },
 
   createData(url, data, token) {
@@ -33,8 +33,8 @@ const FetchService = {
     return ApiService.post(urlSync, data, token);
   },
 
-  synchronize(locId, token){
-    return ApiService.get(baseURL+'/backoffice/synchronize/'+locId, token);
+  synchronize(locId){
+    return ApiService.get(baseURL+'/qr_restaurant/synchronize/'+locId);
   }
 };
 

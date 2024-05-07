@@ -21,7 +21,7 @@ const ApiService = {
   // },
 
   get(resource, token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
     return axios.get(resource);
   },

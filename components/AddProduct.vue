@@ -287,7 +287,7 @@ export default {
     };
   },
   mounted() {
-    this.checkType();
+    // this.checkType();
   },
   methods: {
     checkType() {

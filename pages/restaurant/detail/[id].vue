@@ -186,8 +186,8 @@
     <Footer />
   </div>
 </template>
-
-<script>
+  
+  <script>
 import { defineComponent } from "@vue/composition-api";
 import Navbar from "@/components/Navbar.vue";
 import HomeCarousel from "@/components/HomeCarousel.vue";
@@ -197,7 +197,8 @@ import ProductSliderDouble from "@/components/ProductSliderDouble.vue";
 import Footer from "@/components/Footer.vue";
 import ProductCard from "~/components/ProductCard.vue";
 import BottomNavCart from "@/components/BottomNavCart.vue";
-import { reactive, watch } from 'vue';
+import { reactive, watch } from "vue";
+import FetchData from "~/middleware/services/Fetch.js";
 
 export default defineComponent({
   webVitals: {
@@ -219,6 +220,7 @@ export default defineComponent({
     return {
       navbarTo: "/",
       showModalCategory: false,
+      restaurantId: false,
       products: [],
       showBottomCart: false,
       category: [],
@@ -230,18 +232,33 @@ export default defineComponent({
       localStorageListener: null,
     };
   },
-  mounted() {
-    this.getList();
+  async mounted() {
+    // this.getList();
+    this.restaurantId = this.$route.params.id;
+
+    const locId = atob(this.restaurantId);
+
+    const urlGetRestoDetail =
+      "/qr_restaurant/get_restaurant_detail?loc=" + locId;
+    const res = await FetchData.getData(urlGetRestoDetail);
+    console.log("res", res.data.data[0]);
+    this.steps = "get restaurant detail";
+    localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
+
+    const response = await FetchData.synchronize(locId);
+    console.log("response", response.data.data[0]);
+    localStorage.setItem("data_menu", JSON.stringify(response.data.data));
+
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
     if (process.client) {
       localStorage.removeItem("qrContent");
       localStorage.removeItem("checkoutData");
     }
+    this.getList();
   },
   created() {
     if (process.client) {
-      this.getList();
       this.getCartItems();
     }
   },
