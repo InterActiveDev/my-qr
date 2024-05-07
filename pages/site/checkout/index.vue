@@ -416,7 +416,7 @@ export default defineComponent({
   },
   data() {
     return {
-      navbarTo: "/home",
+      navbarTo: "",
       showModalWaiting: false,
       validatePayment: false,
       products: [],
@@ -453,6 +453,10 @@ export default defineComponent({
       const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
+
+      const location = localStorage.getItem("location");
+
+      this.navbarTo = "/restaurant/detail/" + location;
 
       this.paymentMethod =
         JSON.parse(localStorage.getItem("payment_method")) || [];
@@ -612,7 +616,8 @@ export default defineComponent({
       // }
     },
     backtoHome() {
-      this.$router.push("/home");
+      const location = localStorage.getItem("location");
+      this.$router.push("/restaurant/detail/" + location);
     },
     openModalPayment() {
       let modal = document.getElementById("modalSelectPayments");
@@ -673,15 +678,13 @@ export default defineComponent({
       const data_restaurant = JSON.parse(
         localStorage.getItem("data_restaurant")
       );
-      const paymentMethod =  JSON.parse(
-        localStorage.getItem("payment_method")
-      );
+      const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
 
       paymentMethod.forEach((element) => {
-        if(this.table.paymentMethod == element.payment_category){
+        if (this.table.paymentMethod == element.payment_category) {
           this.nameMethod = element.payment_id;
         }
-      })
+      });
 
       const today = new Date();
       const year = today.getFullYear();
@@ -709,7 +712,8 @@ export default defineComponent({
             stotal: checkoutData[0].subTotal,
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
-            payment_name: this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
+            payment_name:
+              this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
             paymdate: dateYMD,
           },
           guest_detail: {

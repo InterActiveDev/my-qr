@@ -334,7 +334,7 @@ export default defineComponent({
       }
     },
     toDetail(id) {
-      this.$router.push("/home/detail/" + id);
+      this.$router.push("/restaurant/category/" + id);
     },
     openModalCategory() {
       this.showModalCategory = true;
