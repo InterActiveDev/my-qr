@@ -235,22 +235,26 @@ export default defineComponent({
   async mounted() {
     // this.getList();
     this.restaurantId = this.$route.params.id;
-
     const locId = atob(this.restaurantId);
+    const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+    const data_menu = JSON.parse(localStorage.getItem("data_menu"));
 
-    const urlGetRestoDetail = "/qr_restaurant/get_restaurant_detail?loc=" + locId;
-    const res = await FetchData.getData(urlGetRestoDetail);
-    this.steps = "get restaurant detail";
-    localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
-    localStorage.setItem("location", this.restaurantId);
-
-    const response = await FetchData.synchronize(locId);
-    localStorage.setItem("data_menu", JSON.stringify(response.data.data));
-    
     // cek update data
     const urlCheckUpdate = "/qr_restaurant/check_update?loc=" + locId;
-    const update = await FetchData.getData(urlCheckUpdate);
-    console.log('update', update);
+    const last_updated_data = await FetchData.getData(urlCheckUpdate);
+    const date = new Date(last_updated_data.data.data[0].last_updated_data);
+    const last_update = date.toISOString().slice(0, 19).replace("T", " ");
+    localStorage.setItem("last_update", JSON.stringify(last_update));
+
+    if(data_restaurant === null || data_menu === null){ 
+      await this.starter(locId);
+    }else{
+      if(last_updated_data.data.data[0].last_updated_data !== data_restaurant.last_updated_data){
+        // jika data update terakhir tidak sesuai dengan data kita, sinkronkan data ulang
+        await this.starter(locId);
+      }
+    }
+
 
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
@@ -266,6 +270,16 @@ export default defineComponent({
     }
   },
   methods: {
+    async starter(locId){
+      const urlGetRestoDetail = "/qr_restaurant/get_restaurant_detail?loc=" + locId;
+      const res = await FetchData.getData(urlGetRestoDetail);
+      this.steps = "get restaurant detail";
+      localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
+      localStorage.setItem("location", this.restaurantId);
+  
+      const response = await FetchData.synchronize(locId);
+      localStorage.setItem("data_menu", JSON.stringify(response.data.data));
+    },
     checkLocalStorage() {
       // Get the current localStorage data
       const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
