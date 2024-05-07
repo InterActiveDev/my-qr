@@ -1,8 +1,8 @@
 import ApiService from './ApiService';
 import axios from "axios";
 
-const baseURL = "http://localhost:4000/api/myorder"; // dev mode
-// const baseURL = "https://myorderpwa.hungryline.com/api/myorder"; // prod mode
+// const baseURL = "http://localhost:4000/api/myorder"; // dev mode
+const baseURL = "https://myorderpwa.hungryline.com/api/myorder"; // prod mode
 
 const FetchService = {
   // CRUD

@@ -241,6 +241,7 @@ export default defineComponent({
   },
   created() {
     if (process.client) {
+      this.getList();
       this.getCartItems();
     }
   },
@@ -255,27 +256,6 @@ export default defineComponent({
       }
     },
     getList() {
-      // tes reactive watch
-      // const data = reactive({
-      //   x: 0,
-      //   y: 0
-      // });
-
-      // // Watching for changes in 'x'
-      // watch(() => data.x, (newX) => {
-      //   console.log(`x is ${newX}`);
-      // });
-
-      // // Function to increment 'x' by 3 every 3 seconds
-      // const incrementX = () => {
-      //   setInterval(() => {
-      //     data.x += 3; // Increment 'x' by 3
-      //   }, 3000); // Repeat every 3 seconds
-      // };
-
-      // // Call the function to start incrementing 'x'
-      // incrementX();
-
       this.clockNow = new Date().toLocaleTimeString();
       let storedProducts = localStorage.getItem("data_menu");
       this.products = JSON.parse(storedProducts);

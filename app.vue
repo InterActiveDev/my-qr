@@ -48,9 +48,7 @@ export default {
         localStorage.removeItem("checkoutData");
         localStorage.removeItem("data_customer");
         localStorage.removeItem("qrContent");
-        this.$router.push("/");
-        // if (this.$route.path === "/") {
-        // }
+        this.$router.push("/home");
       }, 2 * 60 * 1000);
     },
   },
