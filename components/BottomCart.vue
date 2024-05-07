@@ -120,7 +120,7 @@ export default {
       //   modal.showModal();
       // });
 
-      this.$router.push("/checkout");
+      this.$router.push("/site/checkout");
     },
     getCartItems() {
       const cartItems = JSON.parse(localStorage.getItem("cartItems"));
