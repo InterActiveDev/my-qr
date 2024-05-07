@@ -240,14 +240,17 @@ export default defineComponent({
 
     const urlGetRestoDetail = "/qr_restaurant/get_restaurant_detail?loc=" + locId;
     const res = await FetchData.getData(urlGetRestoDetail);
-    console.log("res", res.data.data[0]);
     this.steps = "get restaurant detail";
     localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
     localStorage.setItem("location", this.restaurantId);
 
     const response = await FetchData.synchronize(locId);
-    console.log("response", response.data.data[0]);
     localStorage.setItem("data_menu", JSON.stringify(response.data.data));
+    
+    // cek update data
+    const urlCheckUpdate = "/qr_restaurant/check_update?loc=" + locId;
+    const update = await FetchData.getData(urlCheckUpdate);
+    console.log('update', update);
 
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
