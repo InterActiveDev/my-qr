@@ -143,7 +143,7 @@ export default {
     return {
       products: [],
       showBottomCart: false,
-      navbarTo: "/home",
+      navbarTo: "",
       showModalCategory: false,
       paramsID: this.$route.params.id,
       categoryName: "",
@@ -174,7 +174,10 @@ export default {
     },
     getCartItems() {
       if (process.client) {
+        const location = localStorage.getItem("location");
         const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+
+        this.navbarTo = "/restaurant/detail/" + location;
         if (cartItems) {
           this.showBottomCart = true;
         } else {
