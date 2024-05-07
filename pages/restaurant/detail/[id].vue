@@ -238,12 +238,12 @@ export default defineComponent({
 
     const locId = atob(this.restaurantId);
 
-    const urlGetRestoDetail =
-      "/qr_restaurant/get_restaurant_detail?loc=" + locId;
+    const urlGetRestoDetail = "/qr_restaurant/get_restaurant_detail?loc=" + locId;
     const res = await FetchData.getData(urlGetRestoDetail);
     console.log("res", res.data.data[0]);
     this.steps = "get restaurant detail";
     localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
+    localStorage.setItem("location", this.restaurantId);
 
     const response = await FetchData.synchronize(locId);
     console.log("response", response.data.data[0]);
