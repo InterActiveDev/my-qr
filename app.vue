@@ -51,7 +51,7 @@ export default {
         localStorage.removeItem("data_customer");
         localStorage.removeItem("qrContent");
         this.$router.push("/home");
-      }, 2 * 60 * 1000);
+      }, 25 * 60 * 1000);
     },
   },
 };

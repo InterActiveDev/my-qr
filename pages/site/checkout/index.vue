@@ -30,7 +30,7 @@
       <div class="item-order">
         <div class="head">
           <span>Pesanan Anda </span>
-          <span class="mr-10">Harga</span>
+          <span>Harga</span>
         </div>
 
         <div class="list-item-order">
