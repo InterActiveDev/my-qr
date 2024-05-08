@@ -2,8 +2,8 @@
   // padding-top: 250px;
 
   .modal-box {
-    width: 1100px;
-    max-width: 1100px;
+    width: 400px;
+    max-width: 400px;
     height: auto; // 1690px kalau ada 2 opsional slider
     padding: 0;
     overflow-y: auto;
@@ -31,7 +31,7 @@
       .card-cart {
         width: 100%;
         background: #fff;
-        padding: 49px;
+        padding: 20px;
 
         .head {
           display: flex;
@@ -46,10 +46,11 @@
               color: #000;
               text-overflow: ellipsis;
               font-family: $font-family;
-              font-size: 43px;
+              font-size: 24px;
               font-style: normal;
               font-weight: 700;
               line-height: normal;
+              text-align: center;
             }
 
             .count-cart {
@@ -61,7 +62,7 @@
               color: #fff;
               text-align: center;
               font-family: $font-family;
-              font-size: 28.825px;
+              font-size: 16px;
               font-style: normal;
               font-weight: 400;
               line-height: normal;
@@ -85,7 +86,7 @@
               background: rgba(218, 36, 36, 0.4);
               color: #da2424;
               font-family: $font-family;
-              font-size: 16px;
+              font-size: 14px;
               font-style: normal;
               font-weight: 500;
               line-height: 160%; /* 25.6px */
@@ -96,15 +97,17 @@
 
         .product-head {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          gap: 34px;
+          gap: 14px;
           align-self: stretch;
           margin-top: 34px;
 
           img {
             display: flex;
-            width: 265px;
-            height: 272px;
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
             padding: 8.309px;
             justify-content: center;
             align-items: center;
@@ -114,14 +117,14 @@
           .description {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 10px;
 
             h2 {
               overflow: hidden;
               color: #000;
               text-overflow: ellipsis;
               font-family: $font-family;
-              font-size: 32px;
+              font-size: 16px;
               font-style: normal;
               font-weight: 800;
               line-height: normal;
@@ -129,6 +132,7 @@
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 1;
               align-self: stretch;
+              text-align: center;
             }
 
             p {
@@ -139,6 +143,7 @@
               font-weight: 400;
               line-height: 150%; /* 21px */
               align-self: stretch;
+              text-align: center;
             }
 
             .price {
@@ -147,13 +152,14 @@
               text-align: left;
               text-overflow: ellipsis;
               font-family: $font-family;
-              font-size: 32px;
+              font-size: 16px;
               font-style: normal;
               font-weight: 800;
               line-height: normal;
               display: -webkit-box;
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 1;
+              text-align: center;
             }
           }
         }
@@ -164,7 +170,7 @@
           background-color: transparent;
 
           textarea {
-            height: 183px;
+            height: auto;
             font-size: 18px;
           }
         }
@@ -178,16 +184,17 @@
           background: #fca652;
           margin-left: 1rem;
           margin-right: 1rem;
+          gap: 10px;
 
           img {
             border-radius: 23px;
-            width: 10%;
+            width: 34%;
           }
 
           span {
             color: #fff;
             font-family: $font-family;
-            font-size: 28px;
+            font-size: 16px;
             font-style: normal;
             font-weight: 500;
             line-height: normal;
@@ -197,7 +204,7 @@
           p {
             color: #fff;
             font-family: $font-family;
-            font-size: 16px;
+            font-size: 12px;
             font-style: normal;
             font-weight: 400;
             line-height: 130%; /* 20.8px */
@@ -373,14 +380,13 @@
     .bottom {
       display: flex;
       align-items: flex-start;
-      gap: 52px;
       align-self: stretch;
-      flex-direction: row-reverse;
+      flex-direction: column;
       background: #fff;
       box-shadow: -8px -10px 30px 0px rgba(0, 0, 0, 0.25);
       display: flex;
       width: 100%;
-      padding: 42px 30px;
+      padding: 20px 20px;
       gap: 10px;
       position: sticky;
       bottom: 0;
@@ -403,7 +409,7 @@
           color: #fff;
           text-align: center;
           font-family: $font-family;
-          font-size: 22px;
+          font-size: 14px;
           font-style: normal;
           font-weight: 600;
           line-height: normal;
@@ -427,7 +433,7 @@
           text-align: center;
           font-family: $font-family;
           background-color: transparent;
-          font-size: 22px;
+          font-size: 14px;
           font-style: normal;
           font-weight: 500;
           line-height: normal;

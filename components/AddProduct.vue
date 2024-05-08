@@ -107,7 +107,7 @@
                     >
                     <input
                       type="checkbox"
-                      class="toggle toggle-success toggle-lg"
+                      class="toggle toggle-success toggle-md"
                       v-model="wrap"
                     />
                   </label>
