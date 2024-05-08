@@ -1,16 +1,15 @@
 <template>
   <div class="product">
-    <div class="carousel rounded-box">
-      <div
-        class="carousel-item"
-        v-for="product in displayedProducts"
-        :key="product.product_id"
-      >
-        <ProductCard :product="product" />
-      </div>
+    <div
+      class="product-item"
+      v-for="product in displayedProducts"
+      :key="product.product_id"
+    >
+      <ProductCard :product="product" />
     </div>
   </div>
 </template>
+
 <script>
 import ProductCard from "~/components/ProductCard.vue";
 

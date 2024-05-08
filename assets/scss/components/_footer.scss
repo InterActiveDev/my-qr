@@ -1,3 +1,4 @@
+
 #footer {
   display: flex;
   // height: 112px;
@@ -8,6 +9,7 @@
   padding: 50px;
   background-color: #fff;
   bottom: 0;
+  width: 480px;
 
   span {
     overflow: hidden;
@@ -21,6 +23,6 @@
   }
 
   img {
-    width: 243px;
+    width: 50%;
   }
 }
