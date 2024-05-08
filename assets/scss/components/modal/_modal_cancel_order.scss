@@ -8,8 +8,8 @@
       padding: 30px;
       border-radius: 30px;
       background: #fff;
-      width: 700px;
-      max-width: 700px;
+      width: 400px;
+      max-width: 400px;
 
       img {
         width: 50%;
@@ -20,7 +20,7 @@
           color: #000;
           text-align: center;
           font-family: $font-family;
-          font-size: 40px;
+          font-size: 24px;
           font-style: normal;
           font-weight: 700;
           line-height: 150%; /* 72px */
@@ -30,7 +30,7 @@
           color: #595959;
           text-align: center;
           font-family: $font-family;
-          font-size: 20px;
+          font-size: 14px;
           font-style: normal;
           font-weight: 600;
           line-height: 150%; /* 42px */
@@ -57,7 +57,7 @@
           backdrop-filter: blur(21px);
           color: #FFF;
           font-family: Roboto;
-          font-size: 24px;
+          font-size: 16px;
           font-style: normal;
           font-weight: 500;
           line-height: normal;
@@ -74,7 +74,7 @@
           background: #595959;
           color: #FFF;
           font-family: Roboto;
-          font-size: 24px;
+          font-size: 16px;
           font-style: normal;
           font-weight: 500;
           line-height: normal;

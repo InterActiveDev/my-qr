@@ -7,9 +7,9 @@
             <div class="description">
               <span>Keranjang</span>
               <div class="count-cart">{{ getItem.length }}</div>
-              <div class="spacer-vertical"></div>
+              <!-- <div class="spacer-vertical"></div> -->
 
-              <button class="btn btn-outline-primary" @click="removeAll">
+              <!-- <button class="btn btn-outline-primary" @click="removeAll">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="26"
@@ -23,7 +23,7 @@
                   />
                 </svg>
                 Hapus Semua
-              </button>
+              </button> -->
             </div>
             <form method="dialog">
               <button>
@@ -78,12 +78,26 @@
                     </div>
                     <div class="float-right">
                       <button class="btn" @click="changeMenu(item)">
-                        Ubah
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="1em"
+                          height="1em"
+                          viewBox="0 0 24 24"
+                        >
+                          <g fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"
+                            />
+                            <path d="m14.5 6.5l3 3" />
+                          </g>
+                        </svg>
                       </button>
                     </div>
                   </div>
 
-                  <div class="footer">
+                  <!-- <div class="footer">
                     <div class="note">
                       <label
                         class="input input-bordered bg-white flex items-center gap-2"
@@ -189,7 +203,7 @@
                         </svg>
                       </button>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -328,12 +342,11 @@ export default {
     // this.updateLocalStorage();
     this.total();
   },
-  mounted(){
+  mounted() {
     // this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
     // setInterval(this.checkLocalStorage, 500);
     this.getCartItems();
     this.calculateTotalPrice();
-
   },
   methods: {
     checkLocalStorage() {

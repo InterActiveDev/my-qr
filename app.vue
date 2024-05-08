@@ -9,11 +9,11 @@
       <link rel="icon" type="image/png" href="/icon.png" />
     </head>
     <VitePwaManifest />
-    <div @touchstart="resetTimer">
-      <div class="flex justify-center">
-        <NuxtPage />
-      </div>
+    <!-- <div @touchstart="resetTimer"> -->
+    <div class="flex justify-center">
+      <NuxtPage />
     </div>
+    <!-- </div> -->
   </div>
 </template>
 
