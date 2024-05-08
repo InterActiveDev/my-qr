@@ -234,20 +234,35 @@ export default defineComponent({
   },
   async mounted() {
     // this.getList();
+    const location = localStorage.getItem("location");
     this.restaurantId = this.$route.params.id;
-
     const locId = atob(this.restaurantId);
 
-    const urlGetRestoDetail = "/qr_restaurant/get_restaurant_detail?loc=" + locId;
-    const res = await FetchData.getData(urlGetRestoDetail);
-    console.log("res", res.data.data[0]);
-    this.steps = "get restaurant detail";
-    localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
-    localStorage.setItem("location", this.restaurantId);
+    if(location && location != this.restaurantId){
+      console.log('ini refresh data karna lokasi beda');
+      await this.starter(locId);
+    }
+    const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+    const data_menu = JSON.parse(localStorage.getItem("data_menu"));
 
-    const response = await FetchData.synchronize(locId);
-    console.log("response", response.data.data[0]);
-    localStorage.setItem("data_menu", JSON.stringify(response.data.data));
+    // cek update data
+    const urlCheckUpdate = "/qr_myorder/check_update?loc=" + locId;
+    const last_updated_data = await FetchData.getData(urlCheckUpdate);
+    const date = new Date(last_updated_data.data.data[0].last_updated_data);
+    const last_update = date.toISOString().slice(0, 19).replace("T", " ");
+    localStorage.setItem("last_update", JSON.stringify(last_update));
+
+    if(data_restaurant === null || data_menu === null){ 
+      console.log('ini refresh data karna restoran / data menu kosong');
+      await this.starter(locId);
+    }else{
+      if(last_updated_data.data.data[0].last_updated_data !== data_restaurant.last_updated_data){
+        // jika data update terakhir tidak sesuai dengan data kita, sinkronkan data ulang
+        console.log('ini refresh data karna tanggal update data terakhir berbeda');
+        await this.starter(locId);
+      }
+    }
+
 
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
@@ -263,6 +278,57 @@ export default defineComponent({
     }
   },
   methods: {
+    async starter(locId){
+      // set lokasi
+      localStorage.setItem("location", this.restaurantId);
+
+      // set detail restaurant
+      const urlGetRestoDetail = "/qr_myorder/get_restaurant_detail?loc=" + locId;
+      const res = await FetchData.getData(urlGetRestoDetail);
+      const appid = res.data.data[0].appid;
+      this.steps = "get restaurant detail";
+      localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
+
+      // set payment method
+      const urlGetPaymentMethod = "/qr_myorder/get_payment_method?appid="+appid+"&loc="+locId;
+      const resPayment = await FetchData.getData(urlGetPaymentMethod);
+      this.steps = "get payment method";
+      localStorage.setItem("payment_method", JSON.stringify(resPayment.data.data[0]));
+      
+      // set order type
+      const urlOrderType = "/qr_myorder/get_order_type?appid="+appid+"&loc="+locId;
+      const resOrderType = await FetchData.getData(urlOrderType);
+      this.steps = "get order type";
+      localStorage.setItem("order_type", JSON.stringify(resOrderType.data.data));
+
+      // set promo
+      const urlPromo = "/qr_myorder/get_all_promo?appid="+appid+"&loc="+locId;
+      const resPromo = await FetchData.getData(urlPromo);
+      this.steps = "get promo";
+      localStorage.setItem("promo", JSON.stringify(resPromo.data.data));
+
+      // set banner
+      const urlBanner = "/qr_myorder/get_banner?appid="+appid+"&loc="+locId;
+      const resBanner = await FetchData.getData(urlBanner);
+      this.steps = "get banner";
+      localStorage.setItem("banner", JSON.stringify(resBanner.data.data));
+
+      // set background
+      const urlBackground = "/qr_myorder/get_background?appid="+appid+"&loc=" +locId;
+      const resBackground = await FetchData.getData(urlBackground);
+      this.steps = "get background";
+      localStorage.setItem("background", JSON.stringify(resBackground.data.data));
+
+      // set table
+      const urlTables = "/qr_myorder/get_all_table?appid="+appid+"&loc=" +locId;
+      const resTables = await FetchData.getData(urlTables);
+      this.steps = "get table list";
+      localStorage.setItem("table_list", JSON.stringify(resTables.data.data));
+  
+      // set menu
+      const response = await FetchData.synchronize(locId);
+      localStorage.setItem("data_menu", JSON.stringify(response.data.data));
+    },
     checkLocalStorage() {
       // Get the current localStorage data
       const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
