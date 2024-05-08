@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Navbar :to="navbarTo" />
-
     <section id="checkout">
+      <Navbar :to="navbarTo" />
+
       <div class="head-title">
         <h2>CHECKOUT PESANAN</h2>
       </div>
@@ -11,7 +11,18 @@
 
       <div class="type-order">
         <span>Jenis Pesanan</span>
-        <h2>DINE IN</h2>
+
+        <div class="type-order-data">
+          <div class="type-order-option"  @click="typeOrderSelect(order.name)" v-for="(order, index) in orderTypes" :key="index" >
+            <h2>{{order.name}}</h2>
+          </div>
+          <!-- <div class="type-order-option" @click="typeOrderSelect('Dine in')" >
+            <h2>Dine in</h2>
+          </div>
+          <div class="type-order-option" @click="typeOrderSelect('Take away')" >
+            <h2>Take away</h2>
+          </div> -->
+        </div>
       </div>
 
       <div class="spacer"></div>
@@ -34,13 +45,8 @@
                 {{ items.product.product_name }}
                 <sup>
                   {{
-                    items.topping.name != undefined
-                      ? "(" +
-                        items.topping.name +
-                        " - " +
-                        formatCurrency(items.topping.price) +
-                        ")"
-                      : ""
+                    items.topping.name != undefined ? 
+                        "("+items.topping.name+" - "+formatCurrency(items.topping.price)+")" : ""
                   }}
                 </sup>
                 <span class="font-bold">
@@ -166,70 +172,13 @@
       <!-- summary pay -->
       <div class="card-summary">
         <div class="card-item">
-          <div class="title">Rincian Pembayaran</div>
           <div class="item">
-            <span>Subtotal ({{ countSubTotal }} menu)</span>
-            <span>{{ formatCurrency(subTotal) }}</span>
-          </div>
-
-          <div class="striper" v-if="serviceFee > 0"></div>
-          <div class="item" v-if="serviceFee > 0">
-            <span v-if="serviceFee > 0">{{ dataRestaurant.service_name }}</span>
-            <span v-if="serviceFee > 0">{{ formatCurrency(serviceFee) }}</span>
-          </div>
-
-          <div class="striper" v-if="tax > 0"></div>
-          <div class="item" v-if="tax > 0">
-            <span v-if="tax > 0">{{ dataRestaurant.tax_name }} </span>
-            <span v-if="tax > 0">{{ formatCurrency(tax) }}</span>
-          </div>
-
-          <!-- disable rounding untuk tes -->
-          <div
-            class="striper"
-            v-if="rounding != 0 && roundingType != 'none'"
-          ></div>
-          <div class="item" v-if="rounding != 0 && roundingType != 'none'">
-            <span v-if="rounding != 0 && roundingType != 'none'">Rounding</span>
-            <span v-if="rounding != 0 && roundingType != 'none'">{{
-              formatCurrency(rounding)
-            }}</span>
-          </div>
-
-          <div class="striper"></div>
-          <div class="item">
-            <h2>Total Pembayaran</h2>
+            <h2>Total</h2>
             <div class="price">{{ formatCurrency(totalPay) }}</div>
           </div>
         </div>
 
         <div class="btn-group">
-          <button class="btn btn-back" @click="backtoHome">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="68"
-              height="69"
-              viewBox="0 0 68 69"
-              fill="none"
-            >
-              <rect
-                y="69"
-                width="68.8947"
-                height="68"
-                rx="15"
-                transform="rotate(-90 0 69)"
-                fill="white"
-              />
-              <path
-                d="M39.6667 20.1996L25.5 34.5527L39.6667 48.9058"
-                stroke="black"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-          <div class="spacer-vertical"></div>
           <button
             class="btn btn-pay"
             @click="openModalPayment"
@@ -396,6 +345,14 @@
   </dialog>
 </template>
 
+<style>
+  .active {
+    background-color: #ff8181;
+    border: 1px solid #da2424 !important;
+    color:  #da2424 !important;
+  }
+</style>
+
 <script>
 import { defineComponent } from "@vue/composition-api";
 import Navbar from "@/components/Navbar.vue";
@@ -420,6 +377,8 @@ export default defineComponent({
       showModalWaiting: false,
       validatePayment: false,
       products: [],
+      orderTypes: [],
+      selectedOrderType: "",
       subTotal: 0,
       countSubTotal: 0,
       promo: 0,
@@ -445,11 +404,11 @@ export default defineComponent({
       nameMethod: 0,
     };
   },
-  mounted() {
-    this.getList();
+  async mounted() {
+    await this.getList();
   },
   methods: {
-    getList() {
+    async getList() {
       const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
@@ -458,8 +417,8 @@ export default defineComponent({
 
       this.navbarTo = "/restaurant/detail/" + location;
 
-      this.paymentMethod =
-        JSON.parse(localStorage.getItem("payment_method")) || [];
+      this.paymentMethod = JSON.parse(localStorage.getItem("payment_method")) || [];
+      this.orderTypes = await JSON.parse(localStorage.getItem("order_type")) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
@@ -794,6 +753,23 @@ export default defineComponent({
       }
 
       localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
+    },
+    typeOrderSelect(name){
+      // Get all elements with the class 'type-order-option'
+      const typeOrderOptions = document.querySelectorAll('.type-order-option');
+          
+          // Loop through each element
+          typeOrderOptions.forEach(option => {
+              // Check if the inner text of the element matches the clicked name
+              if(option.querySelector('h2').innerText === name) {
+                  // If matched, add 'active' class
+                  option.classList.add('active');
+                  this.selectedOrderType = name;
+              } else {
+                  // If not matched, remove 'active' class
+                  option.classList.remove('active');
+              }
+          });
     },
     closeModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");

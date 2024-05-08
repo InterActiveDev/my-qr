@@ -270,7 +270,8 @@ export default defineComponent({
       localStorage.removeItem("qrContent");
       localStorage.removeItem("checkoutData");
     }
-    this.getList();
+
+    // this.getList();
   },
   created() {
     if (process.client) {
@@ -279,55 +280,59 @@ export default defineComponent({
   },
   methods: {
     async starter(locId){
-      // set lokasi
-      localStorage.setItem("location", this.restaurantId);
+      try {
+        // set lokasi
+        localStorage.setItem("location", this.restaurantId);
 
-      // set detail restaurant
-      const urlGetRestoDetail = "/qr_myorder/get_restaurant_detail?loc=" + locId;
-      const res = await FetchData.getData(urlGetRestoDetail);
-      const appid = res.data.data[0].appid;
-      this.steps = "get restaurant detail";
-      localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
+        // set detail restaurant
+        const urlGetRestoDetail = "/qr_myorder/get_restaurant_detail?loc=" + locId;
+        const res = await FetchData.getData(urlGetRestoDetail);
+        const appid = res.data.data[0].appid;
+        this.steps = "get restaurant detail";
+        localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
 
-      // set payment method
-      const urlGetPaymentMethod = "/qr_myorder/get_payment_method?appid="+appid+"&loc="+locId;
-      const resPayment = await FetchData.getData(urlGetPaymentMethod);
-      this.steps = "get payment method";
-      localStorage.setItem("payment_method", JSON.stringify(resPayment.data.data[0]));
-      
-      // set order type
-      const urlOrderType = "/qr_myorder/get_order_type?appid="+appid+"&loc="+locId;
-      const resOrderType = await FetchData.getData(urlOrderType);
-      this.steps = "get order type";
-      localStorage.setItem("order_type", JSON.stringify(resOrderType.data.data));
+        // set payment method
+        const urlGetPaymentMethod = "/qr_myorder/get_payment_method?appid="+appid+"&loc="+locId;
+        const resPayment = await FetchData.getData(urlGetPaymentMethod);
+        this.steps = "get payment method";
+        localStorage.setItem("payment_method", JSON.stringify(resPayment.data.data[0]));
 
-      // set promo
-      const urlPromo = "/qr_myorder/get_all_promo?appid="+appid+"&loc="+locId;
-      const resPromo = await FetchData.getData(urlPromo);
-      this.steps = "get promo";
-      localStorage.setItem("promo", JSON.stringify(resPromo.data.data));
+        // set order type
+        const urlOrderType = "/qr_myorder/get_order_type?appid="+appid+"&loc="+locId;
+        const resOrderType = await FetchData.getData(urlOrderType);
+        this.steps = "get order type";
+        localStorage.setItem("order_type", JSON.stringify(resOrderType.data.data));
 
-      // set banner
-      const urlBanner = "/qr_myorder/get_banner?appid="+appid+"&loc="+locId;
-      const resBanner = await FetchData.getData(urlBanner);
-      this.steps = "get banner";
-      localStorage.setItem("banner", JSON.stringify(resBanner.data.data));
+        // set promo
+        const urlPromo = "/qr_myorder/get_all_promo?appid="+appid+"&loc="+locId;
+        const resPromo = await FetchData.getData(urlPromo);
+        this.steps = "get promo";
+        localStorage.setItem("promo", JSON.stringify(resPromo.data.data));
 
-      // set background
-      const urlBackground = "/qr_myorder/get_background?appid="+appid+"&loc=" +locId;
-      const resBackground = await FetchData.getData(urlBackground);
-      this.steps = "get background";
-      localStorage.setItem("background", JSON.stringify(resBackground.data.data));
+        // set banner
+        const urlBanner = "/qr_myorder/get_banner?appid="+appid+"&loc="+locId;
+        const resBanner = await FetchData.getData(urlBanner);
+        this.steps = "get banner";
+        localStorage.setItem("banner", JSON.stringify(resBanner.data.data));
 
-      // set table
-      const urlTables = "/qr_myorder/get_all_table?appid="+appid+"&loc=" +locId;
-      const resTables = await FetchData.getData(urlTables);
-      this.steps = "get table list";
-      localStorage.setItem("table_list", JSON.stringify(resTables.data.data));
-  
-      // set menu
-      const response = await FetchData.synchronize(locId);
-      localStorage.setItem("data_menu", JSON.stringify(response.data.data));
+        // set background
+        const urlBackground = "/qr_myorder/get_background?appid="+appid+"&loc=" +locId;
+        const resBackground = await FetchData.getData(urlBackground);
+        this.steps = "get background";
+        localStorage.setItem("background", JSON.stringify(resBackground.data.data));
+
+        // set table
+        const urlTables = "/qr_myorder/get_all_table?appid="+appid+"&loc=" +locId;
+        const resTables = await FetchData.getData(urlTables);
+        this.steps = "get table list";
+        localStorage.setItem("table_list", JSON.stringify(resTables.data.data));
+
+        // set menu
+        const response = await FetchData.synchronize(locId);
+        localStorage.setItem("data_menu", JSON.stringify(response.data.data));
+      } catch (error) {
+        console.log("error: " + error.message);
+      }
     },
     checkLocalStorage() {
       // Get the current localStorage data
