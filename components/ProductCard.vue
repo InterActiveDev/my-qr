@@ -45,8 +45,7 @@
       </div>
 
       <div class="card-actions">
-        <div class="btn-add-cart">
-          <button class="btn" @click="addProduct(product)">
+        <div class="btn-add-cart"  @click="addProduct(product)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="26"
@@ -78,8 +77,7 @@
                 stroke-linecap="round"
               />
             </svg>
-            Tambah Pesanan
-          </button>
+            <span> Tambah Pesanan </span>
         </div>
       </div>
     </div>

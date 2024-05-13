@@ -14,8 +14,8 @@
               <button @click="closeModalChangeMenu">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="36"
-                  height="36"
+                  width="25"
+                  height="25"
                   viewBox="0 0 36 36"
                   fill="none"
                 >
@@ -111,7 +111,7 @@
               ></textarea>
             </div>
 
-            <div class="warning">
+            <!-- <div class="warning">
               <img
                 src="~/assets/icons/icon-warning.png"
                 alt=""
@@ -122,7 +122,7 @@
                 <span>PERHATIAN !</span>
                 <p>Lengkapi Toping menu untuk menyimpan pesanan</p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

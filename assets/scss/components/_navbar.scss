@@ -1,68 +1,143 @@
-.frame {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+@media (min-width: 1280px) {
+  .frame {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 
-  .navbar {
-    background: #fff;
-    box-shadow: 0px 1px 40px 0px rgba(0, 0, 0, 0.15);
-    position: fixed;
-    height: 100px;
-    width: 480px;
+    .navbar {
+      background: #fff;
+      box-shadow: 0px 1px 40px 0px rgba(0, 0, 0, 0.15);
+      position: fixed;
+      height: 100px;
+      width: 480px;
 
-    .back {
-      .btn-back {
-        border: none;
-        background: transparent;
+      .back {
+        .btn-back {
+          border: none;
+          background: transparent;
+        }
       }
-    }
 
-    .btn-ghost {
-      display: flex;
-      align-items: baseline;
-    }
-
-    .profile {
-      display: flex;
-      gap: 10px;
-
-      .location {
+      .btn-ghost {
         display: flex;
-        flex-direction: column;
+        align-items: baseline;
+      }
 
-        span {
-          justify-content: end;
-          color: #000;
-          font-family: $font-family;
-          font-size: 12px;
-          font-style: normal;
-          font-weight: 700;
-          line-height: normal;
-          text-align: end;
+      .profile {
+        display: flex;
+        gap: 10px;
+
+        .location {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            justify-content: end;
+            color: #000;
+            font-family: $font-family;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            text-align: end;
+          }
+
+          p {
+            color: #595959;
+            font-family: $font-family;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
         }
 
-        p {
-          color: #595959;
-          font-family: $font-family;
-          font-size: 12px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: normal;
+        .btn {
+          border-radius: 100%;
+          width: 65px;
+          max-width: 65px;
+          height: 65px;
+          flex-shrink: 0;
+          padding: 10px;
+          background-color: transparent;
+          border: 1px solid #575757;
+
+          img {
+            object-fit: contain;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 390px) and (max-width: 1280px) {
+  .frame {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .navbar {
+      background: #fff;
+      box-shadow: 0px 1px 40px 0px rgba(0, 0, 0, 0.15);
+      position: fixed;
+      height: 100px;
+      width: 100%;
+
+      .back {
+        .btn-back {
+          border: none;
+          background: transparent;
         }
       }
 
-      .btn {
-        border-radius: 100%;
-        width: 65px;
-        max-width: 65px;
-        height: 65px;
-        flex-shrink: 0;
-        padding: 10px;
-        background-color: transparent;
-        border: 1px solid #575757;
+      .btn-ghost {
+        display: flex;
+        align-items: baseline;
+      }
 
-        img {
-          object-fit: contain;
+      .profile {
+        display: flex;
+        gap: 10px;
+
+        .location {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            justify-content: end;
+            color: #000;
+            font-family: $font-family;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            text-align: end;
+          }
+
+          p {
+            color: #595959;
+            font-family: $font-family;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+        }
+
+        .btn {
+          border-radius: 100%;
+          width: 65px;
+          max-width: 65px;
+          height: 65px;
+          flex-shrink: 0;
+          padding: 10px;
+          background-color: transparent;
+          border: 1px solid #575757;
+
+          img {
+            object-fit: contain;
+          }
         }
       }
     }
