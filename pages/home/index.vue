@@ -174,8 +174,12 @@
           <div v-else class="else">
             <div class="spacer"></div>
             <div class="list-product">
-              <div class="product-search">
-                <div v-for="items in filteredProducts" :key="items.product_id">
+              <div class="product">
+                <div
+                  class="product-item"
+                  v-for="items in filteredProducts"
+                  :key="items.product_id"
+                >
                   <ProductCard :product="items" />
                 </div>
               </div>
@@ -265,6 +269,7 @@ export default defineComponent({
       this.clockNow = new Date().toLocaleTimeString();
       let storedProducts = localStorage.getItem("data_menu");
       this.products = JSON.parse(storedProducts);
+      this.countProduct = 0;
       this.products.forEach((element) => {
         this.countProduct += element.product_count;
       });

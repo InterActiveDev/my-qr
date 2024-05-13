@@ -19,7 +19,7 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="68"
+            width="48"
             height="69"
             viewBox="0 0 68 69"
             fill="none"
@@ -92,7 +92,7 @@
           <svg
             style="display: none"
             xmlns="http://www.w3.org/2000/svg"
-            width="38"
+            width="48"
             height="37"
             viewBox="0 0 38 37"
             fill="none"

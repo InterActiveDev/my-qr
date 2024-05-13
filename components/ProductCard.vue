@@ -25,6 +25,7 @@
       </NuxtLazyHydrate>
     </figure>
     <div class="card-body">
+      .
       <div class="card-title">
         <span>{{
           product.product_name.length > 25
@@ -42,11 +43,12 @@
           formatCurrency(product.real_price)
         }}</span> -->
       </div>
+
       <div class="card-actions">
         <button class="btn btn-add-cart" @click="addProduct(product)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="27"
+            width="26"
             height="26"
             viewBox="0 0 27 26"
             fill="none"
