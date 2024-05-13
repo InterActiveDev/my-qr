@@ -57,7 +57,7 @@
           // width: 100%;
           // max-width: 202px;
           color: #000;
-          font-size: 18px;
+          font-size: 14px;
         }
       }
 
@@ -83,7 +83,7 @@
     .list-product {
       display: flex;
       flex-direction: column;
-      gap: 46px;
+      gap: 16px;
       background: #fff;
       padding: 30px;
       // justify-content: center;
@@ -119,7 +119,7 @@
           color: #000;
           font-family: $font-family;
           font-display: swap;
-          font-size: 24px;
+          font-size: 18px;
           font-style: normal;
           font-weight: 400;
           line-height: normal;
@@ -129,7 +129,7 @@
           color: #da2424;
           font-family: $font-family;
           font-display: swap;
-          font-size: 24px;
+          font-size: 18px;
           font-style: normal;
           font-weight: 400;
           line-height: normal;
@@ -287,7 +287,7 @@
         gap: 16px;
 
         .product-item {
-          width: 47%;
+          width: 47.5%;
 
           .card {
             display: flex;
@@ -296,7 +296,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 17px !important;
+            // gap: 17px !important;
             flex-shrink: 0;
             background-color: transparent;
             box-shadow: none;
@@ -313,14 +313,15 @@
               flex-direction: column;
               align-items: center;
               padding: 0;
-              gap: 17px;
+              gap: 6px;
               width: 100%;
+              margin-top: -20px;
 
               .card-title {
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 16px;
+                gap: 0px;
                 align-self: stretch;
 
                 span {
@@ -330,7 +331,7 @@
                   white-space: nowrap;
                   font-family: $font-family;
                   font-display: swap;
-                  font-size: 16px;
+                  font-size: 14px;
                   font-style: normal;
                   font-weight: 700;
                   line-height: normal;
@@ -344,7 +345,7 @@
                   white-space: nowrap;
                   font-family: $font-family;
                   font-display: swap;
-                  font-size: 16px;
+                  font-size: 14px;
                   font-style: normal;
                   font-weight: 500;
                   line-height: normal;
@@ -354,8 +355,8 @@
 
               .price {
                 display: flex;
-                flex-direction: column;
-                align-items: flex-end;
+                // flex-direction: column;
+                align-items: flex-start;
                 gap: 8px;
                 align-self: stretch;
 
@@ -383,7 +384,7 @@
                   font-display: swap;
                   font-size: 14px;
                   font-style: normal;
-                  font-weight: 800;
+                  font-weight: 400;
                   line-height: normal;
                 }
 
@@ -407,10 +408,12 @@
                 
                 .btn-add-cart {
                   width: 100%;
+                  height: 50px;
                   padding: 0px;
                   border-radius: 41px;
                   background: #272829;
                   color: #fff;
+                  font-size: 14px;
                 }
               }
             }

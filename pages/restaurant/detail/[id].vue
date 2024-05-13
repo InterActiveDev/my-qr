@@ -174,8 +174,12 @@
           <div v-else class="else">
             <div class="spacer"></div>
             <div class="list-product">
-              <div class="product-search">
-                <div v-for="items in filteredProducts" :key="items.product_id">
+              <div class="product">
+                <div
+                  class="product-item"
+                  v-for="items in filteredProducts"
+                  :key="items.product_id"
+                >
                   <ProductCard :product="items" />
                 </div>
               </div>
@@ -271,7 +275,7 @@ export default defineComponent({
         await this.starter(locId);
       }
     }
-
+    
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
     if (process.client) {
@@ -279,7 +283,7 @@ export default defineComponent({
       localStorage.removeItem("checkoutData");
     }
 
-    // this.getList();
+    this.getList();
   },
   created() {
     if (process.client) {
@@ -287,50 +291,69 @@ export default defineComponent({
     }
   },
   methods: {
-    async starter(locId){
+    async starter(locId) {
       try {
         // set lokasi
         localStorage.setItem("location", this.restaurantId);
 
         // set detail restaurant
-        const urlGetRestoDetail = "/qr_myorder/get_restaurant_detail?loc=" + locId;
+        const urlGetRestoDetail =
+          "/qr_myorder/get_restaurant_detail?loc=" + locId;
         const res = await FetchData.getData(urlGetRestoDetail);
         const appid = res.data.data[0].appid;
         this.steps = "get restaurant detail";
-        localStorage.setItem("data_restaurant", JSON.stringify(res.data.data[0]));
+        localStorage.setItem(
+          "data_restaurant",
+          JSON.stringify(res.data.data[0])
+        );
 
         // set payment method
-        const urlGetPaymentMethod = "/qr_myorder/get_payment_method?appid="+appid+"&loc="+locId;
+        const urlGetPaymentMethod =
+          "/qr_myorder/get_payment_method?appid=" + appid + "&loc=" + locId;
         const resPayment = await FetchData.getData(urlGetPaymentMethod);
         this.steps = "get payment method";
-        localStorage.setItem("payment_method", JSON.stringify(resPayment.data.data[0]));
+        localStorage.setItem(
+          "payment_method",
+          JSON.stringify(resPayment.data.data[0])
+        );
 
         // set order type
-        const urlOrderType = "/qr_myorder/get_order_type?appid="+appid+"&loc="+locId;
+        const urlOrderType =
+          "/qr_myorder/get_order_type?appid=" + appid + "&loc=" + locId;
         const resOrderType = await FetchData.getData(urlOrderType);
         this.steps = "get order type";
-        localStorage.setItem("order_type", JSON.stringify(resOrderType.data.data));
+        localStorage.setItem(
+          "order_type",
+          JSON.stringify(resOrderType.data.data)
+        );
 
         // set promo
-        const urlPromo = "/qr_myorder/get_all_promo?appid="+appid+"&loc="+locId;
+        const urlPromo =
+          "/qr_myorder/get_all_promo?appid=" + appid + "&loc=" + locId;
         const resPromo = await FetchData.getData(urlPromo);
         this.steps = "get promo";
         localStorage.setItem("promo", JSON.stringify(resPromo.data.data));
 
         // set banner
-        const urlBanner = "/qr_myorder/get_banner?appid="+appid+"&loc="+locId;
+        const urlBanner =
+          "/qr_myorder/get_banner?appid=" + appid + "&loc=" + locId;
         const resBanner = await FetchData.getData(urlBanner);
         this.steps = "get banner";
         localStorage.setItem("banner", JSON.stringify(resBanner.data.data));
 
         // set background
-        const urlBackground = "/qr_myorder/get_background?appid="+appid+"&loc=" +locId;
+        const urlBackground =
+          "/qr_myorder/get_background?appid=" + appid + "&loc=" + locId;
         const resBackground = await FetchData.getData(urlBackground);
         this.steps = "get background";
-        localStorage.setItem("background", JSON.stringify(resBackground.data.data));
+        localStorage.setItem(
+          "background",
+          JSON.stringify(resBackground.data.data)
+        );
 
         // set table
-        const urlTables = "/qr_myorder/get_all_table?appid="+appid+"&loc=" +locId;
+        const urlTables =
+          "/qr_myorder/get_all_table?appid=" + appid + "&loc=" + locId;
         const resTables = await FetchData.getData(urlTables);
         this.steps = "get table list";
         localStorage.setItem("table_list", JSON.stringify(resTables.data.data));
@@ -355,6 +378,7 @@ export default defineComponent({
       this.clockNow = new Date().toLocaleTimeString();
       let storedProducts = localStorage.getItem("data_menu");
       this.products = JSON.parse(storedProducts);
+      this.countProduct = 0;
       this.products.forEach((element) => {
         this.countProduct += element.product_count;
       });
