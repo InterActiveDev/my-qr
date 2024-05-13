@@ -42,14 +42,15 @@
             <div class="col-1">
               <span class="item-name">
                 <span>({{ items.quantityItem }}x) {{ items.product.product_name }}</span>
-                <sup>
+               
+                <p class="font-grey">
+                  {{ formatCurrency(items.product.product_pricenow) }}
+                </p>
+                <p class="topping">
                   {{
                     items.topping.name != undefined ? 
                         "("+items.topping.name+" - "+formatCurrency(items.topping.price)+")" : ""
                   }}
-                </sup>
-                <p class="font-grey">
-                  {{ formatCurrency(items.product.product_pricenow) }}
                 </p>
                 <p class="font-grey">
                   {{ items.note != "" ? "Notes : " + items.note : "" }}
@@ -182,7 +183,7 @@
           </div>
 
           <div class="promo-container">
-            <button>Select Promo</button>
+            <button @click="listPromo()" class="promo-selector" >Select Promo</button>
 
             <div class="close-promo">
               <span class="promo-text">Kupon bukber kedua Rp 5000 </span>
@@ -403,6 +404,121 @@
     <!-- end modal qris method -->
   </div>
 
+  <dialog id="modalPromo" class="modal" :open="showModalPromo">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h1>Select Promo</h1>
+        <button @click="closeListPromo()">x</button>
+      </div>
+
+      <div class="promo-item" v-for="(promo, index) in promos" :key="index">
+        <div class="promo-item-img">
+          <img v-if='promo.promo_img != null && promo.promo_img != "" ' :src="promo.promo_img" alt="img">
+          <img v-else src="http://hungryline.interactiveholic.net/images/restaurant/7.jpg" alt="img">
+        </div>
+
+        <div class="promo-detail">
+          <div class="promo-detail-info">
+            <span class="promo-name">{{ promo.promo_title }}</span>
+            <div class="promo-info" v-if="promo.promo_description.toUpperCase() != promo.promo_title.toUpperCase()">{{ promo.promo_description }}</div>
+            <div class="promo-info" v-if="promo.disc_type == '%'">Discount {{ promo.disc_amount }} {{ promo.disc_type }}</div>
+            <div class="promo-info" v-else-if="promo.disc_type == 'Rp'">Discount {{ promo.disc_type }} {{ promo.disc_amount }}</div>
+            <div class="promo-info" v-else></div>
+          </div>
+
+          <button @click="openDetailPromo(promo.promo_id)">Detail</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="modalPromoDetail" class="modal" :open="showModalPromoDetail">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h1>Select Promo</h1>
+        <button @click="closePromoDetail()">x</button>
+      </div>
+      <hr>
+
+      <div class="modal-promo">
+
+        <div class="modal-promo-detail-header">
+          <span>{{prTitle}}</span>
+          <span>{{prDescription}}</span>
+        </div>
+            
+        <div class="modal-promo-detail">
+          <div class="detail-container">
+            <span class="promo-title">Date Promo Begin</span>
+            <span class="promo-value">{{prDateBegin}}</span>
+          </div>
+
+          <div class="detail-container">
+            <span class="promo-title">Hours Apply</span>
+            <span class="promo-value">{{prHourBegin}}</span>
+          </div>
+
+          <div class="detail-container">
+            <span class="promo-title" style="color: red !important;">Available Items</span>
+            <ul>
+              <li>• Ayam Goreng</li>
+              <li>• Nasi Goreng Original</li>
+              <li>• Nasi Goreng Mawut</li>
+            </ul>
+          </div>
+
+          <div class="detail-container">
+            <span class="promo-title">Maximal Order Items</span>
+            <span class="promo-value">9</span>
+          </div>
+
+          <div class="detail-container">
+            <span class="promo-title">Maximal Total Amount</span>
+            <span class="promo-value">Rp 999999999</span>
+          </div>
+
+          <div class="detail-container">
+            <span class="promo-title">Available payment</span>
+            <ul>
+              <li>• Cash</li>
+              <li>• Debit</li>
+              <li>• Kredit</li>
+            </ul>
+          </div>
+
+          <div class="detail-container">
+            <span class="promo-title">Date Promo End</span>
+            <span class="promo-value">2023-08-04</span>
+          </div>
+
+          <div class="detail-container">
+            <span class="promo-title">Valid days</span>
+            <ul>
+              <li>everyday</li>
+            </ul> 
+          </div>
+
+          <div class="detail-container">
+            <span class="promo-title">Available Category Items</span>
+            <ul>
+              <li>• Nasi</li>
+            </ul>
+          </div>
+
+          <div class="detail-container">
+            <span class="promo-title">Minimal total amount</span>
+            <span class="promo-value">Rp 1</span>
+          </div>
+
+          <button>Select</button>
+        </div>
+
+      </div>
+      <!-- pass some data to here -->
+
+    </div>
+  </dialog>
+
   <dialog id="modalWaiting" class="modal" v-if="showModalWaiting">
     <div class="modal-box">
       <span class="loading loading-spinner"></span>
@@ -440,10 +556,13 @@ export default defineComponent({
   data() {
     return {
       navbarTo: "",
+      showModalPromo: false,
+      showModalPromoDetail: false,
       showModalWaiting: false,
       validatePayment: false,
       products: [],
       orderTypes: [],
+      promos: [],
       selectedOrderType: "",
       subTotal: 0,
       countSubTotal: 0,
@@ -472,6 +591,10 @@ export default defineComponent({
       transactionId: "",
       paymentMethod: [],
       nameMethod: 0,
+      prTitle: "",
+      prDescription: "",
+      prDateBegin: "",
+      prHourBegin: "",
     };
   },
   async mounted() {
@@ -480,8 +603,8 @@ export default defineComponent({
   methods: {
     async getList() {
       const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      const data_restaurant =
-        JSON.parse(localStorage.getItem("data_restaurant")) || [];
+      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant")) || [];
+      this.promos = JSON.parse(localStorage.getItem("promo")) || [];
 
       const location = localStorage.getItem("location");
 
@@ -556,6 +679,30 @@ export default defineComponent({
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
       }
+    },
+    listPromo(){
+      this.showModalPromo = true;
+    },
+    closeListPromo(){
+      this.showModalPromo = false;
+    },
+    openDetailPromo(promoId){
+      this.showModalPromo = false;
+      this.showModalPromoDetail = true;
+
+      const foundPromo = this.promos.find(promo => promo.promo_id === promoId);
+      console.log('foundPromo', foundPromo);
+      
+      // datae kurang product_ids
+      this.prTitle = foundPromo.promo_title;
+      this.prDescription = foundPromo.promo_description;
+      this.prDateBegin = foundPromo.date_promobegin;
+      this.prHourBegin = foundPromo.hour_promobegin + " - " + foundPromo.hour_promoend;
+
+
+    },
+    closePromoDetail(){
+      this.showModalPromoDetail = false;
     },
     removeItem(index) {
       this.products.splice(index, 1);
