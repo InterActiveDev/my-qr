@@ -76,26 +76,7 @@
                       </div>
                       <p>{{ item.product.product_description }}</p>
                     </div>
-                  </div>
 
-                  <div class="btn-group">
-                    <button class="btn" @click="changeMenu(item)">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                      >
-                        <g fill="none" stroke="currentColor" stroke-width="2">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"
-                          />
-                          <path d="m14.5 6.5l3 3" />
-                        </g>
-                      </svg>
-                    </button>
                     <div class="trash">
                       <button @click="removeItem(index)">
                         <svg
@@ -114,8 +95,51 @@
                     </div>
                   </div>
 
-                  <div class="footer">
-                    <!-- <div class="note">
+                  <div class="btn-group">
+                    <div class="btn" @click="handleMenuChange(item)">
+                      <button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                        >
+                          <g fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"
+                            />
+                            <path d="m14.5 6.5l3 3" />
+                          </g>
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div class="split-item">
+                      <div class="btn-minus">
+                        <button class="btn" @click="decrementValue(index)">
+                          -
+                        </button>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="1"
+                        class="input input-ghost w-full max-w-xs"
+                        :value="item.quantityItem"
+                        @input="updateQuantity(index, $event)"
+                        readonly
+                      />
+                      <div class="btn-plus">
+                        <button class="btn" @click="incrementValue(index)">
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div class="footer">
+                    <div class="note">
                       <label
                         class="input input-bordered bg-white flex items-center gap-2"
                       >
@@ -147,63 +171,8 @@
                           </svg>
                         </button>
                       </label>
-                    </div> -->
-
-                    <div class="split-item">
-                      <button
-                        class="btn btn-minus"
-                        @click="decrementValue(index)"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="21"
-                          height="5"
-                          viewBox="0 0 21 5"
-                          fill="none"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0.192383 2.5C0.192383 1.39543 1.08781 0.5 2.19238 0.5H18.1924C19.297 0.5 20.1924 1.39543 20.1924 2.5C20.1924 3.60457 19.297 4.5 18.1924 4.5H2.19238C1.08781 4.5 0.192383 3.60457 0.192383 2.5Z"
-                            fill="#DA2424"
-                          />
-                        </svg>
-                      </button>
-                      <input
-                        type="text"
-                        placeholder="1"
-                        class="input input-ghost w-full max-w-xs"
-                        :value="item.quantityItem"
-                        @input="updateQuantity(index, $event)"
-                        readonly
-                      />
-                      <button
-                        class="btn btn-plus"
-                        @click="incrementValue(index)"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="21"
-                          height="21"
-                          viewBox="0 0 21 21"
-                          fill="none"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0.192383 10.498C0.192383 9.39348 1.08781 8.49805 2.19238 8.49805H18.1924C19.297 8.49805 20.1924 9.39348 20.1924 10.498C20.1924 11.6026 19.297 12.498 18.1924 12.498H2.19238C1.08781 12.498 0.192383 11.6026 0.192383 10.498Z"
-                            fill="white"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M10.1924 0.5C11.297 0.5 12.1924 1.39543 12.1924 2.5L12.1924 18.5C12.1924 19.6046 11.297 20.5 10.1924 20.5C9.08781 20.5 8.19238 19.6046 8.19238 18.5L8.19238 2.5C8.19238 1.39543 9.08781 0.5 10.1924 0.5Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </button>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -494,17 +463,27 @@ export default {
         this.removeItem(index);
       }
     },
-    changeMenu(item) {
-      console.log("dd", item);
+    handleMenuChange(item) {
       localStorage.setItem("temporary_item_cart", JSON.stringify(item));
-      this.changeMenu = item;
+      // this.changeMenuState(item); // Panggil fungsi yang sesuai
       this.showModalChangeMenu = true;
       this.$nextTick(() => {
         if (this.$refs.modalComponent) {
-          this.$refs.modalComponent.showModal(this.changeMenu);
+          this.$refs.modalComponent.showModal(this.changeMenuState); // Perubahan disini juga
         }
       });
       this.$refs.modal.close();
+    },
+    changeMenu(item) {
+      // localStorage.setItem("temporary_item_cart", JSON.stringify(item));
+      // this.changeMenu = item;
+      // this.showModalChangeMenu = true;
+      // this.$nextTick(() => {
+      //   if (this.$refs.modalComponent) {
+      //     this.$refs.modalComponent.showModal(this.changeMenu);
+      //   }
+      // });
+      // this.$refs.modal.close();
     },
   },
 };

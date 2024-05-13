@@ -325,7 +325,6 @@ export default {
         this.topping = "";
         this.showBottomCart = true;
         // this.$router.push("/home", cart);
-        window.location.reload();
       }, 1000);
     },
     incrementValue() {
@@ -356,7 +355,6 @@ export default {
       localStorage.removeItem("temporary_item_cart");
       this.modalVisible = false;
       modalchangeMenu.close();
-      window.location.reload();
     },
     formatCurrency(amount) {
       const formatter = new Intl.NumberFormat("id-ID", {
