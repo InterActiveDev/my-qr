@@ -207,7 +207,7 @@
                     align-items: flex-start;
                     gap: 0px;
                     align-self: stretch;
-  
+
                     span {
                       overflow: hidden;
                       color: #000;
@@ -221,7 +221,7 @@
                       line-height: normal;
                       text-wrap: wrap;
                     }
-  
+
                     p {
                       overflow: hidden;
                       color: #000;
@@ -236,14 +236,14 @@
                       text-wrap: wrap;
                     }
                   }
-  
+
                   .price {
                     display: flex;
                     // flex-direction: column;
                     align-items: flex-start;
                     gap: 8px;
                     align-self: stretch;
-  
+
                     .price-fix {
                       overflow: hidden;
                       color: #da2424;
@@ -257,7 +257,7 @@
                       font-weight: 800;
                       line-height: normal;
                     }
-  
+
                     .price-fix-dark {
                       overflow: hidden;
                       color: #000;
@@ -271,7 +271,7 @@
                       font-weight: 400;
                       line-height: normal;
                     }
-  
+
                     .price-discount {
                       overflow: hidden;
                       color: #000;
@@ -313,7 +313,6 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-
                   }
                 }
               }
@@ -326,6 +325,275 @@
 }
 
 @media screen and (min-width: 390px) and (max-width: 1280px) {
+  #detail {
+    padding-top: 40px;
+    min-height: 100vh;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+
+    .frame {
+      width: 100%;
+
+      .sort-item {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        display: flex;
+        width: 100%;
+        padding: 32px 25px;
+        gap: 10px;
+        background: #fff;
+        margin-top: -6px;
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        // flex-direction: row;
+        // justify-content: space-between;
+        // flex-direction: column;
+
+        .btn-group {
+          display: flex;
+          gap: 10px;
+
+          .btn-primary {
+            border-radius: 10px;
+            background: #da2424;
+            border: none;
+            color: #fff;
+            // width: 30%;
+            // max-width: 202px;
+            font-size: 14px;
+            // width: 100%;
+
+            .badge {
+              background-color: #fff;
+              border: none;
+              color: #da2424;
+            }
+          }
+
+          .btn-muted {
+            border-radius: 10px;
+            background: rgba(197, 197, 197, 0.3);
+            border: none;
+            // width: 100%;
+            // max-width: 202px;
+            color: #000;
+            font-size: 18px;
+          }
+        }
+
+        .full {
+          width: 100%;
+          .input {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #d6d6d6;
+            background: #fff;
+            box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+            font-size: 18px;
+          }
+        }
+      }
+
+      .list-product {
+        padding: 30px 25px;
+        background-color: #fff;
+        gap: 0px;
+        margin-top: -6px;
+        height: auto;
+        min-height: 100vh;
+
+        .head {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          gap: 11px;
+          margin-bottom: 20px;
+
+          .border-list-product {
+            height: 15.455px;
+            flex: 1 0 0;
+            border-radius: 13px;
+            background: linear-gradient(
+              90deg,
+              #0043a8 1.4%,
+              #63356d 50.16%,
+              #da2424 98.92%
+            );
+            box-shadow: 0px 4px 7.7px 0px rgba(218, 36, 36, 0.28);
+          }
+
+          span {
+            color: #000;
+            font-family: $font-family;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+
+          .link-see-all {
+            color: #da2424;
+            font-family: $font-family;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+        }
+
+        .product {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          width: 100%;
+          gap: 16px;
+
+          .product-item {
+            width: 47%;
+
+            .card {
+              display: flex;
+              // width: 50%;
+              // max-width: none;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              gap: 17px !important;
+              flex-shrink: 0;
+              background-color: transparent;
+              box-shadow: none;
+
+              figure {
+                width: 100%;
+                img {
+                  width: 100%;
+                }
+              }
+
+              .card-body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0;
+                gap: 17px;
+                width: 100%;
+
+                .card-title {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  gap: 0px;
+                  align-self: stretch;
+
+                  span {
+                    overflow: hidden;
+                    color: #000;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-family: $font-family;
+                    font-display: swap;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: normal;
+                    text-wrap: wrap;
+                  }
+
+                  p {
+                    overflow: hidden;
+                    color: #000;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-family: $font-family;
+                    font-display: swap;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                    text-wrap: wrap;
+                  }
+                }
+
+                .price {
+                  display: flex;
+                  // flex-direction: column;
+                  align-items: flex-start;
+                  gap: 8px;
+                  align-self: stretch;
+
+                  .price-fix {
+                    overflow: hidden;
+                    color: #da2424;
+                    text-align: right;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-family: $font-family;
+                    font-display: swap;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 800;
+                    line-height: normal;
+                  }
+
+                  .price-fix-dark {
+                    overflow: hidden;
+                    color: #000;
+                    text-align: right;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-family: $font-family;
+                    font-display: swap;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                  }
+
+                  .price-discount {
+                    overflow: hidden;
+                    color: #000;
+                    text-align: right;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-family: $font-family;
+                    font-display: swap;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                  }
+                }
+
+                .card-actions {
+                  width: 100%;
+
+                  .btn-add-cart {
+                    width: 100%;
+                    height: 40px;
+                    border-radius: 10px;
+                    background: #272829;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    span {
+                      display: none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 360px) and (max-width: 390px) {
   #detail {
     padding-top: 40px;
     min-height: 100vh;

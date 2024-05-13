@@ -409,7 +409,7 @@ export default {
       });
 
       setTimeout(() => {
-        this.$router.push("/checkout");
+        this.$router.push("/site/checkout");
       }, 2000);
     },
     showCart() {
