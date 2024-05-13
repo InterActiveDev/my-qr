@@ -1,4 +1,4 @@
-@media (min-width: 1280px) {
+@media (min-width: 760px) {
   .spacer {
     background: rgba(197, 197, 197, 0.3);
     width: 480px;
@@ -6,7 +6,7 @@
   }
 }
 
-@media screen and (min-width: 390px) and (max-width: 1280px) {
+@media screen and (min-width: 390px) and (max-width: 760px) {
   .spacer {
     background: rgba(197, 197, 197, 0.3);
     width: 100%;
