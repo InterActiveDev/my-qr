@@ -1,5 +1,23 @@
-.spacer {
+@media (min-width: 760px) {
+  .spacer {
     background: rgba(197, 197, 197, 0.3);
     width: 480px;
     height: 20px;
   }
+}
+
+@media screen and (min-width: 390px) and (max-width: 760px) {
+  .spacer {
+    background: rgba(197, 197, 197, 0.3);
+    width: 100%;
+    height: 20px;
+  }
+}
+
+@media screen and (min-width: 360px) and (max-width: 390px) {
+  .spacer {
+    background: rgba(197, 197, 197, 0.3);
+    width: 100%;
+    height: 20px;
+  }
+}
