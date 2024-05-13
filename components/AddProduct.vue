@@ -123,7 +123,7 @@
               ></textarea>
             </div>
 
-            <div class="warning">
+            <!-- <div class="warning">
               <img
                 src="~/assets/icons/icon-warning.png"
                 alt=""
@@ -134,7 +134,7 @@
                 <span>PERHATIAN !</span>
                 <p>Lengkapi Toping menu untuk menyimpan pesanan</p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
