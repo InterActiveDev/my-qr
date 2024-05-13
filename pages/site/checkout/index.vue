@@ -35,22 +35,27 @@
 
         <div class="list-item-order">
           <div
-            class="item mb-5"
+            class="item mb-2"
             v-for="(items, index) in products"
             :key="items.uuid"
           >
             <div class="col-1">
               <span class="item-name">
-                ({{ items.quantityItem }}x)
-                {{ items.product.product_name }}
+                <span>({{ items.quantityItem }}x) {{ items.product.product_name }}</span>
                 <sup>
                   {{
                     items.topping.name != undefined ? 
                         "("+items.topping.name+" - "+formatCurrency(items.topping.price)+")" : ""
                   }}
                 </sup>
+                <p class="font-grey">
+                  {{ formatCurrency(items.product.product_pricenow) }}
+                </p>
+                <p class="font-grey">
+                  {{ items.note != "" ? "Notes : " + items.note : "" }}
+                </p>
                 <span class="font-bold">
-                  {{ items.wrap == true ? "(" + "Bungkus" + ")" : "" }}
+                  {{ items.istakeaway == 1 ? "[ Bungkus ]" : "" }}
                 </span>
               </span>
               <div class="qty">
@@ -122,13 +127,16 @@
               </div>
             </div>
             <div class="col-2">
-              <span>{{
+              <p class="">
+                &nbsp;
+              </p>
+              <p >{{
                 formatCurrency(
                   (items.product.product_pricenow +
                     (items.topping?.price || 0)) *
                     parseInt(items.quantityItem)
                 )
-              }}</span>
+              }}</p>
             </div>
           </div>
           <button class="btn btn-add-more" @click="backtoHome">
@@ -165,6 +173,64 @@
             </svg>
             Tambah Pesanan Lainya
           </button>
+        </div>
+
+        <div class="promo-option">
+          <div class="promo-container">
+            <span>11 Promo available</span>
+            <span>Promo selected</span>
+          </div>
+
+          <div class="promo-container">
+            <button>Select Promo</button>
+
+            <div class="close-promo">
+              <span class="promo-text">Kupon bukber kedua Rp 5000 </span>
+              <button class="close-btn">x</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-detail">
+          <p class="label-text">Payment Detail</p>
+
+          <div class="detail-item">
+            <span class="detail-text">Sub Total</span>
+            
+            <span class="detail-text">{{ formatCurrency(subTotal) }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-text">Promo</span>
+            
+            <span class="detail-text">{{ formatCurrency(promo) }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-text">{{ serviceFeeName }} ({{ serviceFeePercentage }}{{ serviceFeeType }})</span>
+            
+            <span class="detail-text">{{ formatCurrency(serviceFee) }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-text">{{ taxName }} ({{ taxPercentage }}%)</span>
+            
+            <span class="detail-text">{{ formatCurrency(tax) }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-text">Delivery Cost</span>
+            
+            <span class="detail-text">{{ formatCurrency(deliveryFee) }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-text">Rounding</span>
+            
+            <span class="detail-text">{{ formatCurrency(rounding) }}</span>
+          </div>
+          
+          <p class="detail-text"></p>
         </div>
       </div>
       <!-- <div class="spacer"></div> -->
@@ -385,10 +451,14 @@ export default defineComponent({
       deliveryFee: 0,
       totalPay: 0,
       quantity: 1,
+      promo: 0,
       tax: 0,
+      taxName: "",
       taxPercentage: 0,
+      serviceFeeName: "",
       serviceFee: 0,
       serviceFeePercentage: 0,
+      serviceFeeType: "",
       rounding: 0,
       roundingType: "none",
       dataRestaurant: [],
@@ -423,6 +493,9 @@ export default defineComponent({
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
       this.subTotal = this.calculateTotal(cartItems, data_restaurant);
+      this.serviceFeeType = data_restaurant.service_type_val;
+      this.taxName = data_restaurant.tax_name;
+      this.serviceFeeName = data_restaurant.service_name;
       if (data_restaurant.tax_nominal != null) {
         this.tax = Math.round(
           (this.subTotal * data_restaurant.tax_nominal) / 100
@@ -552,7 +625,7 @@ export default defineComponent({
           Math.floor(tempTotalPay / this.dataRestaurant.rounding_nominal) *
             this.dataRestaurant.rounding_nominal -
           tempTotalPay;
-      } else {
+      } else if (this.dataRestaurant.rounding == "auto") {
         if (mod >= this.dataRestaurant.rounding_nominal / 2) {
           this.rounding =
             Math.ceil(tempTotalPay / this.dataRestaurant.rounding_nominal) *
@@ -564,15 +637,17 @@ export default defineComponent({
               this.dataRestaurant.rounding_nominal -
             tempTotalPay;
         }
+      } else {
+        this.rounding = 0;
       }
 
-      this.totalPay = tempTotalPay;
+      // this.totalPay = tempTotalPay;
       // disable rounding untuk tes
-      // this.totalPay = tempTotalPay + this.rounding;
-      // if(this.totalPay <= 0){
-      //   // kalau jumlah kurang dari 0 di disable button nya
-      //   this.validatePayment = true;
-      // }
+      this.totalPay = tempTotalPay + this.rounding;
+      if(this.totalPay <= 0){
+        // kalau jumlah kurang dari 0 di disable button nya
+        this.validatePayment = true;
+      }
     },
     backtoHome() {
       const location = localStorage.getItem("location");
