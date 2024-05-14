@@ -461,9 +461,9 @@
           <div class="detail-container">
             <span class="promo-title" style="color: red !important;">Available Items</span>
             <ul>
-              <li>• Ayam Goreng</li>
-              <li>• Nasi Goreng Original</li>
-              <li>• Nasi Goreng Mawut</li>
+              <li v-for="(item, index) in filteredProducts" :key="index">
+                • {{ item }}
+              </li>
             </ul>
           </div>
 
@@ -595,6 +595,7 @@ export default defineComponent({
       prDescription: "",
       prDateBegin: "",
       prHourBegin: "",
+      filteredProducts: [],
     };
   },
   async mounted() {
@@ -691,16 +692,33 @@ export default defineComponent({
       this.showModalPromoDetail = true;
 
       const foundPromo = this.promos.find(promo => promo.promo_id === promoId);
+      const data_menu = JSON.parse(localStorage.getItem("data_menu")) || [];
+      const productIds = foundPromo.product_ids.split('|').filter(id => id).map(id => parseInt(id));
+
       console.log('foundPromo', foundPromo);
+      console.log('data_menu', data_menu);
+      
+      function getProductNamesByIds(data_menu, productIds) {
+          return data_menu.flatMap(category => {
+              const filteredProducts = category.product_details.filter(product => productIds.includes(product.product_id));
+              return filteredProducts.map(product => product.product_name);
+          });
+      }
+
+      this.filteredProducts = getProductNamesByIds(data_menu, productIds);
       
       // datae kurang product_ids
       this.prTitle = foundPromo.promo_title;
       this.prDescription = foundPromo.promo_description;
       this.prDateBegin = foundPromo.date_promobegin;
-      this.prHourBegin = foundPromo.hour_promobegin + " - " + foundPromo.hour_promoend;
 
+      let [hoursBegin, minutesBegin] = foundPromo.hour_promobegin.split(":");
+      let [hoursEnd, minutesEnd] = foundPromo.hour_promoend.split(":");
+
+      this.prHourBegin = `${hoursBegin}:${minutesBegin}` + " - " + `${hoursEnd}:${minutesEnd}`; ;
 
     },
+
     closePromoDetail(){
       this.showModalPromoDetail = false;
     },
