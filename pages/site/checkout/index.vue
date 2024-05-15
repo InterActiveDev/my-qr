@@ -1,262 +1,306 @@
 <template>
   <div>
-    <section id="checkout">
-      <Navbar :to="navbarTo" />
+    <div class="flex justify-center">
+      <section id="checkout">
+        <div class="frame">
+          <Navbar :to="navbarTo" />
 
-      <div class="head-title">
-        <h2>CHECKOUT PESANAN</h2>
-      </div>
-
-      <div class="spacer"></div>
-
-      <div class="type-order">
-        <span>Jenis Pesanan</span>
-
-        <div class="type-order-data">
-          <div class="type-order-option"  @click="typeOrderSelect(order.name)" v-for="(order, index) in orderTypes" :key="index" >
-            <h2>{{order.name}}</h2>
+          <div class="head-title">
+            <h2>CHECKOUT PESANAN</h2>
           </div>
-          <!-- <div class="type-order-option" @click="typeOrderSelect('Dine in')" >
+
+          <div class="spacer"></div>
+
+          <div class="type-order">
+            <span>Jenis Pesanan</span>
+
+            <div class="type-order-data">
+              <div
+                class="type-order-option"
+                @click="typeOrderSelect(order.name)"
+                v-for="(order, index) in orderTypes"
+                :key="index"
+              >
+                <h2>{{ order.name }}</h2>
+              </div>
+              <!-- <div class="type-order-option" @click="typeOrderSelect('Dine in')" >
             <h2>Dine in</h2>
           </div>
           <div class="type-order-option" @click="typeOrderSelect('Take away')" >
             <h2>Take away</h2>
           </div> -->
-        </div>
-      </div>
+            </div>
+          </div>
 
-      <div class="spacer"></div>
+          <div class="spacer"></div>
 
-      <div class="item-order">
-        <div class="head">
-          <span>Pesanan Anda </span>
-          <span>Harga</span>
-        </div>
+          <div class="item-order">
+            <div class="head">
+              <span>Pesanan Anda </span>
+              <span>Harga</span>
+            </div>
 
-        <div class="list-item-order">
-          <div
-            class="item mb-2"
-            v-for="(items, index) in products"
-            :key="items.uuid"
-          >
-            <div class="col-1">
-              <span class="item-name">
-                <span>({{ items.quantityItem }}x) {{ items.product.product_name }}</span>
-               
-                <p class="font-grey">
-                  {{ formatCurrency(items.product.product_pricenow) }}
-                </p>
-                <p class="topping">
-                  {{
-                    items.topping.name != undefined ? 
-                        "("+items.topping.name+" - "+formatCurrency(items.topping.price)+")" : ""
-                  }}
-                </p>
-                <p class="font-grey">
-                  {{ items.note != "" ? "Notes : " + items.note : "" }}
-                </p>
-                <span class="font-bold">
-                  {{ items.istakeaway == 1 ? "[ Bungkus ]" : "" }}
-                </span>
-              </span>
-              <div class="qty">
-                <div class="split-item">
-                  <button class="btn btn-minus" @click="decrementValue(index)">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="5"
-                      viewBox="0 0 21 5"
-                      fill="none"
+            <div class="list-item-order">
+              <div
+                class="item mb-2"
+                v-for="(items, index) in products"
+                :key="items.uuid"
+              >
+                <div class="col-1">
+                  <span class="item-name">
+                    <span
+                      >({{ items.quantityItem }}x)
+                      {{ items.product.product_name }}</span
                     >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0.192383 2.5C0.192383 1.39543 1.08781 0.5 2.19238 0.5H18.1924C19.297 0.5 20.1924 1.39543 20.1924 2.5C20.1924 3.60457 19.297 4.5 18.1924 4.5H2.19238C1.08781 4.5 0.192383 3.60457 0.192383 2.5Z"
-                        fill="#DA2424"
+
+                    <p class="font-grey">
+                      {{ formatCurrency(items.product.product_pricenow) }}
+                    </p>
+                    <p class="topping">
+                      {{
+                        items.topping.name != undefined
+                          ? "(" +
+                            items.topping.name +
+                            " - " +
+                            formatCurrency(items.topping.price) +
+                            ")"
+                          : ""
+                      }}
+                    </p>
+                    <p class="font-grey">
+                      {{ items.note != "" ? "Notes : " + items.note : "" }}
+                    </p>
+                    <span class="font-bold">
+                      {{ items.istakeaway == 1 ? "[ Bungkus ]" : "" }}
+                    </span>
+                  </span>
+                  <div class="qty">
+                    <div class="split-item">
+                      <div class="btn-minus">
+                        <button class="btn" @click="decrementValue(index)">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="5"
+                            viewBox="0 0 21 5"
+                            fill="none"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M0.192383 2.5C0.192383 1.39543 1.08781 0.5 2.19238 0.5H18.1924C19.297 0.5 20.1924 1.39543 20.1924 2.5C20.1924 3.60457 19.297 4.5 18.1924 4.5H2.19238C1.08781 4.5 0.192383 3.60457 0.192383 2.5Z"
+                              fill="#DA2424"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="1"
+                        class="input input-ghost w-full max-w-xs"
+                        :value="items.quantityItem"
+                        @input="updateQuantity(index, $event)"
+                        readonly
                       />
-                    </svg>
-                  </button>
-                  <input
-                    type="text"
-                    placeholder="1"
-                    class="input input-ghost w-full max-w-xs"
-                    :value="items.quantityItem"
-                    @input="updateQuantity(index, $event)"
-                    readonly
-                  />
-                  <button class="btn btn-plus" @click="incrementValue(index)">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 21 21"
-                      fill="none"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0.192383 10.498C0.192383 9.39348 1.08781 8.49805 2.19238 8.49805H18.1924C19.297 8.49805 20.1924 9.39348 20.1924 10.498C20.1924 11.6026 19.297 12.498 18.1924 12.498H2.19238C1.08781 12.498 0.192383 11.6026 0.192383 10.498Z"
-                        fill="white"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M10.1924 0.5C11.297 0.5 12.1924 1.39543 12.1924 2.5L12.1924 18.5C12.1924 19.6046 11.297 20.5 10.1924 20.5C9.08781 20.5 8.19238 19.6046 8.19238 18.5L8.19238 2.5C8.19238 1.39543 9.08781 0.5 10.1924 0.5Z"
-                        fill="white"
-                      />
-                    </svg>
-                  </button>
+                      <div class="btn-plus">
+                        <button class="btn" @click="incrementValue(index)">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 21 21"
+                            fill="none"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M0.192383 10.498C0.192383 9.39348 1.08781 8.49805 2.19238 8.49805H18.1924C19.297 8.49805 20.1924 9.39348 20.1924 10.498C20.1924 11.6026 19.297 12.498 18.1924 12.498H2.19238C1.08781 12.498 0.192383 11.6026 0.192383 10.498Z"
+                              fill="white"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M10.1924 0.5C11.297 0.5 12.1924 1.39543 12.1924 2.5L12.1924 18.5C12.1924 19.6046 11.297 20.5 10.1924 20.5C9.08781 20.5 8.19238 19.6046 8.19238 18.5L8.19238 2.5C8.19238 1.39543 9.08781 0.5 10.1924 0.5Z"
+                              fill="white"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <button @click="removeItem(index)">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 34 34"
+                          fill="none"
+                        >
+                          <path
+                            d="M13.964 7.28585H20.0354C20.0354 6.48073 19.7156 5.70859 19.1463 5.13928C18.577 4.56997 17.8048 4.25014 16.9997 4.25014C16.1946 4.25014 15.4225 4.56997 14.8531 5.13928C14.2838 5.70859 13.964 6.48073 13.964 7.28585ZM12.1426 7.28585C12.1426 5.99766 12.6543 4.76223 13.5652 3.85134C14.4761 2.94044 15.7115 2.42871 16.9997 2.42871C18.2879 2.42871 19.5233 2.94044 20.4342 3.85134C21.3451 4.76223 21.8569 5.99766 21.8569 7.28585H29.4462C29.6877 7.28585 29.9193 7.3818 30.0901 7.5526C30.2609 7.72339 30.3569 7.95503 30.3569 8.19657C30.3569 8.4381 30.2609 8.66975 30.0901 8.84054C29.9193 9.01133 29.6877 9.10728 29.4462 9.10728H27.8554L26.3777 26.8395C26.2701 28.1295 25.6818 29.3319 24.7293 30.2084C23.7767 31.0849 22.5296 31.5715 21.2352 31.5716H12.7643C11.4699 31.5715 10.2227 31.0849 9.27019 30.2084C8.31766 29.3319 7.72931 28.1295 7.62179 26.8395L6.14401 9.10728H4.55329C4.31176 9.10728 4.08011 9.01133 3.90932 8.84054C3.73853 8.66975 3.64258 8.4381 3.64258 8.19657C3.64258 7.95503 3.73853 7.72339 3.90932 7.5526C4.08011 7.3818 4.31176 7.28585 4.55329 7.28585H12.1426ZM9.43715 26.6877C9.50659 27.5224 9.88719 28.3006 10.5035 28.8678C11.1197 29.435 11.9267 29.75 12.7643 29.7501H21.2352C22.0727 29.75 22.8797 29.435 23.496 28.8678C24.1123 28.3006 24.4929 27.5224 24.5623 26.6877L26.0292 9.10728H7.97151L9.43715 26.6877ZM14.2676 13.3573C14.5091 13.3573 14.7408 13.4532 14.9116 13.624C15.0823 13.7948 15.1783 14.0265 15.1783 14.268V24.5894C15.1783 24.831 15.0823 25.0626 14.9116 25.2334C14.7408 25.4042 14.5091 25.5001 14.2676 25.5001C14.026 25.5001 13.7944 25.4042 13.6236 25.2334C13.4528 25.0626 13.3569 24.831 13.3569 24.5894V14.268C13.3569 14.0265 13.4528 13.7948 13.6236 13.624C13.7944 13.4532 14.026 13.3573 14.2676 13.3573ZM20.6426 14.268C20.6426 14.0265 20.5466 13.7948 20.3758 13.624C20.205 13.4532 19.9734 13.3573 19.7319 13.3573C19.4903 13.3573 19.2587 13.4532 19.0879 13.624C18.9171 13.7948 18.8212 14.0265 18.8212 14.268V24.5894C18.8212 24.831 18.9171 25.0626 19.0879 25.2334C19.2587 25.4042 19.4903 25.5001 19.7319 25.5001C19.9734 25.5001 20.205 25.4042 20.3758 25.2334C20.5466 25.0626 20.6426 24.831 20.6426 24.5894V14.268Z"
+                            fill="#DA2424"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-
-                <div>
-                  <button @click="removeItem(index)">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="34"
-                      height="34"
-                      viewBox="0 0 34 34"
-                      fill="none"
-                    >
-                      <path
-                        d="M13.964 7.28585H20.0354C20.0354 6.48073 19.7156 5.70859 19.1463 5.13928C18.577 4.56997 17.8048 4.25014 16.9997 4.25014C16.1946 4.25014 15.4225 4.56997 14.8531 5.13928C14.2838 5.70859 13.964 6.48073 13.964 7.28585ZM12.1426 7.28585C12.1426 5.99766 12.6543 4.76223 13.5652 3.85134C14.4761 2.94044 15.7115 2.42871 16.9997 2.42871C18.2879 2.42871 19.5233 2.94044 20.4342 3.85134C21.3451 4.76223 21.8569 5.99766 21.8569 7.28585H29.4462C29.6877 7.28585 29.9193 7.3818 30.0901 7.5526C30.2609 7.72339 30.3569 7.95503 30.3569 8.19657C30.3569 8.4381 30.2609 8.66975 30.0901 8.84054C29.9193 9.01133 29.6877 9.10728 29.4462 9.10728H27.8554L26.3777 26.8395C26.2701 28.1295 25.6818 29.3319 24.7293 30.2084C23.7767 31.0849 22.5296 31.5715 21.2352 31.5716H12.7643C11.4699 31.5715 10.2227 31.0849 9.27019 30.2084C8.31766 29.3319 7.72931 28.1295 7.62179 26.8395L6.14401 9.10728H4.55329C4.31176 9.10728 4.08011 9.01133 3.90932 8.84054C3.73853 8.66975 3.64258 8.4381 3.64258 8.19657C3.64258 7.95503 3.73853 7.72339 3.90932 7.5526C4.08011 7.3818 4.31176 7.28585 4.55329 7.28585H12.1426ZM9.43715 26.6877C9.50659 27.5224 9.88719 28.3006 10.5035 28.8678C11.1197 29.435 11.9267 29.75 12.7643 29.7501H21.2352C22.0727 29.75 22.8797 29.435 23.496 28.8678C24.1123 28.3006 24.4929 27.5224 24.5623 26.6877L26.0292 9.10728H7.97151L9.43715 26.6877ZM14.2676 13.3573C14.5091 13.3573 14.7408 13.4532 14.9116 13.624C15.0823 13.7948 15.1783 14.0265 15.1783 14.268V24.5894C15.1783 24.831 15.0823 25.0626 14.9116 25.2334C14.7408 25.4042 14.5091 25.5001 14.2676 25.5001C14.026 25.5001 13.7944 25.4042 13.6236 25.2334C13.4528 25.0626 13.3569 24.831 13.3569 24.5894V14.268C13.3569 14.0265 13.4528 13.7948 13.6236 13.624C13.7944 13.4532 14.026 13.3573 14.2676 13.3573ZM20.6426 14.268C20.6426 14.0265 20.5466 13.7948 20.3758 13.624C20.205 13.4532 19.9734 13.3573 19.7319 13.3573C19.4903 13.3573 19.2587 13.4532 19.0879 13.624C18.9171 13.7948 18.8212 14.0265 18.8212 14.268V24.5894C18.8212 24.831 18.9171 25.0626 19.0879 25.2334C19.2587 25.4042 19.4903 25.5001 19.7319 25.5001C19.9734 25.5001 20.205 25.4042 20.3758 25.2334C20.5466 25.0626 20.6426 24.831 20.6426 24.5894V14.268Z"
-                        fill="#DA2424"
-                      />
-                    </svg>
-                  </button>
+                <div class="col-2">
+                  <p class="">&nbsp;</p>
+                  <p>
+                    {{
+                      formatCurrency(
+                        (items.product.product_pricenow +
+                          (items.topping?.price || 0)) *
+                          parseInt(items.quantityItem)
+                      )
+                    }}
+                  </p>
                 </div>
               </div>
+              <button class="btn btn-add-more" @click="backtoHome">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="27"
+                  height="25"
+                  viewBox="0 0 27 25"
+                  fill="none"
+                >
+                  <path
+                    d="M23.4744 9.25381L22.5302 5.87006C22.1658 4.56462 21.9836 3.91255 21.6099 3.42025C21.2373 2.93115 20.7313 2.55438 20.1497 2.33304C19.5646 2.10962 18.8731 2.10962 17.49 2.10962M3.52637 9.25381L4.47058 5.87006C4.83496 4.56462 5.01715 3.91255 5.39085 3.42025C5.76344 2.93115 6.26948 2.55438 6.85104 2.33304C7.43619 2.10962 8.12772 2.10962 9.51078 2.10962"
+                    stroke="white"
+                    stroke-width="1.48451"
+                  />
+                  <path
+                    d="M9.51074 2.10876C9.51074 1.76426 9.65085 1.43387 9.90025 1.19027C10.1497 0.946667 10.4879 0.809814 10.8406 0.809814H16.1601C16.5128 0.809814 16.8511 0.946667 17.1005 1.19027C17.3499 1.43387 17.49 1.76426 17.49 2.10876C17.49 2.45326 17.3499 2.78365 17.1005 3.02725C16.8511 3.27085 16.5128 3.4077 16.1601 3.4077H10.8406C10.4879 3.4077 10.1497 3.27085 9.90025 3.02725C9.65085 2.78365 9.51074 2.45326 9.51074 2.10876Z"
+                    stroke="white"
+                    stroke-width="1.48451"
+                  />
+                  <path
+                    d="M8.18164 13.7991V18.9948M18.8206 13.7991V18.9948M13.5011 13.7991V18.9948"
+                    stroke="white"
+                    stroke-width="1.48451"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M2.68088 18.2864C3.40699 21.122 3.77004 22.5391 4.85123 23.3653C5.93374 24.1901 7.42985 24.1901 10.4221 24.1901H16.5794C19.5716 24.1901 21.0677 24.1901 22.1515 23.3653C23.2327 22.5391 23.5957 21.122 24.3205 18.2864C25.4616 13.8284 26.0321 11.6007 24.8352 10.1018C23.637 8.60278 21.2831 8.60278 16.5807 8.60278H10.4207C5.71564 8.60278 3.36443 8.60278 2.16622 10.1018C1.46272 10.9811 1.3683 12.1125 1.64225 13.7986"
+                    stroke="white"
+                    stroke-width="1.48451"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                Tambah Pesanan Lainya
+              </button>
             </div>
-            <div class="col-2">
-              <p class="">
-                &nbsp;
-              </p>
-              <p >{{
-                formatCurrency(
-                  (items.product.product_pricenow +
-                    (items.topping?.price || 0)) *
-                    parseInt(items.quantityItem)
-                )
-              }}</p>
+
+            <div class="promo-option">
+              <div class="promo-container">
+                <span>11 Promo tersedia</span>
+                <span class="flex" @click="listPromo()"
+                  >Lihat Semua
+                  <svg
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 12H18M18 12L13 7M18 12L13 17"
+                      stroke="#000000"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg
+                ></span>
+              </div>
+
+              <div class="promo-items">
+                <div class="close-promo">
+                  <span class="promo-text">Kupon bukber kedua Rp 5000 </span>
+                </div>
+                <button class="cancel-btn">Batalkan</button>
+              </div>
+            </div>
+
+            <div class="payment-detail">
+              <p class="label-text">Detail Pembayaran</p>
+
+              <div class="detail-item">
+                <span class="detail-text">Sub Total</span>
+
+                <span class="detail-text">{{ formatCurrency(subTotal) }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="detail-text">Promo</span>
+
+                <span class="detail-text">{{ formatCurrency(promo) }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="detail-text"
+                  >{{ serviceFeeName }} ({{ serviceFeePercentage
+                  }}{{ serviceFeeType }})</span
+                >
+
+                <span class="detail-text">{{
+                  formatCurrency(serviceFee)
+                }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="detail-text"
+                  >{{ taxName }} ({{ taxPercentage }}%)</span
+                >
+
+                <span class="detail-text">{{ formatCurrency(tax) }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="detail-text">Delivery Cost</span>
+
+                <span class="detail-text">{{
+                  formatCurrency(deliveryFee)
+                }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="detail-text">Rounding</span>
+
+                <span class="detail-text">{{ formatCurrency(rounding) }}</span>
+              </div>
+
+              <p class="detail-text"></p>
             </div>
           </div>
-          <button class="btn btn-add-more" @click="backtoHome">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="27"
-              height="25"
-              viewBox="0 0 27 25"
-              fill="none"
-            >
-              <path
-                d="M23.4744 9.25381L22.5302 5.87006C22.1658 4.56462 21.9836 3.91255 21.6099 3.42025C21.2373 2.93115 20.7313 2.55438 20.1497 2.33304C19.5646 2.10962 18.8731 2.10962 17.49 2.10962M3.52637 9.25381L4.47058 5.87006C4.83496 4.56462 5.01715 3.91255 5.39085 3.42025C5.76344 2.93115 6.26948 2.55438 6.85104 2.33304C7.43619 2.10962 8.12772 2.10962 9.51078 2.10962"
-                stroke="white"
-                stroke-width="1.48451"
-              />
-              <path
-                d="M9.51074 2.10876C9.51074 1.76426 9.65085 1.43387 9.90025 1.19027C10.1497 0.946667 10.4879 0.809814 10.8406 0.809814H16.1601C16.5128 0.809814 16.8511 0.946667 17.1005 1.19027C17.3499 1.43387 17.49 1.76426 17.49 2.10876C17.49 2.45326 17.3499 2.78365 17.1005 3.02725C16.8511 3.27085 16.5128 3.4077 16.1601 3.4077H10.8406C10.4879 3.4077 10.1497 3.27085 9.90025 3.02725C9.65085 2.78365 9.51074 2.45326 9.51074 2.10876Z"
-                stroke="white"
-                stroke-width="1.48451"
-              />
-              <path
-                d="M8.18164 13.7991V18.9948M18.8206 13.7991V18.9948M13.5011 13.7991V18.9948"
-                stroke="white"
-                stroke-width="1.48451"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M2.68088 18.2864C3.40699 21.122 3.77004 22.5391 4.85123 23.3653C5.93374 24.1901 7.42985 24.1901 10.4221 24.1901H16.5794C19.5716 24.1901 21.0677 24.1901 22.1515 23.3653C23.2327 22.5391 23.5957 21.122 24.3205 18.2864C25.4616 13.8284 26.0321 11.6007 24.8352 10.1018C23.637 8.60278 21.2831 8.60278 16.5807 8.60278H10.4207C5.71564 8.60278 3.36443 8.60278 2.16622 10.1018C1.46272 10.9811 1.3683 12.1125 1.64225 13.7986"
-                stroke="white"
-                stroke-width="1.48451"
-                stroke-linecap="round"
-              />
-            </svg>
-            Tambah Pesanan Lainya
-          </button>
-        </div>
+          <!-- <div class="spacer"></div> -->
 
-        <div class="promo-option">
-          <div class="promo-container">
-            <span>11 Promo available</span>
-            <span>Promo selected</span>
-          </div>
+          <!-- summary pay -->
+          <div class="card-summary">
+            <div class="card-item">
+              <div class="item">
+                <h2>Total</h2>
+                <div class="price">{{ formatCurrency(totalPay) }}</div>
+              </div>
+            </div>
 
-          <div class="promo-container">
-            <button @click="listPromo()" class="promo-selector" >Select Promo</button>
-
-            <div class="close-promo">
-              <span class="promo-text">Kupon bukber kedua Rp 5000 </span>
-              <button class="close-btn">x</button>
+            <div class="btn-group">
+              <button
+                class="btn btn-pay"
+                @click="openModalPayment"
+                :disabled="validatePayment"
+              >
+                BAYAR
+              </button>
             </div>
           </div>
+          <!-- end summary pay -->
         </div>
-
-        <div class="payment-detail">
-          <p class="label-text">Payment Detail</p>
-
-          <div class="detail-item">
-            <span class="detail-text">Sub Total</span>
-            
-            <span class="detail-text">{{ formatCurrency(subTotal) }}</span>
-          </div>
-
-          <div class="detail-item">
-            <span class="detail-text">Promo</span>
-            
-            <span class="detail-text">{{ formatCurrency(promo) }}</span>
-          </div>
-
-          <div class="detail-item">
-            <span class="detail-text">{{ serviceFeeName }} ({{ serviceFeePercentage }}{{ serviceFeeType }})</span>
-            
-            <span class="detail-text">{{ formatCurrency(serviceFee) }}</span>
-          </div>
-          
-          <div class="detail-item">
-            <span class="detail-text">{{ taxName }} ({{ taxPercentage }}%)</span>
-            
-            <span class="detail-text">{{ formatCurrency(tax) }}</span>
-          </div>
-
-          <div class="detail-item">
-            <span class="detail-text">Delivery Cost</span>
-            
-            <span class="detail-text">{{ formatCurrency(deliveryFee) }}</span>
-          </div>
-
-          <div class="detail-item">
-            <span class="detail-text">Rounding</span>
-            
-            <span class="detail-text">{{ formatCurrency(rounding) }}</span>
-          </div>
-          
-          <p class="detail-text"></p>
-        </div>
-      </div>
-      <!-- <div class="spacer"></div> -->
-
-      <!-- summary pay -->
-      <div class="card-summary">
-        <div class="card-item">
-          <div class="item">
-            <h2>Total</h2>
-            <div class="price">{{ formatCurrency(totalPay) }}</div>
-          </div>
-        </div>
-
-        <div class="btn-group">
-          <button
-            class="btn btn-pay"
-            @click="openModalPayment"
-            :disabled="validatePayment"
-          >
-            BAYAR
-          </button>
-        </div>
-      </div>
-      <!-- end summary pay -->
-    </section>
+      </section>
+    </div>
 
     <!-- modal select payments -->
     <dialog id="modalSelectPayments" class="modal">
@@ -413,16 +457,36 @@
 
       <div class="promo-item" v-for="(promo, index) in promos" :key="index">
         <div class="promo-item-img">
-          <img v-if='promo.promo_img != null && promo.promo_img != "" ' :src="promo.promo_img" alt="img">
-          <img v-else src="http://hungryline.interactiveholic.net/images/restaurant/7.jpg" alt="img">
+          <img
+            v-if="promo.promo_img != null && promo.promo_img != ''"
+            :src="promo.promo_img"
+            alt="img"
+          />
+          <img
+            v-else
+            src="http://hungryline.interactiveholic.net/images/restaurant/7.jpg"
+            alt="img"
+          />
         </div>
 
         <div class="promo-detail">
           <div class="promo-detail-info">
             <span class="promo-name">{{ promo.promo_title }}</span>
-            <div class="promo-info" v-if="promo.promo_description.toUpperCase() != promo.promo_title.toUpperCase()">{{ promo.promo_description }}</div>
-            <div class="promo-info" v-if="promo.disc_type == '%'">Discount {{ promo.disc_amount }} {{ promo.disc_type }}</div>
-            <div class="promo-info" v-else-if="promo.disc_type == 'Rp'">Discount {{ promo.disc_type }} {{ promo.disc_amount }}</div>
+            <div
+              class="promo-info"
+              v-if="
+                promo.promo_description.toUpperCase() !=
+                promo.promo_title.toUpperCase()
+              "
+            >
+              {{ promo.promo_description }}
+            </div>
+            <div class="promo-info" v-if="promo.disc_type == '%'">
+              Discount {{ promo.disc_amount }} {{ promo.disc_type }}
+            </div>
+            <div class="promo-info" v-else-if="promo.disc_type == 'Rp'">
+              Discount {{ promo.disc_type }} {{ promo.disc_amount }}
+            </div>
             <div class="promo-info" v-else></div>
           </div>
 
@@ -438,28 +502,29 @@
         <h1>Select Promo</h1>
         <button @click="closePromoDetail()">x</button>
       </div>
-      <hr>
+      <hr />
 
       <div class="modal-promo">
-
         <div class="modal-promo-detail-header">
-          <span>{{prTitle}}</span>
-          <span>{{prDescription}}</span>
+          <span>{{ prTitle }}</span>
+          <span>{{ prDescription }}</span>
         </div>
-            
+
         <div class="modal-promo-detail">
           <div class="detail-container">
             <span class="promo-title">Date Promo Begin</span>
-            <span class="promo-value">{{prDateBegin}}</span>
+            <span class="promo-value">{{ prDateBegin }}</span>
           </div>
 
           <div class="detail-container">
             <span class="promo-title">Hours Apply</span>
-            <span class="promo-value">{{prHourBegin}}</span>
+            <span class="promo-value">{{ prHourBegin }}</span>
           </div>
 
           <div class="detail-container">
-            <span class="promo-title" style="color: red !important;">Available Items</span>
+            <span class="promo-title" style="color: red !important"
+              >Available Items</span
+            >
             <ul>
               <li v-for="(item, index) in filteredProducts" :key="index">
                 • {{ item }}
@@ -495,7 +560,7 @@
             <span class="promo-title">Valid days</span>
             <ul>
               <li>everyday</li>
-            </ul> 
+            </ul>
           </div>
 
           <div class="detail-container">
@@ -512,10 +577,8 @@
 
           <button>Select</button>
         </div>
-
       </div>
       <!-- pass some data to here -->
-
     </div>
   </dialog>
 
@@ -528,11 +591,11 @@
 </template>
 
 <style>
-  .active {
-    background-color: #ff8181;
-    border: 1px solid #da2424 !important;
-    color:  #da2424 !important;
-  }
+.active {
+  background-color: #ff8181;
+  border: 1px solid #da2424 !important;
+  color: #da2424 !important;
+}
 </style>
 
 <script>
@@ -604,15 +667,18 @@ export default defineComponent({
   methods: {
     async getList() {
       const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant")) || [];
+      const data_restaurant =
+        JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
 
       const location = localStorage.getItem("location");
 
       this.navbarTo = "/restaurant/detail/" + location;
 
-      this.paymentMethod = JSON.parse(localStorage.getItem("payment_method")) || [];
-      this.orderTypes = await JSON.parse(localStorage.getItem("order_type")) || [];
+      this.paymentMethod =
+        JSON.parse(localStorage.getItem("payment_method")) || [];
+      this.orderTypes =
+        (await JSON.parse(localStorage.getItem("order_type"))) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
@@ -681,32 +747,39 @@ export default defineComponent({
         this.validatePayment = true;
       }
     },
-    listPromo(){
+    listPromo() {
       this.showModalPromo = true;
     },
-    closeListPromo(){
+    closeListPromo() {
       this.showModalPromo = false;
     },
-    openDetailPromo(promoId){
+    openDetailPromo(promoId) {
       this.showModalPromo = false;
       this.showModalPromoDetail = true;
 
-      const foundPromo = this.promos.find(promo => promo.promo_id === promoId);
+      const foundPromo = this.promos.find(
+        (promo) => promo.promo_id === promoId
+      );
       const data_menu = JSON.parse(localStorage.getItem("data_menu")) || [];
-      const productIds = foundPromo.product_ids.split('|').filter(id => id).map(id => parseInt(id));
+      const productIds = foundPromo.product_ids
+        .split("|")
+        .filter((id) => id)
+        .map((id) => parseInt(id));
 
-      console.log('foundPromo', foundPromo);
-      console.log('data_menu', data_menu);
-      
+      console.log("foundPromo", foundPromo);
+      console.log("data_menu", data_menu);
+
       function getProductNamesByIds(data_menu, productIds) {
-          return data_menu.flatMap(category => {
-              const filteredProducts = category.product_details.filter(product => productIds.includes(product.product_id));
-              return filteredProducts.map(product => product.product_name);
-          });
+        return data_menu.flatMap((category) => {
+          const filteredProducts = category.product_details.filter((product) =>
+            productIds.includes(product.product_id)
+          );
+          return filteredProducts.map((product) => product.product_name);
+        });
       }
 
       this.filteredProducts = getProductNamesByIds(data_menu, productIds);
-      
+
       // datae kurang product_ids
       this.prTitle = foundPromo.promo_title;
       this.prDescription = foundPromo.promo_description;
@@ -715,11 +788,11 @@ export default defineComponent({
       let [hoursBegin, minutesBegin] = foundPromo.hour_promobegin.split(":");
       let [hoursEnd, minutesEnd] = foundPromo.hour_promoend.split(":");
 
-      this.prHourBegin = `${hoursBegin}:${minutesBegin}` + " - " + `${hoursEnd}:${minutesEnd}`; ;
-
+      this.prHourBegin =
+        `${hoursBegin}:${minutesBegin}` + " - " + `${hoursEnd}:${minutesEnd}`;
     },
 
-    closePromoDetail(){
+    closePromoDetail() {
       this.showModalPromoDetail = false;
     },
     removeItem(index) {
@@ -809,7 +882,7 @@ export default defineComponent({
       // this.totalPay = tempTotalPay;
       // disable rounding untuk tes
       this.totalPay = tempTotalPay + this.rounding;
-      if(this.totalPay <= 0){
+      if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
       }
@@ -994,22 +1067,22 @@ export default defineComponent({
 
       localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
     },
-    typeOrderSelect(name){
+    typeOrderSelect(name) {
       // Get all elements with the class 'type-order-option'
-      const typeOrderOptions = document.querySelectorAll('.type-order-option');
-          
-          // Loop through each element
-          typeOrderOptions.forEach(option => {
-              // Check if the inner text of the element matches the clicked name
-              if(option.querySelector('h2').innerText === name) {
-                  // If matched, add 'active' class
-                  option.classList.add('active');
-                  this.selectedOrderType = name;
-              } else {
-                  // If not matched, remove 'active' class
-                  option.classList.remove('active');
-              }
-          });
+      const typeOrderOptions = document.querySelectorAll(".type-order-option");
+
+      // Loop through each element
+      typeOrderOptions.forEach((option) => {
+        // Check if the inner text of the element matches the clicked name
+        if (option.querySelector("h2").innerText === name) {
+          // If matched, add 'active' class
+          option.classList.add("active");
+          this.selectedOrderType = name;
+        } else {
+          // If not matched, remove 'active' class
+          option.classList.remove("active");
+        }
+      });
     },
     closeModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");
