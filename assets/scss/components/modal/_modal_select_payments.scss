@@ -1,4 +1,5 @@
-#modalSelectPayments {
+@media (min-width: 760px) {
+  #modalSelectPayments {
     .modal-box {
       display: flex;
       flex-direction: column;
@@ -8,14 +9,14 @@
       padding: 30px;
       border-radius: 30px;
       background: #fff;
-      width: 700px;
-      max-width: 700px;
+      width: 400px;
+      max-width: 400px;
 
       .title {
         color: #000;
         text-align: center;
         font-family: $font-family;
-        font-size: 40px;
+        font-size: 18px;
         font-style: normal;
         font-weight: 700;
         line-height: 150%; /* 72px */
@@ -26,6 +27,7 @@
         display: flex;
         flex-direction: column;
         gap: 30px;
+
         .item {
           display: flex;
           justify-content: space-between;
@@ -39,15 +41,15 @@
             gap: 36px;
 
             img {
-              width: 95px;
-              max-width: 95px;
-              height: 95px;
+              width: 40px;
+              max-width: 40px;
+              height: 40px;
             }
             span {
               color: #000;
               text-align: center;
               font-family: $font-family;
-              font-size: 24px;
+              font-size: 14px;
               font-style: normal;
               font-weight: 700;
               line-height: 150%; /* 36px */
@@ -63,3 +65,142 @@
       }
     }
   }
+}
+
+@media screen and (min-width: 390px) and (max-width: 760px) {
+  #modalSelectPayments {
+    .modal-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      border-radius: 30px;
+      background: #fff;
+      width: 350px;
+      max-width: 350px;
+
+      .title {
+        color: #000;
+        text-align: center;
+        font-family: $font-family;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%; /* 72px */
+      }
+
+      .row-item {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .item {
+          display: flex;
+          justify-content: space-between;
+          border-radius: 24px;
+          border: 2px solid #c9c9c9;
+          width: 100%;
+          padding: 16px 24px 16px 20px;
+          .col-1 {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+
+            img {
+              width: 40px;
+              max-width: 40px;
+              height: 40px;
+            }
+            span {
+              color: #000;
+              text-align: center;
+              font-family: $font-family;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 150%; /* 36px */
+            }
+          }
+
+          .col-2 {
+            display: flex;
+            align-self: center;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 360px) and (max-width: 390px) {
+  #modalSelectPayments {
+    .modal-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      border-radius: 30px;
+      background: #fff;
+      width: 350px;
+      max-width: 350px;
+
+      .title {
+        color: #000;
+        text-align: center;
+        font-family: $font-family;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%; /* 72px */
+      }
+
+      .row-item {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .item {
+          display: flex;
+          justify-content: space-between;
+          border-radius: 24px;
+          border: 2px solid #c9c9c9;
+          width: 100%;
+          padding: 16px 24px 16px 20px;
+          .col-1 {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+
+            img {
+              width: 40px;
+              max-width: 40px;
+              height: 40px;
+            }
+            span {
+              color: #000;
+              text-align: center;
+              font-family: $font-family;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: 150%; /* 36px */
+            }
+          }
+
+          .col-2 {
+            display: flex;
+            align-self: center;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
