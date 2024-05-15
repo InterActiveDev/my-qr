@@ -11,9 +11,9 @@
     </head>
     <VitePwaManifest />
     <!-- <div @touchstart="resetTimer"> -->
-    <div class="flex justify-center">
+    <!-- <div class="flex justify-center"> -->
       <NuxtPage />
-    </div>
+    <!-- </div> -->
     <!-- </div> -->
   </div>
 </template>
