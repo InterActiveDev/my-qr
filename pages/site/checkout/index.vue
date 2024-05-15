@@ -469,12 +469,12 @@
 
           <div class="detail-container">
             <span class="promo-title">Maximal Order Items</span>
-            <span class="promo-value">9</span>
+            <span class="promo-value">{{ maximalOrderItems }}</span>
           </div>
 
           <div class="detail-container">
             <span class="promo-title">Maximal Total Amount</span>
-            <span class="promo-value">Rp 999999999</span>
+            <span class="promo-value"> {{ `Rp. `+ maximumAmount }}</span>
           </div>
 
           <div class="detail-container">
@@ -596,6 +596,9 @@ export default defineComponent({
       prDateBegin: "",
       prHourBegin: "",
       filteredProducts: [],
+      maximalOrderItems: "",
+      maximumAmount: 0,
+      filteredPayments: [],
     };
   },
   async mounted() {
@@ -693,10 +696,14 @@ export default defineComponent({
 
       const foundPromo = this.promos.find(promo => promo.promo_id === promoId);
       const data_menu = JSON.parse(localStorage.getItem("data_menu")) || [];
+      const payment_methods = JSON.parse(localStorage.getItem("payment_method")) || [];
       const productIds = foundPromo.product_ids.split('|').filter(id => id).map(id => parseInt(id));
+      const paymentIds = foundPromo.paymethod_can.split('|').filter(id => id).map(id => parseInt(id));
 
       console.log('foundPromo', foundPromo);
       console.log('data_menu', data_menu);
+      console.log('payment_methods', payment_methods);
+      console.log('paymentIds', paymentIds);
       
       function getProductNamesByIds(data_menu, productIds) {
           return data_menu.flatMap(category => {
@@ -704,10 +711,8 @@ export default defineComponent({
               return filteredProducts.map(product => product.product_name);
           });
       }
-
       this.filteredProducts = getProductNamesByIds(data_menu, productIds);
       
-      // datae kurang product_ids
       this.prTitle = foundPromo.promo_title;
       this.prDescription = foundPromo.promo_description;
       this.prDateBegin = foundPromo.date_promobegin;
@@ -717,6 +722,15 @@ export default defineComponent({
 
       this.prHourBegin = `${hoursBegin}:${minutesBegin}` + " - " + `${hoursEnd}:${minutesEnd}`; ;
 
+      this.maximalOrderItems = foundPromo.limit_usage_to_x_items > 0? foundPromo.limit_usage_to_x_items : "There is no maximal order items";
+      this.maximumAmount = foundPromo.maximum_amount;
+
+      function getPayments(payment_methods, paymentIds) {
+          return payment_methods.filter(item => paymentIds.includes(item.payment_id));
+      }
+      this.filteredPayments = getPayments(payment_methods, paymentIds);
+
+      console.log('this.filteredPayments', this.filteredPayments);
     },
 
     closePromoDetail(){
