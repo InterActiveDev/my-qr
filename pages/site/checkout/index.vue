@@ -219,7 +219,7 @@
 
               <div class="promo-items" v-if="cuponPromo">
                 <div class="close-promo">
-                  <span class="promo-text">{{ cuponPromo.description }} </span>
+                  <span class="promo-text">{{ cuponPromo.description }} {{ cuponPromo.disc_type }} {{ cuponPromo.type }} </span>
                 </div>
                 <button class="cancel-btn" @click="removePromo()">
                   Batalkan
@@ -615,7 +615,7 @@
               <span class="promo-value" v-else>Tidak ada minimal</span>
             </div>
 
-            <button @click="selectPromo(idPromo, prDescription)">Pilih</button>
+            <button @click="selectPromo(idPromo, prDescription, discType, discAmmount)">Pilih</button>
           </div>
         </div>
         <!-- pass some data to here -->
@@ -711,6 +711,8 @@ export default defineComponent({
       paymentsPromo: [],
       idPromo: "",
       cuponPromo: null,
+      discType: "",
+      discAmmount: "",
     };
   },
   async mounted() {
@@ -869,11 +871,16 @@ export default defineComponent({
       }
       this.filteredPayments = getPayments(payment_methods, paymentIds);
       this.idPromo = foundPromo.promo_id;
+
+      this.discType = foundPromo.disc_type;
+      this.discAmmount = foundPromo.disc_amount;
     },
-    selectPromo(id, desc) {
+    selectPromo(id, desc, type, ammount) {
       this.cuponPromo = {
         id: id,
         description: desc,
+        type: type,
+        ammount: ammount,
       };
 
       this.showModalPromoDetail = false;
