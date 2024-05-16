@@ -1030,7 +1030,7 @@ export default defineComponent({
       const checkoutData =
         JSON.parse(localStorage.getItem("checkoutData")) || [];
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
-      const token = JSON.parse(this.getCookie("user-data-log")).token;
+      // const token = JSON.parse(this.getCookie("user-data-log")).token;
       const location = localStorage.getItem("location");
       const locId = atob(location);
       const dataCustomer =
@@ -1100,22 +1100,22 @@ export default defineComponent({
       // return null;
       const url = "/transactions/insert_transaction";
 
-      FetchData.createData(url, JSON.stringify(data), token)
-        .then((result) => {
-          if (result && result.data.status === "success") {
-            // sukses simpan transaksi
-            const data = {
-              contents: result.data.result[0],
-              nota: result.data.result[0].noNota,
-              invoice: result.data.result[0].qrisData.noNota,
-              ref: result.data.result[0].qrisData.refNo,
-            };
-            localStorage.setItem("qrContent", JSON.stringify(data));
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      // FetchData.createData(url, JSON.stringify(data), token)
+      //   .then((result) => {
+      //     if (result && result.data.status === "success") {
+      //       // sukses simpan transaksi
+      //       const data = {
+      //         contents: result.data.result[0],
+      //         nota: result.data.result[0].noNota,
+      //         invoice: result.data.result[0].qrisData.noNota,
+      //         ref: result.data.result[0].qrisData.refNo,
+      //       };
+      //       localStorage.setItem("qrContent", JSON.stringify(data));
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error:", error);
+      //   });
     },
     openModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");
@@ -1178,7 +1178,7 @@ export default defineComponent({
       modalConfirm.close();
     },
     toInputReceipt() {
-      this.sendTransaction();
+      // this.sendTransaction();
       this.$router.push("/receipt");
     },
     formatCurrency(amount) {
