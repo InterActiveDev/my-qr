@@ -189,8 +189,12 @@
         </div>
       </section>
 
-      <div class="spacer"></div>
-      <Footer />
+      <div class="flex justify-center">
+        <div class="spacer"></div>
+      </div>
+      <div class="flex justify-center">
+        <Footer />
+      </div>
     </div>
   </div>
 </template>
@@ -275,7 +279,7 @@ export default defineComponent({
         await this.starter(locId);
       }
     }
-    
+
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
     if (process.client) {

@@ -1,5 +1,4 @@
 <template>
-  <Navbar :to="navbarTo" />
   <div>
     <!-- Tambahkan Navbar jika belum ada -->
     <section id="detail">

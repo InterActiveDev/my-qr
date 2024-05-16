@@ -195,23 +195,26 @@
         }
 
         .promo-option {
-          height: 150px;
+          height: fit-content;
           border: 3px solid #e5e5e5;
           color: #000 !important;
           font-size: 20px !important;
+          padding: 20px;
 
           .promo-container {
             display: flex;
-            // flex-direction: row;
             justify-content: space-between;
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-top: 15px;
+            // flex-direction: row;
             // align-items: center;
 
             span {
               font-size: 16px;
               font-weight: 500;
+            }
+
+            .see-all {
+              cursor: pointer;
+              text-decoration: underline;
             }
 
             .promo-selector {
@@ -225,7 +228,6 @@
           }
 
           .promo-items {
-            padding: 15px;
             .close-promo {
               .promo-text {
                 background-color: #f9c02d;
@@ -506,19 +508,22 @@
           border: 3px solid #e5e5e5;
           color: #000 !important;
           font-size: 20px !important;
+          padding: 20px;
 
           .promo-container {
             display: flex;
-            // flex-direction: row;
             justify-content: space-between;
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-top: 15px;
+            // flex-direction: row;
             // align-items: center;
 
             span {
               font-size: 16px;
               font-weight: 500;
+            }
+
+            .see-all {
+              cursor: pointer;
+              text-decoration: underline;
             }
 
             .promo-selector {
@@ -532,7 +537,6 @@
           }
 
           .promo-items {
-            padding: 15px;
             .close-promo {
               .promo-text {
                 background-color: #f9c02d;
@@ -813,17 +817,20 @@
           border: 3px solid #e5e5e5;
           color: #000 !important;
           font-size: 20px !important;
+          padding: 20px;
 
           .promo-container {
             display: flex;
             justify-content: space-between;
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-top: 15px;
 
             span {
               font-size: 16px;
               font-weight: 500;
+            }
+
+            .see-all {
+              cursor: pointer;
+              text-decoration: underline;
             }
 
             .promo-selector {
@@ -836,7 +843,6 @@
             }
           }
           .promo-items {
-            padding: 15px;
             .close-promo {
               .promo-text {
                 background-color: #f9c02d;

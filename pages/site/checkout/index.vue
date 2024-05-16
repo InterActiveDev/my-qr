@@ -197,8 +197,8 @@
 
             <div class="promo-option">
               <div class="promo-container">
-                <span>11 Promo tersedia</span>
-                <span class="flex" @click="listPromo()"
+                <span>{{ promos.length }} Promo tersedia</span>
+                <span class="flex see-all" @click="listPromo()"
                   >Lihat Semua
                   <svg
                     width="24px"
@@ -217,11 +217,13 @@
                 ></span>
               </div>
 
-              <div class="promo-items">
+              <div class="promo-items" v-if="cuponPromo">
                 <div class="close-promo">
-                  <span class="promo-text">Kupon bukber kedua Rp 5000 </span>
+                  <span class="promo-text">{{ cuponPromo.description }} </span>
                 </div>
-                <button class="cancel-btn">Batalkan</button>
+                <button class="cancel-btn" @click="removePromo()">
+                  Batalkan
+                </button>
               </div>
             </div>
 
@@ -446,141 +448,181 @@
       </form>
     </dialog>
     <!-- end modal qris method -->
+
+    <!-- modal promo -->
+    <dialog id="modalPromo" class="modal" :open="showModalPromo">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h1>Pilih Promo</h1>
+          <button @click="closeListPromo()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 36 36"
+              fill="none"
+            >
+              <path
+                d="M18 0.5C8.25 0.5 0.5 8.25 0.5 18C0.5 27.75 8.25 35.5 18 35.5C27.75 35.5 35.5 27.75 35.5 18C35.5 8.25 27.75 0.5 18 0.5ZM24.75 26.75L18 20L11.25 26.75L9.25 24.75L16 18L9.25 11.25L11.25 9.25L18 16L24.75 9.25L26.75 11.25L20 18L26.75 24.75L24.75 26.75Z"
+                fill="#232323"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="promo-item" v-for="(promo, index) in promos" :key="index">
+          <div class="promo-item-img">
+            <img
+              v-if="promo.promo_img != null && promo.promo_img != ''"
+              :src="promo.promo_img"
+              alt="img"
+            />
+            <img
+              v-else
+              src="http://hungryline.interactiveholic.net/images/restaurant/7.jpg"
+              alt="img"
+            />
+          </div>
+
+          <div class="promo-detail">
+            <div class="promo-detail-info">
+              <span class="promo-name">{{ promo.promo_title }}</span>
+              <div
+                class="promo-info"
+                v-if="
+                  promo.promo_description.toUpperCase() !=
+                  promo.promo_title.toUpperCase()
+                "
+              >
+                {{ promo.promo_description }}
+              </div>
+              <div class="promo-info" v-if="promo.disc_type == '%'">
+                Discount {{ promo.disc_amount }} {{ promo.disc_type }}
+              </div>
+              <div class="promo-info" v-else-if="promo.disc_type == 'Rp'">
+                Discount {{ promo.disc_type }} {{ promo.disc_amount }}
+              </div>
+              <div class="promo-info" v-else></div>
+            </div>
+
+            <button @click="openDetailPromo(promo.promo_id)">Lihat</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+    <!-- end modal promo -->
+
+    <!-- modal detail promo -->
+    <dialog id="modalPromoDetail" class="modal" :open="showModalPromoDetail">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h1>Pilih Promo</h1>
+          <button @click="closePromoDetail()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 36 36"
+              fill="none"
+            >
+              <path
+                d="M18 0.5C8.25 0.5 0.5 8.25 0.5 18C0.5 27.75 8.25 35.5 18 35.5C27.75 35.5 35.5 27.75 35.5 18C35.5 8.25 27.75 0.5 18 0.5ZM24.75 26.75L18 20L11.25 26.75L9.25 24.75L16 18L9.25 11.25L11.25 9.25L18 16L24.75 9.25L26.75 11.25L20 18L26.75 24.75L24.75 26.75Z"
+                fill="#232323"
+              />
+            </svg>
+          </button>
+        </div>
+        <hr />
+
+        <div class="modal-promo">
+          <div class="modal-promo-detail-header">
+            <span>{{ prTitle }}</span>
+            <span>{{ prDescription }}</span>
+          </div>
+
+          <div class="modal-promo-detail">
+            <div class="detail-container">
+              <span class="promo-title">Promo Mulai</span>
+              <span class="promo-value">{{ formatDate(prDateBegin) }}</span>
+            </div>
+
+            <div class="detail-container">
+              <span class="promo-title">Jam Berlaku</span>
+              <span class="promo-value">{{ prHourBegin }}</span>
+            </div>
+
+            <div class="detail-container">
+              <span class="promo-title" style="color: red !important"
+                >Item yang Tersedia</span
+              >
+              <ul>
+                <li v-for="(item, index) in filteredProducts" :key="index">
+                  • {{ item }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="detail-container">
+              <span class="promo-title">Maksimal Pesanan</span>
+              <span class="promo-value">{{ maximalOrderItems }}</span>
+            </div>
+
+            <div class="detail-container">
+              <span class="promo-title">Jumlah Total Maksimal</span>
+              <span class="promo-value" v-if="maximumAmount > 0">
+                {{ formatCurrency(maximumAmount) }}</span
+              >
+              <span class="promo-value" v-else> Tanpa jumlah maksimal</span>
+            </div>
+
+            <div class="detail-container">
+              <span class="promo-title">Pembayaran yang tersedia</span>
+              <ul>
+                <li v-for="(data, index) in paymentsPromo" :key="index">
+                  • {{ data.payment_method }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="detail-container">
+              <span class="promo-title">Promo Berakhir</span>
+              <span class="promo-value">{{ formatDate(prDateEnd) }}</span>
+            </div>
+
+            <div class="detail-container">
+              <span class="promo-title">Hari Berlaku</span>
+              <ul>
+                <li v-for="(data, index) in validDays" :key="index">
+                  • {{ data }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="detail-container">
+              <span class="promo-title">Kategori Item</span>
+              <ul>
+                <li v-for="(data, index) in categories" :key="index">
+                  • {{ data.category_name }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="detail-container">
+              <span class="promo-title">Jumlah Total Minimal</span>
+              <span class="promo-value" v-if="minimumAmount > 0">{{
+                formatCurrency(minimumAmount)
+              }}</span>
+              <span class="promo-value" v-else>Tidak ada minimal</span>
+            </div>
+
+            <button @click="selectPromo(idPromo, prDescription)">Pilih</button>
+          </div>
+        </div>
+        <!-- pass some data to here -->
+      </div>
+    </dialog>
+    <!-- end modal detail promo -->
   </div>
-
-  <dialog id="modalPromo" class="modal" :open="showModalPromo">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h1>Select Promo</h1>
-        <button @click="closeListPromo()">x</button>
-      </div>
-
-      <div class="promo-item" v-for="(promo, index) in promos" :key="index">
-        <div class="promo-item-img">
-          <img
-            v-if="promo.promo_img != null && promo.promo_img != ''"
-            :src="promo.promo_img"
-            alt="img"
-          />
-          <img
-            v-else
-            src="http://hungryline.interactiveholic.net/images/restaurant/7.jpg"
-            alt="img"
-          />
-        </div>
-
-        <div class="promo-detail">
-          <div class="promo-detail-info">
-            <span class="promo-name">{{ promo.promo_title }}</span>
-            <div
-              class="promo-info"
-              v-if="
-                promo.promo_description.toUpperCase() !=
-                promo.promo_title.toUpperCase()
-              "
-            >
-              {{ promo.promo_description }}
-            </div>
-            <div class="promo-info" v-if="promo.disc_type == '%'">
-              Discount {{ promo.disc_amount }} {{ promo.disc_type }}
-            </div>
-            <div class="promo-info" v-else-if="promo.disc_type == 'Rp'">
-              Discount {{ promo.disc_type }} {{ promo.disc_amount }}
-            </div>
-            <div class="promo-info" v-else></div>
-          </div>
-
-          <button @click="openDetailPromo(promo.promo_id)">Detail</button>
-        </div>
-      </div>
-    </div>
-  </dialog>
-
-  <dialog id="modalPromoDetail" class="modal" :open="showModalPromoDetail">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h1>Select Promo</h1>
-        <button @click="closePromoDetail()">x</button>
-      </div>
-      <hr />
-
-      <div class="modal-promo">
-        <div class="modal-promo-detail-header">
-          <span>{{ prTitle }}</span>
-          <span>{{ prDescription }}</span>
-        </div>
-
-        <div class="modal-promo-detail">
-          <div class="detail-container">
-            <span class="promo-title">Date Promo Begin</span>
-            <span class="promo-value">{{ prDateBegin }}</span>
-          </div>
-
-          <div class="detail-container">
-            <span class="promo-title">Hours Apply</span>
-            <span class="promo-value">{{ prHourBegin }}</span>
-          </div>
-
-          <div class="detail-container">
-            <span class="promo-title" style="color: red !important"
-              >Available Items</span
-            >
-            <ul>
-              <li v-for="(item, index) in filteredProducts" :key="index">
-                • {{ item }}
-              </li>
-            </ul>
-          </div>
-
-          <div class="detail-container">
-            <span class="promo-title">Maximal Order Items</span>
-            <span class="promo-value">{{ maximalOrderItems }}</span>
-          </div>
-
-          <div class="detail-container">
-            <span class="promo-title">Maximal Total Amount</span>
-            <span class="promo-value"> {{ `Rp. `+ maximumAmount }}</span>
-          </div>
-
-          <div class="detail-container">
-            <span class="promo-title">Available payment</span>
-            <ul>
-              <li>• Cash</li>
-              <li>• Debit</li>
-              <li>• Kredit</li>
-            </ul>
-          </div>
-
-          <div class="detail-container">
-            <span class="promo-title">Date Promo End</span>
-            <span class="promo-value">2023-08-04</span>
-          </div>
-
-          <div class="detail-container">
-            <span class="promo-title">Valid days</span>
-            <ul>
-              <li>everyday</li>
-            </ul>
-          </div>
-
-          <div class="detail-container">
-            <span class="promo-title">Available Category Items</span>
-            <ul>
-              <li>• Nasi</li>
-            </ul>
-          </div>
-
-          <div class="detail-container">
-            <span class="promo-title">Minimal total amount</span>
-            <span class="promo-value">Rp 1</span>
-          </div>
-
-          <button>Select</button>
-        </div>
-      </div>
-      <!-- pass some data to here -->
-    </div>
-  </dialog>
 
   <dialog id="modalWaiting" class="modal" v-if="showModalWaiting">
     <div class="modal-box">
@@ -657,11 +699,18 @@ export default defineComponent({
       prTitle: "",
       prDescription: "",
       prDateBegin: "",
+      prDateEnd: "",
       prHourBegin: "",
       filteredProducts: [],
       maximalOrderItems: "",
       maximumAmount: 0,
+      minimumAmount: 0,
       filteredPayments: [],
+      validDays: [],
+      categories: [],
+      paymentsPromo: [],
+      idPromo: "",
+      cuponPromo: null,
     };
   },
   async mounted() {
@@ -749,6 +798,11 @@ export default defineComponent({
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
       }
+
+      const promoSelected = JSON.parse(localStorage.getItem("promo_selected"));
+      if (promoSelected) {
+        this.cuponPromo = promoSelected;
+      }
     },
     listPromo() {
       this.showModalPromo = true;
@@ -763,16 +817,23 @@ export default defineComponent({
       const foundPromo = this.promos.find(
         (promo) => promo.promo_id === promoId
       );
-      const data_menu = JSON.parse(localStorage.getItem("data_menu")) || [];
-      const payment_methods = JSON.parse(localStorage.getItem("payment_method")) || [];
-      const productIds = foundPromo.product_ids.split('|').filter(id => id).map(id => parseInt(id));
-      const paymentIds = foundPromo.paymethod_can.split('|').filter(id => id).map(id => parseInt(id));
 
-      console.log('foundPromo', foundPromo);
-      console.log('data_menu', data_menu);
-      console.log('payment_methods', payment_methods);
-      console.log('paymentIds', paymentIds);
-      
+      const data_menu = JSON.parse(localStorage.getItem("data_menu")) || [];
+      this.categories = JSON.parse(localStorage.getItem("data_menu")) || [];
+      const payment_methods =
+        JSON.parse(localStorage.getItem("payment_method")) || [];
+      const paymentIds = foundPromo.paymethod_can.split("|").filter((id) => id);
+      this.paymentsPromo = payment_methods.filter((method) =>
+        paymentIds.includes(String(method.payment_id))
+      );
+
+      const productIds = foundPromo.product_ids
+        .split("|")
+        .filter((id) => id)
+        .map((id) => parseInt(id));
+
+      this.validDays = foundPromo.valid_days.split("|").filter((days) => days);
+
       function getProductNamesByIds(data_menu, productIds) {
         return data_menu.flatMap((category) => {
           const filteredProducts = category.product_details.filter((product) =>
@@ -782,27 +843,44 @@ export default defineComponent({
         });
       }
       this.filteredProducts = getProductNamesByIds(data_menu, productIds);
-      
+
       this.prTitle = foundPromo.promo_title;
       this.prDescription = foundPromo.promo_description;
       this.prDateBegin = foundPromo.date_promobegin;
+      this.prDateEnd = foundPromo.date_promoend;
 
       let [hoursBegin, minutesBegin] = foundPromo.hour_promobegin.split(":");
       let [hoursEnd, minutesEnd] = foundPromo.hour_promoend.split(":");
 
-      this.prHourBegin = `${hoursBegin}:${minutesBegin}` + " - " + `${hoursEnd}:${minutesEnd}`; ;
+      this.prHourBegin =
+        `${hoursBegin}:${minutesBegin}` + " - " + `${hoursEnd}:${minutesEnd}`;
 
-      this.maximalOrderItems = foundPromo.limit_usage_to_x_items > 0? foundPromo.limit_usage_to_x_items : "There is no maximal order items";
+      this.maximalOrderItems =
+        foundPromo.limit_usage_to_x_items > 0
+          ? foundPromo.limit_usage_to_x_items
+          : "There is no maximal order items";
       this.maximumAmount = foundPromo.maximum_amount;
+      this.minimumAmount = foundPromo.minimum_amount;
 
       function getPayments(payment_methods, paymentIds) {
-          return payment_methods.filter(item => paymentIds.includes(item.payment_id));
+        return payment_methods.filter((item) =>
+          paymentIds.includes(item.payment_id)
+        );
       }
       this.filteredPayments = getPayments(payment_methods, paymentIds);
-
-      console.log('this.filteredPayments', this.filteredPayments);
+      this.idPromo = foundPromo.promo_id;
     },
+    selectPromo(id, desc) {
+      this.cuponPromo = {
+        id: id,
+        description: desc,
+      };
 
+      this.showModalPromoDetail = false;
+    },
+    removePromo() {
+      this.cuponPromo = null;
+    },
     closePromoDetail() {
       this.showModalPromoDetail = false;
     },
@@ -1127,6 +1205,16 @@ export default defineComponent({
         this.recalculatePayment();
         localStorage.setItem("cartItems", JSON.stringify(this.products));
       }
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const seconds = String(date.getSeconds()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
   },
 });
