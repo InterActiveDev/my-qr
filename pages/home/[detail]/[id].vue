@@ -1,5 +1,4 @@
 <template>
-  <Navbar :to="navbarTo" />
   <div>
     <!-- Tambahkan Navbar jika belum ada -->
     <section id="detail">
@@ -124,9 +123,13 @@
       </div>
     </section>
 
-    <div class="spacer"></div>
-    <BottomNavCart v-if="showBottomCart" />
-    <Footer />
+    <div class="flex justify-center">
+      <div class="spacer"></div>
+    </div>
+    <div class="flex justify-center">
+      <BottomNavCart v-if="showBottomCart" />
+      <Footer />
+    </div>
   </div>
 </template>
 
