@@ -1,0 +1,88 @@
+#modalPromoDetail {
+  .modal-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 460px;
+    height: 100%;
+    // border: 3px solid #e5e5e5;
+    border: 3px solid #e5e5e5;
+    background: #fff;
+
+    .modal-promo {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+      color: #000;
+      padding: 0 15px 20px 15px;
+      border-radius: 15px;
+      gap: 10px;
+      border: 1px solid #fbc02d;
+      margin-bottom: 15px;
+
+      .modal-promo-detail-header{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .modal-promo-detail{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .detail-container {
+          display: flex;
+          flex-direction: column;
+
+          .promo-title {
+            color: rgba(0, 0, 0, 0.38);
+            font-size: 12px;
+          }
+  
+          .promo-value {
+            color: #000;
+            font-size: 14px;
+          }
+        }
+
+        button {
+          width: 100%;
+          background-color: #da2424;
+          color: #fff;
+          border-radius: 5px;
+          padding: 10px 0 10px 0;
+        }
+
+      }
+    
+    }
+    
+
+    h1 {
+      color: #000;
+      font-size: 24px;
+      font-family: $font-family;
+      font-style: normal;
+    }
+
+    .modal-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      button {
+        padding: 5px 5px 5px 25px;
+        font-weight: bold;
+      }
+      button:hover {
+        color: #a00703 !important;
+      }
+    }
+
+  }
+}

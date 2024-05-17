@@ -34,7 +34,7 @@ const FetchService = {
   },
 
   synchronize(locId){
-    return ApiService.get(baseURL+'/qr_restaurant/synchronize/'+locId);
+    return ApiService.get(baseURL+'/qr_myorder/synchronize/'+locId);
   }
 };
 

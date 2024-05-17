@@ -3,10 +3,10 @@
       background: url("~/assets/images/background-modal.png");
       background-repeat: no-repeat; /* Prevent background from repeating */
       background-size: cover;
-      width: 700px;
-      max-width: 700px;
-      height: 800px;
-      max-height: 800px;
+      width: 400px;
+      max-width: 400px;
+      height: 400px;
+      max-height: 400px;
 
       .modal-action {
         .close-btn {
@@ -32,17 +32,17 @@
         align-items: flex-start;
         gap: 19px;
         margin-top: 40px;
-        padding: 30px;
+        padding: 10px;
 
         .item {
           display: flex;
-          padding: 16px 24px;
+          padding: 12px 16px;
           align-items: center;
           gap: 18px;
           border-radius: 10px;
           background: #fff;
           box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.15);
-          width: 115%;
+          width: 100%;
 
           .description {
             display: flex;
@@ -57,7 +57,7 @@
               text-overflow: ellipsis;
               font-family: $font-family;
               font-display: swap;
-              font-size: 24.446px;
+              font-size: 16;
               font-style: normal;
               font-weight: 500;
               line-height: normal;
@@ -68,7 +68,7 @@
               color: #919191;
               font-family: $font-family;
               font-display: swap;
-              font-size: 16px;
+              font-size: 12px;
               font-style: normal;
               font-weight: 500;
               line-height: 150%; /* 24px */
