@@ -1,5 +1,5 @@
 @media (min-width: 760px) {
-  .frame {
+  .frame-qris {
     width: 480px;
 
     .navbar {
@@ -327,7 +327,7 @@
 }
 
 @media screen and (min-width: 390px) and (max-width: 760px) {
-  .frame {
+  .frame-qris {
     width: 100%;
 
     .navbar {
@@ -654,12 +654,12 @@
 }
 
 @media screen and (min-width: 360px) and (max-width: 390px) {
-  .frame {
+  .frame-qris {
     width: 100%;
 
-    .navbar {
-      margin-top: 100px;
-    }
+    // .navbar {
+    //   margin-top: 100px;
+    // }
 
     #qris {
       padding-top: 0px;

@@ -292,7 +292,7 @@
             <div class="btn-group">
               <button
                 class="btn btn-pay"
-                @click="openModalPayment"
+                @click="openModalDataCustomer"
                 :disabled="validatePayment"
               >
                 BAYAR
@@ -630,15 +630,77 @@
       <h2>Menyiapkan ...</h2>
     </div>
   </dialog>
-</template>
 
-<style>
-.active {
-  background-color: #ff8181;
-  border: 1px solid #da2424 !important;
-  color: #da2424 !important;
-}
-</style>
+  <!-- input information data -->
+  <dialog id="modalInformationData" class="modal">
+    <div class="modal-box" role="dialog">
+      <h3>Isi nama dahulu</h3>
+      <label class="form-control name" v-if="this.selectedOrderType !== 'Take away'">
+        <div class="label">
+          <span class="label-text"
+            >Nomor Meja <small class="text-error">*</small></span
+          >
+        </div>
+        <input
+          type="number"
+          v-model="table"
+          placeholder="Masukan nomor meja"
+          class="input input-bordered"
+          :autofocus="this.selectedOrderType !== 'Dine in'"
+        />
+        <span class="text-error text-sm mt-2" v-if="errorsTable !== ''">{{
+          errorsTable
+        }}</span>
+      </label>
+
+      <label class="form-control name">
+        <div class="label">
+          <span class="label-text"
+            >Nama <small class="text-error">*</small></span
+          >
+        </div>
+        <input
+          v-if="this.selectedOrderType === 'Dine in'"
+          type="text"
+          v-model="name"
+          @input="filterName"
+          placeholder="Nama pemesan"
+          class="input input-bordered"
+          autofocus
+        />
+
+        <input
+          type="text"
+          v-model="name"
+          @input="filterName"
+          placeholder="Nama pemesan"
+          class="input input-bordered"
+          v-else
+        />
+        <span class="text-error text-sm mt-2" v-if="errors !== ''">{{
+          errors
+        }}</span>
+      </label>
+
+      <label class="form-control phone">
+        <div class="label">
+          <span class="label-text">Nomor Telepon</span>
+        </div>
+        <input
+          type="number"
+          v-model="phone"
+          placeholder="08xxxx"
+          class="input input-bordered"
+        />
+      </label>
+
+      <button class="btn-primary" @click="goToReceipt">Mulai Pesan</button>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+</template>
 
 <script>
 import { defineComponent } from "@vue/composition-api";
@@ -711,6 +773,11 @@ export default defineComponent({
       paymentsPromo: [],
       idPromo: "",
       cuponPromo: null,
+      name: "",
+      phone: "",
+      table: "",
+      errors: "",
+      errorsTable: "",
     };
   },
   async mounted() {
@@ -980,6 +1047,10 @@ export default defineComponent({
       const location = localStorage.getItem("location");
       this.$router.push("/restaurant/detail/" + location);
     },
+    openModalDataCustomer() {
+      let modal = document.getElementById("modalInformationData");
+      modal.showModal();
+    },
     openModalPayment() {
       let modal = document.getElementById("modalSelectPayments");
 
@@ -1215,6 +1286,34 @@ export default defineComponent({
       const minutes = String(date.getMinutes()).padStart(2, "0");
       const seconds = String(date.getSeconds()).padStart(2, "0");
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
+    goToReceipt() {
+      const dataCustomer = {
+        table: this.table,
+        name: this.name,
+        phone: this.phone,
+      };
+
+      if (process.client) {
+        localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
+      }
+
+      if (this.selectedOrderType !== "Dine in") {
+        if (this.table === "" && this.name === "") {
+          this.errors = "Isi nama anda dahulu";
+          this.errorsTable = "Isi nomor meja dahulu";
+        } else if (this.table === "") {
+          this.errorsTable = "Isi nomor meja dahulu";
+        } else if (this.name === "") {
+          this.errors = "Isi nama anda dahulu";
+        } else {
+          this.openModalPayment();
+        }
+      } else {
+        this.name === ""
+          ? (this.errors = "Isi nama anda dahulu")
+          : this.openModalPayment();
+      }
     },
   },
 });

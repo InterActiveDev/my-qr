@@ -1,9 +1,10 @@
 <template>
-  <div class="flex justify-center">
-    <div class="frame">
-      <Navbar :to="navbarTo"  />
-      <section id="qris">
-        <!-- <img
+  <div>
+    <div class="flex justify-center">
+      <div class="frame-qris">
+        <Navbar :to="navbarTo" />
+        <section id="qris">
+          <!-- <img
           src="~/assets/images/buble-top.png"
           class="buble-top"
           loading="lazy"
@@ -12,50 +13,50 @@
           srcset=""
         /> -->
 
-        <div class="wrapper">
-          <div class="content">
-            <div class="card-total">
-              <div class="row">
-                <span class="title">Total Pembayaran</span>
-                <p class="total">{{ formatCurrency(total) }}</p>
+          <div class="wrapper">
+            <div class="content">
+              <div class="card-total">
+                <div class="row">
+                  <span class="title">Total Pembayaran</span>
+                  <p class="total">{{ formatCurrency(total) }}</p>
+                </div>
+              </div>
+
+              <div class="description">
+                <p class="name">{{ restaurantName }}</p>
+                <p class="nmid">NMID : {{ nmid }}</p>
+              </div>
+
+              <template v-if="qrCodeImage">
+                <!-- Tampilkan QR code jika sudah digenerate -->
+                <!-- <img :src="qrCodeImage" alt="QR Code" /> -->
+              </template>
+              <template v-else>
+                <!-- Placeholder blur ketika QR code belum tergenerate -->
+                <div
+                  style="
+                    width: 300px;
+                    height: 300px;
+                    background-color: #f0f0f0;
+                    filter: blur(5px);
+                  "
+                ></div>
+              </template>
+
+              <div class="description">
+                <span class="message-error">{{ messagePaymentError }}</span>
+                <span class="message-success">{{ messagePaymentSuccess }}</span>
+                <button class="btn btn-check mb-5" @click="checkPaymentTrigger">
+                  Periksa Status Pembayaran
+                </button>
+                <p class="caption">
+                  Selesaikan pembayaran sebelum {{ formatTime(countDown) }}
+                </p>
               </div>
             </div>
-
-            <div class="description">
-              <p class="name">{{ restaurantName }}</p>
-              <p class="nmid">NMID : {{ nmid }}</p>
-            </div>
-
-            <template v-if="qrCodeImage">
-              <!-- Tampilkan QR code jika sudah digenerate -->
-              <!-- <img :src="qrCodeImage" alt="QR Code" /> -->
-            </template>
-            <template v-else>
-              <!-- Placeholder blur ketika QR code belum tergenerate -->
-              <div
-                style="
-                  width: 300px;
-                  height: 300px;
-                  background-color: #f0f0f0;
-                  filter: blur(5px);
-                "
-              ></div>
-            </template>
-
-            <div class="description">
-              <span class="message-error">{{ messagePaymentError }}</span>
-              <span class="message-success">{{ messagePaymentSuccess }}</span>
-              <button class="btn btn-check mb-5" @click="checkPaymentTrigger">
-                Periksa Status Pembayaran
-              </button>
-              <p class="caption">
-                Selesaikan pembayaran sebelum {{ formatTime(countDown) }}
-              </p>
-            </div>
           </div>
-        </div>
 
-        <!-- <img
+          <!-- <img
           src="~/assets/images/buble-bottom-right.png"
           class="buble-bottom"
           loading="lazy"
@@ -63,21 +64,26 @@
           alt=""
           srcset=""
         /> -->
-      </section>
+        </section>
 
-      <dialog id="modalCancel" class="modal" :open="showModalCancel">
-        <div class="modal-box">
-          <span class="loading loading-spinner"></span>
-          <h2>Pembayaran dibatalkan.</h2>
-        </div>
-      </dialog>
+        <dialog id="modalCancel" class="modal" :open="showModalCancel">
+          <div class="modal-box">
+            <span class="loading loading-spinner"></span>
+            <h2>Pembayaran dibatalkan.</h2>
+          </div>
+        </dialog>
 
-      <dialog id="modalWaitingQris" class="modal" :open="showModalWaitingQris">
-        <div class="modal-box">
-          <span class="loading loading-spinner"></span>
-          <h2>Menyiapkan ...</h2>
-        </div>
-      </dialog>
+        <dialog
+          id="modalWaitingQris"
+          class="modal"
+          :open="showModalWaitingQris"
+        >
+          <div class="modal-box">
+            <span class="loading loading-spinner"></span>
+            <h2>Menyiapkan ...</h2>
+          </div>
+        </dialog>
+      </div>
     </div>
   </div>
 </template>

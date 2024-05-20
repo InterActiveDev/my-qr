@@ -60,75 +60,7 @@
         </form>
       </dialog>
 
-      <!-- input information data -->
-      <dialog id="modalInformationData" class="modal">
-        <div class="modal-box" role="dialog">
-          <h3>Isi nama dahulu</h3>
-          <label class="form-control name" v-if="typeOrders !== 1">
-            <div class="label">
-              <span class="label-text"
-                >Nomor Meja <small class="text-error">*</small></span
-              >
-            </div>
-            <input
-              type="number"
-              v-model="table"
-              placeholder="Masukan nomor meja"
-              class="input input-bordered"
-              :autofocus="typeOrders !== 1"
-            />
-            <span class="text-error text-xl mt-2" v-if="errorsTable !== ''">{{
-              errorsTable
-            }}</span>
-          </label>
-
-          <label class="form-control name">
-            <div class="label">
-              <span class="label-text"
-                >Nama <small class="text-error">*</small></span
-              >
-            </div>
-            <input
-              v-if="typeOrders === 1"
-              type="text"
-              v-model="name"
-              @input="filterName"
-              placeholder="Nama pemesan"
-              class="input input-bordered"
-              autofocus
-            />
-
-            <input
-              type="text"
-              v-model="name"
-              @input="filterName"
-              placeholder="Nama pemesan"
-              class="input input-bordered"
-              v-else
-            />
-            <span class="text-error text-xl mt-2" v-if="errors !== ''">{{
-              errors
-            }}</span>
-          </label>
-
-          <label class="form-control phone">
-            <div class="label">
-              <span class="label-text">Nomor Telepon</span>
-            </div>
-            <input
-              type="number"
-              v-model="phone"
-              placeholder="08xxxx"
-              class="input input-bordered"
-            />
-          </label>
-
-          <button class="btn-primary" @click="goToHome">Mulai Pesan</button>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
+     
     </section>
   </div>
 </template>
@@ -145,9 +77,9 @@ export default defineComponent({
       navbarTo: "/index",
       name: "",
       phone: "",
-      table: "",
       typeOrders: "",
       orderType: [],
+      table: "",
       errors: "",
       errorsTable: "",
       background: "",
