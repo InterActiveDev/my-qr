@@ -11,6 +11,12 @@
     position: relative;
     background: #fff;
 
+    .active {
+      background-color: #ff8181;
+      border: 1px solid #da2424 !important;
+      color: #da2424 !important;
+    }
+
     .frame {
       width: 480px;
 
@@ -320,6 +326,12 @@
     position: relative;
     background: #fff;
 
+    .active {
+      background-color: #ff8181;
+      border: 1px solid #da2424 !important;
+      color: #da2424 !important;
+    }
+
     .frame {
       width: 100%;
 
@@ -628,6 +640,12 @@
     min-width: 360px;
     position: relative;
     background: #fff;
+
+    .active {
+      background-color: #ff8181;
+      border: 1px solid #da2424 !important;
+      color: #da2424 !important;
+    }
 
     .frame {
       width: 100%;

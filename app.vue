@@ -7,19 +7,23 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
       />
       <link rel="icon" type="image/png" href="/icon.png" />
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-cO/b1mfj7PQ5I+C0jfKqBt5LHPdfZVOuJrwEh2O1M6k+U1+Bz6Y1l+LjG+QhiQLf" crossorigin="anonymous">
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha384-cO/b1mfj7PQ5I+C0jfKqBt5LHPdfZVOuJrwEh2O1M6k+U1+Bz6Y1l+LjG+QhiQLf"
+        crossorigin="anonymous"
+      />
     </head>
     <VitePwaManifest />
     <!-- <div @touchstart="resetTimer"> -->
     <!-- <div class="flex justify-center"> -->
-      <NuxtPage />
+    <NuxtPage />
     <!-- </div> -->
     <!-- </div> -->
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -46,13 +50,16 @@ export default {
     },
     resetTimer() {
       clearTimeout(this.timeoutId);
+      const location = localStorage.getItem("location");
+
+      this.navbarTo = "/restaurant/detail/" + location;
       this.timeoutId = setTimeout(() => {
         localStorage.removeItem("cartItems");
         localStorage.removeItem("type_order");
         localStorage.removeItem("checkoutData");
         localStorage.removeItem("data_customer");
         localStorage.removeItem("qrContent");
-        this.$router.push("/home");
+        this.$router.push(this.navbarTo);
       }, 25 * 60 * 1000);
     },
   },
