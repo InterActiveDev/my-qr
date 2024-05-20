@@ -1,72 +1,73 @@
-#modalInformationData {
-  .modal-box {
-    width: 400px;
-    max-width: 400px;
-    height: auto;
-    border-radius: 30px;
-    background: #fff;
-    padding: 25px;
+@media (min-width: 760px) {
+  #modalInformationData {
+    .modal-box {
+      width: 400px;
+      max-width: 400px;
+      height: auto;
+      border-radius: 30px;
+      background: #fff;
+      padding: 25px;
 
-    .logo {
-      width: 168px;
-      height: 94px;
-      margin: auto;
-      margin-bottom: 64px;
-    }
+      .logo {
+        width: 168px;
+        height: 94px;
+        margin: auto;
+        margin-bottom: 64px;
+      }
 
-    h3 {
-      color: #000;
-      text-align: center;
-      font-family: $font-family;
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 150%; /* 72px */
-    }
+      h3 {
+        color: #000;
+        text-align: center;
+        font-family: $font-family;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%; /* 72px */
+      }
 
-    .name {
-      width: 100%;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      .name {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
 
-      .label {
-        margin-bottom: 5px;
-        span {
-          font-size: 14px;
-          font-family: $font-family;
-          color: #232323;
+        .label {
+          margin-bottom: 5px;
+          span {
+            font-size: 14px;
+            font-family: $font-family;
+            color: #232323;
+          }
+        }
+
+        input {
+          border: 1px solid black;
+          height: 50px;
+          background-color: transparent;
         }
       }
 
-      input {
-        border: 1px solid black;
-        height: 50px;
-        background-color: transparent;
-      }
-    }
+      .phone {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 20px;
 
-    .phone {
-      width: 100%;
-      margin-top: 10px;
-      margin-bottom: 20px;
+        .label {
+          margin-bottom: 5px;
+          span {
+            font-size: 14px;
+            font-family: $font-family;
+            color: #232323;
+          }
+        }
 
-      .label {
-        margin-bottom: 5px;
-        span {
-          font-size: 14px;
-          font-family: $font-family;
-          color: #232323;
+        input {
+          border: 1px solid black;
+          height: 50px;
+          background-color: transparent;
         }
       }
 
-      input {
-        border: 1px solid black;
-        height: 50px;
-        background-color: transparent;
-      }
-    }
-
-    .btn-primary {
+      .btn-primary {
         display: inline-flex;
         padding: 10px;
         justify-content: center;
@@ -85,25 +86,252 @@
         border: none;
       }
 
-    .warning {
-      display: flex;
-      width: 100%;
-      padding: 10px;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      border-radius: 10px;
-      border: 3px solid #0043a8;
-      background: rgba(0, 67, 168, 0.2);
-      margin-top: 56px;
+      .warning {
+        display: flex;
+        width: 100%;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 10px;
+        border: 3px solid #0043a8;
+        background: rgba(0, 67, 168, 0.2);
+        margin-top: 56px;
 
-      p {
+        p {
+          color: #000;
+          font-family: $font-family;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 150%; /* 27px */
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 390px) and (max-width: 760px) {
+  #modalInformationData {
+    .modal-box {
+      width: 400px;
+      max-width: 400px;
+      height: auto;
+      border-radius: 30px;
+      background: #fff;
+      padding: 25px;
+
+      .logo {
+        width: 168px;
+        height: 94px;
+        margin: auto;
+        margin-bottom: 64px;
+      }
+
+      h3 {
         color: #000;
+        text-align: center;
         font-family: $font-family;
-        font-size: 14px;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%; /* 72px */
+      }
+
+      .name {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        .label {
+          margin-bottom: 5px;
+          span {
+            font-size: 14px;
+            font-family: $font-family;
+            color: #232323;
+          }
+        }
+
+        input {
+          border: 1px solid black;
+          height: 50px;
+          background-color: transparent;
+        }
+      }
+
+      .phone {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 20px;
+
+        .label {
+          margin-bottom: 5px;
+          span {
+            font-size: 14px;
+            font-family: $font-family;
+            color: #232323;
+          }
+        }
+
+        input {
+          border: 1px solid black;
+          height: 50px;
+          background-color: transparent;
+        }
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 10px;
+        width: 100%;
+        height: auto;
+        background: #da2424;
+        color: #fff;
+        font-family: $font-family;
+        font-size: 16px;
         font-style: normal;
         font-weight: 500;
-        line-height: 150%; /* 27px */
+        line-height: 160%; /* 25.6px */
+        border: none;
+      }
+
+      .warning {
+        display: flex;
+        width: 100%;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 10px;
+        border: 3px solid #0043a8;
+        background: rgba(0, 67, 168, 0.2);
+        margin-top: 56px;
+
+        p {
+          color: #000;
+          font-family: $font-family;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 150%; /* 27px */
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 360px) and (max-width: 390px) {
+  #modalInformationData {
+    .modal-box {
+      width: 340px;
+      max-width: 340px;
+      height: auto;
+      border-radius: 30px;
+      background: #fff;
+      padding: 25px;
+
+      .logo {
+        width: 168px;
+        height: 94px;
+        margin: auto;
+        margin-bottom: 64px;
+      }
+
+      h3 {
+        color: #000;
+        text-align: center;
+        font-family: $font-family;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%; /* 72px */
+      }
+
+      .name {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        .label {
+          margin-bottom: 5px;
+          span {
+            font-size: 14px;
+            font-family: $font-family;
+            color: #232323;
+          }
+        }
+
+        input {
+          border: 1px solid black;
+          height: 50px;
+          background-color: transparent;
+        }
+      }
+
+      .phone {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 20px;
+
+        .label {
+          margin-bottom: 5px;
+          span {
+            font-size: 14px;
+            font-family: $font-family;
+            color: #232323;
+          }
+        }
+
+        input {
+          border: 1px solid black;
+          height: 50px;
+          background-color: transparent;
+        }
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 10px;
+        width: 100%;
+        height: auto;
+        background: #da2424;
+        color: #fff;
+        font-family: $font-family;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 160%; /* 25.6px */
+        border: none;
+      }
+
+      .warning {
+        display: flex;
+        width: 100%;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 10px;
+        border: 3px solid #0043a8;
+        background: rgba(0, 67, 168, 0.2);
+        margin-top: 56px;
+
+        p {
+          color: #000;
+          font-family: $font-family;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 150%; /* 27px */
+        }
       }
     }
   }

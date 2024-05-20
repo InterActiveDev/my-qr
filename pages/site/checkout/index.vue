@@ -1250,7 +1250,7 @@ export default defineComponent({
     },
     toInputReceipt() {
       // this.sendTransaction();
-      this.$router.push("/receipt");
+      this.$router.push("/site/receipt");
     },
     formatCurrency(amount) {
       const formatter = new Intl.NumberFormat("id-ID", {
