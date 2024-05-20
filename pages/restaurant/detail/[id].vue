@@ -180,7 +180,7 @@
                   v-for="items in filteredProducts"
                   :key="items.product_id"
                 >
-                  <ProductCard :product="items" />
+                  <ProductCard :product="items" :loading="loading" />
                 </div>
               </div>
             </div>
@@ -242,10 +242,14 @@ export default defineComponent({
       countProduct: 0,
       clockNow: null,
       localStorageListener: null,
+      loading: true,
+      productPlaceholder:
+        'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
     };
   },
   async mounted() {
     // this.getList();
+    this.loading = false;
     const location = localStorage.getItem("location");
     this.restaurantId = this.$route.params.id;
     const locId = atob(this.restaurantId);
