@@ -29,7 +29,7 @@
 
               <template v-if="qrCodeImage">
                 <!-- Tampilkan QR code jika sudah digenerate -->
-                <!-- <img :src="qrCodeImage" alt="QR Code" /> -->
+                <img :src="qrCodeImage" alt="QR Code" />
               </template>
               <template v-else>
                 <!-- Placeholder blur ketika QR code belum tergenerate -->
@@ -102,7 +102,7 @@ export default defineComponent({
   },
   data() {
     return {
-      navbarTo: "/checkout",
+      navbarTo: "/site/checkout",
       countDown: 120,
       showModalWaitingQris: false,
       showModalCancel: false,
@@ -121,8 +121,8 @@ export default defineComponent({
     };
   },
   async mounted() {
-    // await this.getQr();
-    // this.startCountDown();
+    await this.getQr();
+    this.startCountDown();
   },
   methods: {
     getCookie(name) {
@@ -158,15 +158,14 @@ export default defineComponent({
       }, 1000);
     },
     checkPaymentTrigger() {
-      const token = JSON.parse(this.getCookie("user-data-log")).token;
-      const url = "/payment/check_payment_qris";
+      const url = "/qr_myorder/check_payment_qris";
       const data = {
         mID: this.mID,
         invoiceId: this.invoiceId,
         refNo: this.refNo,
       };
 
-      FetchData.createData(url, data, token)
+      FetchData.createData(url, data)
         .then((res) => {
           if (res.data.data.status === "success") {
             this.messagePaymentError = "";
@@ -189,11 +188,20 @@ export default defineComponent({
       }${remainingSeconds}`;
     },
     async generateQRCode(content) {
+      const currentUrl = window.location.pathname;
+      let timerStop = 0;
+
       try {
         const qrCodeDataURL = await QRCode.toDataURL(content);
         this.qrCodeImage = qrCodeDataURL;
         const intervalId = setInterval(() => {
-          this.checkPayment(this.mID, this.invoiceId, this.refNo);
+          // if(currentUrl === '/qris'){
+          if(timerStop <= 120){
+            console.log('currentUrl', currentUrl);
+            // buat stop proses di background
+            this.checkPayment(this.mID, this.invoiceId, this.refNo);
+            timerStop++;
+          }
         }, 5000);
 
         this.intervalId = intervalId;
@@ -202,16 +210,14 @@ export default defineComponent({
       }
     },
     checkPayment(mID, invoiceId, refNo) {
-      console.log("aa", mID, invoiceId, refNo);
-      const token = JSON.parse(this.getCookie("user-data-log")).token;
-      const url = "/payment/check_payment_qris";
+      const url = "/qr_myorder/check_payment_qris";
       const data = {
         mID: mID,
         invoiceId: invoiceId,
         refNo: refNo,
       };
 
-      FetchData.createData(url, data, token)
+      FetchData.createData(url, data)
         .then((res) => {
           if (res.data.data.status === "success") {
             clearInterval(this.intervalId);
@@ -234,9 +240,7 @@ export default defineComponent({
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-      const token = JSON.parse(this.getCookie("user-data-log")).token;
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
       const url = "/payment/update_payment";
       const data = {
         transaction_id: this.transactionId,
@@ -248,7 +252,7 @@ export default defineComponent({
 
       this.showModalWaitingQris = true; // to show the modal
 
-      FetchData.updateData(url, data, token)
+      FetchData.updateData(url, data)
         .then((res) => {
           clearInterval(this.intervalId);
           const delcon = localStorage.removeItem("qrContent");

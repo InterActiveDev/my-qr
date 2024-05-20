@@ -60,7 +60,6 @@
         </form>
       </dialog>
 
-     
     </section>
   </div>
 </template>
@@ -96,7 +95,7 @@ export default defineComponent({
   mounted() {
     if (process.client) {
       this.getBackground();
-      localStorage.removeItem("cartItems");
+      localStorage.removeItem("cart_items");
       localStorage.removeItem("checkoutData");
       localStorage.removeItem("numberTable");
       localStorage.removeItem("data_customer");

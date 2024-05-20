@@ -319,7 +319,7 @@ export default {
   },
   methods: {
     checkLocalStorage() {
-      const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
+      const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       // console.log('ini error', currentCartItems);
       if (currentCartItems != null) {
         this.getCartItems();
@@ -327,17 +327,17 @@ export default {
       }
     },
     getCartItems() {
-      const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+      const cartItems = JSON.parse(localStorage.getItem("cart_items"));
       this.getItem = cartItems;
     },
     removeItem(index) {
       this.getItem.splice(index, 1);
-      localStorage.setItem("cartItems", JSON.stringify(this.getItem));
-      const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+      localStorage.setItem("cart_items", JSON.stringify(this.getItem));
+      const cartItems = JSON.parse(localStorage.getItem("cart_items"));
 
       if (cartItems.length == 0) {
         this.totalPrice = 0;
-        localStorage.removeItem("cartItems");
+        localStorage.removeItem("cart_items");
       }
 
       this.calculateTotalPrice();
@@ -386,7 +386,7 @@ export default {
       return this.totalPrice;
     },
     removeAll() {
-      localStorage.removeItem("cartItems");
+      localStorage.removeItem("cart_items");
       this.showToastMessage("Item berhasil dihapus dari keranjang!");
       window.location.reload();
     },

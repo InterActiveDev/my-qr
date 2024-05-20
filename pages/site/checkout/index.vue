@@ -14,21 +14,15 @@
           <div class="type-order">
             <span>Jenis Pesanan</span>
 
-            <div class="type-order-data">
+            <div class="type-order-data" v-if="orderTypes">
               <div
                 class="type-order-option"
-                @click="typeOrderSelect(order.name)"
                 v-for="(order, index) in orderTypes"
                 :key="index"
+                @click="typeOrderSelect(order.name)"
               >
-                <h2>{{ order.name }}</h2>
+                <h2>{{order.name}}</h2>
               </div>
-              <!-- <div class="type-order-option" @click="typeOrderSelect('Dine in')" >
-            <h2>Dine in</h2>
-          </div>
-          <div class="type-order-option" @click="typeOrderSelect('Take away')" >
-            <h2>Take away</h2>
-          </div> -->
             </div>
           </div>
 
@@ -42,6 +36,7 @@
 
             <div class="list-item-order">
               <div
+                v-if="products"
                 class="item mb-2"
                 v-for="(items, index) in products"
                 :key="items.uuid"
@@ -269,7 +264,7 @@
                 }}</span>
               </div>
 
-              <div class="detail-item">
+              <div class="detail-item" v-if="roundingType != 'none'">
                 <span class="detail-text">Rounding</span>
 
                 <span class="detail-text">{{ formatCurrency(rounding) }}</span>
@@ -305,9 +300,9 @@
     </div>
 
     <!-- modal select payments -->
-    <dialog id="modalSelectPayments" class="modal">
+    <dialog id="modalSelectPayments" class="modal" style="border: 3px solid #808080">
       <div class="modal-box">
-        <div class="title">Pilih Metode pembayaran</div>
+        <div class="title" >Pilih Metode pembayaran</div>
 
         <div
           v-for="(payment, index) in paymentMethod"
@@ -339,28 +334,6 @@
               <span>{{ payment.payment_method }} </span>
             </div>
           </div>
-          <!-- <div class="item" @click="openModalQrisMethod">
-            <div class="col-1">
-              <img
-                src="~/assets/icons/qris.png"
-                loading="lazy"
-                preload
-                alt=""
-              />
-              <span>QRIS </span>
-            </div>
-          </div>
-          <div class="item" @click="toInputReceipt">
-            <div class="col-1">
-              <img
-                src="~/assets/icons/cash.png"
-                loading="lazy"
-                preload
-                alt=""
-              />
-              <span>Cash </span>
-            </div>
-          </div> -->
         </div>
       </div>
       <form method="dialog" class="modal-backdrop">
@@ -632,10 +605,10 @@
   </dialog>
 
   <!-- input information data -->
-  <dialog id="modalInformationData" class="modal">
+  <dialog id="modalInformationData" class="modal" style="border: 3px solid #808080">
     <div class="modal-box" role="dialog">
       <h3>Isi nama dahulu</h3>
-      <label class="form-control name" v-if="this.selectedOrderType !== 'Take away'">
+      <label class="form-control name" v-if="this.selectedOrderType.code_type !== 1">
         <div class="label">
           <span class="label-text"
             >Nomor Meja <small class="text-error">*</small></span
@@ -646,7 +619,7 @@
           v-model="table"
           placeholder="Masukan nomor meja"
           class="input input-bordered"
-          :autofocus="this.selectedOrderType !== 'Dine in'"
+          :autofocus="this.selectedOrderType.code_type !== 0"
         />
         <span class="text-error text-sm mt-2" v-if="errorsTable !== ''">{{
           errorsTable
@@ -660,7 +633,7 @@
           >
         </div>
         <input
-          v-if="this.selectedOrderType === 'Dine in'"
+          v-if="this.selectedOrderType.code_type === 0"
           type="text"
           v-model="name"
           @input="filterName"
@@ -722,7 +695,10 @@ export default defineComponent({
   },
   data() {
     return {
-      navbarTo: "",
+      navbarTo: "/",
+      name: '',
+      table: '',
+      phone: '',
       showModalPromo: false,
       showModalPromoDetail: false,
       showModalWaiting: false,
@@ -730,7 +706,7 @@ export default defineComponent({
       products: [],
       orderTypes: [],
       promos: [],
-      selectedOrderType: "",
+      selectedOrderType: [],
       subTotal: 0,
       countSubTotal: 0,
       promo: 0,
@@ -783,9 +759,8 @@ export default defineComponent({
   },
   methods: {
     async getList() {
-      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      const data_restaurant =
-        JSON.parse(localStorage.getItem("data_restaurant")) || [];
+      const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
 
       const location = localStorage.getItem("location");
@@ -869,6 +844,10 @@ export default defineComponent({
       if (promoSelected) {
         this.cuponPromo = promoSelected;
       }
+    },
+    filterName(event) {
+      // Filter out non-alphabet characters
+      this.name = event.target.value.replace(/[^a-zA-Z\s]/g, '');
     },
     listPromo() {
       this.showModalPromo = true;
@@ -956,9 +935,9 @@ export default defineComponent({
       this.products.splice(index, 1);
 
       localStorage.setItem("cartItems", JSON.stringify(this.products));
-      const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+      const cartItems = JSON.parse(localStorage.getItem("cart_items"));
       if (cartItems.length == 0) {
-        localStorage.removeItem("cartItems");
+        localStorage.removeItem("cart_items");
         this.$router.push("/home");
       }
 
@@ -1121,18 +1100,14 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       // const token = JSON.parse(this.getCookie("user-data-log")).token;
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer =
-        JSON.parse(localStorage.getItem("data_customer")) || [];
-      const typeOrder = JSON.parse(localStorage.getItem("type_order"));
-      const data_restaurant = JSON.parse(
-        localStorage.getItem("data_restaurant")
-      );
+      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
+      const selectedOrderType = JSON.parse(localStorage.getItem("selected_type_order"));
+      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
       const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
 
       paymentMethod.forEach((element) => {
@@ -1150,14 +1125,14 @@ export default defineComponent({
       const minutes = String(today.getMinutes()).padStart(2, "0");
       const seconds = String(today.getSeconds()).padStart(2, "0");
       const dateYMD = `${year}-${month}-${day}`;
-      const dateYMDHMS = `${year}-${month}-${day}`;
+      const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
       const data = [
         {
           mID: data_restaurant.mID, // kalau pakai qris
           appid: data_restaurant.appid,
           loc_id: locId,
           restaurant_table: "", // checkTable[0].table_id
-          type_order: typeOrder,
+          type_order: selectedOrderType.code_type,
           hl_enable_login: data_restaurant.hl_enable_login,
           data: [],
           payment: {
@@ -1167,8 +1142,7 @@ export default defineComponent({
             stotal: checkoutData[0].subTotal,
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
-            payment_name:
-              this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
+            payment_name: this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
             paymdate: dateYMD,
           },
           guest_detail: {
@@ -1190,26 +1164,40 @@ export default defineComponent({
         },
       ];
 
-      // console.log('data', data);
-      // return null;
-      const url = "/transactions/insert_transaction";
+      checkoutData[0].product.forEach((element, index) => {
+        data[0].data.push({
+          // Access the array within the first object in data array
+          id: element.product.product_id,
+          product_name: element.product.product_name,
+          qty: element.quantityItem,
+          istakeaway: element.istakeaway,
+          price: element.product.product_pricenow,
+          total: element.product.product_pricenow * element.quantityItem,
+          description: element.product.product_description,
+          indx: index + 1,
+          note: element.note,
+        });
+      });
 
-      // FetchData.createData(url, JSON.stringify(data), token)
-      //   .then((result) => {
-      //     if (result && result.data.status === "success") {
-      //       // sukses simpan transaksi
-      //       const data = {
-      //         contents: result.data.result[0],
-      //         nota: result.data.result[0].noNota,
-      //         invoice: result.data.result[0].qrisData.noNota,
-      //         ref: result.data.result[0].qrisData.refNo,
-      //       };
-      //       localStorage.setItem("qrContent", JSON.stringify(data));
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error:", error);
-      //   });
+      // return null;
+      const url = "/qr_myorder/insert_transaction";
+      console.log('data', data[0]); 
+      FetchData.createData(url, data[0])
+        .then((result) => {
+          if (result && result.data.status === "success") {
+            // sukses simpan transaksi
+            const data = {
+              contents: result.data.result[0],
+              nota: result.data.result[0].noNota,
+              invoice: result.data.result[0].qrisData.noNota,
+              ref: result.data.result[0].qrisData.refNo,
+            };
+            localStorage.setItem("qrContent", JSON.stringify(data));
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     },
     openModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");
@@ -1218,6 +1206,7 @@ export default defineComponent({
       modalSelectPayment.close();
     },
     openModalQrisMethod() {
+      console.log('openModalQrisMethod');
       this.showModalWaiting = true;
       this.$nextTick(() => {
         this.sendTransaction();
@@ -1244,6 +1233,8 @@ export default defineComponent({
       } else if (name === "e-money") {
         dataCustomer.paymentMethod = "e-money";
         this.openModalQrisMethod();
+
+
       } else {
         alert("Payment method is not registered.");
       }
@@ -1251,18 +1242,20 @@ export default defineComponent({
       localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
     },
     typeOrderSelect(name) {
-      // Get all elements with the class 'type-order-option'
       const typeOrderOptions = document.querySelectorAll(".type-order-option");
+      let orderTypeData = localStorage.getItem("order_type");
+      const jsonData = JSON.parse(orderTypeData);
 
-      // Loop through each element
       typeOrderOptions.forEach((option) => {
-        // Check if the inner text of the element matches the clicked name
         if (option.querySelector("h2").innerText === name) {
-          // If matched, add 'active' class
           option.classList.add("active");
-          this.selectedOrderType = name;
+
+          const matchedData = jsonData.find(data => data.name.toLowerCase() === name.toLowerCase());
+          this.selectedOrderType = matchedData;
+          localStorage.setItem("selected_type_order", JSON.stringify(matchedData));
+
+          // console.log('matchedData', JSON.stringify(matchedData));
         } else {
-          // If not matched, remove 'active' class
           option.classList.remove("active");
         }
       });
@@ -1320,19 +1313,24 @@ export default defineComponent({
       if (process.client) {
         localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
       }
-
-      if (this.selectedOrderType !== "Dine in") {
+      console.log('this.selectedOrderType.code_type', this.selectedOrderType.code_type);
+      if (this.selectedOrderType.code_type === 0) {
         if (this.table === "" && this.name === "") {
+          console.log('a');
           this.errors = "Isi nama anda dahulu";
           this.errorsTable = "Isi nomor meja dahulu";
         } else if (this.table === "") {
+          console.log('b');
           this.errorsTable = "Isi nomor meja dahulu";
         } else if (this.name === "") {
+          console.log('c');
           this.errors = "Isi nama anda dahulu";
         } else {
+          console.log('d');
           this.openModalPayment();
         }
       } else {
+        console.log('e');
         this.name === ""
           ? (this.errors = "Isi nama anda dahulu")
           : this.openModalPayment();

@@ -477,7 +477,7 @@ export default defineComponent({
                 });
 
               setTimeout(() => {
-                localStorage.removeItem("cartItems");
+                localStorage.removeItem("cart_items");
                 localStorage.removeItem("checkoutData");
                 this.$router.push("/");
                 modalBill.close();
@@ -731,7 +731,7 @@ export default defineComponent({
                 });
 
               setTimeout(() => {
-                localStorage.removeItem("cartItems");
+                localStorage.removeItem("cart_items");
                 localStorage.removeItem("checkoutData");
                 this.$router.push("/");
                 modalBill.close();
@@ -847,7 +847,7 @@ export default defineComponent({
 
               // let modalBill = document.getElementById("modalWaitingBill");
               // modalBill.showModal();
-              localStorage.removeItem("cartItems");
+              localStorage.removeItem("cart_items");
               localStorage.removeItem("checkoutData");
               this.$router.push("/");
               modalBill.close();
@@ -1105,7 +1105,7 @@ export default defineComponent({
 
       console.log("ini sebelum timout bawah print");
       setTimeout(() => {
-        localStorage.removeItem("cartItems");
+        localStorage.removeItem("cart_items");
         localStorage.removeItem("checkoutData");
         console.log("ini print bawah timout");
         this.$router.push("/");

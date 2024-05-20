@@ -54,7 +54,7 @@ export default {
 
       this.navbarTo = "/restaurant/detail/" + location;
       this.timeoutId = setTimeout(() => {
-        localStorage.removeItem("cartItems");
+        localStorage.removeItem("cart_items");
         localStorage.removeItem("type_order");
         localStorage.removeItem("checkoutData");
         localStorage.removeItem("data_customer");

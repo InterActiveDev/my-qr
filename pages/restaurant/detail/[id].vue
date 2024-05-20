@@ -375,7 +375,7 @@ export default defineComponent({
     },
     checkLocalStorage() {
       // Get the current localStorage data
-      const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
+      const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       // Compare with the previously stored data
       if (JSON.stringify(currentCartItems) !== []) {
         // If there's a change, update the data
@@ -396,7 +396,7 @@ export default defineComponent({
     },
     getCartItems() {
       if (process.client) {
-        const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+        const cartItems = JSON.parse(localStorage.getItem("cart_items"));
         if (cartItems) {
           this.showBottomCart = true;
         } else {
