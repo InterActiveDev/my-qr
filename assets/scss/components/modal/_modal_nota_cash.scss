@@ -1,0 +1,144 @@
+@media (min-width: 760px) {
+  #modalNotaCash {
+    .modal-box {
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      padding: 30px;
+      width: 400px;
+      max-width: 400px;
+      height: 300px;
+      max-height: 300px;
+      border-radius: 30px;
+      background: #fff;
+  
+      .description {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        h2 {
+          color: #000;
+          font-size: 16px;
+          text-align: center;
+        }
+  
+        p {
+          color: #000;
+          font-size: 16px;
+          text-align: center;
+  
+          .no-nota {
+            font-weight: 600;
+          }
+        }
+  
+        .btn-primary {
+          width: 100%;
+          background: #da2424;
+          border: none;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 390px) and (max-width: 760px) {
+  #modalNotaCash {
+    .modal-box {
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      padding: 30px;
+      width: 400px;
+      max-width: 400px;
+      height: 300px;
+      max-height: 300px;
+      border-radius: 30px;
+      background: #fff;
+  
+      .description {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        h2 {
+          color: #000;
+          font-size: 16px;
+          text-align: center;
+        }
+  
+        p {
+          color: #000;
+          font-size: 16px;
+          text-align: center;
+  
+          .no-nota {
+            font-weight: 600;
+          }
+        }
+  
+        .btn-primary {
+          width: 100%;
+          background: #da2424;
+          border: none;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+
+@media screen and (min-width: 360px) and (max-width: 390px) {
+  #modalNotaCash {
+    .modal-box {
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      padding: 30px;
+      width: 300px;
+      max-width: 300px;
+      height: 300px;
+      max-height: 300px;
+      border-radius: 30px;
+      background: #fff;
+
+      .description {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        h2 {
+          color: #000;
+          font-size: 16px;
+          text-align: center;
+        }
+
+        p {
+          color: #000;
+          font-size: 16px;
+          text-align: center;
+
+          .no-nota {
+            font-weight: 600;
+          }
+        }
+
+        .btn-primary {
+          width: 100%;
+          background: #da2424;
+          border: none;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

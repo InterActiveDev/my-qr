@@ -841,6 +841,7 @@
         gap: 10px;
         position: sticky;
         bottom: 0;
+        z-index: 999;
         flex: 1 0 0;
 
         .button-cart {
@@ -906,6 +907,7 @@
       height: auto; // 1690px kalau ada 2 opsional slider
       padding: 0;
       overflow-y: auto;
+      z-index: 0;
 
       .head-fix {
         // padding-top: 100px;
@@ -1291,6 +1293,7 @@
         position: sticky;
         bottom: 0;
         flex: 1 0 0;
+        z-index: 999;
 
         .button-cart {
           width: 100%;

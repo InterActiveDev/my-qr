@@ -217,9 +217,9 @@
                 ></span>
               </div>
 
-              <div class="promo-items" v-if="cuponPromo">
+              <div class="promo-items" v-if="selectedPromo != ''">
                 <div class="close-promo">
-                  <span class="promo-text">{{ cuponPromo.description }} </span>
+                  <span class="promo-text">{{ selectedPromo.promo_description }} {{ selectedPromo.disc_type == "%" ?  `(${selectedPromo.disc_amount}%)` : `Rp. ${selectedPromo.disc_amount}` }} </span>
                 </div>
                 <button class="cancel-btn" @click="removePromo()">
                   Batalkan
@@ -236,13 +236,13 @@
                 <span class="detail-text">{{ formatCurrency(subTotal) }}</span>
               </div>
 
-              <div class="detail-item">
+              <div class="detail-item" v-if="promo">
                 <span class="detail-text">Promo</span>
 
-                <span class="detail-text">{{ formatCurrency(promo) }}</span>
+                <span class="detail-text">- {{ formatCurrency(promo) }}</span>
               </div>
 
-              <div class="detail-item">
+              <div class="detail-item" v-if="serviceFee">
                 <span class="detail-text"
                   >{{ serviceFeeName }} ({{ serviceFeePercentage
                   }}{{ serviceFeeType }})</span
@@ -253,7 +253,7 @@
                 }}</span>
               </div>
 
-              <div class="detail-item">
+              <div class="detail-item" v-if="tax">
                 <span class="detail-text"
                   >{{ taxName }} ({{ taxPercentage }}%)</span
                 >
@@ -261,7 +261,7 @@
                 <span class="detail-text">{{ formatCurrency(tax) }}</span>
               </div>
 
-              <div class="detail-item">
+              <div class="detail-item" v-if="deliveryFee">
                 <span class="detail-text">Delivery Cost</span>
 
                 <span class="detail-text">{{
@@ -615,7 +615,7 @@
               <span class="promo-value" v-else>Tidak ada minimal</span>
             </div>
 
-            <button @click="selectPromo(idPromo, prDescription)">Pilih</button>
+            <button @click="selectPromo(idPromo)">Pilih</button>
           </div>
         </div>
         <!-- pass some data to here -->
@@ -773,11 +773,9 @@ export default defineComponent({
       paymentsPromo: [],
       idPromo: "",
       cuponPromo: null,
-      name: "",
-      phone: "",
-      table: "",
-      errors: "",
-      errorsTable: "",
+      discType: "",
+      discAmmount: "",
+      selectedPromo: [],
     };
   },
   async mounted() {
@@ -801,7 +799,8 @@ export default defineComponent({
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
-      this.subTotal = this.calculateTotal(cartItems, data_restaurant);
+      const dataTotal = this.calculateTotal(cartItems, data_restaurant);
+      this.subTotal = dataTotal['totalPrice'];
       this.serviceFeeType = data_restaurant.service_type_val;
       this.taxName = data_restaurant.tax_name;
       this.serviceFeeName = data_restaurant.service_name;
@@ -887,8 +886,7 @@ export default defineComponent({
 
       const data_menu = JSON.parse(localStorage.getItem("data_menu")) || [];
       this.categories = JSON.parse(localStorage.getItem("data_menu")) || [];
-      const payment_methods =
-        JSON.parse(localStorage.getItem("payment_method")) || [];
+      const payment_methods = JSON.parse(localStorage.getItem("payment_method")) || [];
       const paymentIds = foundPromo.paymethod_can.split("|").filter((id) => id);
       this.paymentsPromo = payment_methods.filter((method) =>
         paymentIds.includes(String(method.payment_id))
@@ -936,17 +934,20 @@ export default defineComponent({
       }
       this.filteredPayments = getPayments(payment_methods, paymentIds);
       this.idPromo = foundPromo.promo_id;
-    },
-    selectPromo(id, desc) {
-      this.cuponPromo = {
-        id: id,
-        description: desc,
-      };
 
+      this.discType = foundPromo.disc_type;
+      this.discAmmount = foundPromo.disc_amount;
+    },
+    selectPromo(id) {
+      // edwin
+      this.selectedPromo = this.promos.filter((promo) => promo.promo_id === id)[0];
       this.showModalPromoDetail = false;
+      this.promo = Math.floor((this.subTotal / 100) * this.selectedPromo.disc_amount);
+      console.log('this.promo', this.promo);
+      this.recalculatePayment();
     },
     removePromo() {
-      this.cuponPromo = null;
+      this.selectedPromo = [];
     },
     closePromoDetail() {
       this.showModalPromoDetail = false;
@@ -965,24 +966,46 @@ export default defineComponent({
       this.recalculatePayment();
     },
     calculateTotal(items) {
+      let productIds = "";
+      if(this.selectedPromo != ''){
+        productIds = this.selectedPromo.product_ids
+            .split("|")
+            .filter((id) => id)
+            .map((id) => parseInt(id));
+      }
+
       let totalPrice = 0;
+      let totalPromo = 0;
       items.forEach((item) => {
-        if (
-          item.product &&
-          item.product.product_pricenow &&
-          item.quantityItem
-        ) {
+        if (item.product && item.product.product_pricenow && item.quantityItem) {
           let modifierPrice = item.topping?.price || 0;
-          totalPrice +=
-            (parseFloat(item.product.product_pricenow) + modifierPrice) *
-            item.quantityItem;
+          totalPrice += (parseFloat(item.product.product_pricenow) + modifierPrice) * item.quantityItem;
+
+          // Calculate total promo for items with product_id in productIds
+          if (productIds.includes(item.product.product_id)) {
+            totalPromo += (parseFloat(item.product.product_pricenow) + modifierPrice) * item.quantityItem;
+            console.log('item.product', item.product);
+          }
         }
       });
-      return totalPrice;
+
+
+
+      const data = {
+        totalPrice: totalPrice,
+        totalPromo: totalPromo,
+      }
+
+      return data;
     },
     recalculatePayment() {
       this.countSubTotal = this.products.length;
-      this.subTotal = this.calculateTotal(this.products);
+      const dataTotal = this.calculateTotal(this.products);
+      this.subTotal = dataTotal['totalPrice'];
+
+      if(this.discType != '' && this.discAmmount != ''){
+        // this.promo = (this.subTotal / 100) * this.
+      }
       if (this.dataRestaurant.tax_nominal != null) {
         this.tax = Math.round(
           (this.subTotal * this.dataRestaurant.tax_nominal) / 100
@@ -1001,7 +1024,7 @@ export default defineComponent({
         this.subTotal +
         this.serviceFee +
         this.tax +
-        this.deliveryFee +
+        this.deliveryFee -
         this.promo;
 
       let divided = 0;
@@ -1250,7 +1273,7 @@ export default defineComponent({
     },
     toInputReceipt() {
       // this.sendTransaction();
-      this.$router.push("/receipt");
+      this.$router.push("/site/receipt");
     },
     formatCurrency(amount) {
       const formatter = new Intl.NumberFormat("id-ID", {
