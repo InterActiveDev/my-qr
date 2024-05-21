@@ -13,8 +13,8 @@
             !isIndexOrHomeRoute &&
             !isBackOfficeRoute &&
             !isCheckoutRoute &&
-            !isReceipt && 
-            !isRestaurantDetail
+            !isRestaurantDetail &&
+            !isReceipt 
           "
           :to="to"
           class="text-xl ml-3"
@@ -165,7 +165,7 @@ export default {
       return this.$route.name === "qris";
     },
     isReceipt() {
-      return this.$route.name === "receipt";
+      return this.$route.name === "site-receipt";
     },
     isRestaurantDetail() {
       return this.$route.name === "restaurant-detail-id";
