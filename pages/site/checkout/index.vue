@@ -1208,7 +1208,6 @@ export default defineComponent({
       modalSelectPayment.close();
     },
     openModalQrisMethod() {
-      console.log('openModalQrisMethod');
       this.showModalWaiting = true;
       this.$nextTick(() => {
         this.sendTransaction();
@@ -1310,11 +1309,13 @@ export default defineComponent({
         table: this.table,
         name: this.name,
         phone: this.phone,
+        order_date: new Date(),
       };
 
       if (process.client) {
         localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
       }
+
       if (this.selectedOrderType.code_type === 0) {
         if (this.table === "" && this.name === "") {
           this.errors = "Isi nama anda dahulu";
@@ -1335,10 +1336,3 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped>
-/* CSS for this component */
-/* .loading {
-    width: 100px;
-    color: #da2424;
-  } */
-</style>
