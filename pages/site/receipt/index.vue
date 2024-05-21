@@ -48,7 +48,7 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Kode Transaksi</span>
-                    <span class="detail">{{ transaction.nota }}</span>
+                    <span class="detail">{{ noNota }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
@@ -61,7 +61,7 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Pembayaran</span>
-                    <span class="detail">{{ transaction.contents.paymentMethod }}</span>
+                    <span class="detail">{{ payment }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Status</span>
@@ -250,13 +250,13 @@ export default defineComponent({
         this.locProducts = checkoutData ? JSON.parse(checkoutData) : [];
         this.transaction = transactions ? JSON.parse(transactions) : {};
 
-        this.noNota = JSON.parse(qrContent).nota;
-        this.payment = JSON.parse(qrContent).contents.paymentMethod;
-        this.status = JSON.parse(qrContent).contents.status == 0? "PENDING":"LUNAS";
-
+        this.noNota = JSON.parse(transactions).nota;
+        this.payment = JSON.parse(transactions).contents.paymentMethod;
+        this.status = JSON.parse(transactions).contents.status == 0? "PENDING":"LUNAS";
+        
         if (this.locProducts.length > 0) {
           this.products = this.locProducts[0].product || [];
-        } else {
+        } else { 
           this.products = [];
         }
       }
@@ -271,6 +271,7 @@ export default defineComponent({
     },
     backToHome() {
       localStorage.removeItem("cartItems");
+      localStorage.removeItem("selected_type_order");
       localStorage.removeItem("data_customer");
       localStorage.removeItem("temporary_item_cart");
       localStorage.removeItem("cart_items");
