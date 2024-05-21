@@ -431,7 +431,7 @@ export default {
       this.updateLocalStorage();
     },
     updateLocalStorage() {
-      localStorage.setItem("cartItems", JSON.stringify(this.getItem));
+      localStorage.setItem("cart_items", JSON.stringify(this.getItem));
     },
     showModal() {
       this.getCartItems();
@@ -452,13 +452,13 @@ export default {
     incrementValue(index) {
       this.getItem[index].quantityItem++;
       this.calculateTotalPrice();
-      localStorage.setItem("cartItems", JSON.stringify(this.getItem));
+      localStorage.setItem("cart_items", JSON.stringify(this.getItem));
     },
     decrementValue(index) {
       if (this.getItem[index].quantityItem > 1) {
         this.getItem[index].quantityItem--;
         this.calculateTotalPrice();
-        localStorage.setItem("cartItems", JSON.stringify(this.getItem));
+        localStorage.setItem("cart_items", JSON.stringify(this.getItem));
       } else {
         this.removeItem(index);
       }
