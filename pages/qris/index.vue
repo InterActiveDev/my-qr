@@ -241,7 +241,7 @@ export default defineComponent({
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
       const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
-      const url = "/payment/update_payment";
+      const url = "/qr_myorder/update_payment";
       const data = {
         transaction_id: this.transactionId,
         payment_status: "sudah",
@@ -249,13 +249,12 @@ export default defineComponent({
         payment_date: dateYMD,
         date_process: dateYMDHMS,
       };
-
       this.showModalWaitingQris = true; // to show the modal
 
       FetchData.updateData(url, data)
         .then((res) => {
           clearInterval(this.intervalId);
-          const delcon = localStorage.removeItem("qrContent");
+          localStorage.removeItem("qrContent");
 
           setTimeout(() => {
             this.toInputReceipt();
@@ -283,7 +282,7 @@ export default defineComponent({
       this.generateQRCode(this.link);
     },
     toInputReceipt() {
-      this.$router.push("/receipt");
+      this.$router.push("/site/receipt");
     },
     formatCurrency(amount) {
       const numberValue = parseFloat(amount);

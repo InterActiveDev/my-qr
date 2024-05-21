@@ -86,6 +86,8 @@
 
           .description {
             margin-top: 10px;
+            display: flex;
+            flex-direction: column;
 
             .btn-check {
               width: 100%;
@@ -142,6 +144,17 @@
               font-style: normal;
               font-weight: 500;
               line-height: 150%; /* 48px */
+            }
+
+            .message-error {
+              color: #000;
+              font-family: $font-family;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+              text-align: center;
+              margin-bottom: 5px;
             }
           }
 
@@ -415,6 +428,8 @@
 
           .description {
             margin-top: 10px;
+            display: flex;
+            flex-direction: column;
 
             .btn-check {
               width: 100%;
@@ -745,6 +760,8 @@
 
           .description {
             margin-top: 10px;
+            display: flex;
+            flex-direction: column;
 
             .btn-check {
               width: 100%;

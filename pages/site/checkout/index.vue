@@ -17,9 +17,10 @@
             <div class="type-order-data" v-if="orderTypes">
               <div
                 class="type-order-option"
+                :class="{ active: index === 0 }"
                 v-for="(order, index) in orderTypes"
                 :key="index"
-                @click="typeOrderSelect(order.name)"
+                @click="typeOrderSelect(order.name, order.code_type)"
               >
                 <h2>{{order.name}}</h2>
               </div>
@@ -608,7 +609,7 @@
   <dialog id="modalInformationData" class="modal" style="border: 3px solid #808080">
     <div class="modal-box" role="dialog">
       <h3>Isi nama dahulu</h3>
-      <label class="form-control name" v-if="this.selectedOrderType.code_type !== 1">
+      <div class="form-control name" v-if="this.selectedOrderType.code_type == 0">
         <div class="label">
           <span class="label-text"
             >Nomor Meja <small class="text-error">*</small></span
@@ -621,12 +622,12 @@
           class="input input-bordered"
           :autofocus="this.selectedOrderType.code_type !== 0"
         />
-        <span class="text-error text-sm mt-2" v-if="errorsTable !== ''">{{
-          errorsTable
+        <span class="text-error text-sm mt-2" v-if="this.errorsTable !== ''">{{
+          this.errorsTable
         }}</span>
-      </label>
+      </div>
 
-      <label class="form-control name">
+      <div class="form-control name">
         <div class="label">
           <span class="label-text"
             >Nama <small class="text-error">*</small></span
@@ -653,9 +654,9 @@
         <span class="text-error text-sm mt-2" v-if="errors !== ''">{{
           errors
         }}</span>
-      </label>
+      </div>
 
-      <label class="form-control phone">
+      <div class="form-control phone">
         <div class="label">
           <span class="label-text">Nomor Telepon</span>
         </div>
@@ -665,7 +666,7 @@
           placeholder="08xxxx"
           class="input input-bordered"
         />
-      </label>
+      </div>
 
       <button class="btn-primary" @click="goToReceipt">Mulai Pesan</button>
     </div>
@@ -762,15 +763,16 @@ export default defineComponent({
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
+      let orderTypeData = localStorage.getItem("order_type");
+      localStorage.setItem("selected_type_order", JSON.stringify(JSON.parse(orderTypeData)[0]));
+      this.selectedOrderType = JSON.parse(orderTypeData)[0];
 
       const location = localStorage.getItem("location");
 
       this.navbarTo = "/restaurant/detail/" + location;
 
-      this.paymentMethod =
-        JSON.parse(localStorage.getItem("payment_method")) || [];
-      this.orderTypes =
-        (await JSON.parse(localStorage.getItem("order_type"))) || [];
+      this.paymentMethod = JSON.parse(localStorage.getItem("payment_method")) || [];
+      this.orderTypes = (await JSON.parse(localStorage.getItem("order_type"))) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
@@ -1241,7 +1243,7 @@ export default defineComponent({
 
       localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
     },
-    typeOrderSelect(name) {
+    typeOrderSelect(name, code_type) {
       const typeOrderOptions = document.querySelectorAll(".type-order-option");
       let orderTypeData = localStorage.getItem("order_type");
       const jsonData = JSON.parse(orderTypeData);
@@ -1250,11 +1252,11 @@ export default defineComponent({
         if (option.querySelector("h2").innerText === name) {
           option.classList.add("active");
 
-          const matchedData = jsonData.find(data => data.name.toLowerCase() === name.toLowerCase());
+          const matchedData = jsonData.find(data => data.code_type === code_type);
           this.selectedOrderType = matchedData;
           localStorage.setItem("selected_type_order", JSON.stringify(matchedData));
+          console.log('code_type', code_type);
 
-          // console.log('matchedData', JSON.stringify(matchedData));
         } else {
           option.classList.remove("active");
         }
@@ -1313,24 +1315,18 @@ export default defineComponent({
       if (process.client) {
         localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
       }
-      console.log('this.selectedOrderType.code_type', this.selectedOrderType.code_type);
       if (this.selectedOrderType.code_type === 0) {
         if (this.table === "" && this.name === "") {
-          console.log('a');
           this.errors = "Isi nama anda dahulu";
           this.errorsTable = "Isi nomor meja dahulu";
         } else if (this.table === "") {
-          console.log('b');
           this.errorsTable = "Isi nomor meja dahulu";
         } else if (this.name === "") {
-          console.log('c');
           this.errors = "Isi nama anda dahulu";
         } else {
-          console.log('d');
           this.openModalPayment();
         }
       } else {
-        console.log('e');
         this.name === ""
           ? (this.errors = "Isi nama anda dahulu")
           : this.openModalPayment();
