@@ -48,7 +48,7 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Kode Transaksi</span>
-                    <span class="detail">Faris</span>
+                    <span class="detail">{{ transaction.nota }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
@@ -61,7 +61,7 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Pembayaran</span>
-                    <span class="detail">Faris</span>
+                    <span class="detail">{{ transaction.contents.paymentMethod }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Status</span>
@@ -86,10 +86,10 @@
                       <div class="qty">{{ data.quantityItem }}x</div>
                       <div class="product">
                         <span>{{ data.product.product_name }}</span>
-                        <p v-if="data.product.topping == ''">
-                          - {{ data.product.topping }}
+                        <p>
+                          {{ data.product.topping }}
                         </p>
-                        <p v-if="data.note == ''">
+                        <p>
                           {{ data.note }}
                         </p>
                       </div>
@@ -228,6 +228,7 @@ export default defineComponent({
       typeOrder: {},
       products: [],
       locProducts: {},
+      transaction: {},
     };
   },
   created() {
@@ -240,14 +241,12 @@ export default defineComponent({
         const customerData = localStorage.getItem("data_customer");
         const typeOrderData = localStorage.getItem("selected_type_order");
         const checkoutData = localStorage.getItem("checkoutData");
-
-        console.log("customerData:", customerData);
-        console.log("typeOrderData:", typeOrderData);
-        console.log("checkoutData:", checkoutData);
+        const transactions = localStorage.getItem("qrContent");
 
         this.customer = customerData ? JSON.parse(customerData) : {};
         this.typeOrder = typeOrderData ? JSON.parse(typeOrderData) : {};
         this.locProducts = checkoutData ? JSON.parse(checkoutData) : [];
+        this.transaction = transactions ? JSON.parse(transactions) : {};
 
         if (this.locProducts.length > 0) {
           this.products = this.locProducts[0].product || [];
@@ -522,6 +521,8 @@ export default defineComponent({
     backToHome() {
       localStorage.removeItem("cartItems");
       localStorage.removeItem("data_customer");
+      localStorage.removeItem("temporary_item_cart");
+      localStorage.removeItem("cart_items");
       const location = localStorage.getItem("location");
       const url = "/restaurant/detail/" + location;
       this.$router.push(url);

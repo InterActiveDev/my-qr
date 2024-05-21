@@ -22,7 +22,7 @@
                 :key="index"
                 @click="typeOrderSelect(order.name, order.code_type)"
               >
-                <h2>{{order.name}}</h2>
+                <h2>{{ order.name }}</h2>
               </div>
             </div>
           </div>
@@ -215,7 +215,14 @@
 
               <div class="promo-items" v-if="selectedPromo != ''">
                 <div class="close-promo">
-                  <span class="promo-text">{{ selectedPromo.promo_description }} {{ selectedPromo.disc_type == "%" ?  `(${selectedPromo.disc_amount}%)` : `Rp. ${selectedPromo.disc_amount}` }} </span>
+                  <span class="promo-text"
+                    >{{ selectedPromo.promo_description }}
+                    {{
+                      selectedPromo.disc_type == "%"
+                        ? `(${selectedPromo.disc_amount}%)`
+                        : `Rp. ${selectedPromo.disc_amount}`
+                    }}
+                  </span>
                 </div>
                 <button class="cancel-btn" @click="removePromo()">
                   Batalkan
@@ -301,9 +308,13 @@
     </div>
 
     <!-- modal select payments -->
-    <dialog id="modalSelectPayments" class="modal" style="border: 3px solid #808080">
+    <dialog
+      id="modalSelectPayments"
+      class="modal"
+      style="border: 3px solid #808080"
+    >
       <div class="modal-box">
-        <div class="title" >Pilih Metode pembayaran</div>
+        <div class="title">Pilih Metode pembayaran</div>
 
         <div
           v-for="(payment, index) in paymentMethod"
@@ -606,10 +617,17 @@
   </dialog>
 
   <!-- input information data -->
-  <dialog id="modalInformationData" class="modal" style="border: 3px solid #808080">
+  <dialog
+    id="modalInformationData"
+    class="modal"
+    style="border: 3px solid #808080"
+  >
     <div class="modal-box" role="dialog">
       <h3>Isi nama dahulu</h3>
-      <div class="form-control name" v-if="this.selectedOrderType.code_type == 0">
+      <div
+        class="form-control name"
+        v-if="this.selectedOrderType.code_type == 0"
+      >
         <div class="label">
           <span class="label-text"
             >Nomor Meja <small class="text-error">*</small></span
@@ -699,9 +717,9 @@ export default defineComponent({
       navbarTo: "/",
       errorsTable: "",
       errors: "",
-      name: '',
-      table: '',
-      phone: '',
+      name: "",
+      table: "",
+      phone: "",
       showModalPromo: false,
       showModalPromoDetail: false,
       showModalWaiting: false,
@@ -760,29 +778,35 @@ export default defineComponent({
   async mounted() {
     localStorage.removeItem("qrContent");
     localStorage.removeItem("checkoutData");
-    
+
     await this.getList();
   },
   methods: {
     async getList() {
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
-      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant")) || [];
+      const data_restaurant =
+        JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
       let orderTypeData = localStorage.getItem("order_type");
-      localStorage.setItem("selected_type_order", JSON.stringify(JSON.parse(orderTypeData)[0]));
+      localStorage.setItem(
+        "selected_type_order",
+        JSON.stringify(JSON.parse(orderTypeData)[0])
+      );
       this.selectedOrderType = JSON.parse(orderTypeData)[0];
 
       const location = localStorage.getItem("location");
 
       this.navbarTo = "/restaurant/detail/" + location;
 
-      this.paymentMethod = JSON.parse(localStorage.getItem("payment_method")) || [];
-      this.orderTypes = (await JSON.parse(localStorage.getItem("order_type"))) || [];
+      this.paymentMethod =
+        JSON.parse(localStorage.getItem("payment_method")) || [];
+      this.orderTypes =
+        (await JSON.parse(localStorage.getItem("order_type"))) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
       const dataTotal = this.calculateTotal(cartItems, data_restaurant);
-      this.subTotal = dataTotal['totalPrice'];
+      this.subTotal = dataTotal["totalPrice"];
       this.serviceFeeType = data_restaurant.service_type_val;
       this.taxName = data_restaurant.tax_name;
       this.serviceFeeName = data_restaurant.service_name;
@@ -854,7 +878,7 @@ export default defineComponent({
     },
     filterName(event) {
       // Filter out non-alphabet characters
-      this.name = event.target.value.replace(/[^a-zA-Z\s]/g, '');
+      this.name = event.target.value.replace(/[^a-zA-Z\s]/g, "");
     },
     listPromo() {
       this.showModalPromo = true;
@@ -872,7 +896,8 @@ export default defineComponent({
 
       const data_menu = JSON.parse(localStorage.getItem("data_menu")) || [];
       this.categories = JSON.parse(localStorage.getItem("data_menu")) || [];
-      const payment_methods = JSON.parse(localStorage.getItem("payment_method")) || [];
+      const payment_methods =
+        JSON.parse(localStorage.getItem("payment_method")) || [];
       const paymentIds = foundPromo.paymethod_can.split("|").filter((id) => id);
       this.paymentsPromo = payment_methods.filter((method) =>
         paymentIds.includes(String(method.payment_id))
@@ -926,10 +951,14 @@ export default defineComponent({
     },
     selectPromo(id) {
       // edwin
-      this.selectedPromo = this.promos.filter((promo) => promo.promo_id === id)[0];
+      this.selectedPromo = this.promos.filter(
+        (promo) => promo.promo_id === id
+      )[0];
       this.showModalPromoDetail = false;
-      this.promo = Math.floor((this.subTotal / 100) * this.selectedPromo.disc_amount);
-      console.log('this.promo', this.promo);
+      this.promo = Math.floor(
+        (this.subTotal / 100) * this.selectedPromo.disc_amount
+      );
+      console.log("this.promo", this.promo);
       this.recalculatePayment();
     },
     removePromo() {
@@ -941,11 +970,13 @@ export default defineComponent({
     removeItem(index) {
       this.products.splice(index, 1);
 
-      localStorage.setItem("cartItems", JSON.stringify(this.products));
+      localStorage.setItem("cart_items", JSON.stringify(this.products));
       const cartItems = JSON.parse(localStorage.getItem("cart_items"));
       if (cartItems.length == 0) {
         localStorage.removeItem("cart_items");
-        this.$router.push("/home");
+        const location = localStorage.getItem("location");
+        const url = "/restaurant/detail/" + location;
+        this.$router.push(url);
       }
 
       // Panggil metode untuk menghitung ulang pembayaran
@@ -953,43 +984,49 @@ export default defineComponent({
     },
     calculateTotal(items) {
       let productIds = "";
-      if(this.selectedPromo != ''){
+      if (this.selectedPromo != "") {
         productIds = this.selectedPromo.product_ids
-            .split("|")
-            .filter((id) => id)
-            .map((id) => parseInt(id));
+          .split("|")
+          .filter((id) => id)
+          .map((id) => parseInt(id));
       }
 
       let totalPrice = 0;
       let totalPromo = 0;
       items.forEach((item) => {
-        if (item.product && item.product.product_pricenow && item.quantityItem) {
+        if (
+          item.product &&
+          item.product.product_pricenow &&
+          item.quantityItem
+        ) {
           let modifierPrice = item.topping?.price || 0;
-          totalPrice += (parseFloat(item.product.product_pricenow) + modifierPrice) * item.quantityItem;
+          totalPrice +=
+            (parseFloat(item.product.product_pricenow) + modifierPrice) *
+            item.quantityItem;
 
           // Calculate total promo for items with product_id in productIds
           if (productIds.includes(item.product.product_id)) {
-            totalPromo += (parseFloat(item.product.product_pricenow) + modifierPrice) * item.quantityItem;
-            console.log('item.product', item.product);
+            totalPromo +=
+              (parseFloat(item.product.product_pricenow) + modifierPrice) *
+              item.quantityItem;
+            console.log("item.product", item.product);
           }
         }
       });
 
-
-
       const data = {
         totalPrice: totalPrice,
         totalPromo: totalPromo,
-      }
+      };
 
       return data;
     },
     recalculatePayment() {
       this.countSubTotal = this.products.length;
       const dataTotal = this.calculateTotal(this.products);
-      this.subTotal = dataTotal['totalPrice'];
+      this.subTotal = dataTotal["totalPrice"];
 
-      if(this.discType != '' && this.discAmmount != ''){
+      if (this.discType != "" && this.discAmmount != "") {
         // this.promo = (this.subTotal / 100) * this.
       }
       if (this.dataRestaurant.tax_nominal != null) {
@@ -1107,14 +1144,20 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData =
+        JSON.parse(localStorage.getItem("checkoutData")) || [];
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       // const token = JSON.parse(this.getCookie("user-data-log")).token;
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
-      const selectedOrderType = JSON.parse(localStorage.getItem("selected_type_order"));
-      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+      const dataCustomer =
+        JSON.parse(localStorage.getItem("data_customer")) || [];
+      const selectedOrderType = JSON.parse(
+        localStorage.getItem("selected_type_order")
+      );
+      const data_restaurant = JSON.parse(
+        localStorage.getItem("data_restaurant")
+      );
       const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
 
       paymentMethod.forEach((element) => {
@@ -1149,7 +1192,8 @@ export default defineComponent({
             stotal: checkoutData[0].subTotal,
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
-            payment_name: this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
+            payment_name:
+              this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
             paymdate: dateYMD,
           },
           guest_detail: {
@@ -1235,7 +1279,7 @@ export default defineComponent({
       if (name === "cash") {
         dataCustomer.paymentMethod = "cash";
         this.showModalWaiting = true;
-        
+
         this.$nextTick(() => {
           let modal = document.getElementById("modalWaiting");
           modal.showModal();
@@ -1267,9 +1311,14 @@ export default defineComponent({
         if (option.querySelector("h2").innerText === name) {
           option.classList.add("active");
 
-          const matchedData = jsonData.find(data => data.code_type === code_type);
+          const matchedData = jsonData.find(
+            (data) => data.code_type === code_type
+          );
           this.selectedOrderType = matchedData;
-          localStorage.setItem("selected_type_order", JSON.stringify(matchedData));
+          localStorage.setItem(
+            "selected_type_order",
+            JSON.stringify(matchedData)
+          );
         } else {
           option.classList.remove("active");
         }
@@ -1289,19 +1338,19 @@ export default defineComponent({
     },
     updateQuantity(index, event) {
       this.$set(this.products[index], "quantityItem", event.target.value);
-      localStorage.setItem("cartItems", JSON.stringify(this.products));
+      localStorage.setItem("cart_items", JSON.stringify(this.products));
     },
     incrementValue(index) {
       this.products[index].quantityItem++;
       this.recalculatePayment();
 
-      localStorage.setItem("cartItems", JSON.stringify(this.products));
+      localStorage.setItem("cart_items", JSON.stringify(this.products));
     },
     decrementValue(index) {
       if (this.products[index].quantityItem > 1) {
         this.products[index].quantityItem--;
         this.recalculatePayment();
-        localStorage.setItem("cartItems", JSON.stringify(this.products));
+        localStorage.setItem("cart_items", JSON.stringify(this.products));
       }
     },
     formatDate(dateString) {

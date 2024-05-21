@@ -123,9 +123,13 @@
       </div>
     </section>
 
-    <div class="spacer"></div>
-    <BottomNavCart v-if="showBottomCart" />
-    <Footer />
+    <div class="flex justify-center">
+      <div class="spacer"></div>
+      <BottomNavCart v-if="showBottomCart" />
+    </div>
+    <div class="flex justify-center">
+      <Footer />
+    </div>
   </div>
 </template>
 
