@@ -147,11 +147,22 @@
             }
 
             .message-error {
-              color: #000;
+              color: red;
               font-family: $font-family;
               font-size: 16px;
               font-style: normal;
-              font-weight: 400;
+              font-weight: 500;
+              line-height: normal;
+              text-align: center;
+              margin-bottom: 5px;
+            }
+
+            .message-success {
+              color: rgb(64, 220, 29);
+              font-family: $font-family;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 500;
               line-height: normal;
               text-align: center;
               margin-bottom: 5px;
