@@ -254,7 +254,7 @@ export default defineComponent({
       FetchData.updateData(url, data)
         .then((res) => {
           clearInterval(this.intervalId);
-          localStorage.removeItem("qrContent");
+          // localStorage.removeItem("qrContent");
 
           setTimeout(() => {
             this.toInputReceipt();
