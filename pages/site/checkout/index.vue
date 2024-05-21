@@ -777,8 +777,8 @@ export default defineComponent({
     };
   },
   async mounted() {
-    localStorage.removeItem("qrContent");
-    localStorage.removeItem("checkoutData");
+    // localStorage.removeItem("qrContent");
+    // localStorage.removeItem("checkoutData");
 
     await this.getList();
   },

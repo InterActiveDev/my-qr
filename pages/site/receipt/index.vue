@@ -48,7 +48,7 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Kode Transaksi</span>
-                    <span class="detail">{{ transaction.nota }}</span>
+                    <span class="detail">{{ noNota }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
@@ -61,11 +61,11 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Pembayaran</span>
-                    <span class="detail">{{ transaction.contents.paymentMethod }}</span>
+                    <span class="detail">{{ payment }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Status</span>
-                    <span class="detail">Faris</span>
+                    <span class="detail">{{ status }}</span>
                   </div>
                 </div>
 
@@ -220,6 +220,8 @@ export default defineComponent({
       email: "",
       isAndroid: "",
       noNota: "",
+      status: "",
+      payment: "",
       transID: "",
       buttonClicked: false,
       table: "",
@@ -231,7 +233,7 @@ export default defineComponent({
       transaction: {},
     };
   },
-  created() {
+  mounted() {
     // this.$refs.inputField.focus();
     this.getData();
   },
@@ -248,266 +250,15 @@ export default defineComponent({
         this.locProducts = checkoutData ? JSON.parse(checkoutData) : [];
         this.transaction = transactions ? JSON.parse(transactions) : {};
 
+        this.noNota = JSON.parse(transactions).nota;
+        this.payment = JSON.parse(transactions).contents.paymentMethod;
+        this.status = JSON.parse(transactions).contents.status == 0? "PENDING":"LUNAS";
+        
         if (this.locProducts.length > 0) {
           this.products = this.locProducts[0].product || [];
-        } else {
+        } else { 
           this.products = [];
         }
-      }
-    },
-
-    openModalWaitingBill() {
-      var serviceFee = "";
-      var deliveryFee = "";
-      var promo = "";
-      var subTotal = "";
-      var total = "";
-      let products = [];
-      this.buttonClicked = true; // eed
-      this.table = JSON.parse(localStorage.getItem("data_customer"));
-
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
-      const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
-      const token = JSON.parse(this.getCookie("user-data-log")).token;
-      const location = localStorage.getItem("location");
-      const locId = atob(location);
-      const dataCustomer =
-        JSON.parse(localStorage.getItem("data_customer")) || [];
-
-      //android print
-      this.isAndroid = navigator.userAgent.toLowerCase().includes("android");
-      if (typeof Android !== "undefined") {
-        console.log("print android");
-        const typeOrder = JSON.parse(localStorage.getItem("type_order"));
-        const data_restaurant = JSON.parse(
-          localStorage.getItem("data_restaurant")
-        );
-
-        const paymentMethod = JSON.parse(
-          localStorage.getItem("payment_method")
-        );
-
-        paymentMethod.forEach((element) => {
-          if (this.table.paymentMethod == element.payment_category) {
-            this.nameMethod = element.payment_id;
-          }
-        });
-
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
-        // Retrieve current time
-        const hours = String(today.getHours()).padStart(2, "0");
-        const minutes = String(today.getMinutes()).padStart(2, "0");
-        const seconds = String(today.getSeconds()).padStart(2, "0");
-        const dateYMD = `${year}-${month}-${day}`;
-        const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
-        const data = [
-          {
-            mID: data_restaurant.mID, // kalau pakai qris
-            appid: data_restaurant.appid,
-            loc_id: locId,
-            restaurant_table: dataCustomer.table,
-            type_order: typeOrder,
-            hl_enable_login: data_restaurant.hl_enable_login,
-            data: [],
-            payment: {
-              diskonall: 0,
-              rounding: checkoutData[0].rounding,
-              tax: checkoutData[0].tax,
-              stotal: checkoutData[0].subTotal,
-              gtotal: checkoutData[0].total,
-              payment_method: this.nameMethod, // cash
-              payment_name:
-                this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
-              paymdate: dateYMD,
-            },
-            guest_detail: {
-              guest_name: dataCustomer.name,
-              guest_addr: {
-                idmember: "",
-                address_name: "",
-                is_default: "",
-                dateadd: dateYMDHMS,
-                provinsi: "",
-                kota: "",
-                nama: dataCustomer.name,
-                alamat: "",
-                telp: dataCustomer.phone,
-                latitude: "",
-                longitude: "",
-              },
-            },
-          },
-        ]; // Initialize data as an array
-        checkoutData[0].product.forEach((element, index) => {
-          data[0].data.push({
-            // Access the array within the first object in data array
-            id: element.product.product_id,
-            product_name: element.product.product_name,
-            qty: element.quantityItem,
-            istakeaway: element.istakeaway,
-            price: element.product.product_pricenow,
-            total: element.product.product_pricenow * element.quantityItem,
-            description: element.product.product_description,
-            indx: index + 1,
-            note: element.note,
-          });
-        });
-
-        const url = "/transactions/insert_transaction";
-
-        FetchData.createData(url, JSON.stringify(data), token)
-          .then((result) => {
-            if (result && result.data.status === "success") {
-              // sukses simpan transaksi
-              const noNota = {
-                no_nota: result.data.result[0].noNota,
-              };
-
-              FetchData.syncPos(noNota, token)
-                .then((result) => {
-                  Android.showToast(
-                    result.data.data.orderID,
-                    dateYMDHMS,
-                    dataCustomer.name,
-                    typeOrder.name,
-                    dataCustomer.table,
-                    JSON.stringify(checkoutData[0])
-                  );
-                })
-                .catch((err) => {
-                  console.log("err", err);
-                });
-
-              setTimeout(() => {
-                localStorage.removeItem("cartItems");
-                localStorage.removeItem("checkoutData");
-                this.$router.push("/");
-                modalBill.close();
-              }, 1000);
-
-              let modalBill = document.getElementById("modalWaitingBill");
-              modalBill.showModal();
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      } else {
-        console.log("print windows");
-        const typeOrder = JSON.parse(localStorage.getItem("type_order"));
-        const data_restaurant = JSON.parse(
-          localStorage.getItem("data_restaurant")
-        );
-
-        const paymentMethod = JSON.parse(
-          localStorage.getItem("payment_method")
-        );
-
-        paymentMethod.forEach((element) => {
-          if (this.table.paymentMethod == element.payment_category) {
-            this.nameMethod = element.payment_id;
-          }
-        });
-
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
-        // Retrieve current time
-        const hours = String(today.getHours()).padStart(2, "0");
-        const minutes = String(today.getMinutes()).padStart(2, "0");
-        const seconds = String(today.getSeconds()).padStart(2, "0");
-        const dateYMD = `${year}-${month}-${day}`;
-        const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
-        const data = [
-          {
-            mID: data_restaurant.mID, // kalau pakai qris
-            appid: data_restaurant.appid,
-            loc_id: locId,
-            restaurant_table: dataCustomer.table,
-            type_order: typeOrder,
-            hl_enable_login: data_restaurant.hl_enable_login,
-            data: [],
-            payment: {
-              diskonall: 0,
-              rounding: checkoutData[0].rounding,
-              tax: checkoutData[0].tax,
-              stotal: checkoutData[0].subTotal,
-              gtotal: checkoutData[0].total,
-              payment_method: this.nameMethod, // cash
-              payment_name:
-                this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
-              paymdate: dateYMD,
-            },
-            guest_detail: {
-              guest_name: dataCustomer.name,
-              guest_addr: {
-                idmember: "",
-                address_name: "",
-                is_default: "",
-                dateadd: dateYMDHMS,
-                provinsi: "",
-                kota: "",
-                nama: dataCustomer.name,
-                alamat: "",
-                telp: dataCustomer.phone,
-                latitude: "",
-                longitude: "",
-              },
-            },
-          },
-        ]; // Initialize data as an array
-        checkoutData[0].product.forEach((element, index) => {
-          data[0].data.push({
-            // Access the array within the first object in data array
-            id: element.product.product_id,
-            product_name: element.product.product_name,
-            qty: element.quantityItem,
-            istakeaway: element.istakeaway,
-            price: element.product.product_pricenow,
-            total: element.product.product_pricenow * element.quantityItem,
-            description: element.product.product_description,
-            indx: index + 1,
-            note: element.note,
-          });
-        });
-
-        const url = "/transactions/insert_transaction";
-
-        FetchData.createData(url, JSON.stringify(data), token)
-          .then((result) => {
-            if (result && result.data.status === "success") {
-              // sukses simpan transaksi
-              const noNota = {
-                no_nota: result.data.result[0].noNota,
-              };
-
-              // sync ke POS
-              FetchData.syncPos(noNota, token)
-                .then((result) => {
-                  this.actionPrint(checkoutData[0], result.data.data.orderID);
-                  //  console.log("err1");
-                })
-                .catch((err) => {
-                  console.log("err", err);
-                });
-
-              // let modalBill = document.getElementById("modalWaitingBill");
-              // modalBill.showModal();
-              // this.actionPrint(checkoutData[0], result.data.result[0].noNota);
-              // setTimeout(() => {
-              // }, 1000);
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
       }
     },
     openModalCash() {
@@ -520,6 +271,7 @@ export default defineComponent({
     },
     backToHome() {
       localStorage.removeItem("cartItems");
+      localStorage.removeItem("selected_type_order");
       localStorage.removeItem("data_customer");
       localStorage.removeItem("temporary_item_cart");
       localStorage.removeItem("cart_items");
