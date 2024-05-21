@@ -299,7 +299,7 @@ export default {
         quantityItem: this.quantity,
       };
 
-      let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
 
       const index = cartItems.findIndex(
         (item) => item.product.product_id === newItem.product.product_id

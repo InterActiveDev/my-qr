@@ -37,7 +37,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 100px;
+        margin-top: 75px;
         // margin-bottom: 100px;
 
         .content {
@@ -45,7 +45,7 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          gap: 38px;
+          gap: 5px;
           width: 60%;
 
           img {
@@ -85,6 +85,10 @@
           }
 
           .description {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+
             .btn-check {
               width: 100%;
               padding: 21px 30px;
@@ -119,7 +123,7 @@
               font-weight: 400;
               line-height: normal;
               text-align: center;
-              margin-bottom: 24px;
+              margin-bottom: 5px;
             }
 
             .nmid {
@@ -140,6 +144,28 @@
               font-style: normal;
               font-weight: 500;
               line-height: 150%; /* 48px */
+            }
+
+            .message-error {
+              color: red;
+              font-family: $font-family;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;
+              text-align: center;
+              margin-bottom: 5px;
+            }
+
+            .message-success {
+              color: rgb(64, 220, 29);
+              font-family: $font-family;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;
+              text-align: center;
+              margin-bottom: 5px;
             }
           }
 
@@ -365,14 +391,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 100px;
+        // margin-top: 10px;
 
         .content {
           display: inline-flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          gap: 20px;
+          gap: 12px;
           width: 60%;
 
           img {
@@ -412,6 +438,10 @@
           }
 
           .description {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+
             .btn-check {
               width: 100%;
               padding: 20px;
@@ -657,9 +687,9 @@
   .frame-qris {
     width: 100%;
 
-    // .navbar {
-    //   margin-top: 100px;
-    // }
+    .navbar {
+      margin-top: 100px;
+    }
 
     #qris {
       padding-top: 0px;
@@ -700,7 +730,7 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          gap: 15px;
+          gap: 10px;
           width: 60%;
 
           img {
@@ -740,6 +770,10 @@
           }
 
           .description {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+
             .btn-check {
               width: 100%;
               padding: 10px;

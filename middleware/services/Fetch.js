@@ -10,12 +10,12 @@ const FetchService = {
     return ApiService.get(baseURL+url);
   },
 
-  createData(url, data, token) {
-    return ApiService.post(baseURL+url, data, token);
+  createData(url, data) {
+    return ApiService.post(baseURL+url, data);
   },
 
-  updateData(url, data, token) {
-    return ApiService.patch(baseURL+url, data, token);
+  updateData(url, data) {
+    return ApiService.patch(baseURL+url, data);
   },
 
   deleteData(id) {
@@ -27,10 +27,10 @@ const FetchService = {
     return ApiService.post(baseURL+'/auth/login', data, null);
   },
 
-  syncPos(data, token) {
+  syncPos(data) {
     const urlSync = "https://cloud.interactive.co.id/myprofit/api/myorder_pwa_send_to_myresto"
 
-    return ApiService.post(urlSync, data, token);
+    return ApiService.post(urlSync, data);
   },
 
   synchronize(locId){

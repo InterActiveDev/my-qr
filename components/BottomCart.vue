@@ -123,7 +123,7 @@ export default {
       this.$router.push("/site/checkout");
     },
     getCartItems() {
-      const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+      const cartItems = JSON.parse(localStorage.getItem("cart_items"));
       this.getItem = cartItems;
       this.total();
     },

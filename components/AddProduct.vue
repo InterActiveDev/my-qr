@@ -302,7 +302,7 @@ export default {
         : (this.wrapDefault = false);
     },
     handlePaymentCart() {
-      this.cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      this.cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       let wrapStatus = 0;
 
       if (this.wrap === true) {
@@ -320,7 +320,7 @@ export default {
 
       this.cartItems.push(newItem);
 
-      localStorage.setItem("cartItems", JSON.stringify(this.cartItems));
+      localStorage.setItem("cart_items", JSON.stringify(this.cartItems));
       this.wrap = this.wrapDefault;
 
       this.showModalWaitingProduct = true;

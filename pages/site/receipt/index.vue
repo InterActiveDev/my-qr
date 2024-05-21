@@ -21,22 +21,27 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Pelanggan</span>
-                    <span class="detail">Faris</span>
+                    <span class="detail">{{ customer.name }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Tanggal Order</span>
-                    <span class="detail">Faris</span>
+                    <span class="detail">{{
+                      formatDate(customer.order_date)
+                    }}</span>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="items">
                     <span class="title">Tipe Order</span>
-                    <span class="detail">Dine In</span>
+                    <span class="detail">{{ typeOrder.name }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Meja</span>
-                    <span class="detail">12</span>
+                    <span class="detail" v-if="customer.table !== ''">{{
+                      customer.table
+                    }}</span>
+                    <span class="detail" v-else>-</span>
                   </div>
                 </div>
 
@@ -47,7 +52,9 @@
                   </div>
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
-                    <span class="detail">Faris</span>
+                    <span class="detail">{{
+                      formatDate(customer.order_date)
+                    }}</span>
                   </div>
                 </div>
 
@@ -73,54 +80,65 @@
                   <span>Order Detail</span>
                 </div>
 
-                <div class="row">
+                <div class="row" v-for="(data, index) in products" :key="index">
                   <div class="items">
                     <div class="col-1">
-                      <div class="qty">1x</div>
+                      <div class="qty">{{ data.quantityItem }}x</div>
                       <div class="product">
-                        <span>Ayam Woku</span>
-                        <p>- tingkat kepedasan</p>
-                        <p>sdsdsdsd</p>
+                        <span>{{ data.product.product_name }}</span>
+                        <p v-if="data.product.topping == ''">
+                          - {{ data.product.topping }}
+                        </p>
+                        <p v-if="data.note == ''">
+                          {{ data.note }}
+                        </p>
                       </div>
                     </div>
-                    <div class="col-2">Rp 30.000</div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="items">
-                    <div class="col-1">
-                      <div class="qty">1x</div>
-                      <div class="product">Ayam Woku</div>
+                    <div class="col-2">
+                      {{ formatCurrency(data.product.product_pricenow) }}
                     </div>
-                    <div class="col-2">Rp 30.000</div>
                   </div>
                 </div>
 
-                <div class="total">
-                  <div class="title-total">Total</div>
-                  <div class="price">Rp 60.000</div>
-                </div>
-
-                <div class="total-details">
+                <div
+                  class="total-details"
+                  v-if="locProducts && locProducts.length > 0 && locProducts[0]"
+                >
+                  <div class="total">
+                    <div class="title-total">Total</div>
+                    <div class="price">
+                      {{ formatCurrency(locProducts[0].subTotal) }}
+                    </div>
+                  </div>
                   <div class="row-total">
                     <div class="title-total">Sub Total</div>
-                    <div class="price">Rp 60.000</div>
+                    <div class="price">
+                      {{ formatCurrency(locProducts[0].subTotal) }}
+                    </div>
                   </div>
                   <div class="row-total">
                     <div class="title-total">Promo</div>
-                    <div class="price">-Rp 10.000</div>
+                    <div class="price">
+                      {{ formatCurrency(locProducts[0].promo) }}
+                    </div>
                   </div>
                   <div class="row-total">
                     <div class="title-total">Biaya layanan</div>
-                    <div class="price">Rp 10.000</div>
+                    <div class="price">
+                      {{ formatCurrency(locProducts[0].serviceFee) }}
+                    </div>
                   </div>
                   <div class="row-total">
                     <div class="title-total">Rounding</div>
-                    <div class="price">Rp 10.000</div>
+                    <div class="price">
+                      {{ formatCurrency(locProducts[0].rounding) }}
+                    </div>
                   </div>
                   <div class="row-total">
                     <div class="title-total-bold">Total Semua</div>
-                    <div class="price-bold">Rp 100.000</div>
+                    <div class="price-bold">
+                      {{ formatCurrency(locProducts[0].subTotal) }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -188,6 +206,8 @@ import { defineComponent } from "@vue/composition-api";
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import FetchData from "~/middleware/services/Fetch.js";
+// salestransaction->tanggalPenyerahan
+// salestransaction->tanggalBukaNota
 
 export default defineComponent({
   component: {
@@ -196,20 +216,47 @@ export default defineComponent({
   },
   data() {
     return {
-      navbarTo: "/checkout",
-      email: "", // table 11 // gojek
+      navbarTo: "/site/checkout",
+      email: "",
       isAndroid: "",
       noNota: "",
       transID: "",
       buttonClicked: false,
       table: "",
+      customer: {},
       nameMethod: 0,
+      typeOrder: {},
+      products: [],
+      locProducts: {},
     };
   },
-  mounted() {
+  created() {
     // this.$refs.inputField.focus();
+    this.getData();
   },
   methods: {
+    getData() {
+      if (process.client) {
+        const customerData = localStorage.getItem("data_customer");
+        const typeOrderData = localStorage.getItem("selected_type_order");
+        const checkoutData = localStorage.getItem("checkoutData");
+
+        console.log("customerData:", customerData);
+        console.log("typeOrderData:", typeOrderData);
+        console.log("checkoutData:", checkoutData);
+
+        this.customer = customerData ? JSON.parse(customerData) : {};
+        this.typeOrder = typeOrderData ? JSON.parse(typeOrderData) : {};
+        this.locProducts = checkoutData ? JSON.parse(checkoutData) : [];
+
+        if (this.locProducts.length > 0) {
+          this.products = this.locProducts[0].product || [];
+        } else {
+          this.products = [];
+        }
+      }
+    },
+
     openModalWaitingBill() {
       var serviceFee = "";
       var deliveryFee = "";
@@ -520,6 +567,16 @@ export default defineComponent({
     },
     money(nominal) {
       return nominal.toLocaleString().replace(/,/g, ".");
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const seconds = String(date.getSeconds()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
   },
 });

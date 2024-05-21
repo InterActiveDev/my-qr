@@ -92,7 +92,6 @@
           </dialog>
           <!-- end Modal All Product -->
 
-          <!-- loop -->
           <div v-if="searchQuery == ''">
             <div v-for="perProduct in products" :key="perProduct.category_id">
               <div
@@ -199,7 +198,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 import { defineComponent } from "@vue/composition-api";
 import Navbar from "@/components/Navbar.vue";
 import HomeCarousel from "@/components/HomeCarousel.vue";
@@ -209,8 +208,8 @@ import ProductSliderDouble from "@/components/ProductSliderDouble.vue";
 import Footer from "@/components/Footer.vue";
 import ProductCard from "~/components/ProductCard.vue";
 import BottomNavCart from "@/components/BottomNavCart.vue";
-import { reactive, watch } from "vue";
 import FetchData from "~/middleware/services/Fetch.js";
+import { reactive, watch } from "vue";
 
 export default defineComponent({
   webVitals: {
@@ -253,7 +252,7 @@ export default defineComponent({
     const location = localStorage.getItem("location");
     this.restaurantId = this.$route.params.id;
     const locId = atob(this.restaurantId);
-
+    
     if (location && location != this.restaurantId) {
       console.log("ini refresh data karna lokasi beda");
       await this.starter(locId);
@@ -375,7 +374,7 @@ export default defineComponent({
     },
     checkLocalStorage() {
       // Get the current localStorage data
-      const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
+      const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       // Compare with the previously stored data
       if (JSON.stringify(currentCartItems) !== []) {
         // If there's a change, update the data
@@ -396,7 +395,7 @@ export default defineComponent({
     },
     getCartItems() {
       if (process.client) {
-        const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+        const cartItems = JSON.parse(localStorage.getItem("cart_items"));
         if (cartItems) {
           this.showBottomCart = true;
         } else {
@@ -460,4 +459,5 @@ export default defineComponent({
     },
   },
 });
+
 </script>

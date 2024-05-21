@@ -146,7 +146,7 @@ export default {
     return {
       products: [],
       showBottomCart: false,
-      navbarTo: "",
+      navbarTo: "/",
       showModalCategory: false,
       paramsID: this.$route.params.id,
       categoryName: "",
@@ -168,7 +168,7 @@ export default {
   methods: {
     checkLocalStorage() {
       // Get the current localStorage data
-      const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
+      const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       // Compare with the previously stored data
       if (JSON.stringify(currentCartItems) !== []) {
         // If there's a change, update the data
@@ -178,7 +178,7 @@ export default {
     getCartItems() {
       if (process.client) {
         const location = localStorage.getItem("location");
-        const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+        const cartItems = JSON.parse(localStorage.getItem("cart_items"));
 
         this.navbarTo = "/restaurant/detail/" + location;
         if (cartItems) {

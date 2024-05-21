@@ -98,7 +98,7 @@ export default {
   methods: {
     checkLocalStorage() {
       // Get the current localStorage data
-      const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
+      const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       // Compare with the previously stored data
       if (JSON.stringify(currentCartItems) !== JSON.stringify(this.getItem)) {
         // If there's a change, update the data
@@ -116,7 +116,7 @@ export default {
       this.$router.push("/site/checkout");
     },
     getCartItems() {
-      const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+      const cartItems = JSON.parse(localStorage.getItem("cart_items"));
       this.getItem = cartItems ? cartItems : [];
       this.total();
     },

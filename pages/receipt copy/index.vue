@@ -335,7 +335,7 @@ export default defineComponent({
   },
   data() {
     return {
-      navbarTo: "/site/checkout",
+      navbarTo: "/checkout",
       email: "", // table 11 // gojek
       isAndroid: "",
       noNota: "",
