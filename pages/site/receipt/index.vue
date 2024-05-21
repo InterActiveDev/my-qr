@@ -188,6 +188,8 @@ import { defineComponent } from "@vue/composition-api";
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import FetchData from "~/middleware/services/Fetch.js";
+// salestransaction->tanggalPenyerahan
+// salestransaction->tanggalBukaNota
 
 export default defineComponent({
   component: {

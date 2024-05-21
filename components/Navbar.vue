@@ -7,12 +7,14 @@
           v-if="isIndexRoute || isCheckoutRoute || isReceipt"
         ></div>
         <div class="ml-0" v-if="isQris"></div>
+        <div class="ml-20" v-if="isRestaurantDetail">&nbsp;</div>
         <nuxt-link
           v-if="
             !isIndexOrHomeRoute &&
             !isBackOfficeRoute &&
             !isCheckoutRoute &&
-            !isReceipt
+            !isReceipt && 
+            !isRestaurantDetail
           "
           :to="to"
           class="text-xl ml-3"
@@ -164,6 +166,9 @@ export default {
     },
     isReceipt() {
       return this.$route.name === "receipt";
+    },
+    isRestaurantDetail() {
+      return this.$route.name === "restaurant-detail-id";
     },
     isBackOfficeRoute() {
       return (

@@ -697,6 +697,8 @@ export default defineComponent({
   data() {
     return {
       navbarTo: "/",
+      errorsTable: "",
+      errors: "",
       name: '',
       table: '',
       phone: '',
@@ -756,6 +758,9 @@ export default defineComponent({
     };
   },
   async mounted() {
+    localStorage.removeItem("qrContent");
+    localStorage.removeItem("checkoutData");
+    
     await this.getList();
   },
   methods: {
@@ -1183,7 +1188,6 @@ export default defineComponent({
 
       // return null;
       const url = "/qr_myorder/insert_transaction";
-      console.log('data', data[0]); 
       FetchData.createData(url, data[0])
         .then((result) => {
           if (result && result.data.status === "success") {
@@ -1191,8 +1195,8 @@ export default defineComponent({
             const data = {
               contents: result.data.result[0],
               nota: result.data.result[0].noNota,
-              invoice: result.data.result[0].qrisData.noNota,
-              ref: result.data.result[0].qrisData.refNo,
+              invoice: result.data.result[0].qrisData?.noNota,
+              ref: result.data.result[0].qrisData?.refNo,
             };
             localStorage.setItem("qrContent", JSON.stringify(data));
           }
@@ -1208,7 +1212,6 @@ export default defineComponent({
       modalSelectPayment.close();
     },
     openModalQrisMethod() {
-      console.log('openModalQrisMethod');
       this.showModalWaiting = true;
       this.$nextTick(() => {
         this.sendTransaction();
@@ -1219,24 +1222,36 @@ export default defineComponent({
       const checkQrContent = setInterval(() => {
         const data = JSON.parse(localStorage.getItem("qrContent"));
         if (data) {
-          clearInterval(checkQrContent); // Stop the loop once data is found
+          clearInterval(checkQrContent);
           this.$router.push("/qris");
         }
-      }, 1000); // Check every second
+      }, 1000);
     },
-    openModal(name) {
+    async openModal(name) {
       let dataCustomer = localStorage.getItem("data_customer");
 
       dataCustomer = dataCustomer ? JSON.parse(dataCustomer) : {};
 
       if (name === "cash") {
         dataCustomer.paymentMethod = "cash";
-        this.toInputReceipt();
+        this.showModalWaiting = true;
+        
+        this.$nextTick(() => {
+          let modal = document.getElementById("modalWaiting");
+          modal.showModal();
+          this.sendTransaction();
+
+          const checkQrContent = setInterval(() => {
+            const data = JSON.parse(localStorage.getItem("qrContent"));
+            if (data) {
+              clearInterval(checkQrContent);
+              this.$router.push("/site/receipt");
+            }
+          }, 1000);
+        });
       } else if (name === "e-money") {
         dataCustomer.paymentMethod = "e-money";
         this.openModalQrisMethod();
-
-
       } else {
         alert("Payment method is not registered.");
       }
@@ -1255,8 +1270,6 @@ export default defineComponent({
           const matchedData = jsonData.find(data => data.code_type === code_type);
           this.selectedOrderType = matchedData;
           localStorage.setItem("selected_type_order", JSON.stringify(matchedData));
-          console.log('code_type', code_type);
-
         } else {
           option.classList.remove("active");
         }
@@ -1265,10 +1278,6 @@ export default defineComponent({
     closeModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");
       modalConfirm.close();
-    },
-    toInputReceipt() {
-      // this.sendTransaction();
-      this.$router.push("/site/receipt");
     },
     formatCurrency(amount) {
       const formatter = new Intl.NumberFormat("id-ID", {
