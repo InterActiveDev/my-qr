@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-center">
       <div class="frame-receipt">
-        <Navbar :to="navbarTo" />
+        <Navbar :to="navbarTo" v-if="!isGeneratingPDF" />
         <section id="receipt">
           <div class="wrapper">
             <div class="content">
@@ -144,23 +144,22 @@
               </div>
             </div>
           </div>
-
-          <div class="bottom-nav-receipt">
-            <div class="row-bottom-nav">
-              <button class="btn btn-primary-outline" @click="backToHome">
-                Pesan Lagi
-              </button>
-              <button class="btn btn-primary" @click="openModalCash">
-                Bayar
-              </button>
-            </div>
-            <div class="mt-4" v-if="payment !== 'cash'">
-              <button class="btn btn-primary" @click="backToHome">
-                Download Nota
-              </button>
-            </div>
-          </div>
         </section>
+        <div class="bottom-nav-receipt" v-if="!isGeneratingPDF">
+          <div class="row-bottom-nav">
+            <button class="btn btn-primary-outline" @click="backToHome">
+              Pesan Lagi
+            </button>
+            <button class="btn btn-primary" @click="openModalCash">
+              Bayar
+            </button>
+          </div>
+          <div class="mt-4" v-if="payment !== 'cash'">
+            <button class="btn btn-primary" @click="downloadReceipt">
+              Download Nota
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -210,9 +209,8 @@
 import { defineComponent } from "@vue/composition-api";
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import html2canvas from 'html2canvas';
 import FetchData from "~/middleware/services/Fetch.js";
-// salestransaction->tanggalPenyerahan
-// salestransaction->tanggalBukaNota
 
 export default defineComponent({
   component: {
@@ -236,6 +234,7 @@ export default defineComponent({
       products: [],
       locProducts: {},
       transaction: {},
+      isGeneratingPDF: false,
     };
   },
   mounted() {
@@ -243,6 +242,40 @@ export default defineComponent({
     this.getData();
   },
   methods: {
+    downloadReceipt() {
+      html2canvas(document.getElementById("receipt"), {
+        logging: true,
+        allowTaint: false,
+        useCORS: true,
+      }).then(function (canvas) {
+        var link = document.createElement("a");
+        link.download = 'test.png';
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    },
+    // downloadReceipt() {
+    //   var node = document.getElementById("receipt");
+
+    //   htmlToImage
+    //     .toPng(node)
+    //     .then(function (dataUrl) {
+    //       // var img = new Image();
+    //       // img.src = dataUrl;
+    //       // img.setAttribute('target', '_blank');
+    //       // document.body.appendChild(img);
+    //       // var img = dataUrl.toDataURL("image/png");
+    //     })
+    //     .catch(function (error) {
+    //       console.error("oops, something went wrong!", error);
+    //     });
+    // },
+    downloads(dataUrl, fileName) {
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = fileName;
+      link.click();
+    },
     getData() {
       if (process.client) {
         const customerData = localStorage.getItem("data_customer");
