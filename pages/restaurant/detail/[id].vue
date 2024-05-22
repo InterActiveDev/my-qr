@@ -227,6 +227,7 @@
               </div>
             </div>
           </div>
+          
           <BottomNavCart v-if="showBottomCart" />
         </div>
       </section>

@@ -154,6 +154,11 @@
                 Bayar
               </button>
             </div>
+            <div class="mt-4" v-if="payment !== 'cash'">
+              <button class="btn btn-primary" @click="backToHome">
+                Download Nota
+              </button>
+            </div>
           </div>
         </section>
       </div>
@@ -257,11 +262,12 @@ export default defineComponent({
 
         this.noNota = JSON.parse(transactions).nota;
         this.payment = JSON.parse(transactions).contents.paymentMethod;
-        this.status = JSON.parse(transactions).contents.status == 0? "PENDING":"LUNAS";
-        
+        this.status =
+          JSON.parse(transactions).contents.status == 0 ? "PENDING" : "LUNAS";
+
         if (this.locProducts.length > 0) {
           this.products = this.locProducts[0].product || [];
-        } else { 
+        } else {
           this.products = [];
         }
       }
