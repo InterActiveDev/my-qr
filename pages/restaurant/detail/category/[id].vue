@@ -6,7 +6,12 @@
         <Navbar :to="navbarTo" />
         <!-- carousel -->
         <NuxtLazyHydrate>
-          <HomeCarousel />
+          <div v-if='isSkeleton' class="carousel relative shadow-2xl bg-white" >
+            <div class="carousel-inner relative overflow-hidden w-full">
+                <div class="skeleton animate-pulse w-[480px] h-[200px] bg-gray-400 rounded"></div>
+            </div>
+          </div>
+          <HomeCarousel v-if='!isSkeleton' />
         </NuxtLazyHydrate>
         <!-- end carousel -->
 
@@ -14,7 +19,7 @@
         <div class="sort-item">
           <div class="flex gap-6 btn-group">
             <button class="btn btn-muted" @click="openModalCategory">
-              Kategori Lainya
+              Kategori Lainya 
             </button>
           </div>
           <div class="full">
@@ -44,9 +49,46 @@
         </div>
         <!-- end sort item -->
 
-        <div class="spacer"></div>
+      
 
-        <div class="list-product">
+        <div class="spacer"></div>
+        <div class="list-product" v-if='isSkeleton'>
+          <div class="head">
+            <div class="skeleton animate-pulse w-[43px] h-[43px] bg-gray-400  rounded"></div>
+            <!-- end icon -->
+
+            <span class="skeleton w-60 h-6 bg-gray-400 animate-pulse rounded"></span>
+          </div>
+
+          <div class="product">
+            <div
+              class="product-item"
+              v-for="n in 4" :key="n"
+            >
+              <div class="card bg-base-100 shadow-xl" rel="preload">
+                <figure>
+                  <NuxtLazyHydrate>
+                    <div class="skeleton animate-pulse w-[200px] h-[200px] bg-gray-400 rounded"></div>
+                  </NuxtLazyHydrate>
+                </figure>
+                <div class="card-body">
+                  <div class="card-title">
+                    <span class="skeleton w-[200px] h-4 mt-1 bg-gray-400 animate-pulse rounded"></span>
+                    <p class="skeleton w-[200px] h-4 bg-gray-400 animate-pulse rounded"></p>
+                  </div>
+            
+                  <div class="price">
+                    <span class="skeleton w-[50px] h-4 bg-gray-400 animate-pulse rounded"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+
+        <div class="list-product" v-if='!isSkeleton'>
           <div class="head">
             <!-- icon -->
             <svg
@@ -78,16 +120,17 @@
         </div>
 
         <!-- Modal All Product -->
-        <dialog id="modalAllProduct" class="modal" v-if="showModalCategory">
+        <dialog id="modalAllProduct" class="modal" v-if="showModalCategory" >
           <div class="modal-box">
             <div class="row-item">
               <div
-                class="item"
+                class="item "
                 v-for="(items, index) in category"
                 :key="index"
                 @click="toDetail(items.category_id)"
+                :class="paramsID == items.category_id? 'border-[3px] border-red-400':''"
               >
-                <div class="description">
+                <div class="description cursor-pointer">
                   <span>{{ items.category_name }}</span>
                   <p>
                     Temukan kejutan di setiap promo spesial kami, hanya untuk
@@ -149,6 +192,7 @@ export default {
   data() {
     return {
       products: [],
+      isSkeleton: true,
       showBottomCart: false,
       navbarTo: "/",
       showModalCategory: false,
@@ -160,9 +204,13 @@ export default {
     };
   },
   mounted() {
+    this.isSkeleton = true;
+
     this.getList();
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 1000);
+
+    this.isSkeleton = false;
   },
   created() {
     if (process.client) {
@@ -171,11 +219,11 @@ export default {
   },
   methods: {
     checkLocalStorage() {
-      // Get the current localStorage data
-      const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
-      // Compare with the previously stored data
-      if (JSON.stringify(currentCartItems) !== []) {
-        // If there's a change, update the data
+      // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
+      const currentCartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+
+      // if (JSON.stringify(currentCartItems) !== []) {
+      if (currentCartItems.length !== 0) {
         this.getCartItems();
       }
     },
@@ -225,7 +273,7 @@ export default {
       });
     },
     toDetail(id) {
-      this.$router.push("/home/detail/" + id);
+      this.$router.push("/restaurant/detail/category/" + id);
     },
     closeModalCategory() {
       this.showModalCategory = false;

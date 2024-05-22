@@ -35,14 +35,11 @@
       </div>
 
       <div class="price">
-        <span class="price-fix-dark">{{
-          formatCurrency(product.product_pricenow)
-        }}</span>
-        <!-- <span class="price-discount">{{
-          formatCurrency(product.real_price)
-        }}</span> -->
+        <span class="price-fix-dark text-black">
+          {{ formatCurrency(product.product_pricenow) }}
+        </span>
       </div>
-      <div class="card-actions">
+      <div class="card-actions cursor-pointer">
         <div class="btn-add-cart" @click="addProduct">
           <svg
             xmlns="http://www.w3.org/2000/svg"
