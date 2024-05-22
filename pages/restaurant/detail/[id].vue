@@ -6,7 +6,12 @@
           <!-- carousel -->
           <Navbar :to="navbarTo" />
           <NuxtLazyHydrate>
-            <HomeCarousel />
+            <div v-if='isSkeleton' class="carousel relative shadow-2xl bg-white" >
+              <div class="carousel-inner relative overflow-hidden w-full">
+                  <div class="skeleton animate-pulse w-[480px] h-[200px] bg-gray-400 rounded"></div>
+              </div>
+            </div>
+            <HomeCarousel v-if='!isSkeleton' />
           </NuxtLazyHydrate>
           <!-- end carousel -->
 
@@ -92,8 +97,45 @@
           </dialog>
           <!-- end Modal All Product -->
 
+          <div v-if='isSkeleton'>
+            <div class="spacer"></div>
+            <div class="list-product">
+              <div class="head">
+                <div class="title">
+                  <div class="skeleton animate-pulse w-[43px] h-[43px] bg-gray-400  rounded"></div>
+
+                  <div class="skeleton w-60 h-6 bg-gray-400 animate-pulse rounded"></div>
+                </div>
+
+                <div class="skeleton w-20 h-6 bg-gray-400 animate-pulse rounded"></div>
+              </div>
+
+              <div class="product">
+                <div class="product-item" v-for="n in 4" :key="n">
+                  <div class="card bg-base-100 shadow-xl" rel="preload">
+                    <figure>
+                      <NuxtLazyHydrate>
+                        <div class="skeleton animate-pulse w-[200px] h-[200px] bg-gray-400  rounded"></div>
+                      </NuxtLazyHydrate>
+                    </figure>
+                    <div class="card-body">
+                      <div class="card-title mt-10">
+                        <div class="skeleton w-[200px] h-4 bg-gray-400 animate-pulse rounded"></div>
+                        <div class="skeleton w-[200px] h-4 mt-1 bg-gray-400 animate-pulse rounded"></div>
+                      </div>
+                
+                      <div class="price">
+                        <div class="skeleton w-[50px] h-4 bg-gray-400 animate-pulse rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div v-if="searchQuery == ''">
-            <div v-for="perProduct in products" :key="perProduct.category_id">
+            <div :class="!products? 'hidden':'' " v-for="perProduct in products" :key="perProduct.category_id">
               <div
                 v-if="
                   (perProduct.order_time_start < perProduct.order_time_end &&
@@ -169,6 +211,7 @@
                 </div>
               </div>
             </div>
+          
           </div>
           <div v-else class="else">
             <div class="spacer"></div>
@@ -191,7 +234,7 @@
       <div class="flex justify-center">
         <div class="spacer"></div>
       </div>
-      <div class="flex justify-center">
+      <div class="flex justify-center" :class="showBottomCart == true? 'mb-[65px]':'' ">
         <Footer />
       </div>
     </div>
@@ -230,6 +273,7 @@ export default defineComponent({
   data() {
     return {
       navbarTo: "/",
+      isSkeleton: true,
       showModalCategory: false,
       restaurantId: false,
       products: [],
@@ -248,6 +292,7 @@ export default defineComponent({
   },
   async mounted() {
     // this.getList();
+    this.isSkeleton = true;
     this.loading = false;
     const location = localStorage.getItem("location");
     this.restaurantId = this.$route.params.id;
@@ -290,9 +335,12 @@ export default defineComponent({
       localStorage.removeItem("checkoutData");
     }
 
-    this.getList();
+    await this.getList();
+    this.isSkeleton = false;
   },
   created() {
+    this.isSkeleton = true;
+
     if (process.client) {
       this.getCartItems();
     }

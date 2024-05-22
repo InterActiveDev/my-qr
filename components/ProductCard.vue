@@ -44,7 +44,7 @@
         }}</span> -->
       </div>
 
-      <div class="card-actions">
+      <div class="card-actions cursor-pointer">
         <div class="btn-add-cart"  @click="addProduct(product)">
             <svg
               xmlns="http://www.w3.org/2000/svg"

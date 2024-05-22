@@ -11,20 +11,23 @@
               <div class="description">
                 <span>Details Menu</span>
               </div>
-              <button @click="closeAddProduct">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="36"
-                  viewBox="0 0 36 36"
-                  fill="none"
-                >
-                  <path
-                    d="M18 0.5C8.25 0.5 0.5 8.25 0.5 18C0.5 27.75 8.25 35.5 18 35.5C27.75 35.5 35.5 27.75 35.5 18C35.5 8.25 27.75 0.5 18 0.5ZM24.75 26.75L18 20L11.25 26.75L9.25 24.75L16 18L9.25 11.25L11.25 9.25L18 16L24.75 9.25L26.75 11.25L20 18L26.75 24.75L24.75 26.75Z"
-                    fill="#232323"
-                  />
-                </svg>
-              </button>
+              
+              <form method="dialog">
+                <button @click="closeAddProduct">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                  >
+                    <path
+                      d="M18 0.5C8.25 0.5 0.5 8.25 0.5 18C0.5 27.75 8.25 35.5 18 35.5C27.75 35.5 35.5 27.75 35.5 18C35.5 8.25 27.75 0.5 18 0.5ZM24.75 26.75L18 20L11.25 26.75L9.25 24.75L16 18L9.25 11.25L11.25 9.25L18 16L24.75 9.25L26.75 11.25L20 18L26.75 24.75L24.75 26.75Z"
+                      fill="#232323"
+                    />
+                  </svg>
+                </button>
+              </form>
             </div>
 
             <div class="product-head">
@@ -106,7 +109,7 @@
                 <div class="form-control">
                   <label class="label cursor-pointer">
                     <span
-                      class="label-text text-primary-content text-lg text-black"
+                      class="label-text text-lg text-black"
                       >Bungkus</span
                     >
                     <input
@@ -363,6 +366,7 @@ export default {
       this.$refs.modal.close();
     },
     closeAddProduct() {
+      console.log("close detail product");
       this.quantity = 1;
       let modalAddProduct = document.getElementById("addProduct");
       modalAddProduct.close();
