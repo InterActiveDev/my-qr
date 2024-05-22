@@ -114,7 +114,7 @@
                   <div class="card bg-base-100 shadow-xl" rel="preload">
                     <figure>
                       <NuxtLazyHydrate>
-                        <div class="skeleton animate-pulse w-[200px] h-[200px] bg-gray-400  rounded"></div>
+                        <div class="skeleton animate-pulse w-full h-[200px] bg-gray-400 rounded"></div>
                       </NuxtLazyHydrate>
                     </figure>
                     <div class="card-body">
