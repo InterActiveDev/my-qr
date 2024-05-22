@@ -63,7 +63,7 @@
                   :key="index"
                   @click="toDetail(items.category_id)"
                 >
-                  <div class="description">
+                  <div class="description cursor-pointer">
                     <span>{{ items.category_name }}</span>
                     <p>
                       Temukan kejutan di setiap promo spesial kami, hanya untuk
@@ -103,7 +103,6 @@
               <div class="head">
                 <div class="title">
                   <div class="skeleton animate-pulse w-[43px] h-[43px] bg-gray-400  rounded"></div>
-
                   <div class="skeleton w-60 h-6 bg-gray-400 animate-pulse rounded"></div>
                 </div>
 
@@ -422,11 +421,11 @@ export default defineComponent({
       }
     },
     checkLocalStorage() {
-      // Get the current localStorage data
-      const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
-      // Compare with the previously stored data
-      if (JSON.stringify(currentCartItems) !== []) {
-        // If there's a change, update the data
+      // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
+      const currentCartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+
+      // if (JSON.stringify(currentCartItems) !== []) {
+      if (currentCartItems.length !== 0) {
         this.getCartItems();
       }
     },
