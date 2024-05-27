@@ -26,10 +26,10 @@ const ApiService = {
     return axios.get(resource);
   },
 
-  post(resource, data) {
-    // if (token != null) {
-      // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    // }
+  post(resource, data, token) {
+    if (token != null) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
     if (typeof data == "object") {
       // const newData = JSON.stringify(data);
       return axios.post(resource, data);
