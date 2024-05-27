@@ -311,7 +311,7 @@ export default {
         cartItems.push(newItem);
       }
 
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      localStorage.setItem("cart_items", JSON.stringify(cartItems));
       localStorage.removeItem("temporary_item_cart");
 
       this.showModalWaitingProduct = true;

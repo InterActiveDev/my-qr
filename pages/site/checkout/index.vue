@@ -64,7 +64,13 @@
                         }}
                       </p>
                       <p class="font-grey">
-                        {{ items.note != "" ? "Notes : " + items.note : "" }}
+                        {{
+                          items.note.length > 50
+                            ? "Notes: " + items.note.slice(0, 30) + "..."
+                            : item.note
+                            ? "Notes: " + items.note
+                            : ""
+                        }}
                       </p>
                       <span class="font-bold">
                         {{ items.istakeaway == 1 ? "[ Bungkus ]" : "" }}
@@ -769,7 +775,8 @@ export default defineComponent({
       const tableCode = localStorage.getItem("table_code");
       this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + tableCode;
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
-      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant")) || [];
+      const data_restaurant =
+        JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
       this.tableCode = atob(localStorage.getItem("table_code")) || "";
       let orderTypeData = localStorage.getItem("order_type");
@@ -779,13 +786,15 @@ export default defineComponent({
       );
       this.selectedOrderType = JSON.parse(orderTypeData)[0];
 
-      if(!this.selectedOrderType) {
-        this.$router.push("/restaurant/detail/"+location);
-        return; 
+      if (!this.selectedOrderType) {
+        this.$router.push("/restaurant/detail/" + location);
+        return;
       }
 
-      this.paymentMethod = JSON.parse(localStorage.getItem("payment_method")) || [];
-      this.orderTypes = (await JSON.parse(localStorage.getItem("order_type"))) || [];
+      this.paymentMethod =
+        JSON.parse(localStorage.getItem("payment_method")) || [];
+      this.orderTypes =
+        (await JSON.parse(localStorage.getItem("order_type"))) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
