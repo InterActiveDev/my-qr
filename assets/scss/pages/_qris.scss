@@ -2,10 +2,6 @@
   .frame-qris {
     width: 480px;
 
-    .navbar {
-      margin-top: 100px;
-    }
-
     #qris {
       padding-top: 0px;
       min-height: 100vh;
@@ -91,7 +87,7 @@
 
             .btn-check {
               width: 100%;
-              padding: 21px 30px;
+              padding: 20px;
               height: auto;
               border-radius: 50px;
               background: #da2424;
@@ -355,10 +351,6 @@
 @media screen and (min-width: 390px) and (max-width: 760px) {
   .frame-qris {
     width: 100%;
-
-    .navbar {
-      margin-top: 100px;
-    }
 
     #qris {
       padding-top: 0px;
@@ -686,10 +678,6 @@
 @media screen and (min-width: 360px) and (max-width: 390px) {
   .frame-qris {
     width: 100%;
-
-    .navbar {
-      margin-top: 100px;
-    }
 
     #qris {
       padding-top: 0px;
