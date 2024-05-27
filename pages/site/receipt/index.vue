@@ -53,7 +53,7 @@
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
                     <span class="detail">{{
-                      formatDate(customer.order_date)
+                      formatHours(customer.order_date)
                     }}</span>
                   </div>
                 </div>
@@ -173,7 +173,7 @@
           </h2>
           <p>
             Kode transaksi :
-            <span class="no-nota">HL-3365G- 664AADA07D6FE</span>
+            <span class="no-nota">{{ noNota }}</span>
           </p>
 
           <button class="btn btn-primary" @click="closeModalNotaCash">
@@ -209,7 +209,7 @@
 import { defineComponent } from "@vue/composition-api";
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
-import html2canvas from 'html2canvas';
+import html2canvas from "html2canvas";
 import FetchData from "~/middleware/services/Fetch.js";
 
 export default defineComponent({
@@ -249,7 +249,7 @@ export default defineComponent({
         useCORS: true,
       }).then(function (canvas) {
         var link = document.createElement("a");
-        link.download = 'test.png';
+        link.download = "test.png";
         link.href = canvas.toDataURL("image/png");
         link.click();
       });
@@ -368,7 +368,17 @@ export default defineComponent({
       const hours = String(date.getHours()).padStart(2, "0");
       const minutes = String(date.getMinutes()).padStart(2, "0");
       const seconds = String(date.getSeconds()).padStart(2, "0");
-      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      return `${year}-${month}-${day}`;
+    },
+    formatHours(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const seconds = String(date.getSeconds()).padStart(2, "0");
+      return `${hours}:${minutes}:${seconds}`;
     },
   },
 });

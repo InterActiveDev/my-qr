@@ -64,6 +64,11 @@
 
         .full {
           width: 100%;
+
+          input {
+            background: transparent;
+          }
+
           .input {
             width: 100%;
             border-radius: 10px;
@@ -422,7 +427,6 @@
                     span {
                       color: #fff;
                     }
-
                   }
                 }
               }
@@ -615,6 +619,11 @@
 
         .full {
           width: 100%;
+
+          input {
+            background: transparent;
+          }
+
           .input {
             width: 100%;
             border-radius: 10px;
@@ -826,7 +835,6 @@
                     span {
                       display: none;
                     }
-
                   }
                 }
               }
@@ -1018,6 +1026,11 @@
 
         .full {
           width: 100%;
+
+          input {
+            background: transparent;
+          }
+
           .input {
             width: 100%;
             border-radius: 10px;
@@ -1216,7 +1229,6 @@
                     span {
                       display: none;
                     }
-
                   }
                 }
               }
