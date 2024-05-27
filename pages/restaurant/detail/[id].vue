@@ -16,7 +16,7 @@
           <!-- end carousel -->
 
           <!-- sort item -->
-          <div class="sort-item">
+          <div class="sort-item ">
             <div class="flex gap-6 btn-group">
               <button class="btn btn-primary">
                 Semua Produk
@@ -171,7 +171,7 @@
           </div>
 
           <div v-if="searchQuery == ''">
-            <div :class="!products? 'hidden':'' " v-for="perProduct in products" :key="perProduct.category_id">
+            <div :class="!products || !tableCode? 'hidden':'' "  v-for="perProduct in products" :key="perProduct.category_id">
               <div
                 v-if="
                   (perProduct.order_time_start < perProduct.order_time_end &&
@@ -249,6 +249,7 @@
             </div>
           
           </div>
+
           <div v-else class="else">
             <div class="spacer"></div>
             <div class="list-product">
@@ -323,6 +324,7 @@ export default defineComponent({
       clockNow: null,
       localStorageListener: null,
       loading: true,
+      tableCode: null,
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
     };
@@ -347,8 +349,16 @@ export default defineComponent({
       console.log('Table code exists:', tableCode);
       // Save to local storage
       localStorage.setItem('table_code', tableCode);
+      this.tableCode = tableCode;
     } else {
-      console.log('Table code does not exist');
+      const tableCodeLocal = localStorage.getItem('table_code');
+      if(tableCodeLocal){
+        this.tableCode = tableCodeLocal;
+        console.log('Table code does not exist but local storage is there');
+      }else{
+        console.log('Table code does not exist');
+      }
+
     }
 
     console.log('Table Code on mount:', this.tableCode);

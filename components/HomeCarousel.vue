@@ -10,7 +10,7 @@
       />
 
       <span
-        class="overlay-text-label"
+        class="overlay-text-label" v-if="this.tableCode"
       >
         Table : {{ tableCode }}
       </span>
@@ -57,7 +57,7 @@ export default {
       this.appID = dataRestaurant.appid;
       this.locationName = dataRestaurant.loc_name;
       this.address = dataRestaurant.loc_addr;
-      this.tableCode = atob(localStorage.getItem("table_code")) || "";
+      this.tableCode = localStorage.getItem("table_code")? atob(localStorage.getItem("table_code")) : "";
     },
     startCarousel() {
       this.getData();
