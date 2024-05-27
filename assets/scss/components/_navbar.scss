@@ -1,14 +1,13 @@
 @media (min-width: 760px) {
   .frame {
     display: flex;
-    justify-content: center;
     flex-direction: column;
 
     .navbar {
       background: #fff;
       box-shadow: 0px 1px 40px 0px rgba(0, 0, 0, 0.15);
       position: fixed;
-      height: 100px;
+      height: 50px;
       width: 480px;
 
       .back {
@@ -71,17 +70,16 @@
   }
 }
 
-@media screen and (min-width: 390px) and (max-width: 760px) {
+@media screen and (min-width: 390px) and (max-width: 759px) {
   .frame {
     display: flex;
-    justify-content: center;
     flex-direction: column;
 
     .navbar {
       background: #fff;
       box-shadow: 0px 1px 40px 0px rgba(0, 0, 0, 0.15);
       position: fixed;
-      height: 100px;
+      height: 50px;
       width: 100%;
 
       .back {
@@ -144,17 +142,16 @@
   }
 }
 
-@media screen and (min-width: 360px) and (max-width: 390px) {
+@media screen and (min-width: 360px) and (max-width: 389px) {
   .frame {
     display: flex;
-    justify-content: center;
     flex-direction: column;
 
     .navbar {
       background: #fff;
       box-shadow: 0px 1px 40px 0px rgba(0, 0, 0, 0.15);
       position: fixed;
-      height: 100px;
+      height: 50px;
       width: 100%;
 
       .back {

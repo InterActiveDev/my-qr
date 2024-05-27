@@ -10,6 +10,11 @@
         @error="handleImageError"
       />
 
+      <span
+        class="overlay-text-label"
+      >
+        {{ locationName }}
+      </span>
       <div class="overlay">
         <div class="overlay-logo">
           <img src="~/assets/images/gacoan.png" alt="Logo" />
