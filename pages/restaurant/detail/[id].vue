@@ -8,7 +8,7 @@
           <NuxtLazyHydrate>
             <div v-if='isSkeleton' class="carousel relative shadow-2xl bg-white" >
               <div class="carousel-inner relative overflow-hidden w-full">
-                  <div class="skeleton animate-pulse w-[480px] h-[200px] bg-gray-400 rounded"></div>
+                  <div class="skeleton animate-pulse w-[480px] h-[180px] bg-gray-400 rounded"></div>
               </div>
             </div>
             <HomeCarousel v-if='!isSkeleton' />

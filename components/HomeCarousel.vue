@@ -7,13 +7,12 @@
         format="webp"
         width="1920"
         loading="lazy"
-        @error="handleImageError"
       />
 
       <span
         class="overlay-text-label"
       >
-        {{ locationName }}
+        Table : {{ tableCode }}
       </span>
       <div class="overlay">
         <div class="overlay-logo">
@@ -35,11 +34,12 @@ export default {
       dragging: false,
       carouselInterval: null,
       banner: [],
-      appID: "",
       defaultImage:
         "https://dppkm.umubuton.ac.id/wp-content/uploads/2022/11/Image-Contact-1.jpg",
+      appID: "",
       locationName: "",
       address: "",
+      tableCode: "",
     };
   },
   async mounted() {
@@ -50,14 +50,14 @@ export default {
     clearInterval(this.carouselInterval);
   },
   methods: {
-    getData() {
+    async getData() {
       // Simulate fetching banner data from localStorage
       this.banner = JSON.parse(localStorage.getItem("banner")) || [];
-      const dataRestaurant =
-        JSON.parse(localStorage.getItem("data_restaurant")) || [];
+      const dataRestaurant = JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.appID = dataRestaurant.appid;
       this.locationName = dataRestaurant.loc_name;
       this.address = dataRestaurant.loc_addr;
+      this.tableCode = atob(localStorage.getItem("table_code")) || "";
     },
     startCarousel() {
       this.getData();
