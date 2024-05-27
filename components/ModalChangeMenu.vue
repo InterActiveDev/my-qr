@@ -354,6 +354,7 @@ export default {
       this.$refs.modal.close();
     },
     closeModalChangeMenu() {
+      console.log("change modal menu");
       let modalchangeMenu = document.getElementById("changeMenu");
       localStorage.removeItem("temporary_item_cart");
       this.modalVisible = false;

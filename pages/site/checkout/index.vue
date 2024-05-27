@@ -784,9 +784,10 @@ export default defineComponent({
   },
   methods: {
     async getList() {
+      const location = localStorage.getItem("location");
+      this.navbarTo = "/restaurant/detail/" + location;
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
-      const data_restaurant =
-        JSON.parse(localStorage.getItem("data_restaurant")) || [];
+      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
       let orderTypeData = localStorage.getItem("order_type");
       localStorage.setItem(
@@ -795,14 +796,13 @@ export default defineComponent({
       );
       this.selectedOrderType = JSON.parse(orderTypeData)[0];
 
-      const location = localStorage.getItem("location");
+      if(!this.selectedOrderType) {
+        this.$router.push("/restaurant/detail/"+location);
+        return; 
+      }
 
-      this.navbarTo = "/restaurant/detail/" + location;
-
-      this.paymentMethod =
-        JSON.parse(localStorage.getItem("payment_method")) || [];
-      this.orderTypes =
-        (await JSON.parse(localStorage.getItem("order_type"))) || [];
+      this.paymentMethod = JSON.parse(localStorage.getItem("payment_method")) || [];
+      this.orderTypes = (await JSON.parse(localStorage.getItem("order_type"))) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;

@@ -26,7 +26,7 @@
                   <div class="items">
                     <span class="title">Tanggal Order</span>
                     <span class="detail">{{
-                      formatDate(customer.order_date)
+                      customer.order_date? formatDate(customer.order_date):""
                     }}</span>
                   </div>
                 </div>
@@ -53,7 +53,7 @@
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
                     <span class="detail">{{
-                      formatHours(customer.order_date)
+                      customer.order_date? formatDate(customer.order_date):""
                     }}</span>
                   </div>
                 </div>
@@ -116,19 +116,19 @@
                       {{ formatCurrency(locProducts[0].subTotal) }}
                     </div>
                   </div>
-                  <div class="row-total">
+                  <div class="row-total" v-if="locProducts[0].promo != 0">
                     <div class="title-total">Promo</div>
                     <div class="price">
                       {{ formatCurrency(locProducts[0].promo) }}
                     </div>
                   </div>
-                  <div class="row-total">
+                  <div class="row-total" v-if="locProducts[0].serviceFee != 0">
                     <div class="title-total">Biaya layanan</div>
                     <div class="price">
                       {{ formatCurrency(locProducts[0].serviceFee) }}
                     </div>
                   </div>
-                  <div class="row-total">
+                  <div class="row-total" v-if="locProducts[0].rounding != 0">
                     <div class="title-total">Rounding</div>
                     <div class="price">
                       {{ formatCurrency(locProducts[0].rounding) }}
@@ -237,7 +237,7 @@ export default defineComponent({
       isGeneratingPDF: false,
     };
   },
-  mounted() {
+  async mounted() {
     // this.$refs.inputField.focus();
     this.getData();
   },
@@ -282,6 +282,12 @@ export default defineComponent({
         const typeOrderData = localStorage.getItem("selected_type_order");
         const checkoutData = localStorage.getItem("checkoutData");
         const transactions = localStorage.getItem("qrContent");
+        const location = localStorage.getItem("location");
+        
+        if(!customerData || !typeOrderData || !checkoutData || !transactions){
+          this.$router.push("/restaurant/detail/"+location);
+          return; 
+        }
 
         this.customer = customerData ? JSON.parse(customerData) : {};
         this.typeOrder = typeOrderData ? JSON.parse(typeOrderData) : {};
@@ -301,6 +307,9 @@ export default defineComponent({
       }
     },
     openModalCash() {
+      // edw receipt
+      // Select the element that you want to capture
+      
       let modalBill = document.getElementById("modalNotaCash");
       modalBill.showModal();
     },
