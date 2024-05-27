@@ -16,7 +16,7 @@
         z-index: 1000;
         display: flex;
         width: 100%;
-        padding: 32px 25px;
+        padding: 20px 20px;
         gap: 10px;
         background: #fff;
         margin-top: -6px;
@@ -56,12 +56,17 @@
             // width: 100%;
             // max-width: 202px;
             color: #000;
-            font-size: 18px;
+            font-size: 14px;
           }
         }
 
         .full {
           width: 100%;
+
+          input {
+            background: transparent;
+          }
+
           .input {
             width: 100%;
             border-radius: 10px;
@@ -74,7 +79,7 @@
       }
 
       .list-product {
-        padding: 30px 25px;
+        padding: 20px 20px;
         background-color: #fff;
         gap: 0px;
         margin-top: -6px;
@@ -137,7 +142,7 @@
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              gap: 17px !important;
+              gap: 14px !important;
               flex-shrink: 0;
               background-color: transparent;
               box-shadow: none;
@@ -154,14 +159,12 @@
                 flex-direction: column;
                 align-items: center;
                 padding: 0;
-                gap: 17px;
                 width: 100%;
 
                 .card-title {
                   display: flex;
                   flex-direction: column;
                   align-items: flex-start;
-                  gap: 16px;
                   align-self: stretch;
 
                   span {
@@ -171,7 +174,7 @@
                     white-space: nowrap;
                     font-family: $font-family;
                     font-display: swap;
-                    font-size: 20px;
+                    font-size: 16px;
                     font-style: normal;
                     font-weight: 700;
                     line-height: normal;
@@ -196,7 +199,7 @@
                 .price {
                   display: flex;
                   flex-direction: column;
-                  align-items: flex-end;
+                  align-items: flex-start;
                   gap: 8px;
                   align-self: stretch;
 
@@ -260,7 +263,7 @@
                     .price-fix-dark {
                       overflow: hidden;
                       color: #000;
-                      text-align: right;
+                      text-align: left;
                       text-overflow: ellipsis;
                       white-space: nowrap;
                       font-family: $font-family;
@@ -274,7 +277,7 @@
                     .price-discount {
                       overflow: hidden;
                       color: #000;
-                      text-align: right;
+                      text-align: left;
                       text-overflow: ellipsis;
                       white-space: nowrap;
                       font-family: $font-family;
@@ -289,7 +292,7 @@
                   .price-discount {
                     overflow: hidden;
                     color: #000;
-                    text-align: right;
+                    text-align: left;
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     font-family: $font-family;
@@ -312,6 +315,8 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    color: #fff;
+                    gap: 10px;
                   }
                 }
               }
@@ -385,6 +390,11 @@
 
         .full {
           width: 100%;
+
+          input {
+            background: transparent;
+          }
+
           .input {
             width: 100%;
             border-radius: 10px;
@@ -477,7 +487,7 @@
                 flex-direction: column;
                 align-items: center;
                 padding: 0;
-                gap: 17px;
+                gap: 6px;
                 width: 100%;
 
                 .card-title {
@@ -591,7 +601,7 @@
   }
 }
 
-@media screen and (min-width: 360px) and (max-width: 390px) {
+@media screen and (min-width: 360px) and (max-width: 389px) {
   #detail {
     min-height: 100vh;
     flex-grow: 1;
@@ -607,7 +617,7 @@
         z-index: 1000;
         display: flex;
         width: 100%;
-        padding: 32px 25px;
+        padding: 20px 20px;
         gap: 10px;
         background: #fff;
         margin-top: -6px;
@@ -647,25 +657,30 @@
             // width: 100%;
             // max-width: 202px;
             color: #000;
-            font-size: 18px;
+            font-size: 14px;
           }
         }
 
         .full {
           width: 100%;
+
+          input {
+            background: transparent;
+          }
+
           .input {
             width: 100%;
             border-radius: 10px;
             border: 1px solid #d6d6d6;
             background: #fff;
             box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
-            font-size: 18px;
+            font-size: 14px;
           }
         }
       }
 
       .list-product {
-        padding: 30px 25px;
+        padding: 20px 20px;
         background-color: #fff;
         gap: 0px;
         margin-top: -6px;
@@ -745,7 +760,7 @@
                 flex-direction: column;
                 align-items: center;
                 padding: 0;
-                gap: 17px;
+                gap: 6px;
                 width: 100%;
 
                 .card-title {
