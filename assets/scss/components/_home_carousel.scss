@@ -14,9 +14,20 @@
         object-fit: cover;
       }
 
+      .overlay-text-label {
+        position: absolute;
+        top: 70px;
+        padding: 6px;
+        background-color: black;
+        border-radius: 6px;
+        margin-left: 10px;
+        color: #fd9b27;
+        font-weight: 600;
+      }
+
       .overlay {
         position: absolute;
-        top: 16%;
+        top: 14%;
         left: 50%;
         transform: translate(-50%, -50%);
         display: flex;
@@ -69,6 +80,17 @@
         width: 100%;
         height: 200px;
         object-fit: cover;
+      }
+
+      .overlay-text-label {
+        position: absolute;
+        top: 70px;
+        padding: 6px;
+        background-color: black;
+        border-radius: 6px;
+        margin-left: 10px;
+        color: #fd9b27;
+        font-weight: 600;
       }
 
       .overlay {
@@ -126,6 +148,17 @@
         width: 100%;
         height: 170px;
         object-fit: cover;
+      }
+
+      .overlay-text-label {
+        position: absolute;
+        top: 70px;
+        padding: 6px;
+        background-color: black;
+        border-radius: 6px;
+        margin-left: 10px;
+        color: #fd9b27;
+        font-weight: 600;
       }
 
       .overlay {
