@@ -67,7 +67,7 @@
                         {{
                           items.note.length > 50
                             ? "Notes: " + items.note.slice(0, 30) + "..."
-                            : item.note
+                            : items.note
                             ? "Notes: " + items.note
                             : ""
                         }}
