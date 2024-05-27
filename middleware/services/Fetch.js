@@ -27,10 +27,11 @@ const FetchService = {
     return ApiService.post(baseURL+'/auth/login', data, null);
   },
 
-  syncPos(data) {
+  syncPos(data, token) {
     const urlSync = "https://cloud.interactive.co.id/myprofit/api/myorder_pwa_send_to_myresto"
-
-    return ApiService.post(urlSync, data);
+    console.log(data)
+    console.log(token)
+    return ApiService.post(urlSync, data, token);
   },
 
   synchronize(locId){

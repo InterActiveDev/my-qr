@@ -289,12 +289,15 @@ export default defineComponent({
           return; 
         }
 
+        const tableCode = localStorage.getItem("table_code");
+        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + tableCode;
+
         this.customer = customerData ? JSON.parse(customerData) : {};
         this.typeOrder = typeOrderData ? JSON.parse(typeOrderData) : {};
         this.locProducts = checkoutData ? JSON.parse(checkoutData) : [];
         this.transaction = transactions ? JSON.parse(transactions) : {};
 
-        this.noNota = JSON.parse(transactions).nota;
+        this.noNota = JSON.parse(transactions).noNotaNew;
         this.payment = JSON.parse(transactions).contents.paymentMethod;
         this.status =
           JSON.parse(transactions).contents.status == 0 ? "PENDING" : "LUNAS";
@@ -324,7 +327,9 @@ export default defineComponent({
       localStorage.removeItem("temporary_item_cart");
       localStorage.removeItem("cart_items");
       const location = localStorage.getItem("location");
-      const url = "/restaurant/detail/" + location;
+      const tableCode = localStorage.getItem("table_code");
+      const url = "/restaurant/detail/" + location + "?table_code=" + tableCode;
+
       this.$router.push(url);
     },
     getCookie(name) {

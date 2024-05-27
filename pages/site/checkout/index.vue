@@ -631,27 +631,7 @@
   >
     <div class="modal-box" role="dialog">
       <h3>Isi nama dahulu</h3>
-      <div
-        class="form-control name"
-        v-if="this.selectedOrderType.code_type == 0"
-      >
-        <div class="label">
-          <span class="label-text"
-            >Nomor Meja <small class="text-error">*</small></span
-          >
-        </div>
-        <input
-          type="number"
-          v-model="table"
-          placeholder="Masukan nomor meja"
-          class="input input-bordered"
-          :autofocus="this.selectedOrderType.code_type !== 0"
-        />
-        <span class="text-error text-sm mt-2" v-if="this.errorsTable !== ''">{{
-          this.errorsTable
-        }}</span>
-      </div>
-
+      
       <div class="form-control name">
         <div class="label">
           <span class="label-text"
@@ -726,6 +706,7 @@ export default defineComponent({
       errors: "",
       name: "",
       table: "",
+      tableCode: "",
       phone: "",
       showModalPromo: false,
       showModalPromoDetail: false,
@@ -791,11 +772,13 @@ export default defineComponent({
   methods: {
     async getList() {
       const location = localStorage.getItem("location");
-      this.navbarTo = "/restaurant/detail/" + location;
+      const tableCode = localStorage.getItem("table_code");
+      this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + tableCode;
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
+      this.tableCode = atob(localStorage.getItem("table_code")) || "";
       let orderTypeData = localStorage.getItem("order_type");
       localStorage.setItem(
         "selected_type_order",
@@ -1101,7 +1084,8 @@ export default defineComponent({
     },
     backtoHome() {
       const location = localStorage.getItem("location");
-      this.$router.push("/restaurant/detail/" + location);
+      const tableCode = localStorage.getItem("table_code");
+      this.$router.push("/restaurant/detail/" + location + "?table_code=" + tableCode);
     },
     openModalDataCustomer() {
       let modal = document.getElementById("modalInformationData");
@@ -1154,20 +1138,13 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
-      // const token = JSON.parse(this.getCookie("user-data-log")).token;
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer =
-        JSON.parse(localStorage.getItem("data_customer")) || [];
-      const selectedOrderType = JSON.parse(
-        localStorage.getItem("selected_type_order")
-      );
-      const data_restaurant = JSON.parse(
-        localStorage.getItem("data_restaurant")
-      );
+      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
+      const selectedOrderType = JSON.parse(localStorage.getItem("selected_type_order"));
+      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
       const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
 
       paymentMethod.forEach((element) => {
@@ -1191,7 +1168,7 @@ export default defineComponent({
           mID: data_restaurant.mID, // kalau pakai qris
           appid: data_restaurant.appid,
           loc_id: locId,
-          restaurant_table: "", // checkTable[0].table_id
+          restaurant_table: this.tableCode,
           type_order: selectedOrderType.code_type,
           hl_enable_login: data_restaurant.hl_enable_login,
           data: [],
@@ -1245,14 +1222,33 @@ export default defineComponent({
       FetchData.createData(url, data[0])
         .then((result) => {
           if (result && result.data.status === "success") {
-            // sukses simpan transaksi
-            const data = {
-              contents: result.data.result[0],
-              nota: result.data.result[0].noNota,
-              invoice: result.data.result[0].qrisData?.noNota,
-              ref: result.data.result[0].qrisData?.refNo,
+            const noNota = {
+              no_nota: result.data.result[0].noNota,
             };
-            localStorage.setItem("qrContent", JSON.stringify(data));
+            const token = localStorage.getItem("token");
+
+            const transactionId = result.data.result[0].transactionId;
+            // sync ke POS
+            FetchData.syncPos(noNota, token)
+              .then((resultPos) => {
+                  // get nota
+                  this.steps = "get transactionId";
+                  const getNotaUrl = "/qr_myorder/get_transaction?transactionId="+transactionId;
+                  FetchData.getData(getNotaUrl).then((getNota) => {
+                    // sukses simpan transaksi
+                    const data = {
+                      contents: result.data.result[0],
+                      nota: result.data.result[0].noNota,
+                      noNotaNew: getNota.data.data[0].myresto_ref,
+                      invoice: result.data.result[0].qrisData?.noNota,
+                      ref: result.data.result[0].qrisData?.refNo,
+                    };
+                    localStorage.setItem("qrContent", JSON.stringify(data));
+                  });
+              })
+              .catch((err) => {
+                console.log("err", err);
+              });
           }
         })
         .catch((error) => {
@@ -1374,24 +1370,21 @@ export default defineComponent({
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     goToReceipt() {
+      
       const dataCustomer = {
-        table: this.table,
+        table: this.tableCode,
         name: this.name,
         phone: this.phone,
         order_date: new Date(),
       };
+
 
       if (process.client) {
         localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
       }
 
       if (this.selectedOrderType.code_type === 0) {
-        if (this.table === "" && this.name === "") {
-          this.errors = "Isi nama anda dahulu";
-          this.errorsTable = "Isi nomor meja dahulu";
-        } else if (this.table === "") {
-          this.errorsTable = "Isi nomor meja dahulu";
-        } else if (this.name === "") {
+        if (this.name === "") {
           this.errors = "Isi nama anda dahulu";
         } else {
           this.openModalPayment();
