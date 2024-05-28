@@ -2,7 +2,7 @@
   <div @touchstart="resetTimer">
     <div>
       <section id="home">
-        <div class="frame">
+        <div class="frame" :class="!products || !tableCode? 'hidden':'' ">
           <!-- carousel -->
           <Navbar :to="navbarTo" />
           <NuxtLazyHydrate>
@@ -21,10 +21,10 @@
           <!-- end carousel -->
 
           <!-- sort item -->
-          <div class="sort-item ">
+          <div class="sort-item " v-if="products && isErrorUrl == false">
             <div class="flex gap-6 btn-group">
               <button class="btn btn-primary">
-                Semua Produk
+                Semua Produk 
                 <div class="badge">{{ countProduct }}</div>
               </button>
               <button class="btn btn-muted" @click="openModalCategory">
@@ -55,6 +55,11 @@
                 </svg>
               </label>
             </div>
+          </div>
+
+          
+          <div :class="isHidden" >
+            <NotFound />
           </div>
           <!-- end sort item -->
 
@@ -187,8 +192,8 @@
             </div>
           </div>
 
-          <div v-if="searchQuery == ''">
-            <div :class="!products || !tableCode? 'hidden':'' "  v-for="perProduct in products" :key="perProduct.category_id">
+          <div v-if="searchQuery == '' && isErrorUrl == false">
+            <div :class="!products || tableCode==null? 'hidden':'' " v-for="perProduct in products" :key="perProduct.category_id">
               <div
                 v-if="
                   (perProduct.order_time_start < perProduct.order_time_end &&
@@ -266,7 +271,7 @@
             </div>
           </div>
 
-          <div v-else class="else">
+          <div v-else class="else" :class="!isErrorUrl? '':'hidden' ">
             <div class="spacer"></div>
             <div class="list-product">
               <div class="product">
@@ -282,6 +287,7 @@
           </div>
 
           <BottomNavCart v-if="showBottomCart" />
+        
         </div>
       </section>
 
@@ -302,6 +308,7 @@
 import { defineComponent } from "@vue/composition-api";
 import Navbar from "@/components/Navbar.vue";
 import HomeCarousel from "@/components/HomeCarousel.vue";
+import NotFound from "@/components/NotFound.vue";
 import HotOfferSlider from "@/components/HotOfferSlider.vue";
 import ProductSlider from "@/components/ProductSlider.vue";
 import ProductSliderDouble from "@/components/ProductSliderDouble.vue";
@@ -330,6 +337,10 @@ export default defineComponent({
   data() {
     return {
       navbarTo: "/",
+      isHidden: 'hidden',
+      isUseTable: false,
+      isErrorUrl: false,
+      isShow: '',
       isSkeleton: true,
       showModalCategory: false,
       restaurantId: false,
@@ -349,7 +360,7 @@ export default defineComponent({
     };
   },
   async mounted() {
-    // this.getList();
+    console.log('mounted')
     this.isSkeleton = true;
     this.loading = false;
     const location = localStorage.getItem("location");
@@ -361,26 +372,55 @@ export default defineComponent({
       await this.starter(locId);
     }
     const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+    const use_table = JSON.parse(localStorage.getItem("use_table"));
     const data_menu = JSON.parse(localStorage.getItem("data_menu"));
 
     const tableCode = this.$route.query.table_code;
     if (tableCode) {
-      console.log("Table code exists:", tableCode);
-      // Save to local storage
       localStorage.setItem('table_code', tableCode);
       this.tableCode = tableCode;
     } else {
       const tableCodeLocal = localStorage.getItem('table_code');
       if(tableCodeLocal){
         this.tableCode = tableCodeLocal;
-        console.log('Table code does not exist but local storage is there');
       }else{
-        console.log('Table code does not exist');
+        this.isHidden = '';
       }
-
     }
 
-    console.log("Table Code on mount:", this.tableCode);
+    if(use_table == 0){
+      // both
+      if(tableCode){
+        this.isUseTable = true;
+      }else{
+        this.isErrorUrl = false;
+        this.isHidden = true;
+      }
+    }else if(use_table == 1){
+      // with
+      if(tableCode){
+        this.isUseTable = true;
+      }else{
+        this.isErrorUrl = true;
+        this.isHidden = false;
+      }
+    }else if(use_table == 2){
+      // without
+      if(tableCode){
+        this.isUseTable = false;
+      }else{
+        this.isErrorUrl = false;
+        this.isHidden = true;
+      }
+    }else{
+      // both
+      if(tableCode){
+        this.isUseTable = true;
+      }else{
+        this.isErrorUrl = false;
+        this.isHidden = true;
+      }
+    }
 
     // cek update data
     const urlCheckUpdate = "/qr_myorder/check_update?loc=" + locId;
@@ -419,7 +459,12 @@ export default defineComponent({
     }
   },
   created() {
+    // this.tableCode = null;
     this.isSkeleton = true;    
+    console.log('created')
+  },
+  beforeCreate() {
+    console.log('beforeCreate')    
   },
   methods: {
     async starter(locId) {
@@ -431,6 +476,7 @@ export default defineComponent({
         localStorage.removeItem("data_customer");
         localStorage.removeItem("cart_items");
         localStorage.removeItem("selected_type_order");
+        localStorage.removeItem("table_code");
 
         // set detail restaurant
         this.steps = "get restaurant detail";
@@ -438,10 +484,12 @@ export default defineComponent({
           "/qr_myorder/get_restaurant_detail?loc=" + locId;
         const restaurant = await FetchData.getData(urlGetRestoDetail);
         const appid = restaurant.data.data[0].appid;
-        localStorage.setItem(
-          "data_restaurant",
-          JSON.stringify(restaurant.data.data[0])
-        );
+        localStorage.setItem("data_restaurant", JSON.stringify(restaurant.data.data[0]));
+        localStorage.setItem("use_table", JSON.stringify(restaurant.data.data[0].use_table));
+
+        // use_myorder_link_table = '0' = 'both'
+        // use_myorder_link_table = '1' = 'with'
+        // use_myorder_link_table = '2' = 'without'
 
         // generate token
         this.steps = "generate token";
