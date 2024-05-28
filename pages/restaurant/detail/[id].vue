@@ -394,7 +394,7 @@ export default defineComponent({
         this.isUseTable = true;
       }else{
         this.isErrorUrl = false;
-        this.isHidden = true;
+        this.isHidden = 'hidden';
       }
     }else if(use_table == 1){
       // with
@@ -402,7 +402,7 @@ export default defineComponent({
         this.isUseTable = true;
       }else{
         this.isErrorUrl = true;
-        this.isHidden = false;
+        this.isHidden = '';
       }
     }else if(use_table == 2){
       // without
@@ -410,7 +410,7 @@ export default defineComponent({
         this.isUseTable = false;
       }else{
         this.isErrorUrl = false;
-        this.isHidden = true;
+        this.isHidden = 'hidden';
       }
     }else{
       // both
