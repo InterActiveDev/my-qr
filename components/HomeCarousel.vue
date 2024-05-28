@@ -10,13 +10,13 @@
       />
 
       <span
-        class="overlay-text-label"
+        class="overlay-text-label" v-if="this.tableCode"
       >
         Table : {{ tableCode }}
       </span>
       <div class="overlay">
         <div class="overlay-logo">
-          <img src="~/assets/images/gacoan.png" alt="Logo" />
+          <img :src="logo" alt="Logo" />
         </div>
         <!-- atau untuk teks -->
         <span class="overlay-text">{{ locationName }}</span>
@@ -40,6 +40,7 @@ export default {
       locationName: "",
       address: "",
       tableCode: "",
+      logo: "",
     };
   },
   async mounted() {
@@ -58,6 +59,7 @@ export default {
       this.locationName = dataRestaurant.loc_name;
       this.address = dataRestaurant.loc_addr;
       this.tableCode = atob(localStorage.getItem("table_code")) || "";
+      this.logo = dataRestaurant.loc_logo;
     },
     startCarousel() {
       this.getData();

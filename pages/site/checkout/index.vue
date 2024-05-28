@@ -67,7 +67,7 @@
                         {{
                           items.note.length > 50
                             ? "Notes: " + items.note.slice(0, 30) + "..."
-                            : item.note
+                            : items.note
                             ? "Notes: " + items.note
                             : ""
                         }}
@@ -128,6 +128,30 @@
                             </svg>
                           </button>
                         </div>
+                      </div>
+
+                      <div class="btn-edit" @click="handleMenuChange(items)">
+                        <button>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                          >
+                            <g
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"
+                              />
+                              <path d="m14.5 6.5l3 3" />
+                            </g>
+                          </svg>
+                        </button>
                       </div>
 
                       <div>
@@ -623,6 +647,12 @@
     </div>
   </dialog>
 
+  <ModalChangeMenu
+    v-if="showModalChangeMenu"
+    :getProduct="changeItem"
+    ref="modalComponent"
+  />
+
   <!-- input information data -->
   <dialog
     id="modalInformationData"
@@ -631,7 +661,7 @@
   >
     <div class="modal-box" role="dialog">
       <h3>Isi nama dahulu</h3>
-      
+
       <div class="form-control name">
         <div class="label">
           <span class="label-text"
@@ -689,6 +719,7 @@ import ProductSlider from "@/components/ProductSlider.vue";
 import ProductSliderDouble from "@/components/ProductSliderDouble.vue";
 import Footer from "@/components/Footer.vue";
 import FetchData from "~/middleware/services/Fetch.js";
+import ModalChangeMenu from "@/components/ModalChangeMenu.vue";
 import QRCode from "qrcode";
 
 export default defineComponent({
@@ -698,6 +729,7 @@ export default defineComponent({
     ProductSlider,
     ProductSliderDouble,
     Footer,
+    ModalChangeMenu,
   },
   data() {
     return {
@@ -761,19 +793,37 @@ export default defineComponent({
       discType: "",
       discAmmount: "",
       selectedPromo: [],
+      showModalChangeMenu: false,
     };
   },
   async mounted() {
     // localStorage.removeItem("qrContent");
     // localStorage.removeItem("checkoutData");
-
     await this.getList();
+    this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
+  },
+  // created() {
+  // },
+  beforeDestroy() {
+    // Clear the interval timer when the component is destroyed
+    clearInterval(this.localStorageTimer);
   },
   methods: {
+    checkLocalStorage() {
+      // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
+      const currentCartItems =
+        JSON.parse(localStorage.getItem("cart_items")) || [];
+
+      // if (JSON.stringify(currentCartItems) !== []) {
+      if (currentCartItems.length !== 0) {
+        this.getList();
+      }
+    },
     async getList() {
       const location = localStorage.getItem("location");
       const tableCode = localStorage.getItem("table_code");
-      this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + tableCode;
+      this.navbarTo =
+        "/restaurant/detail/" + location + "?table_code=" + tableCode;
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
@@ -1085,7 +1135,9 @@ export default defineComponent({
     backtoHome() {
       const location = localStorage.getItem("location");
       const tableCode = localStorage.getItem("table_code");
-      this.$router.push("/restaurant/detail/" + location + "?table_code=" + tableCode);
+      this.$router.push(
+        "/restaurant/detail/" + location + "?table_code=" + tableCode
+      );
     },
     openModalDataCustomer() {
       let modal = document.getElementById("modalInformationData");
@@ -1138,13 +1190,19 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData =
+        JSON.parse(localStorage.getItem("checkoutData")) || [];
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
-      const selectedOrderType = JSON.parse(localStorage.getItem("selected_type_order"));
-      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+      const dataCustomer =
+        JSON.parse(localStorage.getItem("data_customer")) || [];
+      const selectedOrderType = JSON.parse(
+        localStorage.getItem("selected_type_order")
+      );
+      const data_restaurant = JSON.parse(
+        localStorage.getItem("data_restaurant")
+      );
       const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
 
       paymentMethod.forEach((element) => {
@@ -1231,20 +1289,21 @@ export default defineComponent({
             // sync ke POS
             FetchData.syncPos(noNota, token)
               .then((resultPos) => {
-                  // get nota
-                  this.steps = "get transactionId";
-                  const getNotaUrl = "/qr_myorder/get_transaction?transactionId="+transactionId;
-                  FetchData.getData(getNotaUrl).then((getNota) => {
-                    // sukses simpan transaksi
-                    const data = {
-                      contents: result.data.result[0],
-                      nota: result.data.result[0].noNota,
-                      noNotaNew: getNota.data.data[0].myresto_ref,
-                      invoice: result.data.result[0].qrisData?.noNota,
-                      ref: result.data.result[0].qrisData?.refNo,
-                    };
-                    localStorage.setItem("qrContent", JSON.stringify(data));
-                  });
+                // get nota
+                this.steps = "get transactionId";
+                const getNotaUrl =
+                  "/qr_myorder/get_transaction?transactionId=" + transactionId;
+                FetchData.getData(getNotaUrl).then((getNota) => {
+                  // sukses simpan transaksi
+                  const data = {
+                    contents: result.data.result[0],
+                    nota: result.data.result[0].noNota,
+                    noNotaNew: getNota.data.data[0].myresto_ref,
+                    invoice: result.data.result[0].qrisData?.noNota,
+                    ref: result.data.result[0].qrisData?.refNo,
+                  };
+                  localStorage.setItem("qrContent", JSON.stringify(data));
+                });
               })
               .catch((err) => {
                 console.log("err", err);
@@ -1370,14 +1429,12 @@ export default defineComponent({
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     goToReceipt() {
-      
       const dataCustomer = {
         table: this.tableCode,
         name: this.name,
         phone: this.phone,
         order_date: new Date(),
       };
-
 
       if (process.client) {
         localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
@@ -1394,6 +1451,17 @@ export default defineComponent({
           ? (this.errors = "Isi nama anda dahulu")
           : this.openModalPayment();
       }
+    },
+    handleMenuChange(item) {
+      localStorage.setItem("temporary_item_cart", JSON.stringify(item));
+      // this.changeMenuState(item); // Panggil fungsi yang sesuai
+      this.showModalChangeMenu = true;
+      this.$nextTick(() => {
+        if (this.$refs.modalComponent) {
+          this.$refs.modalComponent.showModal(this.changeMenuState); // Perubahan disini juga
+        }
+      });
+      this.$refs.modalComponent.close();
     },
   },
 });
