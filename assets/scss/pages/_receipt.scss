@@ -28,7 +28,7 @@
           .head {
             display: flex;
             flex-direction: column;
-            gap: 50px;
+            gap: 20px;
             border-bottom: 1px solid #c7c7c7;
             padding-bottom: 20px;
             width: 100%;
@@ -259,7 +259,7 @@
   }
 }
 
-@media screen and (min-width: 390px) and (max-width: 760px) {
+@media screen and (min-width: 390px) and (max-width: 759px) {
   .frame-receipt {
 
     #receipt {
@@ -288,7 +288,7 @@
           .head {
             display: flex;
             flex-direction: column;
-            gap: 50px;
+            gap: 20px;
             border-bottom: 1px solid #c7c7c7;
             padding-bottom: 20px;
             width: 100%;
@@ -519,7 +519,7 @@
   }
 }
 
-@media screen and (min-width: 360px) and (max-width: 390px) {
+@media screen and (min-width: 360px) and (max-width: 389px) {
   .frame-receipt {
 
     #receipt {
@@ -548,7 +548,7 @@
           .head {
             display: flex;
             flex-direction: column;
-            gap: 50px;
+            gap: 20px;
             border-bottom: 1px solid #c7c7c7;
             padding-bottom: 20px;
             width: 100%;

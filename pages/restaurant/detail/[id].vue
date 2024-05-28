@@ -21,7 +21,7 @@
           <!-- end carousel -->
 
           <!-- sort item -->
-          <div class="sort-item ">
+          <div class="sort-item">
             <div class="flex gap-6 btn-group">
               <button class="btn btn-primary">
                 Semua Produk
@@ -188,7 +188,11 @@
           </div>
 
           <div v-if="searchQuery == ''">
-            <div :class="!products || !tableCode? 'hidden':'' "  v-for="perProduct in products" :key="perProduct.category_id">
+            <div
+              :class="!products ? 'hidden' : ''"
+              v-for="perProduct in products"
+              :key="perProduct.category_id"
+            >
               <div
                 v-if="
                   (perProduct.order_time_start < perProduct.order_time_end &&
@@ -367,17 +371,16 @@ export default defineComponent({
     if (tableCode) {
       console.log("Table code exists:", tableCode);
       // Save to local storage
-      localStorage.setItem('table_code', tableCode);
+      localStorage.setItem("table_code", tableCode);
       this.tableCode = tableCode;
     } else {
-      const tableCodeLocal = localStorage.getItem('table_code');
-      if(tableCodeLocal){
+      const tableCodeLocal = localStorage.getItem("table_code");
+      if (tableCodeLocal) {
         this.tableCode = tableCodeLocal;
-        console.log('Table code does not exist but local storage is there');
-      }else{
-        console.log('Table code does not exist');
+        console.log("Table code does not exist but local storage is there");
+      } else {
+        console.log("Table code does not exist");
       }
-
     }
 
     console.log("Table Code on mount:", this.tableCode);
@@ -406,6 +409,7 @@ export default defineComponent({
     }
 
     this.getListCategory();
+    this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
     if (process.client) {
       localStorage.removeItem("qrContent");
       localStorage.removeItem("checkoutData");
@@ -419,7 +423,11 @@ export default defineComponent({
     }
   },
   created() {
-    this.isSkeleton = true;    
+    this.isSkeleton = true;
+  },
+  beforeDestroy() {
+    // Clear the interval timer when the component is destroyed
+    clearInterval(this.localStorageTimer);
   },
   methods: {
     async starter(locId) {

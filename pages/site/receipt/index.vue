@@ -8,12 +8,12 @@
             <div class="content">
               <div class="head">
                 <div class="logo">
-                  <img src="~/assets/images/gacoan.png" alt="" />
+                  <img :src="restaurant.loc_logo" alt="" />
                 </div>
 
                 <div class="title">
-                  <span>GACOAN</span>
-                  <p>Jl. Ambengan No 85</p>
+                  <span>{{restaurant.loc_name}}</span>
+                  <p>{{ restaurant.loc_addr }}</p>
                 </div>
               </div>
 
@@ -235,6 +235,7 @@ export default defineComponent({
       locProducts: {},
       transaction: {},
       isGeneratingPDF: false,
+      restaurant: {},
     };
   },
   async mounted() {
@@ -243,33 +244,21 @@ export default defineComponent({
   },
   methods: {
     downloadReceipt() {
+      const dataRestaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+      const dataCustomer = JSON.parse(localStorage.getItem("data_customer"));
+      const date = this.formatDate(this.customer.order_date);
+      const filename = dataRestaurant.loc_name + "-" + dataCustomer.name + "-" + date + "-" + this.noNota;
       html2canvas(document.getElementById("receipt"), {
         logging: true,
         allowTaint: false,
         useCORS: true,
       }).then(function (canvas) {
         var link = document.createElement("a");
-        link.download = "test.png";
+        link.download = filename + ".png";
         link.href = canvas.toDataURL("image/png");
         link.click();
       });
     },
-    // downloadReceipt() {
-    //   var node = document.getElementById("receipt");
-
-    //   htmlToImage
-    //     .toPng(node)
-    //     .then(function (dataUrl) {
-    //       // var img = new Image();
-    //       // img.src = dataUrl;
-    //       // img.setAttribute('target', '_blank');
-    //       // document.body.appendChild(img);
-    //       // var img = dataUrl.toDataURL("image/png");
-    //     })
-    //     .catch(function (error) {
-    //       console.error("oops, something went wrong!", error);
-    //     });
-    // },
     downloads(dataUrl, fileName) {
       const link = document.createElement("a");
       link.href = dataUrl;
@@ -283,6 +272,7 @@ export default defineComponent({
         const checkoutData = localStorage.getItem("checkoutData");
         const transactions = localStorage.getItem("qrContent");
         const location = localStorage.getItem("location");
+        const dataRestaurant = localStorage.getItem("data_restaurant");
         
         if(!customerData || !typeOrderData || !checkoutData || !transactions){
           this.$router.push("/restaurant/detail/"+location);
@@ -296,6 +286,7 @@ export default defineComponent({
         this.typeOrder = typeOrderData ? JSON.parse(typeOrderData) : {};
         this.locProducts = checkoutData ? JSON.parse(checkoutData) : [];
         this.transaction = transactions ? JSON.parse(transactions) : {};
+        this.restaurant = dataRestaurant ? JSON.parse(dataRestaurant) : {};
 
         this.noNota = JSON.parse(transactions).noNotaNew;
         this.payment = JSON.parse(transactions).contents.paymentMethod;
