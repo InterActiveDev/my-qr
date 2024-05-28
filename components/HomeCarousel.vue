@@ -10,7 +10,7 @@
       />
 
       <span
-        class="overlay-text-label"
+        class="overlay-text-label" v-if="this.tableCode"
       >
         Table : {{ tableCode }}
       </span>
