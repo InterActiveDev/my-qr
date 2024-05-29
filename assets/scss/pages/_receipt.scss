@@ -2,7 +2,7 @@
   .frame-receipt {
 
     #receipt {
-      padding-top: 80px;
+      padding-top: 40px;
       min-height: 100vh;
       flex-grow: 1;
       position: relative;
@@ -224,6 +224,7 @@
 
       .row-bottom-nav {
         display: flex;
+        margin-bottom: 10px;
         align-items: center;
         justify-content: space-between;
 
@@ -263,7 +264,7 @@
   .frame-receipt {
 
     #receipt {
-      padding-top: 80px;
+      padding-top: 40px;
       min-height: 100vh;
       flex-grow: 1;
       position: relative;
@@ -483,7 +484,8 @@
 
       .row-bottom-nav {
         display: flex;
-        padding: 20px;
+        padding: 0px;
+        margin-bottom: 10px;
         align-items: center;
         justify-content: space-between; /* Optional: adds space between buttons */
 
@@ -523,7 +525,7 @@
   .frame-receipt {
 
     #receipt {
-      padding-top: 80px;
+      padding-top: 40px;
       min-height: 100vh;
       flex-grow: 1;
       position: relative;
@@ -730,6 +732,7 @@
         }
       }
     }
+
     .bottom-nav-receipt {
       width: 100%;
       height: fit-content;
@@ -742,7 +745,8 @@
 
       .row-bottom-nav {
         display: flex;
-        padding: 20px;
+        padding: 0px;
+        margin-bottom: 10px;
         align-items: center;
         justify-content: space-between; /* Optional: adds space between buttons */
 
