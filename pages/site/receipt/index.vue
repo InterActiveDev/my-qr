@@ -150,11 +150,11 @@
             <button class="btn btn-primary-outline" @click="backToHome">
               Pesan Lagi
             </button>
-            <button class="btn btn-primary" @click="openModalCash">
+            <button class="btn btn-primary" v-if="payment == 'cash'" @click="openModalCash">
               Bayar
             </button>
           </div>
-          <div class="mt-4" v-if="payment !== 'cash'">
+          <div class="btn-download" v-if="payment !== 'cash'">
             <button class="btn btn-primary" @click="downloadReceipt">
               Download Nota
             </button>
