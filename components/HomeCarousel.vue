@@ -91,6 +91,13 @@ export default {
       this.address = dataRestaurant.loc_addr;
       this.tableCode = atob(localStorage.getItem("table_code")) || "";
       this.logo = dataRestaurant.loc_logo;
+      const tableUrl = this.$route.query.table_code;
+      if(tableUrl){
+        this.isTableUrl = true;
+      }else{
+        this.isTableUrl = false;
+      }
+
     },
     startCarousel() {
       this.getData();
