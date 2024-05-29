@@ -10,7 +10,7 @@
 
       .img-home-carousel {
         width: 100%;
-        height: auto;
+        height: 250px;
         object-fit: cover;
       }
 
@@ -66,7 +66,7 @@
   }
 }
 
-@media screen and (min-width: 390px) and (max-width: 760px) {
+@media screen and (min-width: 390px) and (max-width: 759px) {
   .image-gallery {
     display: flex;
     flex-wrap: wrap;
