@@ -12,10 +12,17 @@
             >
               <div class="carousel-inner relative overflow-hidden w-full">
                 <div
-                  class="skeleton animate-pulse w-[480px] h-[180px] bg-gray-400 rounded"
+                  class="skeleton animate-pulse w-full h-[180px]  bg-gray-400 rounded"
                 ></div>
               </div>
             </div>
+            <!-- <div class="image-gallery w-full" v-if="isSkeleton">
+              <data class="image-item w-full">
+                <div class="img-home-carousel bg-red-500">
+                  
+                </div>
+              </data>
+            </div> -->
             <HomeCarousel v-if="!isSkeleton" />
           </NuxtLazyHydrate>
           <!-- end carousel -->
@@ -28,7 +35,7 @@
                 <div class="badge">{{ countProduct }}</div>
               </button>
               <button class="btn btn-muted" @click="openModalCategory">
-                Kategori Lainya
+                Kategori Lainya 
               </button>
             </div>
             <div class="full">
@@ -193,7 +200,7 @@
           </div>
 
           <div v-if="searchQuery == '' && isErrorUrl == false">
-            <div :class="!products || tableCode==null? 'hidden':'' " v-for="perProduct in products" :key="perProduct.category_id">
+            <div v-for="perProduct in products" :key="perProduct.category_id">
               <div
                 v-if="
                   (perProduct.order_time_start < perProduct.order_time_end &&
@@ -391,7 +398,7 @@ export default defineComponent({
     if(use_table == 0){
       // both
       if(tableCode){
-        this.isUseTable = true;
+        this.isUseTable = false;
       }else{
         this.isErrorUrl = false;
         this.isHidden = 'hidden';
