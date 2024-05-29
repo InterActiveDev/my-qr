@@ -387,8 +387,8 @@ export default defineComponent({
       localStorage.setItem('table_code', tableCode);
       this.tableCode = tableCode;
     } else {
-      const tableCodeLocal = localStorage.getItem('table_code');
-      if(tableCodeLocal){
+      const tableCodeLocal = localStorage.getItem("table_code");
+      if (tableCodeLocal) {
         this.tableCode = tableCodeLocal;
       }else{
         this.isHidden = '';
@@ -453,6 +453,7 @@ export default defineComponent({
     }
 
     this.getListCategory();
+    this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
     if (process.client) {
       localStorage.removeItem("qrContent");
       localStorage.removeItem("checkoutData");
@@ -468,7 +469,6 @@ export default defineComponent({
   created() {
     // this.tableCode = null;
     this.isSkeleton = true;    
-    console.log('created')
   },
   beforeCreate() {
     console.log('beforeCreate')    
