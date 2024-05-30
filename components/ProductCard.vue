@@ -6,7 +6,7 @@
         <img
           v-if="product.product_images"
           :src="product.product_images"
-          class="image-card"
+          class="image-card min-w-full"
           width="327"
           height="322"
           loading="lazy"
