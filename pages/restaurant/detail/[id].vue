@@ -114,6 +114,7 @@
           </dialog>
           <!-- end Modal All Product -->
 
+          <!-- skeleton untuk produk -->
           <div v-if="isSkeleton">
             <div class="spacer"></div>
             <div class="list-product">
