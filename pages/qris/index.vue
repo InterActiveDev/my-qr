@@ -103,7 +103,7 @@ export default defineComponent({
   data() {
     return {
       navbarTo: "/site/checkout",
-      countDown: 120,
+      countDown: 1200,
       showModalWaitingQris: false,
       showModalCancel: false,
       link: "",
@@ -152,7 +152,8 @@ export default defineComponent({
 
           setTimeout(() => {
             clearInterval(this.countDownInterval);
-            this.checkPayment();
+            // this.checkPayment();
+            this.$router.push("/site/checkout");
           }, 2000);
         }
       }, 1000);
@@ -197,7 +198,6 @@ export default defineComponent({
         const intervalId = setInterval(() => {
           // if(currentUrl === '/qris'){
           if(timerStop <= 120){
-            console.log('currentUrl', currentUrl);
             // buat stop proses di background
             this.checkPayment(this.mID, this.invoiceId, this.refNo);
             timerStop++;
@@ -250,19 +250,36 @@ export default defineComponent({
         date_process: dateYMDHMS,
       };
       this.showModalWaitingQris = true; // to show the modal
+      
+      const token = localStorage.getItem("token");
+      const qrContent = localStorage.getItem("qrContent");
+      const noNota = {
+        no_nota: JSON.parse(qrContent).contents.noNota,
+      };
 
-      FetchData.updateData(url, data)
-        .then((res) => {
-          clearInterval(this.intervalId);
-          // localStorage.removeItem("qrContent");
-
-          setTimeout(() => {
-            this.toInputReceipt();
-          }, 2000);
+      FetchData.syncPos(noNota, token)
+        .then((resultPos) => {
+          FetchData.updateData(url, data)
+            .then((res) => {
+              clearInterval(this.intervalId);
+              // localStorage.removeItem("qrContent");
+            
+              setTimeout(() => {
+                this.toInputReceipt();
+              }, 2000);
+            })
+            .catch((error) => {
+              console.log("error.message xx", error.message);
+            });
         })
-        .catch((error) => {
-          console.log("error.message xx", error.message);
+        .catch((err) => {
+          console.log("err: ", err.message);
+
+          if(err.response.data.message == 'transaction not found / transaction has been sent'){
+            this.toInputReceipt();
+          }
         });
+  
     },
     getQr() {
       const data = JSON.parse(localStorage.getItem("qrContent"));

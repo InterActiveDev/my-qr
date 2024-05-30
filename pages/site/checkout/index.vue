@@ -852,14 +852,14 @@ export default defineComponent({
     },
     async getList() {
       const location = localStorage.getItem("location");
-      const tableCode = localStorage.getItem("table_code");
+      const tableCodeRaw = localStorage.getItem("table_code");
       this.navbarTo =
-        "/restaurant/detail/" + location + "?table_code=" + tableCode;
+        "/restaurant/detail/" + location + "?table_code=" + tableCodeRaw;
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
-      this.tableCode = atob(localStorage.getItem("table_code")) || "";
+      this.tableCode = tableCodeRaw? atob(tableCodeRaw) : "";
       let orderTypeData = localStorage.getItem("order_type");
       localStorage.setItem(
         "selected_type_order",
@@ -1200,10 +1200,14 @@ export default defineComponent({
     },
     backtoHome() {
       const location = localStorage.getItem("location");
-      const tableCode = localStorage.getItem("table_code");
-      this.$router.push(
-        "/restaurant/detail/" + location + "?table_code=" + tableCode
-      );
+      const tableCodeRaw = localStorage.getItem("table_code");
+      if(tableCodeRaw){
+        this.$router.push(
+          "/restaurant/detail/" + location + "?table_code=" + tableCodeRaw
+        );
+      }else{
+        this.$router.push( "/restaurant/detail/" + location );
+      }
     },
     openModalDataCustomer() {
       let modal = document.getElementById("modalInformationData");
@@ -1292,7 +1296,8 @@ export default defineComponent({
           mID: data_restaurant.mID, // kalau pakai qris
           appid: data_restaurant.appid,
           loc_id: locId,
-          restaurant_table: this.tableCode,
+          // restaurant_table: this.tableCode,
+          restaurant_table: "",
           type_order: selectedOrderType.code_type,
           hl_enable_login: data_restaurant.hl_enable_login,
           data: [],
@@ -1326,6 +1331,8 @@ export default defineComponent({
         },
       ];
 
+      console.log('data', data);
+
       checkoutData[0].product.forEach((element, index) => {
         data[0].data.push({
           // Access the array within the first object in data array
@@ -1346,19 +1353,10 @@ export default defineComponent({
       FetchData.createData(url, data[0])
         .then((result) => {
           if (result && result.data.status === "success") {
-            const noNota = {
-              no_nota: result.data.result[0].noNota,
-            };
-            const token = localStorage.getItem("token");
-
             const transactionId = result.data.result[0].transactionId;
-            // sync ke POS
-            FetchData.syncPos(noNota, token)
-              .then((resultPos) => {
-                // get nota
-                this.steps = "get transactionId";
-                const getNotaUrl =
-                  "/qr_myorder/get_transaction?transactionId=" + transactionId;
+            // get nota
+            this.steps = "get transactionId";
+                const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
                 FetchData.getData(getNotaUrl).then((getNota) => {
                   // sukses simpan transaksi
                   const data = {
@@ -1370,10 +1368,6 @@ export default defineComponent({
                   };
                   localStorage.setItem("qrContent", JSON.stringify(data));
                 });
-              })
-              .catch((err) => {
-                console.log("err", err);
-              });
           }
         })
         .catch((error) => {
@@ -1496,11 +1490,13 @@ export default defineComponent({
     },
     goToReceipt() {
       const dataCustomer = {
-        table: this.tableCode,
+        table: "",
+        // table: this.tableCode,
         name: this.name,
         phone: this.phone,
         order_date: new Date(),
       };
+
 
       if (process.client) {
         localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
