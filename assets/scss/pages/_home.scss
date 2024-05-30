@@ -311,8 +311,13 @@
 
               figure {
                 width: 100%;
+                height: 200px;
+                max-height: 200px;
                 img {
                   width: 100%;
+                  height: 200px;
+                  max-height: 200px;
+                  object-fit: cover;
                 }
               }
 
@@ -725,8 +730,13 @@
 
               figure {
                 width: 100%;
+                height: 160px;
+                max-height: 160px;
                 img {
                   width: 100%;
+                  height: 160px;
+                  max-height: 160px;
+                  object-fit: cover;
                 }
               }
 
@@ -980,7 +990,7 @@
     .frame {
       width: 100%;
       background-color: #fff;
-      
+
       .sort-item {
         position: sticky;
         top: 0;
@@ -1122,8 +1132,13 @@
 
               figure {
                 width: 100%;
+                height: 160px;
+                max-height: 160px;
                 img {
                   width: 100%;
+                  height: 160px;
+                  max-height: 160px;
+                  object-fit: cover;
                 }
               }
 
