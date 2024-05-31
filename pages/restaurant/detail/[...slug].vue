@@ -64,8 +64,8 @@
             </div>
           </div>
 
-          
-          <div :class="isHidden" >
+          <!-- error page / not found page -->
+          <div v-if="!isHidden" >
             <NotFound />
           </div>
           <!-- end sort item -->
@@ -115,7 +115,7 @@
           <!-- end Modal All Product -->
 
           <!-- skeleton untuk produk -->
-          <div v-if="isSkeleton">
+          <div v-if="isSkeleton && isErrorUrl == false">
             <div class="spacer"></div>
             <div class="list-product">
               <div class="head">
@@ -345,7 +345,7 @@ export default defineComponent({
   data() {
     return {
       navbarTo: "/",
-      isHidden: 'hidden',
+      isHidden: true,
       isUseTable: false,
       isErrorUrl: false,
       isShow: '',
@@ -390,7 +390,7 @@ export default defineComponent({
         this.isUseTable = false;
       }else{
         this.isErrorUrl = false;
-        this.isHidden = 'hidden';
+        this.isHidden = true;
       }
     }else if(use_table == 1){
       // with
@@ -398,7 +398,7 @@ export default defineComponent({
         this.isUseTable = true;
       }else{
         this.isErrorUrl = true;
-        this.isHidden = '';
+        this.isHidden = false;
       }
     }else if(use_table == 2){
       // without
@@ -406,7 +406,7 @@ export default defineComponent({
         this.isUseTable = false;
       }else{
         this.isErrorUrl = false;
-        this.isHidden = 'hidden';
+        this.isHidden = true;
       }
     }else{
       // both
@@ -481,12 +481,11 @@ export default defineComponent({
         const restaurant = await FetchData.getData(urlGetRestoDetail);
         const appid = restaurant.data.data[0].appid;
         localStorage.setItem("data_restaurant", JSON.stringify(restaurant.data.data[0]));
-        localStorage.setItem("use_table", JSON.stringify(restaurant.data.data[0].use_table));
+        localStorage.setItem("use_table", JSON.parse(restaurant.data.data[0].use_table));
 
         // use_myorder_link_table = '0' = 'both'
         // use_myorder_link_table = '1' = 'with'
         // use_myorder_link_table = '2' = 'without'
-
         const tableCode = this.$route.query.table_code? this.$route.query.table_code : this.$route.params.slug[1];
         if (tableCode) {
           localStorage.setItem('table_code', tableCode);
@@ -496,7 +495,37 @@ export default defineComponent({
           if (tableCodeLocal) {
             this.tableCode = tableCodeLocal;
           }else{
-            this.isHidden = '';
+            const use_table = localStorage.getItem("use_table");
+
+            if(use_table == 0){ // both
+              if(tableCode){
+                this.isUseTable = false;
+              }else{
+                this.isErrorUrl = false;
+                this.isHidden = true;
+              }
+            }else if(use_table == 1){ // with
+              this.isHidden = false;
+              if(tableCode){
+                this.isUseTable = true;
+              }else{
+                this.isErrorUrl = true;
+              }
+            }else if(use_table == 2){ // without
+              if(tableCode){
+                this.isUseTable = false;
+              }else{
+                this.isErrorUrl = false;
+                this.isHidden = true;
+              }
+            }else{ // both
+              if(tableCode){
+                this.isUseTable = true;
+              }else{
+                this.isErrorUrl = false;
+                this.isHidden = true;
+              }
+            }
           }
         }
 

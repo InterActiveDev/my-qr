@@ -931,7 +931,8 @@ export default defineComponent({
       }
 
       // disable buat tes tanpa rounding
-      this.totalPay = tempTotalPay + this.rounding;
+      // + this.rounding;
+      this.totalPay = tempTotalPay; 
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -1062,11 +1063,7 @@ export default defineComponent({
       const cartItems = JSON.parse(localStorage.getItem("cart_items"));
       if (cartItems.length == 0) {
         localStorage.removeItem("cart_items");
-        const location = localStorage.getItem("location");
-        const tableCode = localStorage.getItem("table_code");
-        const url =
-          "/restaurant/detail/" + location + "?table_code=" + tableCode;
-        this.$router.push(url);
+        this.backtoHome();
       }
 
       // Panggil metode untuk menghitung ulang pembayaran
@@ -1194,7 +1191,9 @@ export default defineComponent({
         this.rounding = 0;
       }
 
-      this.totalPay = tempTotalPay + this.rounding;
+      // disable buat tes tanpa rounding
+      // + this.rounding;
+      this.totalPay = tempTotalPay; 
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -1291,13 +1290,15 @@ export default defineComponent({
       const seconds = String(today.getSeconds()).padStart(2, "0");
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      console.log('selectedOrderType.code_type', selectedOrderType.code_type);
+      console.log('this.tableCode', this.tableCode);
       const data = [
         {
           mID: data_restaurant.mID, // kalau pakai qris
           appid: data_restaurant.appid,
           loc_id: locId,
-          // restaurant_table: this.tableCode,
-          restaurant_table: "",
+          // restaurant_table: "",
+          restaurant_table: this.tableCode,
           type_order: selectedOrderType.code_type,
           hl_enable_login: data_restaurant.hl_enable_login,
           data: [],
@@ -1346,6 +1347,7 @@ export default defineComponent({
       });
 
       const url = "/qr_myorder/insert_transaction";
+      console.log('data[0]', data[0]);
       FetchData.createData(url, data[0])
         .then((result) => {
           if (result && result.data.status === "success") {
@@ -1364,14 +1366,14 @@ export default defineComponent({
                     expired: result.data.result[0].qrisData?.expiredDate,
                   };
                   localStorage.setItem("qrContent", JSON.stringify(data));
-            
-                if(this.table.paymentMethod != "e-money"){
-                   // cash and other payment
+              });
+
+              if(this.table.paymentMethod != "e-money"){ // cash and other payment
                   const token = localStorage.getItem("token");
                   const noNota = {
                     no_nota: result.data.result[0].noNota,
                   };
-                  FetchData.syncPos(noNota, token)
+                  FetchData.syncMyResto(noNota, token)
                     .then((resultPos) => {
                       console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
                     })
@@ -1379,7 +1381,6 @@ export default defineComponent({
                       console.log("err: ", err.message);
                     });
                 }
-              });
           }
         })
         .catch((error) => {

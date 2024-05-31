@@ -268,35 +268,22 @@ export default defineComponent({
       };
       this.showModalWaitingQris = true; // to show the modal
       
-      const token = localStorage.getItem("token");
       const qrContent = localStorage.getItem("qrContent");
-      const noNota = {
-        no_nota: JSON.parse(qrContent).contents.noNota,
-      };
+      
+      this.toInputReceipt();
 
-      FetchData.syncPos(noNota, token)
-        .then((resultPos) => {
-          FetchData.updateData(url, data)
-            .then((res) => {
-              clearInterval(this.intervalId);
-              // localStorage.removeItem("qrContent");
-            
-              setTimeout(() => {
-                this.toInputReceipt();
-              }, 2000);
-            })
-            .catch((error) => {
-              console.log("error.message xx", error.message);
-            });
-        })
-        .catch((err) => {
-          console.log("err: ", err.message);
-
-          if(err.response.data.message == 'transaction not found / transaction has been sent'){
-            this.toInputReceipt();
-          }
-        });
-  
+      // FetchData.updateData(url, data)
+      //   .then((res) => {
+      //     clearInterval(this.intervalId);
+      //     // localStorage.removeItem("qrContent");
+        
+      //     setTimeout(() => {
+      //       this.toInputReceipt();
+      //     }, 2000);
+      //   })
+      //   .catch((error) => {
+      //     console.log("error.message xx", error.message);
+      //   });
     },
     getQr() {
       const qrContent = localStorage.getItem("qrContent");
@@ -307,7 +294,7 @@ export default defineComponent({
 
       const checkoutData = localStorage.getItem("checkoutData");
       const checkout = checkoutData? JSON.parse(checkoutData):'';
-
+      console.log('checkout[0]', checkout)
       if(data && mid && checkout){
         this.expiredDate = data.expired;
         this.transactionId = data.contents.transactionId;
