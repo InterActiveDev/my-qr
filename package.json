@@ -52,7 +52,7 @@
   "resolutions": {
     "string-width": "4.2.3"
   },
-   "engines": {
-   "node": ">=18"
+  "engines": {
+    "node": ">=18"
   }
 }

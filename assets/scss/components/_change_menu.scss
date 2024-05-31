@@ -22,7 +22,7 @@
       .overflow-auto {
         overflow-y: auto;
         height: auto; // 1540px kalau ada 2 opsional slider
-        padding-top: 750px;
+        padding-top: 640px;
         background: #fff;
       }
 
@@ -226,7 +226,7 @@
               color: #000;
               text-overflow: ellipsis;
               font-family: $font-family;
-              font-size: 20px;
+              font-size: 16px;
               font-style: normal;
               font-weight: 700;
               line-height: normal;
@@ -242,7 +242,7 @@
                 color: #1c2126;
                 text-align: center;
                 font-family: $font-family;
-                font-size: 20px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 600;
                 line-height: 160%; /* 32px */
@@ -252,7 +252,7 @@
                 color: #595959;
                 text-align: center;
                 font-family: $font-family;
-                font-size: 20px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 160%; /* 32px */
@@ -287,7 +287,7 @@
                   color: #000;
                   text-overflow: ellipsis;
                   font-family: $font-family;
-                  font-size: 20px;
+                  font-size: 14px;
                   font-style: normal;
                   font-weight: 700;
                   line-height: normal;
@@ -302,7 +302,7 @@
                   color: #8c8c8c;
                   text-overflow: ellipsis;
                   font-family: $font-family;
-                  font-size: 16px;
+                  font-size: 14px;
                   font-style: normal;
                   font-weight: 800;
                   line-height: normal;
@@ -471,7 +471,7 @@
       .overflow-auto {
         overflow-y: auto;
         height: auto; // 1540px kalau ada 2 opsional slider
-        padding-top: 750px;
+        padding-top: 600px;
         background: #fff;
       }
 
@@ -497,7 +497,7 @@
                 color: #000;
                 text-overflow: ellipsis;
                 font-family: $font-family;
-                font-size: 24px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 700;
                 line-height: normal;
@@ -552,7 +552,7 @@
             align-items: center;
             gap: 14px;
             align-self: stretch;
-            margin-top: 10px;
+            margin-top: 34px;
 
             img {
               display: flex;
@@ -675,7 +675,7 @@
               color: #000;
               text-overflow: ellipsis;
               font-family: $font-family;
-              font-size: 20px;
+              font-size: 16px;
               font-style: normal;
               font-weight: 700;
               line-height: normal;
@@ -691,7 +691,7 @@
                 color: #1c2126;
                 text-align: center;
                 font-family: $font-family;
-                font-size: 20px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 600;
                 line-height: 160%; /* 32px */
@@ -701,7 +701,7 @@
                 color: #595959;
                 text-align: center;
                 font-family: $font-family;
-                font-size: 20px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 160%; /* 32px */
@@ -736,7 +736,7 @@
                   color: #000;
                   text-overflow: ellipsis;
                   font-family: $font-family;
-                  font-size: 20px;
+                  font-size: 16px;
                   font-style: normal;
                   font-weight: 700;
                   line-height: normal;
@@ -751,7 +751,7 @@
                   color: #8c8c8c;
                   text-overflow: ellipsis;
                   font-family: $font-family;
-                  font-size: 16px;
+                  font-size: 14px;
                   font-style: normal;
                   font-weight: 800;
                   line-height: normal;
@@ -841,6 +841,7 @@
         gap: 10px;
         position: sticky;
         bottom: 0;
+        z-index: 999;
         flex: 1 0 0;
 
         .button-cart {
@@ -906,6 +907,7 @@
       height: auto; // 1690px kalau ada 2 opsional slider
       padding: 0;
       overflow-y: auto;
+      z-index: 0;
 
       .head-fix {
         // padding-top: 100px;
@@ -920,7 +922,7 @@
       .overflow-auto {
         overflow-y: auto;
         height: auto; // 1540px kalau ada 2 opsional slider
-        padding-top: 750px;
+        padding-top: 600px;
         background: #fff;
       }
 
@@ -1001,7 +1003,7 @@
             align-items: center;
             gap: 14px;
             align-self: stretch;
-            margin-top: 10px;
+            margin-top: 34px;
 
             img {
               display: flex;
@@ -1124,7 +1126,7 @@
               color: #000;
               text-overflow: ellipsis;
               font-family: $font-family;
-              font-size: 20px;
+              font-size: 16px;
               font-style: normal;
               font-weight: 700;
               line-height: normal;
@@ -1140,7 +1142,7 @@
                 color: #1c2126;
                 text-align: center;
                 font-family: $font-family;
-                font-size: 20px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 600;
                 line-height: 160%; /* 32px */
@@ -1150,7 +1152,7 @@
                 color: #595959;
                 text-align: center;
                 font-family: $font-family;
-                font-size: 20px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 160%; /* 32px */
@@ -1185,7 +1187,7 @@
                   color: #000;
                   text-overflow: ellipsis;
                   font-family: $font-family;
-                  font-size: 20px;
+                  font-size: 14px;
                   font-style: normal;
                   font-weight: 700;
                   line-height: normal;
@@ -1200,7 +1202,7 @@
                   color: #8c8c8c;
                   text-overflow: ellipsis;
                   font-family: $font-family;
-                  font-size: 16px;
+                  font-size: 14px;
                   font-style: normal;
                   font-weight: 800;
                   line-height: normal;
@@ -1291,6 +1293,7 @@
         position: sticky;
         bottom: 0;
         flex: 1 0 0;
+        z-index: 999;
 
         .button-cart {
           width: 100%;
