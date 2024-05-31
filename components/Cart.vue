@@ -94,7 +94,7 @@
                       </button>
                     </div>
                   </div>
-                  
+
                   <div class="btn-group">
                     <div class="btn" @click="handleMenuChange(item)">
                       <button>
@@ -137,7 +137,6 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -268,7 +267,7 @@ export default {
       showToast: false,
       toastMessage: "",
       showModalChangeMenu: false,
-      changeItem: {},
+      changeItem: null,
       localStorageListener: null,
     };
   },
@@ -429,8 +428,19 @@ export default {
       }
     },
     handleMenuChange(item) {
-      localStorage.setItem("temporary_item_cart", JSON.stringify(item));
-      // this.changeMenuState(item); // Panggil fungsi yang sesuai
+      // Dapatkan data dari localStorage dengan kunci 'cart_items'
+      let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+
+      // Cari item yang sama berdasarkan product_id
+      let existingItem = cartItems.find(
+        (cartItem) => cartItem.product.product_id === item.product.product_id
+      );
+
+      if (existingItem) {
+        this.changeItem = existingItem;
+      }
+
+      // Tampilkan modal perubahan menu
       this.showModalChangeMenu = true;
       this.$nextTick(() => {
         if (this.$refs.modalComponent) {
@@ -438,17 +448,6 @@ export default {
         }
       });
       this.$refs.modal.close();
-    },
-    changeMenu(item) {
-      // localStorage.setItem("temporary_item_cart", JSON.stringify(item));
-      // this.changeMenu = item;
-      // this.showModalChangeMenu = true;
-      // this.$nextTick(() => {
-      //   if (this.$refs.modalComponent) {
-      //     this.$refs.modalComponent.showModal(this.changeMenu);
-      //   }
-      // });
-      // this.$refs.modal.close();
     },
   },
 };

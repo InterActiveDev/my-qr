@@ -30,8 +30,8 @@
             <div class="product-head">
               <NuxtLazyHydrate>
                 <img
-                  v-if="getProduct.product_images"
-                  :src="getProduct.product_images"
+                  v-if="getProduct.product.product_images"
+                  :src="getProduct.product.product_images"
                   preload
                   loading="lazy"
                 />
@@ -43,13 +43,13 @@
                 />
               </NuxtLazyHydrate>
               <div class="description">
-                <h2>{{ getProduct.product_name }}</h2>
+                <h2>{{ getProduct.product.product_name }}</h2>
 
                 <p>
-                  {{ getProduct.product_description }}
+                  {{ getProduct.product.product_description }}
                 </p>
                 <span class="price">{{
-                  formatCurrency(getProduct.product_pricenow)
+                  formatCurrency(getProduct.product.product_pricenow)
                 }}</span>
 
                 <div class="split-item">
@@ -103,6 +103,16 @@
                     </button>
                   </div>
                 </div>
+                <div class="form-control">
+                  <label class="label cursor-pointer">
+                    <span class="label-text text-lg text-black">Bungkus</span>
+                    <input
+                      type="checkbox"
+                      class="toggle toggle-success toggle-md"
+                      v-model="wrap"
+                    />
+                  </label>
+                </div>
               </div>
             </div>
 
@@ -133,7 +143,7 @@
       <div class="overflow-auto">
         <!-- <div class="spacer"></div> -->
 
-        <div v-if="modifiers.length > 0" class="cart-wrapper">
+        <div v-if="getProduct.product.modifier.length > 0" class="cart-wrapper">
           <div class="card-cart">
             <div class="head-topping">
               <span>Pilih Topping</span>
@@ -158,9 +168,12 @@
               </div>
             </div>
 
-            <div v-if="modifiers.length > 0">
+            <div v-if="getProduct.product.modifier.length > 0">
               <div class="topping">
-                <div v-for="perModifier in modifiers" :key="perModifier.mdf_id">
+                <div
+                  v-for="perModifier in getProduct.product.modifier"
+                  :key="perModifier.mdf_id"
+                >
                   <div class="item">
                     <input
                       type="radio"
@@ -249,41 +262,86 @@ export default {
     CarouselCart,
     QuantityInput,
   },
-  // props: {
-  //   getProduct: {
-  //     type: Array,
-  //     required: true,
-  //   },
-  // },
+  props: {
+    getProduct: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     // const modifiers = this.getProduct.product.modifier;
     return {
       showModalCart: false,
       modifiers: [],
       note: "",
+      notes: "",
       itemToCart: [],
+      wrap: false,
+      wrapDefault: null,
       topping: {},
       quantity: 1,
       showModalWaitingProduct: false,
       cartItems: [],
       showBottomCart: false,
       modalVisible: false,
-      getProduct: {},
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" wæsvg%3E',
     };
   },
-  mounted() {
-    this.getList();
+  computed: {
+    // Computed property untuk mengambil nilai awal dari getProduct.istakeaway
+    initialWrap: {
+      get() {
+        return this.getProduct.istakeaway === 1; // Mengasumsikan 1 adalah true dan 0 adalah false
+      },
+      set(value) {
+        this.wrap = value; // Perbarui nilai wrap berdasarkan input pengguna
+      },
+    },
+    initialNote: {
+      get() {
+        return this.getProduct.note || ""; // Ambil nilai note dari getProduct atau string kosong jika undefined
+      },
+      set(value) {
+        this.note = value; // Perbarui nilai note berdasarkan input pengguna
+      },
+    },
+    initialTopping: {
+      get() {
+        return this.getProduct.topping || {}; // Ambil nilai topping dari getProduct atau objek kosong jika undefined
+      },
+      set(value) {
+        this.topping = value; // Perbarui nilai topping berdasarkan input pengguna
+      },
+    },
+    initialQuantity: {
+      get() {
+        return this.getProduct.quantityItem || 1; // Ambil nilai topping dari getProduct atau objek kosong jika undefined
+      },
+      set(value) {
+        this.quantity = value; // Perbarui nilai topping berdasarkan input pengguna
+      },
+    },
+  },
+  watch: {
+    // Watcher untuk menginisialisasi nilai wrap berdasarkan nilai awal
+    getProduct: {
+      handler(newVal) {
+        this.wrap = this.initialWrap;
+        this.note = this.initialNote;
+        this.topping = this.initialTopping;
+        this.quantity = this.initialQuantity;
+      },
+      immediate: true, // Memastikan watcher dipanggil saat komponen diinisialisasi
+    },
   },
   methods: {
-    getList() {
-      const data = JSON.parse(localStorage.getItem("temporary_item_cart"));
-      this.getProduct = data.product;
-      this.quantity = data.quantityItem;
-      this.note = data.note;
-      this.modifiers = data.product.modifier;
-      this.topping = data.topping;
+    checkType() {
+      const check = JSON.parse(localStorage.getItem("type_order"));
+      check.name === "Take away" ? (this.wrap = true) : (this.wrap = false);
+      check.name === "Take away"
+        ? (this.wrapDefault = true)
+        : (this.wrapDefault = false);
     },
     isToppingSelected(topping) {
       return this.topping && this.topping.id === topping.mdf_id;
@@ -292,14 +350,22 @@ export default {
       this.modalVisible = true;
     },
     handlePaymentCart() {
+      let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+      let wrapStatus = 0;
+
+      if (this.wrap === true) {
+        wrapStatus = 1;
+      } else {
+        wrapStatus = 0;
+      }
+
       const newItem = {
-        product: this.getProduct,
+        product: this.getProduct.product,
         note: this.note,
         topping: this.topping,
         quantityItem: this.quantity,
+        istakeaway: wrapStatus,
       };
-
-      let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
 
       const index = cartItems.findIndex(
         (item) => item.product.product_id === newItem.product.product_id
@@ -344,7 +410,7 @@ export default {
         name: topping.mdf_name,
         price: topping.mdf_price,
       };
-      this.topping = item;
+      this.topping = this.topping.id === item.id ? {} : item;
     },
     showModal() {
       // Fungsi untuk menampilkan modal tambahan
@@ -354,7 +420,6 @@ export default {
       this.$refs.modal.close();
     },
     closeModalChangeMenu() {
-      console.log("change modal menu");
       let modalchangeMenu = document.getElementById("changeMenu");
       localStorage.removeItem("temporary_item_cart");
       this.modalVisible = false;
