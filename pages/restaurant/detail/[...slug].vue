@@ -64,8 +64,8 @@
             </div>
           </div>
 
-          
-          <div :class="isHidden" >
+          <!-- error page / not found page -->
+          <div v-if="!isHidden" >
             <NotFound />
           </div>
           <!-- end sort item -->
@@ -115,7 +115,7 @@
           <!-- end Modal All Product -->
 
           <!-- skeleton untuk produk -->
-          <div v-if="isSkeleton">
+          <div v-if="isSkeleton && isErrorUrl == false">
             <div class="spacer"></div>
             <div class="list-product">
               <div class="head">
@@ -345,7 +345,7 @@ export default defineComponent({
   data() {
     return {
       navbarTo: "/",
-      isHidden: 'hidden',
+      isHidden: true,
       isUseTable: false,
       isErrorUrl: false,
       isShow: '',
@@ -368,11 +368,11 @@ export default defineComponent({
     };
   },
   async mounted() {
-    console.log('mounted')
     this.isSkeleton = true;
     this.loading = false;
     const location = localStorage.getItem("location");
-    this.restaurantId = this.$route.params.id;
+    const urlData = this.$route.params;
+    this.restaurantId = urlData.slug[0];
     const locId = atob(this.restaurantId);
 
     if (location && location != this.restaurantId) {
@@ -382,19 +382,7 @@ export default defineComponent({
     const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
     const use_table = JSON.parse(localStorage.getItem("use_table"));
     const data_menu = JSON.parse(localStorage.getItem("data_menu"));
-
-    const tableCode = this.$route.query.table_code;
-    if (tableCode) {
-      localStorage.setItem('table_code', tableCode);
-      this.tableCode = tableCode;
-    } else {
-      const tableCodeLocal = localStorage.getItem("table_code");
-      if (tableCodeLocal) {
-        this.tableCode = tableCodeLocal;
-      }else{
-        this.isHidden = '';
-      }
-    }
+    const tableCode = this.$route.query.table_code? this.$route.query.table_code : urlData.slug[1];
 
     if(use_table == 0){
       // both
@@ -402,7 +390,7 @@ export default defineComponent({
         this.isUseTable = false;
       }else{
         this.isErrorUrl = false;
-        this.isHidden = 'hidden';
+        this.isHidden = true;
       }
     }else if(use_table == 1){
       // with
@@ -410,7 +398,7 @@ export default defineComponent({
         this.isUseTable = true;
       }else{
         this.isErrorUrl = true;
-        this.isHidden = '';
+        this.isHidden = false;
       }
     }else if(use_table == 2){
       // without
@@ -418,7 +406,7 @@ export default defineComponent({
         this.isUseTable = false;
       }else{
         this.isErrorUrl = false;
-        this.isHidden = 'hidden';
+        this.isHidden = true;
       }
     }else{
       // both
@@ -456,8 +444,8 @@ export default defineComponent({
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
     if (process.client) {
-      localStorage.removeItem("qrContent");
-      localStorage.removeItem("checkoutData");
+      // localStorage.removeItem("qrContent");
+      // localStorage.removeItem("checkoutData");
     }
 
     await this.getList();
@@ -472,7 +460,7 @@ export default defineComponent({
     this.isSkeleton = true;    
   },
   beforeCreate() {
-    console.log('beforeCreate')    
+    // console.log('beforeCreate')    
   },
   methods: {
     async starter(locId) {
@@ -481,10 +469,10 @@ export default defineComponent({
         localStorage.setItem("location", this.restaurantId);
 
         // remove
+        localStorage.removeItem("table_code");
         localStorage.removeItem("data_customer");
         localStorage.removeItem("cart_items");
         localStorage.removeItem("selected_type_order");
-        localStorage.removeItem("table_code");
 
         // set detail restaurant
         this.steps = "get restaurant detail";
@@ -493,11 +481,53 @@ export default defineComponent({
         const restaurant = await FetchData.getData(urlGetRestoDetail);
         const appid = restaurant.data.data[0].appid;
         localStorage.setItem("data_restaurant", JSON.stringify(restaurant.data.data[0]));
-        localStorage.setItem("use_table", JSON.stringify(restaurant.data.data[0].use_table));
+        localStorage.setItem("use_table", JSON.parse(restaurant.data.data[0].use_table));
 
         // use_myorder_link_table = '0' = 'both'
         // use_myorder_link_table = '1' = 'with'
         // use_myorder_link_table = '2' = 'without'
+        const tableCode = this.$route.query.table_code? this.$route.query.table_code : this.$route.params.slug[1];
+        if (tableCode) {
+          localStorage.setItem('table_code', tableCode);
+          this.tableCode = tableCode;
+        } else {
+          const tableCodeLocal = localStorage.getItem("table_code");
+          if (tableCodeLocal) {
+            this.tableCode = tableCodeLocal;
+          }else{
+            const use_table = localStorage.getItem("use_table");
+
+            if(use_table == 0){ // both
+              if(tableCode){
+                this.isUseTable = false;
+              }else{
+                this.isErrorUrl = false;
+                this.isHidden = true;
+              }
+            }else if(use_table == 1){ // with
+              this.isHidden = false;
+              if(tableCode){
+                this.isUseTable = true;
+              }else{
+                this.isErrorUrl = true;
+              }
+            }else if(use_table == 2){ // without
+              if(tableCode){
+                this.isUseTable = false;
+              }else{
+                this.isErrorUrl = false;
+                this.isHidden = true;
+              }
+            }else{ // both
+              if(tableCode){
+                this.isUseTable = true;
+              }else{
+                this.isErrorUrl = false;
+                this.isHidden = true;
+              }
+            }
+          }
+        }
 
         // generate token
         this.steps = "generate token";
@@ -563,12 +593,6 @@ export default defineComponent({
       } catch (error) {
         console.log("error: " + error.message);
       }
-    },
-    async asyncData({ params }) {
-      const tableCode = params.tableCode;
-      // Now you can use the tableCode value
-      console.log("Table Code:", tableCode);
-      return { tableCode };
     },
     checkLocalStorage() {
       // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));

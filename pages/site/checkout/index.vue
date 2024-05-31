@@ -76,6 +76,7 @@
                         {{ items.istakeaway == 1 ? "[ Bungkus ]" : "" }}
                       </span>
                     </span>
+
                     <div class="qty">
                       <div class="split-item">
                         <div class="btn-minus">
@@ -827,6 +828,7 @@ export default defineComponent({
       discAmmount: "",
       selectedPromo: [],
       showModalChangeMenu: false,
+      changeItem: null,
     };
   },
   async mounted() {
@@ -835,8 +837,6 @@ export default defineComponent({
     await this.getList();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
   },
-  // created() {
-  // },
   beforeDestroy() {
     // Clear the interval timer when the component is destroyed
     clearInterval(this.localStorageTimer);
@@ -852,14 +852,14 @@ export default defineComponent({
     },
     async getList() {
       const location = localStorage.getItem("location");
-      const tableCode = localStorage.getItem("table_code");
+      const tableCodeRaw = localStorage.getItem("table_code");
       this.navbarTo =
-        "/restaurant/detail/" + location + "?table_code=" + tableCode;
+        "/restaurant/detail/" + location + "?table_code=" + tableCodeRaw;
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
-      this.tableCode = atob(localStorage.getItem("table_code")) || "";
+      this.tableCode = tableCodeRaw? atob(tableCodeRaw) : "";
       let orderTypeData = localStorage.getItem("order_type");
       localStorage.setItem(
         "selected_type_order",
@@ -931,7 +931,8 @@ export default defineComponent({
       }
 
       // disable buat tes tanpa rounding
-      this.totalPay = tempTotalPay + this.rounding;
+      // + this.rounding;
+      this.totalPay = tempTotalPay; 
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -1062,9 +1063,7 @@ export default defineComponent({
       const cartItems = JSON.parse(localStorage.getItem("cart_items"));
       if (cartItems.length == 0) {
         localStorage.removeItem("cart_items");
-        const location = localStorage.getItem("location");
-        const url = "/restaurant/detail/" + location;
-        this.$router.push(url);
+        this.backtoHome();
       }
 
       // Panggil metode untuk menghitung ulang pembayaran
@@ -1192,7 +1191,9 @@ export default defineComponent({
         this.rounding = 0;
       }
 
-      this.totalPay = tempTotalPay + this.rounding;
+      // disable buat tes tanpa rounding
+      // + this.rounding;
+      this.totalPay = tempTotalPay; 
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -1200,10 +1201,14 @@ export default defineComponent({
     },
     backtoHome() {
       const location = localStorage.getItem("location");
-      const tableCode = localStorage.getItem("table_code");
-      this.$router.push(
-        "/restaurant/detail/" + location + "?table_code=" + tableCode
-      );
+      const tableCodeRaw = localStorage.getItem("table_code");
+      if(tableCodeRaw){
+        this.$router.push(
+          "/restaurant/detail/" + location + "?table_code=" + tableCodeRaw
+        );
+      }else{
+        this.$router.push( "/restaurant/detail/" + location );
+      }
     },
     openModalDataCustomer() {
       let modal = document.getElementById("modalInformationData");
@@ -1256,13 +1261,11 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer =
-        JSON.parse(localStorage.getItem("data_customer")) || [];
+      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
       const selectedOrderType = JSON.parse(
         localStorage.getItem("selected_type_order")
       );
@@ -1287,11 +1290,14 @@ export default defineComponent({
       const seconds = String(today.getSeconds()).padStart(2, "0");
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      console.log('selectedOrderType.code_type', selectedOrderType.code_type);
+      console.log('this.tableCode', this.tableCode);
       const data = [
         {
           mID: data_restaurant.mID, // kalau pakai qris
           appid: data_restaurant.appid,
           loc_id: locId,
+          // restaurant_table: "",
           restaurant_table: this.tableCode,
           type_order: selectedOrderType.code_type,
           hl_enable_login: data_restaurant.hl_enable_login,
@@ -1303,8 +1309,7 @@ export default defineComponent({
             stotal: checkoutData[0].subTotal,
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
-            payment_name:
-              this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
+            payment_name: this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
             paymdate: dateYMD,
           },
           guest_detail: {
@@ -1341,39 +1346,41 @@ export default defineComponent({
         });
       });
 
-      // return null;
       const url = "/qr_myorder/insert_transaction";
+      console.log('data[0]', data[0]);
       FetchData.createData(url, data[0])
         .then((result) => {
           if (result && result.data.status === "success") {
-            const noNota = {
-              no_nota: result.data.result[0].noNota,
-            };
-            const token = localStorage.getItem("token");
-
             const transactionId = result.data.result[0].transactionId;
-            // sync ke POS
-            FetchData.syncPos(noNota, token)
-              .then((resultPos) => {
-                // get nota
-                this.steps = "get transactionId";
-                const getNotaUrl =
-                  "/qr_myorder/get_transaction?transactionId=" + transactionId;
-                FetchData.getData(getNotaUrl).then((getNota) => {
-                  // sukses simpan transaksi
+            // get nota
+            this.steps = "get transactionId";
+              const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+              FetchData.getData(getNotaUrl).then((getNota) => {
+                // sukses simpan transaksi
                   const data = {
                     contents: result.data.result[0],
                     nota: result.data.result[0].noNota,
                     noNotaNew: getNota.data.data[0].myresto_ref,
                     invoice: result.data.result[0].qrisData?.noNota,
                     ref: result.data.result[0].qrisData?.refNo,
+                    expired: result.data.result[0].qrisData?.expiredDate,
                   };
                   localStorage.setItem("qrContent", JSON.stringify(data));
-                });
-              })
-              .catch((err) => {
-                console.log("err", err);
               });
+
+              if(this.table.paymentMethod != "e-money"){ // cash and other payment
+                  const token = localStorage.getItem("token");
+                  const noNota = {
+                    no_nota: result.data.result[0].noNota,
+                  };
+                  FetchData.syncMyResto(noNota, token)
+                    .then((resultPos) => {
+                      console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
+                    })
+                    .catch((err) => {
+                      console.log("err: ", err.message);
+                    });
+                }
           }
         })
         .catch((error) => {
@@ -1496,11 +1503,13 @@ export default defineComponent({
     },
     goToReceipt() {
       const dataCustomer = {
-        table: this.tableCode,
+        table: "",
+        // table: this.tableCode,
         name: this.name,
         phone: this.phone,
         order_date: new Date(),
       };
+
 
       if (process.client) {
         localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
@@ -1519,15 +1528,26 @@ export default defineComponent({
       }
     },
     handleMenuChange(item) {
-      localStorage.setItem("temporary_item_cart", JSON.stringify(item));
-      // this.changeMenuState(item); // Panggil fungsi yang sesuai
+      // Dapatkan data dari localStorage dengan kunci 'cart_items'
+      let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+
+      // Cari item yang sama berdasarkan product_id
+      let existingItem = cartItems.find(
+        (cartItem) => cartItem.product.product_id === item.product.product_id
+      );
+
+      if (existingItem) {
+        this.changeItem = existingItem;
+      }
+
+      // Tampilkan modal perubahan menu
       this.showModalChangeMenu = true;
       this.$nextTick(() => {
         if (this.$refs.modalComponent) {
           this.$refs.modalComponent.showModal(this.changeMenuState); // Perubahan disini juga
         }
       });
-      // this.$refs.modalComponent.close();
+      this.$refs.modal.close();
     },
   },
 });

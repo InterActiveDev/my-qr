@@ -89,7 +89,8 @@ export default {
       this.appID = dataRestaurant.appid;
       this.locationName = dataRestaurant.loc_name;
       this.address = dataRestaurant.loc_addr;
-      this.tableCode = atob(localStorage.getItem("table_code")) || "";
+      const tableCodeRaw = localStorage.getItem("table_code");
+      this.tableCode = tableCodeRaw? atob(tableCodeRaw) : "";
       this.logo = dataRestaurant.loc_logo;
       const tableUrl = this.$route.query.table_code;
       if(tableUrl){
