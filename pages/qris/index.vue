@@ -294,7 +294,7 @@ export default defineComponent({
 
       const checkoutData = localStorage.getItem("checkoutData");
       const checkout = checkoutData? JSON.parse(checkoutData):'';
-      console.log('checkout[0]', checkout)
+      
       if(data && mid && checkout){
         this.expiredDate = data.expired;
         this.transactionId = data.contents.transactionId;
