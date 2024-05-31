@@ -27,11 +27,11 @@
                 <p class="nmid">NMID : {{ nmid }}</p>
               </div>
 
-              <template v-if="qrCodeImage">
+              <div id="qrisBarcode" v-if="qrCodeImage">
                 <!-- Tampilkan QR code jika sudah digenerate -->
                 <img :src="qrCodeImage" alt="QR Code" />
-              </template>
-              <template v-else>
+              </div>
+              <div v-else>
                 <!-- Placeholder blur ketika QR code belum tergenerate -->
                 <div
                   style="
@@ -41,7 +41,7 @@
                     filter: blur(5px);
                   "
                 ></div>
-              </template>
+              </div>
 
               <div class="description">
                 <span class="message-error">{{ messagePaymentError }}</span>
@@ -49,10 +49,11 @@
                 <button class="btn btn-check mb-5" @click="checkPaymentTrigger">
                   Periksa Status Pembayaran
                 </button>
-                <p class="caption">
-                  Selesaikan pembayaran sebelum :
-                </p>
-                <p class="caption " v-if="expiredDate">
+                <button class="btn btn-download-qris mb-5" @click="downloadQris">
+                  Download
+                </button>
+                <p class="caption">Selesaikan pembayaran sebelum :</p>
+                <p class="caption" v-if="expiredDate">
                   {{ formatDate(expiredDate) }}
                 </p>
               </div>
@@ -97,6 +98,7 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import QRCode from "qrcode";
 import FetchData from "~/middleware/services/Fetch.js";
+import html2canvas from "html2canvas";
 
 export default defineComponent({
   component: {
@@ -139,6 +141,18 @@ export default defineComponent({
         }
       }
       return "";
+    },
+    downloadQris() {
+      html2canvas(document.getElementById("qrisBarcode"), {
+        logging: true,
+        allowTaint: false,
+        useCORS: true,
+      }).then(function (canvas) {
+        var link = document.createElement("a");
+        link.download = "QR.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
     },
     startCountDown() {
       this.countDownInterval = setInterval(() => {
@@ -193,17 +207,30 @@ export default defineComponent({
       }${remainingSeconds}`;
     },
     formatDate(dateString) {
-        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        
-        const date = new Date(dateString);
-        const day = date.getDate();
-        const month = months[date.getMonth()];
-        const year = date.getFullYear();
-        
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        
-        return `${day} ${month} ${year} - ${hours}:${minutes}`;
+      const months = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+
+      return `${day} ${month} ${year} - ${hours}:${minutes}`;
     },
     async generateQRCode(content) {
       const currentUrl = window.location.pathname;
@@ -214,7 +241,7 @@ export default defineComponent({
         this.qrCodeImage = qrCodeDataURL;
         const intervalId = setInterval(() => {
           // if(currentUrl === '/qris'){
-          if(timerStop <= 120){
+          if (timerStop <= 120) {
             // buat stop proses di background
             this.checkPayment(this.mID, this.invoiceId, this.refNo);
             timerStop++;
@@ -257,7 +284,8 @@ export default defineComponent({
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData =
+        JSON.parse(localStorage.getItem("checkoutData")) || [];
       const url = "/qr_myorder/update_payment";
       const data = {
         transaction_id: this.transactionId,
@@ -267,16 +295,16 @@ export default defineComponent({
         date_process: dateYMDHMS,
       };
       this.showModalWaitingQris = true; // to show the modal
-      
+
       const qrContent = localStorage.getItem("qrContent");
-      
+
       this.toInputReceipt();
 
       // FetchData.updateData(url, data)
       //   .then((res) => {
       //     clearInterval(this.intervalId);
       //     // localStorage.removeItem("qrContent");
-        
+
       //     setTimeout(() => {
       //       this.toInputReceipt();
       //     }, 2000);
@@ -287,15 +315,15 @@ export default defineComponent({
     },
     getQr() {
       const qrContent = localStorage.getItem("qrContent");
-      const data = qrContent? JSON.parse(qrContent):'';
+      const data = qrContent ? JSON.parse(qrContent) : "";
 
       const data_restaurant = localStorage.getItem("data_restaurant");
-      const mid = data_restaurant? JSON.parse(data_restaurant):'';
+      const mid = data_restaurant ? JSON.parse(data_restaurant) : "";
 
       const checkoutData = localStorage.getItem("checkoutData");
-      const checkout = checkoutData? JSON.parse(checkoutData):'';
-      console.log('checkout[0]', checkout)
-      if(data && mid && checkout){
+      const checkout = checkoutData ? JSON.parse(checkoutData) : "";
+      console.log("checkout[0]", checkout);
+      if (data && mid && checkout) {
         this.expiredDate = data.expired;
         this.transactionId = data.contents.transactionId;
         this.link = data.contents.qrisData.content;
