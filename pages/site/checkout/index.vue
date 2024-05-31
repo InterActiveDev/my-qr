@@ -1062,9 +1062,7 @@ export default defineComponent({
       const cartItems = JSON.parse(localStorage.getItem("cart_items"));
       if (cartItems.length == 0) {
         localStorage.removeItem("cart_items");
-        const location = localStorage.getItem("location");
-        const url = "/restaurant/detail/" + location;
-        this.$router.push(url);
+        this.backtoHome();
       }
 
       // Panggil metode untuk menghitung ulang pembayaran
