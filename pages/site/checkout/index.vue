@@ -1260,13 +1260,11 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer =
-        JSON.parse(localStorage.getItem("data_customer")) || [];
+      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
       const selectedOrderType = JSON.parse(
         localStorage.getItem("selected_type_order")
       );
@@ -1308,8 +1306,7 @@ export default defineComponent({
             stotal: checkoutData[0].subTotal,
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
-            payment_name:
-              this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
+            payment_name: this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
             paymdate: dateYMD,
           },
           guest_detail: {
@@ -1331,8 +1328,6 @@ export default defineComponent({
         },
       ];
 
-      console.log('data', data);
-
       checkoutData[0].product.forEach((element, index) => {
         data[0].data.push({
           // Access the array within the first object in data array
@@ -1348,7 +1343,6 @@ export default defineComponent({
         });
       });
 
-      // return null;
       const url = "/qr_myorder/insert_transaction";
       FetchData.createData(url, data[0])
         .then((result) => {
@@ -1356,18 +1350,34 @@ export default defineComponent({
             const transactionId = result.data.result[0].transactionId;
             // get nota
             this.steps = "get transactionId";
-                const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
-                FetchData.getData(getNotaUrl).then((getNota) => {
-                  // sukses simpan transaksi
+              const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+              FetchData.getData(getNotaUrl).then((getNota) => {
+                // sukses simpan transaksi
                   const data = {
                     contents: result.data.result[0],
                     nota: result.data.result[0].noNota,
                     noNotaNew: getNota.data.data[0].myresto_ref,
                     invoice: result.data.result[0].qrisData?.noNota,
                     ref: result.data.result[0].qrisData?.refNo,
+                    expired: result.data.result[0].qrisData?.expiredDate,
                   };
                   localStorage.setItem("qrContent", JSON.stringify(data));
-                });
+            
+                if(this.table.paymentMethod != "e-money"){
+                   // cash and other payment
+                  const token = localStorage.getItem("token");
+                  const noNota = {
+                    no_nota: result.data.result[0].noNota,
+                  };
+                  FetchData.syncPos(noNota, token)
+                    .then((resultPos) => {
+                      console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
+                    })
+                    .catch((err) => {
+                      console.log("err: ", err.message);
+                    });
+                }
+              });
           }
         })
         .catch((error) => {

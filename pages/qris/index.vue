@@ -50,7 +50,10 @@
                   Periksa Status Pembayaran
                 </button>
                 <p class="caption">
-                  Selesaikan pembayaran sebelum {{ formatTime(countDown) }}
+                  Selesaikan pembayaran sebelum :
+                </p>
+                <p class="caption " v-if="expiredDate">
+                  {{ formatDate(expiredDate) }}
                 </p>
               </div>
             </div>
@@ -104,6 +107,7 @@ export default defineComponent({
     return {
       navbarTo: "/site/checkout",
       countDown: 1200,
+      expiredDate: "",
       showModalWaitingQris: false,
       showModalCancel: false,
       link: "",
@@ -122,7 +126,7 @@ export default defineComponent({
   },
   async mounted() {
     await this.getQr();
-    this.startCountDown();
+    // this.startCountDown();
   },
   methods: {
     getCookie(name) {
@@ -187,6 +191,19 @@ export default defineComponent({
       return `${minutes}:${
         remainingSeconds < 10 ? "0" : ""
       }${remainingSeconds}`;
+    },
+    formatDate(dateString) {
+        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+        
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return `${day} ${month} ${year} - ${hours}:${minutes}`;
     },
     async generateQRCode(content) {
       const currentUrl = window.location.pathname;
@@ -282,21 +299,29 @@ export default defineComponent({
   
     },
     getQr() {
-      const data = JSON.parse(localStorage.getItem("qrContent"));
-      const mid = JSON.parse(localStorage.getItem("data_restaurant"));
-      const checkout = JSON.parse(localStorage.getItem("checkoutData"));
+      const qrContent = localStorage.getItem("qrContent");
+      const data = qrContent? JSON.parse(qrContent):'';
 
-      this.transactionId = data.contents.transactionId;
-      this.link = data.contents.qrisData.content;
-      this.nmid = data.contents.qrisData.nmid;
-      this.mID = mid.mID;
-      this.total = checkout[0].total.toString();
-      this.restaurantName = mid.loc_name;
-      this.noNota = data.nota;
-      this.invoiceId = data.contents.qrisData.invoiceId;
-      this.refNo = data.ref;
+      const data_restaurant = localStorage.getItem("data_restaurant");
+      const mid = data_restaurant? JSON.parse(data_restaurant):'';
 
-      this.generateQRCode(this.link);
+      const checkoutData = localStorage.getItem("checkoutData");
+      const checkout = checkoutData? JSON.parse(checkoutData):'';
+
+      if(data && mid && checkout){
+        this.expiredDate = data.expired;
+        this.transactionId = data.contents.transactionId;
+        this.link = data.contents.qrisData.content;
+        this.nmid = data.contents.qrisData.nmid;
+        this.mID = mid.mID;
+        this.total = checkout[0].total.toString();
+        this.restaurantName = mid.loc_name;
+        this.noNota = data.nota;
+        this.invoiceId = data.contents.qrisData.invoiceId;
+        this.refNo = data.ref;
+
+        this.generateQRCode(this.link);
+      }
     },
     toInputReceipt() {
       this.$router.push("/site/receipt");

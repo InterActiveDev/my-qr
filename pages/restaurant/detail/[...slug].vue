@@ -444,8 +444,8 @@ export default defineComponent({
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
     if (process.client) {
-      localStorage.removeItem("qrContent");
-      localStorage.removeItem("checkoutData");
+      // localStorage.removeItem("qrContent");
+      // localStorage.removeItem("checkoutData");
     }
 
     await this.getList();
