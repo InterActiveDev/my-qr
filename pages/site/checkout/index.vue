@@ -76,6 +76,7 @@
                         {{ items.istakeaway == 1 ? "[ Bungkus ]" : "" }}
                       </span>
                     </span>
+
                     <div class="qty">
                       <div class="split-item">
                         <div class="btn-minus">
@@ -827,6 +828,7 @@ export default defineComponent({
       discAmmount: "",
       selectedPromo: [],
       showModalChangeMenu: false,
+      changeItem: null,
     };
   },
   async mounted() {
@@ -835,8 +837,6 @@ export default defineComponent({
     await this.getList();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
   },
-  // created() {
-  // },
   beforeDestroy() {
     // Clear the interval timer when the component is destroyed
     clearInterval(this.localStorageTimer);
@@ -1528,15 +1528,26 @@ export default defineComponent({
       }
     },
     handleMenuChange(item) {
-      localStorage.setItem("temporary_item_cart", JSON.stringify(item));
-      // this.changeMenuState(item); // Panggil fungsi yang sesuai
+      // Dapatkan data dari localStorage dengan kunci 'cart_items'
+      let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+
+      // Cari item yang sama berdasarkan product_id
+      let existingItem = cartItems.find(
+        (cartItem) => cartItem.product.product_id === item.product.product_id
+      );
+
+      if (existingItem) {
+        this.changeItem = existingItem;
+      }
+
+      // Tampilkan modal perubahan menu
       this.showModalChangeMenu = true;
       this.$nextTick(() => {
         if (this.$refs.modalComponent) {
           this.$refs.modalComponent.showModal(this.changeMenuState); // Perubahan disini juga
         }
       });
-      // this.$refs.modalComponent.close();
+      this.$refs.modal.close();
     },
   },
 });
