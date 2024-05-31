@@ -960,8 +960,8 @@ export default defineComponent({
       }
 
       // disable buat tes tanpa rounding
-      // + this.rounding;
-      this.totalPay = tempTotalPay; 
+      // this.totalPay = tempTotalPay; 
+      this.totalPay = tempTotalPay + this.rounding; 
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -1223,8 +1223,8 @@ export default defineComponent({
       }
 
       // disable buat tes tanpa rounding
-      // + this.rounding;
-      this.totalPay = tempTotalPay; 
+      // this.totalPay = tempTotalPay; 
+      this.totalPay = tempTotalPay + this.rounding; 
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -1376,10 +1376,8 @@ export default defineComponent({
       });
 
       const url_insert_transaction = "/qr_myorder/insert_transaction";
-      console.log('data[0]', data[0]);
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
-          console.log('result', result);
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
             // get nota
@@ -1405,7 +1403,7 @@ export default defineComponent({
                   };
                   FetchData.syncMyResto(noNota, token)
                     .then((resultPos) => {
-                      console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
+                      // console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
                     })
                     .catch((err) => {
                       console.log("err: ", err.message);

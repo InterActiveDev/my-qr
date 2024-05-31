@@ -235,7 +235,7 @@ export default defineComponent({
     async generateQRCode(content) {
       const currentUrl = window.location.pathname;
       let timerStop = 0;
-
+      console.log('content', content)
       try {
         const qrCodeDataURL = await QRCode.toDataURL(content);
         this.qrCodeImage = qrCodeDataURL;
