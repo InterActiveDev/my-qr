@@ -320,11 +320,16 @@ export default defineComponent({
       localStorage.removeItem("data_customer");
       localStorage.removeItem("temporary_item_cart");
       localStorage.removeItem("cart_items");
+      localStorage.removeItem("checkoutData");
       const location = localStorage.getItem("location");
       const tableCode = localStorage.getItem("table_code");
-      const url = "/restaurant/detail/" + location + "?table_code=" + tableCode;
-
-      this.$router.push(url);
+      if(tableCode){
+        this.$router.push(
+          "/restaurant/detail/" + location + "?table_code=" + tableCode
+        );
+      }else{
+        this.$router.push( "/restaurant/detail/" + location );
+      }
     },
     getCookie(name) {
       const cookieName = name + "=";
