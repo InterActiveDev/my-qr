@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="bg-black/50">
     <div class="flex justify-center">
       <section id="checkout">
-        <div class="frame">
+        <div class="frame ">
           <Navbar :to="navbarTo" />
 
           <div class="head-title">
@@ -11,8 +11,8 @@
 
           <div class="spacer"></div>
 
-          <div class="type-order">
-            <span>Jenis Pesanan</span>
+          <div class="type-order ">
+            <span class="">Jenis Pesanan</span>
 
             <div class="type-order-data" v-if="orderTypes">
               <div
@@ -467,8 +467,8 @@
     <!-- end modal qris method -->
 
     <!-- modal promo -->
-    <dialog id="modalPromo" class="modal" :open="showModalPromo">
-      <div class="modal-box">
+    <dialog id="modalPromo" class="modal bg-black/50" :open="showModalPromo">
+      <div class="modal-box ">
         <div class="modal-header">
           <h1>Pilih Promo</h1>
           <button @click="closeListPromo()">
@@ -635,10 +635,42 @@
             <button @click="selectPromo(idPromo)">Pilih</button>
           </div>
         </div>
+
+        <!-- modal error -->
+        <div>
+
+        </div>
         <!-- pass some data to here -->
       </div>
     </dialog>
     <!-- end modal detail promo -->
+
+    <!-- modal error -->
+    <dialog class="modal modal-general bg-black/50" :open="showModalError">
+      <div class="modal-box flex flex-col">
+        <div class="flex flex-row justify-end items-center">
+          <button @click="closeErrorModal()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 36 36"
+              fill="none"
+            >
+              <path
+                d="M18 0.5C8.25 0.5 0.5 8.25 0.5 18C0.5 27.75 8.25 35.5 18 35.5C27.75 35.5 35.5 27.75 35.5 18C35.5 8.25 27.75 0.5 18 0.5ZM24.75 26.75L18 20L11.25 26.75L9.25 24.75L16 18L9.25 11.25L11.25 9.25L18 16L24.75 9.25L26.75 11.25L20 18L26.75 24.75L24.75 26.75Z"
+                fill="#232323"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="mt-7 text-center">
+          <h1>Produk yang anda pilih tidak memenuhi kriteria untuk menggunakan Promo ini</h1>
+        </div>
+      </div>
+    </dialog>
+    <!-- end modal promo -->
   </div>
 
   <dialog id="modalWaiting" class="modal" v-if="showModalWaiting">
@@ -741,6 +773,7 @@ export default defineComponent({
       table: "",
       tableCode: "",
       phone: "",
+      showModalError: false,
       showModalPromo: false,
       showModalPromoDetail: false,
       showModalWaiting: false,
@@ -811,9 +844,7 @@ export default defineComponent({
   methods: {
     checkLocalStorage() {
       // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
-      const currentCartItems =
-        JSON.parse(localStorage.getItem("cart_items")) || [];
-
+      const currentCartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       // if (JSON.stringify(currentCartItems) !== []) {
       if (currentCartItems.length !== 0) {
         this.getList();
@@ -821,14 +852,14 @@ export default defineComponent({
     },
     async getList() {
       const location = localStorage.getItem("location");
-      const tableCode = localStorage.getItem("table_code");
+      const tableCodeRaw = localStorage.getItem("table_code");
       this.navbarTo =
-        "/restaurant/detail/" + location + "?table_code=" + tableCode;
+        "/restaurant/detail/" + location + "?table_code=" + tableCodeRaw;
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
-      this.tableCode = atob(localStorage.getItem("table_code")) || "";
+      this.tableCode = tableCodeRaw? atob(tableCodeRaw) : "";
       let orderTypeData = localStorage.getItem("order_type");
       localStorage.setItem(
         "selected_type_order",
@@ -874,7 +905,7 @@ export default defineComponent({
         this.subTotal +
         this.serviceFee +
         this.tax +
-        this.deliveryFee +
+        this.deliveryFee -
         this.promo;
 
       divided = Math.floor(tempTotalPay / data_restaurant.rounding_nominal);
@@ -882,26 +913,18 @@ export default defineComponent({
 
       this.roundingType = data_restaurant.rounding;
       if (data_restaurant.rounding == "up") {
-        this.rounding =
-          Math.ceil(tempTotalPay / data_restaurant.rounding_nominal) *
-            data_restaurant.rounding_nominal -
-          tempTotalPay;
+        this.rounding = Math.ceil(tempTotalPay / data_restaurant.rounding_nominal) *
+          data_restaurant.rounding_nominal - tempTotalPay;
       } else if (data_restaurant.rounding == "down") {
-        this.rounding =
-          Math.floor(tempTotalPay / data_restaurant.rounding_nominal) *
-            data_restaurant.rounding_nominal -
-          tempTotalPay;
+        this.rounding = Math.floor(tempTotalPay / data_restaurant.rounding_nominal) *
+          data_restaurant.rounding_nominal - tempTotalPay;
       } else if (data_restaurant.rounding == "auto") {
         if (mod >= data_restaurant.rounding_nominal / 2) {
-          this.rounding =
-            Math.ceil(tempTotalPay / data_restaurant.rounding_nominal) *
-              data_restaurant.rounding_nominal -
-            tempTotalPay;
+          this.rounding = Math.ceil(tempTotalPay / data_restaurant.rounding_nominal) *
+            data_restaurant.rounding_nominal - tempTotalPay;
         } else {
-          this.rounding =
-            Math.floor(tempTotalPay / data_restaurant.rounding_nominal) *
-              data_restaurant.rounding_nominal -
-            tempTotalPay;
+          this.rounding = Math.floor(tempTotalPay / data_restaurant.rounding_nominal) *
+            data_restaurant.rounding_nominal - tempTotalPay;
         }
       } else {
         this.rounding = 0;
@@ -928,6 +951,9 @@ export default defineComponent({
     },
     closeListPromo() {
       this.showModalPromo = false;
+    },
+    closeErrorModal() {
+      this.showModalError = false;
     },
     openDetailPromo(promoId) {
       this.showModalPromo = false;
@@ -994,17 +1020,36 @@ export default defineComponent({
     },
     selectPromo(id) {
       // edwin
-      this.selectedPromo = this.promos.filter(
-        (promo) => promo.promo_id === id
-      )[0];
+      let isError = true;
+      this.selectedPromo = this.promos.filter((promo) => promo.promo_id === id)[0];
+      localStorage.setItem("selected_promo", JSON.stringify(this.selectedPromo));
+
+      if (this.selectedPromo) {
+        this.products.filter(element => {
+            const productId = element.product.product_id.toString(); // Ensure the product ID is a string
+            if (this.selectedPromo.product_ids.includes(productId)) {
+              isError = false;
+            }
+        });
+      }
       this.showModalPromoDetail = false;
-      this.promo = Math.floor(
-        (this.subTotal / 100) * this.selectedPromo.disc_amount
-      );
-      console.log("this.promo", this.promo);
-      this.recalculatePayment();
+
+      if(isError == true){
+
+        this.showModalError = true;
+
+        setTimeout(() => {
+          this.removePromo();
+          this.showModalError = false;
+        }, 3000); // 3000 milliseconds = 3 seconds
+      }else{
+        this.recalculatePayment();
+      }
     },
     removePromo() {
+      this.promo = 0;
+      localStorage.removeItem("selected_promo");
+      this.recalculatePayment();
       this.selectedPromo = [];
     },
     closePromoDetail() {
@@ -1026,6 +1071,22 @@ export default defineComponent({
 
       // Panggil metode untuk menghitung ulang pembayaran
       this.recalculatePayment();
+    },
+    checkPromoValidity() {
+      let isError = true;
+      this.promos = JSON.parse(localStorage.getItem("promo")) || [];
+      this.selectedPromo = this.promos.filter((promo) => promo.promo_id === id)[0];
+      localStorage.setItem("selected_promo", JSON.stringify(this.selectedPromo));
+
+      if (this.selectedPromo) {
+        this.products.filter(element => {
+            const productId = element.product.product_id.toString(); // Ensure the product ID is a string
+            if (this.selectedPromo.product_ids.includes(productId)) {
+              isError = false;
+            }
+        });
+      }
+      this.showModalPromoDetail = false;
     },
     calculateTotal(items) {
       let productIds = "";
@@ -1051,10 +1112,7 @@ export default defineComponent({
 
           // Calculate total promo for items with product_id in productIds
           if (productIds.includes(item.product.product_id)) {
-            totalPromo +=
-              (parseFloat(item.product.product_pricenow) + modifierPrice) *
-              item.quantityItem;
-            console.log("item.product", item.product);
+            totalPromo += (parseFloat(item.product.product_pricenow) + modifierPrice) * item.quantityItem;
           }
         }
       });
@@ -1068,11 +1126,21 @@ export default defineComponent({
     },
     recalculatePayment() {
       this.countSubTotal = this.products.length;
+      const selectedPromo = localStorage.getItem("selected_promo");
       const dataTotal = this.calculateTotal(this.products);
       this.subTotal = dataTotal["totalPrice"];
 
-      if (this.discType != "" && this.discAmmount != "") {
-        // this.promo = (this.subTotal / 100) * this.
+      if (this.discType != "" && this.discAmmount != "" && selectedPromo) {
+        let promTot = 0;
+        this.products.filter(element => {
+            const productId = element.product.product_id.toString(); // Ensure the product ID is a string
+            if (this.selectedPromo.product_ids.includes(productId)) {
+              if(this.selectedPromo.disc_type == '%'){
+                promTot += Math.floor(element.product.product_pricenow / 100 * this.selectedPromo.disc_amount * element.quantityItem);
+              }
+            }
+        });
+          this.promo = promTot;
       }
       if (this.dataRestaurant.tax_nominal != null) {
         this.tax = Math.round(
@@ -1126,8 +1194,6 @@ export default defineComponent({
         this.rounding = 0;
       }
 
-      // this.totalPay = tempTotalPay;
-      // disable rounding untuk tes
       this.totalPay = tempTotalPay + this.rounding;
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
@@ -1136,10 +1202,14 @@ export default defineComponent({
     },
     backtoHome() {
       const location = localStorage.getItem("location");
-      const tableCode = localStorage.getItem("table_code");
-      this.$router.push(
-        "/restaurant/detail/" + location + "?table_code=" + tableCode
-      );
+      const tableCodeRaw = localStorage.getItem("table_code");
+      if(tableCodeRaw){
+        this.$router.push(
+          "/restaurant/detail/" + location + "?table_code=" + tableCodeRaw
+        );
+      }else{
+        this.$router.push( "/restaurant/detail/" + location );
+      }
     },
     openModalDataCustomer() {
       let modal = document.getElementById("modalInformationData");
@@ -1192,13 +1262,11 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer =
-        JSON.parse(localStorage.getItem("data_customer")) || [];
+      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
       const selectedOrderType = JSON.parse(
         localStorage.getItem("selected_type_order")
       );
@@ -1228,7 +1296,8 @@ export default defineComponent({
           mID: data_restaurant.mID, // kalau pakai qris
           appid: data_restaurant.appid,
           loc_id: locId,
-          restaurant_table: this.tableCode,
+          // restaurant_table: this.tableCode,
+          restaurant_table: "",
           type_order: selectedOrderType.code_type,
           hl_enable_login: data_restaurant.hl_enable_login,
           data: [],
@@ -1239,8 +1308,7 @@ export default defineComponent({
             stotal: checkoutData[0].subTotal,
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
-            payment_name:
-              this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
+            payment_name: this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
             paymdate: dateYMD,
           },
           guest_detail: {
@@ -1277,38 +1345,40 @@ export default defineComponent({
         });
       });
 
-      // return null;
       const url = "/qr_myorder/insert_transaction";
       FetchData.createData(url, data[0])
         .then((result) => {
           if (result && result.data.status === "success") {
-            const noNota = {
-              no_nota: result.data.result[0].noNota,
-            };
-            const token = localStorage.getItem("token");
-
             const transactionId = result.data.result[0].transactionId;
-            // sync ke POS
-            FetchData.syncPos(noNota, token)
-              .then((resultPos) => {
-                // get nota
-                this.steps = "get transactionId";
-                const getNotaUrl =
-                  "/qr_myorder/get_transaction?transactionId=" + transactionId;
-                FetchData.getData(getNotaUrl).then((getNota) => {
-                  // sukses simpan transaksi
+            // get nota
+            this.steps = "get transactionId";
+              const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+              FetchData.getData(getNotaUrl).then((getNota) => {
+                // sukses simpan transaksi
                   const data = {
                     contents: result.data.result[0],
                     nota: result.data.result[0].noNota,
                     noNotaNew: getNota.data.data[0].myresto_ref,
                     invoice: result.data.result[0].qrisData?.noNota,
                     ref: result.data.result[0].qrisData?.refNo,
+                    expired: result.data.result[0].qrisData?.expiredDate,
                   };
                   localStorage.setItem("qrContent", JSON.stringify(data));
-                });
-              })
-              .catch((err) => {
-                console.log("err", err);
+            
+                if(this.table.paymentMethod != "e-money"){
+                   // cash and other payment
+                  const token = localStorage.getItem("token");
+                  const noNota = {
+                    no_nota: result.data.result[0].noNota,
+                  };
+                  FetchData.syncPos(noNota, token)
+                    .then((resultPos) => {
+                      console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
+                    })
+                    .catch((err) => {
+                      console.log("err: ", err.message);
+                    });
+                }
               });
           }
         })
@@ -1432,11 +1502,13 @@ export default defineComponent({
     },
     goToReceipt() {
       const dataCustomer = {
-        table: this.tableCode,
+        table: "",
+        // table: this.tableCode,
         name: this.name,
         phone: this.phone,
         order_date: new Date(),
       };
+
 
       if (process.client) {
         localStorage.setItem("data_customer", JSON.stringify(dataCustomer));

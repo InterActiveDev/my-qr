@@ -223,7 +223,7 @@ export default defineComponent({
       email: "",
       isAndroid: "",
       noNota: "",
-      status: "",
+      status: "PENDING",
       payment: "",
       transID: "",
       buttonClicked: false,
@@ -290,8 +290,11 @@ export default defineComponent({
 
         this.noNota = JSON.parse(transactions).noNotaNew;
         this.payment = JSON.parse(transactions).contents.paymentMethod;
-        this.status =
-          JSON.parse(transactions).contents.status == 0 ? "PENDING" : "LUNAS";
+        
+        const paymentStatus = JSON.parse(transactions).contents.status;
+        if(paymentStatus !== undefined){
+          this.status = JSON.parse(transactions).contents.status == 0 ? "PENDING" : "LUNAS";
+        }
 
         if (this.locProducts.length > 0) {
           this.products = this.locProducts[0].product || [];
@@ -366,14 +369,17 @@ export default defineComponent({
       return nominal.toLocaleString().replace(/,/g, ".");
     },
     formatDate(dateString) {
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      const seconds = String(date.getSeconds()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
+        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+        
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return `${day} ${month} ${year} - ${hours}:${minutes}`;
     },
     formatHours(dateString) {
       const date = new Date(dateString);

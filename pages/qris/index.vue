@@ -50,7 +50,10 @@
                   Periksa Status Pembayaran
                 </button>
                 <p class="caption">
-                  Selesaikan pembayaran sebelum {{ formatTime(countDown) }}
+                  Selesaikan pembayaran sebelum :
+                </p>
+                <p class="caption " v-if="expiredDate">
+                  {{ formatDate(expiredDate) }}
                 </p>
               </div>
             </div>
@@ -103,7 +106,8 @@ export default defineComponent({
   data() {
     return {
       navbarTo: "/site/checkout",
-      countDown: 120,
+      countDown: 1200,
+      expiredDate: "",
       showModalWaitingQris: false,
       showModalCancel: false,
       link: "",
@@ -122,7 +126,7 @@ export default defineComponent({
   },
   async mounted() {
     await this.getQr();
-    this.startCountDown();
+    // this.startCountDown();
   },
   methods: {
     getCookie(name) {
@@ -152,7 +156,8 @@ export default defineComponent({
 
           setTimeout(() => {
             clearInterval(this.countDownInterval);
-            this.checkPayment();
+            // this.checkPayment();
+            this.$router.push("/site/checkout");
           }, 2000);
         }
       }, 1000);
@@ -187,6 +192,19 @@ export default defineComponent({
         remainingSeconds < 10 ? "0" : ""
       }${remainingSeconds}`;
     },
+    formatDate(dateString) {
+        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+        
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return `${day} ${month} ${year} - ${hours}:${minutes}`;
+    },
     async generateQRCode(content) {
       const currentUrl = window.location.pathname;
       let timerStop = 0;
@@ -197,7 +215,6 @@ export default defineComponent({
         const intervalId = setInterval(() => {
           // if(currentUrl === '/qris'){
           if(timerStop <= 120){
-            console.log('currentUrl', currentUrl);
             // buat stop proses di background
             this.checkPayment(this.mID, this.invoiceId, this.refNo);
             timerStop++;
@@ -250,36 +267,61 @@ export default defineComponent({
         date_process: dateYMDHMS,
       };
       this.showModalWaitingQris = true; // to show the modal
+      
+      const token = localStorage.getItem("token");
+      const qrContent = localStorage.getItem("qrContent");
+      const noNota = {
+        no_nota: JSON.parse(qrContent).contents.noNota,
+      };
 
-      FetchData.updateData(url, data)
-        .then((res) => {
-          clearInterval(this.intervalId);
-          // localStorage.removeItem("qrContent");
-
-          setTimeout(() => {
-            this.toInputReceipt();
-          }, 2000);
+      FetchData.syncPos(noNota, token)
+        .then((resultPos) => {
+          FetchData.updateData(url, data)
+            .then((res) => {
+              clearInterval(this.intervalId);
+              // localStorage.removeItem("qrContent");
+            
+              setTimeout(() => {
+                this.toInputReceipt();
+              }, 2000);
+            })
+            .catch((error) => {
+              console.log("error.message xx", error.message);
+            });
         })
-        .catch((error) => {
-          console.log("error.message xx", error.message);
+        .catch((err) => {
+          console.log("err: ", err.message);
+
+          if(err.response.data.message == 'transaction not found / transaction has been sent'){
+            this.toInputReceipt();
+          }
         });
+  
     },
     getQr() {
-      const data = JSON.parse(localStorage.getItem("qrContent"));
-      const mid = JSON.parse(localStorage.getItem("data_restaurant"));
-      const checkout = JSON.parse(localStorage.getItem("checkoutData"));
+      const qrContent = localStorage.getItem("qrContent");
+      const data = qrContent? JSON.parse(qrContent):'';
 
-      this.transactionId = data.contents.transactionId;
-      this.link = data.contents.qrisData.content;
-      this.nmid = data.contents.qrisData.nmid;
-      this.mID = mid.mID;
-      this.total = checkout[0].total.toString();
-      this.restaurantName = mid.loc_name;
-      this.noNota = data.nota;
-      this.invoiceId = data.contents.qrisData.invoiceId;
-      this.refNo = data.ref;
+      const data_restaurant = localStorage.getItem("data_restaurant");
+      const mid = data_restaurant? JSON.parse(data_restaurant):'';
 
-      this.generateQRCode(this.link);
+      const checkoutData = localStorage.getItem("checkoutData");
+      const checkout = checkoutData? JSON.parse(checkoutData):'';
+
+      if(data && mid && checkout){
+        this.expiredDate = data.expired;
+        this.transactionId = data.contents.transactionId;
+        this.link = data.contents.qrisData.content;
+        this.nmid = data.contents.qrisData.nmid;
+        this.mID = mid.mID;
+        this.total = checkout[0].total.toString();
+        this.restaurantName = mid.loc_name;
+        this.noNota = data.nota;
+        this.invoiceId = data.contents.qrisData.invoiceId;
+        this.refNo = data.ref;
+
+        this.generateQRCode(this.link);
+      }
     },
     toInputReceipt() {
       this.$router.push("/site/receipt");
