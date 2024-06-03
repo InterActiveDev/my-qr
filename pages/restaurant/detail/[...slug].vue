@@ -2,7 +2,7 @@
   <div @touchstart="resetTimer">
     <div>
       <section id="home">
-        <div class="frame" :class="!products || !tableCode? 'hidden':'' ">
+        <div class="frame" :class="!products || !tableCode ? 'hidden' : ''">
           <!-- carousel -->
           <Navbar :to="navbarTo" />
           <NuxtLazyHydrate>
@@ -12,7 +12,7 @@
             >
               <div class="carousel-inner relative overflow-hidden w-full">
                 <div
-                  class="skeleton animate-pulse w-full h-[180px]  bg-gray-400 rounded"
+                  class="skeleton animate-pulse w-full h-[180px] bg-gray-400 rounded"
                 ></div>
               </div>
             </div>
@@ -28,14 +28,17 @@
           <!-- end carousel -->
 
           <!-- sort item -->
-          <div class="sort-item " v-if="products && isErrorUrl == false">
+          <div
+            class="sort-item"
+            v-if="(products && isErrorUrl == false) || !isSkeleton"
+          >
             <div class="flex gap-6 btn-group">
               <button class="btn btn-primary">
-                Semua Produk 
+                Semua Produk
                 <div class="badge">{{ countProduct }}</div>
               </button>
               <button class="btn btn-muted" @click="openModalCategory">
-                Kategori Lainya 
+                Kategori Lainya
               </button>
             </div>
             <div class="full">
@@ -65,7 +68,7 @@
           </div>
 
           <!-- error page / not found page -->
-          <div v-if="!isHidden" >
+          <div v-if="!isHidden">
             <NotFound />
           </div>
           <!-- end sort item -->
@@ -279,7 +282,7 @@
             </div>
           </div>
 
-          <div v-else class="else" :class="!isErrorUrl? '':'hidden' ">
+          <div v-else class="else" :class="!isErrorUrl ? '' : 'hidden'">
             <div class="spacer"></div>
             <div class="list-product">
               <div class="product">
@@ -295,7 +298,6 @@
           </div>
 
           <BottomNavCart v-if="showBottomCart" />
-        
         </div>
       </section>
 
@@ -348,8 +350,8 @@ export default defineComponent({
       isHidden: true,
       isUseTable: false,
       isErrorUrl: false,
-      isShow: '',
-      isSkeleton: true,
+      isShow: "",
+      isSkeleton: false,
       showModalCategory: false,
       restaurantId: false,
       products: [],
@@ -367,56 +369,72 @@ export default defineComponent({
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
     };
   },
-  async mounted() {
+  created() {
     this.isSkeleton = true;
     this.loading = false;
+
+    if (process.client) {
+      const location = localStorage.getItem("location");
+      const urlData = this.$route.params;
+      this.restaurantId = urlData.slug[0];
+      const locId = atob(this.restaurantId);
+      const use_table = JSON.parse(localStorage.getItem("use_table"));
+      const tableCode = this.$route.query.table_code
+        ? this.$route.query.table_code
+        : urlData.slug[1];
+
+      if (use_table === 0) {
+        // both
+        if (tableCode) {
+          this.isUseTable = false;
+        } else {
+          this.isErrorUrl = false;
+          this.isHidden = true;
+        }
+      } else if (use_table === 1) {
+        // with
+        if (tableCode) {
+          this.isUseTable = true;
+        } else {
+          this.isHidden = false;
+          this.isErrorUrl = true;
+        }
+      } else if (use_table === 2) {
+        // without
+        if (tableCode) {
+          this.isUseTable = false;
+        } else {
+          this.isErrorUrl = false;
+          this.isHidden = true;
+        }
+      } else {
+        // both
+        if (tableCode) {
+          this.isUseTable = true;
+        } else {
+          this.isErrorUrl = false;
+          this.isHidden = true;
+        }
+      }
+
+      // Update isSkeleton after the condition checks
+      if (use_table === 1 && !tableCode) {
+        this.isSkeleton = false;
+      }
+    }
+  },
+
+  async mounted() {
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
-    this.restaurantId = urlData.slug[0];
     const locId = atob(this.restaurantId);
 
     if (location && location != this.restaurantId) {
-      console.log("ini refresh data karna lokasi beda");
       await this.starter(locId);
     }
-    const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
-    const use_table = JSON.parse(localStorage.getItem("use_table"));
-    const data_menu = JSON.parse(localStorage.getItem("data_menu"));
-    const tableCode = this.$route.query.table_code? this.$route.query.table_code : urlData.slug[1];
 
-    if(use_table == 0){
-      // both
-      if(tableCode){
-        this.isUseTable = false;
-      }else{
-        this.isErrorUrl = false;
-        this.isHidden = true;
-      }
-    }else if(use_table == 1){
-      // with
-      if(tableCode){
-        this.isUseTable = true;
-      }else{
-        this.isErrorUrl = true;
-        this.isHidden = false;
-      }
-    }else if(use_table == 2){
-      // without
-      if(tableCode){
-        this.isUseTable = false;
-      }else{
-        this.isErrorUrl = false;
-        this.isHidden = true;
-      }
-    }else{
-      // both
-      if(tableCode){
-        this.isUseTable = true;
-      }else{
-        this.isErrorUrl = false;
-        this.isHidden = true;
-      }
-    }
+    const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+    const data_menu = JSON.parse(localStorage.getItem("data_menu"));
 
     // cek update data
     const urlCheckUpdate = "/qr_myorder/check_update?loc=" + locId;
@@ -426,7 +444,6 @@ export default defineComponent({
     localStorage.setItem("last_update", JSON.stringify(last_update));
 
     if (data_restaurant === null || data_menu === null) {
-      console.log("ini refresh data karna restoran / data menu kosong");
       await this.starter(locId);
     } else {
       if (
@@ -434,19 +451,12 @@ export default defineComponent({
         data_restaurant.last_updated_data
       ) {
         // jika data update terakhir tidak sesuai dengan data kita, sinkronkan data ulang
-        console.log(
-          "ini refresh data karna tanggal update data terakhir berbeda"
-        );
         await this.starter(locId);
       }
     }
 
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
-    if (process.client) {
-      // localStorage.removeItem("qrContent");
-      // localStorage.removeItem("checkoutData");
-    }
 
     await this.getList();
     this.isSkeleton = false;
@@ -455,12 +465,8 @@ export default defineComponent({
       this.getCartItems();
     }
   },
-  created() {
-    // this.tableCode = null;
-    this.isSkeleton = true;    
-  },
   beforeCreate() {
-    // console.log('beforeCreate')    
+    // console.log('beforeCreate')
   },
   methods: {
     async starter(locId) {
@@ -480,48 +486,60 @@ export default defineComponent({
           "/qr_myorder/get_restaurant_detail?loc=" + locId;
         const restaurant = await FetchData.getData(urlGetRestoDetail);
         const appid = restaurant.data.data[0].appid;
-        localStorage.setItem("data_restaurant", JSON.stringify(restaurant.data.data[0]));
-        localStorage.setItem("use_table", JSON.parse(restaurant.data.data[0].use_table));
+        localStorage.setItem(
+          "data_restaurant",
+          JSON.stringify(restaurant.data.data[0])
+        );
+        localStorage.setItem(
+          "use_table",
+          JSON.parse(restaurant.data.data[0].use_table)
+        );
 
         // use_myorder_link_table = '0' = 'both'
         // use_myorder_link_table = '1' = 'with'
         // use_myorder_link_table = '2' = 'without'
-        const tableCode = this.$route.query.table_code? this.$route.query.table_code : this.$route.params.slug[1];
+        const tableCode = this.$route.query.table_code
+          ? this.$route.query.table_code
+          : this.$route.params.slug[1];
         if (tableCode) {
-          localStorage.setItem('table_code', tableCode);
+          localStorage.setItem("table_code", tableCode);
           this.tableCode = tableCode;
         } else {
           const tableCodeLocal = localStorage.getItem("table_code");
           if (tableCodeLocal) {
             this.tableCode = tableCodeLocal;
-          }else{
+          } else {
             const use_table = localStorage.getItem("use_table");
 
-            if(use_table == 0){ // both
-              if(tableCode){
+            if (use_table == 0) {
+              // both
+              if (tableCode) {
                 this.isUseTable = false;
-              }else{
+              } else {
                 this.isErrorUrl = false;
                 this.isHidden = true;
               }
-            }else if(use_table == 1){ // with
+            } else if (use_table == 1) {
+              // with
               this.isHidden = false;
-              if(tableCode){
+              if (tableCode) {
                 this.isUseTable = true;
-              }else{
+              } else {
                 this.isErrorUrl = true;
               }
-            }else if(use_table == 2){ // without
-              if(tableCode){
+            } else if (use_table == 2) {
+              // without
+              if (tableCode) {
                 this.isUseTable = false;
-              }else{
+              } else {
                 this.isErrorUrl = false;
                 this.isHidden = true;
               }
-            }else{ // both
-              if(tableCode){
+            } else {
+              // both
+              if (tableCode) {
                 this.isUseTable = true;
-              }else{
+              } else {
                 this.isErrorUrl = false;
                 this.isHidden = true;
               }
