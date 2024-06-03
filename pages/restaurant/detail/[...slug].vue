@@ -427,7 +427,16 @@ export default defineComponent({
   async mounted() {
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
-    const locId = atob(this.restaurantId);
+    this.restaurantId = urlData.slug[0];
+    let locId = '';
+    try {
+        const decrypted = atob(this.restaurantId);
+        locId = decrypted;
+    } catch (e) {
+        console.error('Invalid restaurant ID:', e);
+        locId = null; 
+        return this.$router.push("/error");
+    }
 
     if (location && location != this.restaurantId) {
       await this.starter(locId);

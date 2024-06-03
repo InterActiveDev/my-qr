@@ -645,8 +645,8 @@
     </dialog>
     <!-- end modal detail promo -->
 
-    <!-- modal error -->
-    <dialog class="modal modal-general bg-black/50" :open="showModalError">
+    <!-- modal error promo -->
+    <dialog class="modal modal-general bg-black/50" :open="showModalErrorPromo">
       <div class="modal-box flex flex-col">
         <div class="flex flex-row justify-end items-center">
           <button @click="closeErrorModal()">
@@ -671,6 +671,34 @@
       </div>
     </dialog>
     <!-- end modal promo -->
+
+    <!-- modal error  -->
+    <dialog class="modal modal-general bg-black/50" :open="showModalError">
+      <div class="modal-box flex flex-col">
+        <div class="flex flex-row justify-end items-center">
+          <button @click="closeErrorModal()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 36 36"
+              fill="none"
+            >
+              <path
+                d="M18 0.5C8.25 0.5 0.5 8.25 0.5 18C0.5 27.75 8.25 35.5 18 35.5C27.75 35.5 35.5 27.75 35.5 18C35.5 8.25 27.75 0.5 18 0.5ZM24.75 26.75L18 20L11.25 26.75L9.25 24.75L16 18L9.25 11.25L11.25 9.25L18 16L24.75 9.25L26.75 11.25L20 18L26.75 24.75L24.75 26.75Z"
+                fill="#232323"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="mt-7 text-center">
+          <h1>Something went wrong.</h1>
+        </div>
+      </div>
+    </dialog>
+    <!-- end modal  -->
+
   </div>
 
   <dialog id="modalWaiting" class="modal" v-if="showModalWaiting">
@@ -774,6 +802,7 @@ export default defineComponent({
       tableCode: "",
       phone: "",
       showModalError: false,
+      showModalErrorPromo: false,
       showModalPromo: false,
       showModalPromoDetail: false,
       showModalWaiting: false,
@@ -931,8 +960,8 @@ export default defineComponent({
       }
 
       // disable buat tes tanpa rounding
-      // + this.rounding;
-      this.totalPay = tempTotalPay; 
+      // this.totalPay = tempTotalPay; 
+      this.totalPay = tempTotalPay + this.rounding; 
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -954,7 +983,7 @@ export default defineComponent({
       this.showModalPromo = false;
     },
     closeErrorModal() {
-      this.showModalError = false;
+      this.showModalErrorPromo = false;
     },
     openDetailPromo(promoId) {
       this.showModalPromo = false;
@@ -1037,11 +1066,11 @@ export default defineComponent({
 
       if(isError == true){
 
-        this.showModalError = true;
+        this.showModalErrorPromo = true;
 
         setTimeout(() => {
           this.removePromo();
-          this.showModalError = false;
+          this.showModalErrorPromo = false;
         }, 3000); // 3000 milliseconds = 3 seconds
       }else{
         this.recalculatePayment();
@@ -1063,6 +1092,8 @@ export default defineComponent({
       const cartItems = JSON.parse(localStorage.getItem("cart_items"));
       if (cartItems.length == 0) {
         localStorage.removeItem("cart_items");
+        localStorage.removeItem("checkoutData");
+        localStorage.removeItem("qrContent");
         this.backtoHome();
       }
 
@@ -1192,8 +1223,8 @@ export default defineComponent({
       }
 
       // disable buat tes tanpa rounding
-      // + this.rounding;
-      this.totalPay = tempTotalPay; 
+      // this.totalPay = tempTotalPay; 
+      this.totalPay = tempTotalPay + this.rounding; 
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -1290,8 +1321,6 @@ export default defineComponent({
       const seconds = String(today.getSeconds()).padStart(2, "0");
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      console.log('selectedOrderType.code_type', selectedOrderType.code_type);
-      console.log('this.tableCode', this.tableCode);
       const data = [
         {
           mID: data_restaurant.mID, // kalau pakai qris
@@ -1346,45 +1375,50 @@ export default defineComponent({
         });
       });
 
-      const url = "/qr_myorder/insert_transaction";
-      console.log('data[0]', data[0]);
-      FetchData.createData(url, data[0])
+      const url_insert_transaction = "/qr_myorder/insert_transaction";
+      FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
             // get nota
             this.steps = "get transactionId";
-              const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
-              FetchData.getData(getNotaUrl).then((getNota) => {
-                // sukses simpan transaksi
-                  const data = {
-                    contents: result.data.result[0],
-                    nota: result.data.result[0].noNota,
-                    noNotaNew: getNota.data.data[0].myresto_ref,
-                    invoice: result.data.result[0].qrisData?.noNota,
-                    ref: result.data.result[0].qrisData?.refNo,
-                    expired: result.data.result[0].qrisData?.expiredDate,
-                  };
-                  localStorage.setItem("qrContent", JSON.stringify(data));
-              });
+            const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+            FetchData.getData(getNotaUrl).then((getNota) => {
+              // sukses simpan transaksi
+                const data = {
+                  contents: result.data.result[0],
+                  nota: result.data.result[0].noNota,
+                  noNotaNew: getNota.data.data[0].myresto_ref,
+                  invoice: result.data.result[0].qrisData?.noNota,
+                  ref: result.data.result[0].qrisData?.refNo,
+                  expired: result.data.result[0].qrisData?.expiredDate,
+                };
+                localStorage.setItem("qrContent", JSON.stringify(data));
+            });
 
-              if(this.table.paymentMethod != "e-money"){ // cash and other payment
-                  const token = localStorage.getItem("token");
-                  const noNota = {
-                    no_nota: result.data.result[0].noNota,
-                  };
-                  FetchData.syncMyResto(noNota, token)
-                    .then((resultPos) => {
-                      console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
-                    })
-                    .catch((err) => {
-                      console.log("err: ", err.message);
-                    });
-                }
+            if(this.table.paymentMethod != "e-money"){ // cash and other payment
+              const token = localStorage.getItem("token");
+              const noNota = {
+                no_nota: result.data.result[0].noNota,
+              };
+              FetchData.syncMyResto(noNota, token)
+                .then((resultPos) => {
+                  // console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
+                })
+                .catch((err) => {
+                  console.log("err: ", err.message);
+                });
+            }
           }
         })
         .catch((error) => {
-          console.error("Error:", error);
+          this.showModalWaiting = false;
+          this.showModalError = true;
+          // setTimeout(() => {
+          //   this.showModalError = false;
+
+          // }, 3000); // 3000 milliseconds = 3 seconds
+          console.log("Error xxx zzz :", error);
         });
     },
     openModalConfrimOrder() {
