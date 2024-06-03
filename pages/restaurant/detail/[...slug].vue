@@ -373,7 +373,15 @@ export default defineComponent({
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
     this.restaurantId = urlData.slug[0];
-    const locId = atob(this.restaurantId);
+    let locId = '';
+    try {
+        const decrypted = atob(this.restaurantId);
+        locId = decrypted;
+    } catch (e) {
+        console.error('Invalid restaurant ID:', e);
+        locId = null; 
+        return this.$router.push("/error");
+    }
 
     if (location && location != this.restaurantId) {
       console.log("ini refresh data karna lokasi beda");
