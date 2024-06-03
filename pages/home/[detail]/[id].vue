@@ -174,7 +174,8 @@ export default {
       // Get the current localStorage data
       const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       // Compare with the previously stored data
-      if (JSON.stringify(currentCartItems) !== []) {
+      // if (JSON.stringify(currentCartItems) !== []) {
+      if (currentCartItems.length !== 0) {
         // If there's a change, update the data
         this.getCartItems();
       }

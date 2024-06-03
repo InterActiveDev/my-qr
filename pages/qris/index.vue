@@ -235,7 +235,7 @@ export default defineComponent({
     async generateQRCode(content) {
       const currentUrl = window.location.pathname;
       let timerStop = 0;
-
+      console.log('content', content)
       try {
         const qrCodeDataURL = await QRCode.toDataURL(content);
         this.qrCodeImage = qrCodeDataURL;
@@ -321,9 +321,9 @@ export default defineComponent({
       const mid = data_restaurant ? JSON.parse(data_restaurant) : "";
 
       const checkoutData = localStorage.getItem("checkoutData");
-      const checkout = checkoutData ? JSON.parse(checkoutData) : "";
-      console.log("checkout[0]", checkout);
-      if (data && mid && checkout) {
+      const checkout = checkoutData? JSON.parse(checkoutData):'';
+      
+      if(data && mid && checkout){
         this.expiredDate = data.expired;
         this.transactionId = data.contents.transactionId;
         this.link = data.contents.qrisData.content;
