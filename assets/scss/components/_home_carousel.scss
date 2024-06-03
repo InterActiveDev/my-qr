@@ -1,8 +1,9 @@
 @media (min-width: 760px) {
   .carousel {
+    position: relative;
     .carousel-item {
-      position: relative;
-
+      display: flex;
+      flex-wrap: nowrap;
       .img-home-carousel {
         width: 100%;
         height: 250px;
@@ -31,7 +32,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        
+
         .overlay-logo {
           width: 60px;
           height: 60px;
@@ -42,7 +43,7 @@
           align-items: center;
           justify-content: center;
         }
-        
+
         .overlay-text {
           color: white;
           font-size: 14px;
@@ -57,18 +58,16 @@
           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
       }
-
-
-
     }
   }
 }
 
 @media screen and (min-width: 390px) and (max-width: 759px) {
   .carousel {
+    position: relative;
     .carousel-item {
-      position: relative;
-
+      display: flex;
+      flex-wrap: nowrap;
       .img-home-carousel {
         width: 100%;
         height: 200px;
@@ -129,9 +128,10 @@
 
 @media screen and (min-width: 360px) and (max-width: 389px) {
   .carousel {
+    position: relative;
     .carousel-item {
-      position: relative;
-
+      display: flex;
+      flex-wrap: nowrap;
       .img-home-carousel {
         width: 100%;
         height: 200px;
