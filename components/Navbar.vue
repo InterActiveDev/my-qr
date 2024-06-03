@@ -4,17 +4,17 @@
       <div class="back">
         <div
           class="ml-20"
-          v-if="isIndexRoute || isCheckoutRoute || isReceipt"
+          v-if="isIndexRoute || isCheckoutRoute || isReceipt || isIndexOrHomeRoute"
         ></div>
         <div class="ml-0" v-if="isQris"></div>
         <div class="ml-20" v-if="isRestaurantDetail">&nbsp;</div>
         <nuxt-link
           v-if="
-            !isIndexOrHomeRoute &&
             !isBackOfficeRoute &&
             !isCheckoutRoute &&
             !isRestaurantDetail &&
-            !isReceipt 
+            !isReceipt &&
+            !isIndexOrHomeRoute
           "
           :to="to"
           class="text-xl ml-3"
@@ -45,7 +45,7 @@
         </nuxt-link>
         <button
           class="btn-back"
-          v-if="isHomeRoute || isBackOfficeRoute"
+          v-if="isBackOfficeRoute"
           @click="openModalCancelOrder"
         >
           <svg
@@ -156,7 +156,7 @@ export default {
       return this.$route.name === "index";
     },
     isHomeRoute() {
-      return this.$route.name === "home";
+      return this.$route.name === "restaurant-detail-slug";
     },
     isCheckoutRoute() {
       return this.$route.name === "checkout";
