@@ -280,7 +280,7 @@ export default defineComponent({
         }
 
         const tableCode = localStorage.getItem("table_code");
-        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + tableCode;
+        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode);
 
         this.customer = customerData ? JSON.parse(customerData) : {};
         this.typeOrder = typeOrderData ? JSON.parse(typeOrderData) : {};
@@ -323,11 +323,13 @@ export default defineComponent({
       localStorage.removeItem("checkoutData");
       const location = localStorage.getItem("location");
       const tableCode = localStorage.getItem("table_code");
+
       if(tableCode){
         this.$router.push(
-          "/restaurant/detail/" + location + "?table_code=" + tableCode
+          "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode)
         );
       }else{
+        console.log("b");
         this.$router.push( "/restaurant/detail/" + location );
       }
     },
