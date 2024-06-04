@@ -883,7 +883,7 @@ export default defineComponent({
       const location = localStorage.getItem("location");
       const tableCodeRaw = localStorage.getItem("table_code");
       this.navbarTo =
-        "/restaurant/detail/" + location + "?table_code=" + tableCodeRaw;
+        "/restaurant/detail/" + location + "?table_code=" + btoa(tableCodeRaw);
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
@@ -1235,7 +1235,7 @@ export default defineComponent({
       const tableCodeRaw = localStorage.getItem("table_code");
       if(tableCodeRaw){
         this.$router.push(
-          "/restaurant/detail/" + location + "?table_code=" + tableCodeRaw
+          "/restaurant/detail/" + location + "?table_code=" + btoa(ableCodeRaw)
         );
       }else{
         this.$router.push( "/restaurant/detail/" + location );
