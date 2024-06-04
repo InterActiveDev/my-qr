@@ -1,0 +1,105 @@
+@import "../components";
+
+@media (min-width: 760px) {
+  .frame-error {
+    display: flex;
+    justify-content: center;
+
+    #error {
+      // background: url("~/assets/images/background.webp");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: #fff;
+      min-height: 100vh;
+      flex-grow: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 480px;
+      max-width: 480px;
+
+      span {
+        font-family: $font-family;
+        font-size: 16px;
+        color: #000;
+        font-weight: 600;
+      }
+
+      img {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 390px) and (max-width: 759px) {
+  .frame-error {
+    display: flex;
+    justify-content: center;
+
+    #error {
+      // background: url("~/assets/images/background.webp");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: #fff;
+      min-height: 100vh;
+      flex-grow: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+
+      span {
+        font-family: $font-family;
+        font-size: 16px;
+        color: #000;
+        font-weight: 600;
+      }
+
+      img {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 360px) and (max-width: 389px) {
+  .frame-error {
+    display: flex;
+    justify-content: center;
+
+    #error {
+      // background: url("~/assets/images/background.webp");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: #fff;
+      min-height: 100vh;
+      flex-grow: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+
+      span {
+        font-family: $font-family;
+        font-size: 16px;
+        color: #000;
+        font-weight: 600;
+      }
+
+      img {
+        width: 250px;
+        height: 250px;
+      }
+    }
+  }
+}
