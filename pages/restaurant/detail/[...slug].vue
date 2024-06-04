@@ -16,22 +16,12 @@
                 ></div>
               </div>
             </div>
-            <!-- <div class="image-gallery w-full" v-if="isSkeleton">
-              <data class="image-item w-full">
-                <div class="img-home-carousel bg-red-500">
-                  
-                </div>
-              </data>
-            </div> -->
             <HomeCarousel v-if="!isSkeleton" />
           </NuxtLazyHydrate>
           <!-- end carousel -->
 
           <!-- sort item -->
-          <div
-            class="sort-item"
-            v-if="(products && isErrorUrl == false) || !isSkeleton"
-          >
+          <div class="sort-item" v-if="products && isErrorUrl == false">
             <div class="flex gap-6 btn-group">
               <button class="btn btn-primary">
                 Semua Produk
@@ -116,6 +106,17 @@
             </div>
           </dialog>
           <!-- end Modal All Product -->
+
+          <!-- Loading -->
+          <div
+            v-if="isLoading"
+            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          >
+            <div class="bg-white p-6 rounded-lg text-center shadow-lg">
+              <div class="loader mb-4"></div>
+              <p class="mt-2">Loading... {{ loadingProgress }}%</p>
+            </div>
+          </div>
 
           <!-- skeleton untuk produk -->
           <div v-if="isSkeleton && isErrorUrl == false">
@@ -203,7 +204,7 @@
             </div>
           </div>
 
-          <div v-if="searchQuery == '' && isErrorUrl == false">
+          <div v-if="(searchQuery == '' && isErrorUrl == false) || !isLoading">
             <div v-for="perProduct in products" :key="perProduct.category_id">
               <div
                 v-if="
@@ -365,13 +366,15 @@ export default defineComponent({
       localStorageListener: null,
       loading: true,
       tableCode: null,
+      isLoading: true,
+      loadingProgress: 0,
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
     };
   },
   created() {
     this.isSkeleton = true;
-    this.loading = false;
+    // this.loading = false;
 
     if (process.client) {
       const location = localStorage.getItem("location");
@@ -385,13 +388,14 @@ export default defineComponent({
 
       var tableCodeParams = atob(tableCode);
       localStorage.setItem("table_code", tableCodeParams);
-      console.log("aa", tableCodeParams);
 
       // Check if tableCode exists in table_list
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       const tableExists = tableList.find(
         (table) => table.table_name === tableCodeParams
       );
+
+      this.fetchProducts();
 
       if (!tableExists) {
         console.error("Table code not found in table list.");
@@ -442,6 +446,7 @@ export default defineComponent({
   },
 
   async mounted() {
+    // this.fetchProducts();
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
     this.restaurantId = urlData.slug[0];
@@ -495,6 +500,18 @@ export default defineComponent({
     // console.log('beforeCreate')
   },
   methods: {
+    fetchProducts() {
+      // Simulasi pengambilan data
+      this.loadingProgress = 0;
+      const interval = setInterval(() => {
+        if (this.loadingProgress < 100) {
+          this.loadingProgress += 20; // Sesuaikan interval sesuai kebutuhan
+        } else {
+          clearInterval(interval);
+          this.isLoading = false; // Setelah data diambil, atur isLoading ke false
+        }
+      }, 200); // Sesuaikan interval sesuai kebutuhan
+    },
     async starter(locId) {
       try {
         // set lokasi
