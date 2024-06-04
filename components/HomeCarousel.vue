@@ -90,9 +90,10 @@ export default {
       this.locationName = dataRestaurant.loc_name;
       this.address = dataRestaurant.loc_addr;
       const tableCodeRaw = localStorage.getItem("table_code");
-      this.tableCode = tableCodeRaw? atob(tableCodeRaw) : "";
+      this.tableCode = tableCodeRaw;
       this.logo = dataRestaurant.loc_logo;
       const tableUrl = this.$route.query.table_code;
+
       if(tableUrl){
         this.isTableUrl = true;
       }else{

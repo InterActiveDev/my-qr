@@ -383,6 +383,23 @@ export default defineComponent({
         ? this.$route.query.table_code
         : urlData.slug[1];
 
+      var tableCodeParams = atob(tableCode);
+      localStorage.setItem("table_code", tableCodeParams);
+      console.log("aa", tableCodeParams);
+
+      // Check if tableCode exists in table_list
+      const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
+      const tableExists = tableList.find(
+        (table) => table.table_name === tableCodeParams
+      );
+
+      if (!tableExists) {
+        console.error("Table code not found in table list.");
+        this.isErrorUrl = true;
+        this.isHidden = false;
+        return this.$router.push("/page-not-found");
+      }
+
       if (use_table === 0) {
         // both
         if (tableCode) {
@@ -428,14 +445,14 @@ export default defineComponent({
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
     this.restaurantId = urlData.slug[0];
-    let locId = '';
+    let locId = "";
     try {
-        const decrypted = atob(this.restaurantId);
-        locId = decrypted;
+      const decrypted = atob(this.restaurantId);
+      locId = decrypted;
     } catch (e) {
-        console.error('Invalid restaurant ID:', e);
-        locId = null; 
-        return this.$router.push("/error");
+      console.error("Invalid restaurant ID:", e);
+      locId = null;
+      return this.$router.push("/page-not-found");
     }
 
     if (location && location != this.restaurantId) {
@@ -482,7 +499,6 @@ export default defineComponent({
       try {
         // set lokasi
         localStorage.setItem("location", this.restaurantId);
-
         // remove
         localStorage.removeItem("table_code");
         localStorage.removeItem("data_customer");
@@ -510,8 +526,10 @@ export default defineComponent({
         const tableCode = this.$route.query.table_code
           ? this.$route.query.table_code
           : this.$route.params.slug[1];
+        var tableParams = this.$route.query.table_code;
+
         if (tableCode) {
-          localStorage.setItem("table_code", tableCode);
+          localStorage.setItem("table_code", tableParams);
           this.tableCode = tableCode;
         } else {
           const tableCodeLocal = localStorage.getItem("table_code");
