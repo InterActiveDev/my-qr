@@ -18,26 +18,25 @@
 
 
 <script>
-
-export default defineComponent({
-    component: {
-        navbarTo: "/index",
-    },
-    mounted() {
-        const locId = this.$route.params.id;
-        if(locId){
-            localStorage.setItem("location", locId);
-            this.goToIndex();
-        }
-    },
-    methods: {
-        goToIndex() {
-            this.$router.push("/");
+    export default defineComponent({
+        component: {
+            navbarTo: "/index",
         },
-        openModalMenu() {
-            let modal = document.getElementById("modalMenu");
-            modal.showModal();
+        mounted() {
+            const locId = this.$route.params.id;
+            if(locId){
+                localStorage.setItem("location", locId);
+                this.goToIndex();
+            }
         },
-    },
-});
+        methods: {
+            goToIndex() {
+                this.$router.push("/");
+            },
+            openModalMenu() {
+                let modal = document.getElementById("modalMenu");
+                modal.showModal();
+            },
+        },
+    });
 </script>
