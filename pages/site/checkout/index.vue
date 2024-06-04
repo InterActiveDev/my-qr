@@ -2,7 +2,7 @@
   <div class="bg-black/50">
     <div class="flex justify-center">
       <section id="checkout">
-        <div class="frame ">
+        <div class="frame">
           <Navbar :to="navbarTo" />
 
           <div class="head-title">
@@ -11,7 +11,7 @@
 
           <div class="spacer"></div>
 
-          <div class="type-order ">
+          <div class="type-order">
             <span class="">Jenis Pesanan</span>
 
             <div class="type-order-data" v-if="orderTypes">
@@ -468,7 +468,7 @@
 
     <!-- modal promo -->
     <dialog id="modalPromo" class="modal bg-black/50" :open="showModalPromo">
-      <div class="modal-box ">
+      <div class="modal-box">
         <div class="modal-header">
           <h1>Pilih Promo</h1>
           <button @click="closeListPromo()">
@@ -637,9 +637,7 @@
         </div>
 
         <!-- modal error -->
-        <div>
-
-        </div>
+        <div></div>
         <!-- pass some data to here -->
       </div>
     </dialog>
@@ -666,7 +664,10 @@
         </div>
 
         <div class="mt-7 text-center">
-          <h1>Produk yang anda pilih tidak memenuhi kriteria untuk menggunakan Promo ini</h1>
+          <h1>
+            Produk yang anda pilih tidak memenuhi kriteria untuk menggunakan
+            Promo ini
+          </h1>
         </div>
       </div>
     </dialog>
@@ -698,7 +699,6 @@
       </div>
     </dialog>
     <!-- end modal  -->
-
   </div>
 
   <dialog id="modalWaiting" class="modal" v-if="showModalWaiting">
@@ -873,7 +873,8 @@ export default defineComponent({
   methods: {
     checkLocalStorage() {
       // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
-      const currentCartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+      const currentCartItems =
+        JSON.parse(localStorage.getItem("cart_items")) || [];
       // if (JSON.stringify(currentCartItems) !== []) {
       if (currentCartItems.length !== 0) {
         this.getList();
@@ -888,7 +889,7 @@ export default defineComponent({
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
-      this.tableCode = tableCodeRaw? atob(tableCodeRaw) : "";
+      this.tableCode = tableCodeRaw ? atob(tableCodeRaw) : "";
       let orderTypeData = localStorage.getItem("order_type");
       localStorage.setItem(
         "selected_type_order",
@@ -942,26 +943,34 @@ export default defineComponent({
 
       this.roundingType = data_restaurant.rounding;
       if (data_restaurant.rounding == "up") {
-        this.rounding = Math.ceil(tempTotalPay / data_restaurant.rounding_nominal) *
-          data_restaurant.rounding_nominal - tempTotalPay;
+        this.rounding =
+          Math.ceil(tempTotalPay / data_restaurant.rounding_nominal) *
+            data_restaurant.rounding_nominal -
+          tempTotalPay;
       } else if (data_restaurant.rounding == "down") {
-        this.rounding = Math.floor(tempTotalPay / data_restaurant.rounding_nominal) *
-          data_restaurant.rounding_nominal - tempTotalPay;
+        this.rounding =
+          Math.floor(tempTotalPay / data_restaurant.rounding_nominal) *
+            data_restaurant.rounding_nominal -
+          tempTotalPay;
       } else if (data_restaurant.rounding == "auto") {
         if (mod >= data_restaurant.rounding_nominal / 2) {
-          this.rounding = Math.ceil(tempTotalPay / data_restaurant.rounding_nominal) *
-            data_restaurant.rounding_nominal - tempTotalPay;
+          this.rounding =
+            Math.ceil(tempTotalPay / data_restaurant.rounding_nominal) *
+              data_restaurant.rounding_nominal -
+            tempTotalPay;
         } else {
-          this.rounding = Math.floor(tempTotalPay / data_restaurant.rounding_nominal) *
-            data_restaurant.rounding_nominal - tempTotalPay;
+          this.rounding =
+            Math.floor(tempTotalPay / data_restaurant.rounding_nominal) *
+              data_restaurant.rounding_nominal -
+            tempTotalPay;
         }
       } else {
         this.rounding = 0;
       }
 
       // disable buat tes tanpa rounding
-      // this.totalPay = tempTotalPay; 
-      this.totalPay = tempTotalPay + this.rounding; 
+      // this.totalPay = tempTotalPay;
+      this.totalPay = tempTotalPay + this.rounding;
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -1051,28 +1060,32 @@ export default defineComponent({
     selectPromo(id) {
       // edwin
       let isError = true;
-      this.selectedPromo = this.promos.filter((promo) => promo.promo_id === id)[0];
-      localStorage.setItem("selected_promo", JSON.stringify(this.selectedPromo));
+      this.selectedPromo = this.promos.filter(
+        (promo) => promo.promo_id === id
+      )[0];
+      localStorage.setItem(
+        "selected_promo",
+        JSON.stringify(this.selectedPromo)
+      );
 
       if (this.selectedPromo) {
-        this.products.filter(element => {
-            const productId = element.product.product_id.toString(); // Ensure the product ID is a string
-            if (this.selectedPromo.product_ids.includes(productId)) {
-              isError = false;
-            }
+        this.products.filter((element) => {
+          const productId = element.product.product_id.toString(); // Ensure the product ID is a string
+          if (this.selectedPromo.product_ids.includes(productId)) {
+            isError = false;
+          }
         });
       }
       this.showModalPromoDetail = false;
 
-      if(isError == true){
-
+      if (isError == true) {
         this.showModalErrorPromo = true;
 
         setTimeout(() => {
           this.removePromo();
           this.showModalErrorPromo = false;
         }, 3000); // 3000 milliseconds = 3 seconds
-      }else{
+      } else {
         this.recalculatePayment();
       }
     },
@@ -1103,15 +1116,20 @@ export default defineComponent({
     checkPromoValidity() {
       let isError = true;
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
-      this.selectedPromo = this.promos.filter((promo) => promo.promo_id === id)[0];
-      localStorage.setItem("selected_promo", JSON.stringify(this.selectedPromo));
+      this.selectedPromo = this.promos.filter(
+        (promo) => promo.promo_id === id
+      )[0];
+      localStorage.setItem(
+        "selected_promo",
+        JSON.stringify(this.selectedPromo)
+      );
 
       if (this.selectedPromo) {
-        this.products.filter(element => {
-            const productId = element.product.product_id.toString(); // Ensure the product ID is a string
-            if (this.selectedPromo.product_ids.includes(productId)) {
-              isError = false;
-            }
+        this.products.filter((element) => {
+          const productId = element.product.product_id.toString(); // Ensure the product ID is a string
+          if (this.selectedPromo.product_ids.includes(productId)) {
+            isError = false;
+          }
         });
       }
       this.showModalPromoDetail = false;
@@ -1140,7 +1158,9 @@ export default defineComponent({
 
           // Calculate total promo for items with product_id in productIds
           if (productIds.includes(item.product.product_id)) {
-            totalPromo += (parseFloat(item.product.product_pricenow) + modifierPrice) * item.quantityItem;
+            totalPromo +=
+              (parseFloat(item.product.product_pricenow) + modifierPrice) *
+              item.quantityItem;
           }
         }
       });
@@ -1160,15 +1180,19 @@ export default defineComponent({
 
       if (this.discType != "" && this.discAmmount != "" && selectedPromo) {
         let promTot = 0;
-        this.products.filter(element => {
-            const productId = element.product.product_id.toString(); // Ensure the product ID is a string
-            if (this.selectedPromo.product_ids.includes(productId)) {
-              if(this.selectedPromo.disc_type == '%'){
-                promTot += Math.floor(element.product.product_pricenow / 100 * this.selectedPromo.disc_amount * element.quantityItem);
-              }
+        this.products.filter((element) => {
+          const productId = element.product.product_id.toString(); // Ensure the product ID is a string
+          if (this.selectedPromo.product_ids.includes(productId)) {
+            if (this.selectedPromo.disc_type == "%") {
+              promTot += Math.floor(
+                (element.product.product_pricenow / 100) *
+                  this.selectedPromo.disc_amount *
+                  element.quantityItem
+              );
             }
+          }
         });
-          this.promo = promTot;
+        this.promo = promTot;
       }
       if (this.dataRestaurant.tax_nominal != null) {
         this.tax = Math.round(
@@ -1223,8 +1247,8 @@ export default defineComponent({
       }
 
       // disable buat tes tanpa rounding
-      // this.totalPay = tempTotalPay; 
-      this.totalPay = tempTotalPay + this.rounding; 
+      // this.totalPay = tempTotalPay;
+      this.totalPay = tempTotalPay + this.rounding;
       if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
@@ -1233,20 +1257,30 @@ export default defineComponent({
     backtoHome() {
       const location = localStorage.getItem("location");
       const tableCodeRaw = localStorage.getItem("table_code");
-      if(tableCodeRaw){
+      if (tableCodeRaw) {
         this.$router.push(
           "/restaurant/detail/" + location + "?table_code=" + btoa(ableCodeRaw)
         );
-      }else{
-        this.$router.push( "/restaurant/detail/" + location );
+      } else {
+        this.$router.push("/restaurant/detail/" + location);
       }
     },
     openModalDataCustomer() {
       let modal = document.getElementById("modalInformationData");
       modal.showModal();
+
+      const dataCustomer = JSON.parse(localStorage.getItem("data_customer"));
+      if(dataCustomer){
+        this.name = dataCustomer.name;
+        this.phone = dataCustomer.phone;
+      }
     },
     openModalPayment() {
+      let modalCustomer = document.getElementById("modalInformationData");
       let modal = document.getElementById("modalSelectPayments");
+      this.name = "";
+      this.phone = "";
+      modalCustomer.close();
 
       let checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
       const checkoutItem = {
@@ -1292,11 +1326,13 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData =
+        JSON.parse(localStorage.getItem("checkoutData")) || [];
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
+      const dataCustomer =
+        JSON.parse(localStorage.getItem("data_customer")) || [];
       const selectedOrderType = JSON.parse(
         localStorage.getItem("selected_type_order")
       );
@@ -1338,7 +1374,8 @@ export default defineComponent({
             stotal: checkoutData[0].subTotal,
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
-            payment_name: this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
+            payment_name:
+              this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
             paymdate: dateYMD,
           },
           guest_detail: {
@@ -1382,21 +1419,23 @@ export default defineComponent({
             const transactionId = result.data.result[0].transactionId;
             // get nota
             this.steps = "get transactionId";
-            const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+            const getNotaUrl =
+              "/qr_myorder/get_transaction?transactionId=" + transactionId;
             FetchData.getData(getNotaUrl).then((getNota) => {
               // sukses simpan transaksi
-                const data = {
-                  contents: result.data.result[0],
-                  nota: result.data.result[0].noNota,
-                  noNotaNew: getNota.data.data[0].myresto_ref,
-                  invoice: result.data.result[0].qrisData?.noNota,
-                  ref: result.data.result[0].qrisData?.refNo,
-                  expired: result.data.result[0].qrisData?.expiredDate,
-                };
-                localStorage.setItem("qrContent", JSON.stringify(data));
+              const data = {
+                contents: result.data.result[0],
+                nota: result.data.result[0].noNota,
+                noNotaNew: getNota.data.data[0].myresto_ref,
+                invoice: result.data.result[0].qrisData?.noNota,
+                ref: result.data.result[0].qrisData?.refNo,
+                expired: result.data.result[0].qrisData?.expiredDate,
+              };
+              localStorage.setItem("qrContent", JSON.stringify(data));
             });
 
-            if(this.table.paymentMethod != "e-money"){ // cash and other payment
+            if (this.table.paymentMethod != "e-money") {
+              // cash and other payment
               const token = localStorage.getItem("token");
               const noNota = {
                 no_nota: result.data.result[0].noNota,
@@ -1428,6 +1467,8 @@ export default defineComponent({
       modalSelectPayment.close();
     },
     openModalQrisMethod() {
+      let modalPayment = document.getElementById("modalSelectPayments");
+      modalPayment.close();
       this.showModalWaiting = true;
       this.$nextTick(() => {
         this.sendTransaction();
@@ -1449,6 +1490,8 @@ export default defineComponent({
       dataCustomer = dataCustomer ? JSON.parse(dataCustomer) : {};
 
       if (name === "cash") {
+        let modalPayment = document.getElementById("modalSelectPayments");
+        modalPayment.close();
         dataCustomer.paymentMethod = "cash";
         this.showModalWaiting = true;
 
@@ -1543,7 +1586,6 @@ export default defineComponent({
         phone: this.phone,
         order_date: new Date(),
       };
-
 
       if (process.client) {
         localStorage.setItem("data_customer", JSON.stringify(dataCustomer));
