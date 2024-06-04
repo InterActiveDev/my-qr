@@ -57,12 +57,6 @@
             </div>
           </div>
 
-          <!-- error page / not found page -->
-          <div v-if="!isHidden">
-            <NotFound />
-          </div>
-          <!-- end sort item -->
-
           <!-- Modal All Product -->
           <dialog id="modalAllProduct" class="modal" v-if="showModalCategory">
             <div class="modal-box">
@@ -109,7 +103,7 @@
 
           <!-- Loading -->
           <div
-            v-if="isLoading"
+            v-if="isLoading == 'open'"
             class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
           >
             <div class="bg-white p-6 rounded-lg text-center shadow-lg">
@@ -204,7 +198,11 @@
             </div>
           </div>
 
-          <div v-if="(searchQuery == '' && isErrorUrl == false) || !isLoading">
+          <div
+            v-if="
+              (searchQuery == '' && isErrorUrl == false) || isLoading == 'close'
+            "
+          >
             <div v-for="perProduct in products" :key="perProduct.category_id">
               <div
                 v-if="
@@ -298,6 +296,12 @@
             </div>
           </div>
 
+          <!-- error page / not found page -->
+          <div v-if="!isHidden || isLoading == 'close'">
+            <NotFound />
+          </div>
+          <!-- end sort item -->
+
           <BottomNavCart v-if="showBottomCart" />
         </div>
       </section>
@@ -366,7 +370,7 @@ export default defineComponent({
       localStorageListener: null,
       loading: true,
       tableCode: null,
-      isLoading: true,
+      isLoading: "",
       loadingProgress: 0,
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
@@ -386,22 +390,29 @@ export default defineComponent({
         ? this.$route.query.table_code
         : urlData.slug[1];
 
-      var tableCodeParams = atob(tableCode);
-      localStorage.setItem("table_code", tableCodeParams);
+      if (tableCode) {
+        var tableCodeParams = atob(tableCode);
+        localStorage.setItem("table_code", tableCodeParams);
 
-      // Check if tableCode exists in table_list
-      const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
-      const tableExists = tableList.find(
-        (table) => table.table_name === tableCodeParams
-      );
+        // Check if tableCode exists in table_list
+        const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
+        const tableExists = tableList.find(
+          (table) => table.table_name === tableCodeParams
+        );
 
-      this.fetchProducts();
+        this.fetchProducts();
 
-      if (!tableExists) {
-        console.error("Table code not found in table list.");
-        this.isErrorUrl = true;
-        this.isHidden = false;
-        return this.$router.push("/page-not-found");
+        if (!tableExists) {
+          console.error("Table code not found in table list.");
+          this.isErrorUrl = true;
+          this.isHidden = false;
+          return this.$router.push("/page-not-found");
+        }
+      } else {
+        var tableCodeParams = "";
+        localStorage.setItem("table_code", tableCodeParams);
+        this.isHidden = true;
+        // this.isLoading = false;
       }
 
       if (use_table === 0) {
@@ -502,13 +513,19 @@ export default defineComponent({
   methods: {
     fetchProducts() {
       // Simulasi pengambilan data
+      this.isLoading = "open";
       this.loadingProgress = 0;
       const interval = setInterval(() => {
         if (this.loadingProgress < 100) {
           this.loadingProgress += 20; // Sesuaikan interval sesuai kebutuhan
-        } else {
+        }
+        // else if() {
+
+        // }
+        else {
+          this.isLoading = "";
           clearInterval(interval);
-          this.isLoading = false; // Setelah data diambil, atur isLoading ke false
+          this.isLoading = "close";
         }
       }, 200); // Sesuaikan interval sesuai kebutuhan
     },
