@@ -1412,9 +1412,11 @@ export default defineComponent({
         });
       });
 
+      console.log('data[0]', data[0])
       const url_insert_transaction = "/qr_myorder/insert_transaction";
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
+          console.log('result', result)
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
             // get nota
