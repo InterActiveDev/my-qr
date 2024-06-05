@@ -1,6 +1,11 @@
 <template>
   <div class="frame-error">
     <section id="error">
+      <h1 class="text-center">
+        Terjadi kesalahan. 
+        <br>
+        Silahkan scan ulang QR code.
+      </h1>
       <img src="~/assets/images/not_found.png" alt="" />
     </section>
   </div>

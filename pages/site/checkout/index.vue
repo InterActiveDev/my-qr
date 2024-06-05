@@ -889,7 +889,7 @@ export default defineComponent({
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
-      this.tableCode = tableCodeRaw ? atob(tableCodeRaw) : "";
+      this.tableCode = tableCodeRaw ? tableCodeRaw : "";
       let orderTypeData = localStorage.getItem("order_type");
       localStorage.setItem(
         "selected_type_order",
@@ -1414,9 +1414,11 @@ export default defineComponent({
         });
       });
 
+      console.log('data[0]', data[0])
       const url_insert_transaction = "/qr_myorder/insert_transaction";
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
+          console.log('result', result)
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
             // get nota
