@@ -1499,6 +1499,7 @@ export default defineComponent({
       dataCustomer = dataCustomer ? JSON.parse(dataCustomer) : {};
 
       if (name === "cash") {
+        localStorage.removeItem("qrContent");
         let modalPayment = document.getElementById("modalSelectPayments");
         modalPayment.close();
         dataCustomer.paymentMethod = "cash";
@@ -1511,6 +1512,7 @@ export default defineComponent({
 
           const checkQrContent = setInterval(() => {
             const data = JSON.parse(localStorage.getItem("qrContent"));
+            console.log('data', data)
             if (data) {
               clearInterval(checkQrContent);
               this.$router.push("/site/receipt");
@@ -1518,6 +1520,7 @@ export default defineComponent({
           }, 1000);
         });
       } else if (name === "e-money") {
+        localStorage.removeItem("qrContent");
         dataCustomer.paymentMethod = "e-money";
         this.openModalQrisMethod();
       } else {
