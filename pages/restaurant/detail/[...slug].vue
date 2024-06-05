@@ -297,9 +297,9 @@
           </div>
 
           <!-- error page / not found page -->
-          <div v-if="!isHidden || isLoading == 'close'">
+          <!-- <div v-if="!isHidden || isLoading == 'close'">
             <NotFound />
-          </div>
+          </div> -->
           <!-- end sort item -->
 
           <BottomNavCart v-if="showBottomCart" />
@@ -381,7 +381,6 @@ export default defineComponent({
     // this.loading = false;
 
     if (process.client) {
-      this.fetchProducts();
       const location = localStorage.getItem("location");
       const urlData = this.$route.params;
       this.restaurantId = urlData.slug[0];
@@ -390,6 +389,8 @@ export default defineComponent({
       const tableCode = this.$route.query.table_code
         ? this.$route.query.table_code
         : urlData.slug[1];
+
+      this.fetchProducts();
 
       if (use_table === 0) {
         // both
@@ -429,43 +430,24 @@ export default defineComponent({
       if (use_table === 1 && !tableCode) {
         this.isSkeleton = false;
       }
-
-      if (tableCode) {
-        var tableCodeParams = atob(tableCode);
-        console.log("a", tableCodeParams);
-        localStorage.setItem("table_code", tableCodeParams);
-
-        // Check if tableCode exists in table_list
-        const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
-        const tableExists = tableList.find(
-          (table) => table.table_name === tableCodeParams
-        );
-
-        if (!tableExists) {
-          console.error("Table code not found in table list.");
-          this.isErrorUrl = true;
-          this.isHidden = false;
-          return this.$router.push("/page-not-found");
-        }
-      } else {
-        var tableCodeParams = "";
-        localStorage.setItem("table_code", tableCodeParams);
-        return this.$router.push("/table-not-found");
-        // this.isHidden = true;
-        // this.isLoading = false;
-      }
     }
   },
 
   async mounted() {
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
-
-    this.restaurantId = urlData.slug[0];
+    
     let locId = "";
+
     try {
-      const decrypted = atob(this.restaurantId);
-      locId = decrypted;
+      const decrypted = atob(urlData.slug[0]);
+      if (decrypted.includes("&mymenu")) {
+        const cleanLocId = decrypted.split("&mymenu")[0];
+        locId = cleanLocId;
+      }else{
+        locId = decrypted;
+      }
+      this.restaurantId = btoa(locId);
     } catch (e) {
       console.error("Invalid restaurant ID:", e);
       locId = null;
@@ -496,6 +478,34 @@ export default defineComponent({
         // jika data update terakhir tidak sesuai dengan data kita, sinkronkan data ulang
         await this.starter(locId);
       }
+    }
+
+    const tableCode = this.$route.query.table_code
+      ? this.$route.query.table_code
+      : urlData.slug[1];
+
+    if (tableCode) {
+      var tableCodeParams = atob(tableCode);
+      localStorage.setItem("table_code", tableCodeParams);
+
+      // Check if tableCode exists in table_list
+      const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
+      const tableExists = tableList.find(
+        (table) => table.table_name === tableCodeParams
+      );
+
+      if (!tableExists) {
+        console.error("Table code not found in table list.");
+        this.isErrorUrl = true;
+        this.isHidden = false;
+        return this.$router.push("/page-not-found");
+      }
+    } else {
+      var tableCodeParams = "";
+      localStorage.setItem("table_code", tableCodeParams);
+      return this.$router.push("/table-not-found");
+      // this.isHidden = true;
+      // this.isLoading = false;
     }
 
     this.getListCategory();
@@ -668,9 +678,14 @@ export default defineComponent({
         localStorage.setItem("table_list", JSON.stringify(resTables.data.data));
 
         // set menu
+        this.steps = "sync data";
         const response = await FetchData.synchronize(locId);
         localStorage.setItem("data_menu", JSON.stringify(response.data.data));
       } catch (error) {
+        this.isErrorUrl = false;
+        this.isSkeleton = false;
+        this.isHidden = true;
+        console.log('error in steps: ', this.steps)
         console.log("error: " + error.message);
       }
     },
