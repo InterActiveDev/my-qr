@@ -284,6 +284,7 @@ export default defineComponent({
         const typeOrderData = localStorage.getItem("selected_type_order");
         const checkoutData = localStorage.getItem("checkoutData");
         const transactions = localStorage.getItem("qrContent");
+        console.log('transactions', transactions)
         const location = localStorage.getItem("location");
         const dataRestaurant = localStorage.getItem("data_restaurant");
         this.table = localStorage.getItem("table_code");
@@ -304,6 +305,7 @@ export default defineComponent({
         this.restaurant = dataRestaurant ? JSON.parse(dataRestaurant) : {};
 
         this.noNota = JSON.parse(transactions).noNotaNew;
+        console.log('JSON.parse(transactions).noNotaNew', JSON.parse(transactions).noNotaNew)
         this.payment = JSON.parse(transactions).contents.paymentMethod;
 
         const paymentStatus = JSON.parse(transactions).contents.status;
