@@ -1585,7 +1585,7 @@ export default defineComponent({
     goToReceipt() {
       const dataCustomer = {
         table: "",
-        // table: this.tableCode,
+        table: this.tableCode,
         name: this.name,
         phone: this.phone,
         order_date: new Date(),
