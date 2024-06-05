@@ -200,7 +200,7 @@
 
           <div
             v-if="
-              (searchQuery == '' && isErrorUrl == false) || isLoading == 'close'
+              (searchQuery == '' && isErrorUrl == false)
             "
           >
             <div v-for="perProduct in products" :key="perProduct.category_id">
