@@ -390,30 +390,7 @@ export default defineComponent({
         ? this.$route.query.table_code
         : urlData.slug[1];
 
-      if (tableCode) {
-        var tableCodeParams = atob(tableCode);
-        localStorage.setItem("table_code", tableCodeParams);
-
-        // Check if tableCode exists in table_list
-        const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
-        const tableExists = tableList.find(
-          (table) => table.table_name === tableCodeParams
-        );
-
-        this.fetchProducts();
-
-        if (!tableExists) {
-          console.error("Table code not found in table list.");
-          this.isErrorUrl = true;
-          this.isHidden = false;
-          return this.$router.push("/page-not-found");
-        }
-      } else {
-        var tableCodeParams = "";
-        localStorage.setItem("table_code", tableCodeParams);
-        this.isHidden = true;
-        // this.isLoading = false;
-      }
+      this.fetchProducts();
 
       if (use_table === 0) {
         // both
@@ -497,6 +474,32 @@ export default defineComponent({
       }
     }
 
+    const use_table = JSON.parse(localStorage.getItem("use_table"));
+    const tableCode = this.$route.query.table_code
+      ? this.$route.query.table_code
+      : urlData.slug[1];
+
+    if (tableCode) {
+      var tableCodeParams = atob(tableCode);
+      localStorage.setItem("table_code", tableCodeParams);
+
+      // Check if tableCode exists in table_list
+      const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
+      const tableExists = tableList.find(
+        (table) => table.table_name === tableCodeParams
+      );
+
+      if (!tableExists) {
+        console.error("Table code not found in table list.");
+        this.isErrorUrl = true;
+        this.isHidden = false;
+        return this.$router.push("/page-not-found");
+      }
+    } else {
+      var tableCodeParams = "";
+      localStorage.setItem("table_code", tableCodeParams);
+      this.isHidden = true;
+    }
     this.getListCategory();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
 

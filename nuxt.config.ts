@@ -11,7 +11,10 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'My Order',
-      viewport: 'initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width, height=device-height, target-densitydpi=device-dpi'
+      viewport: 'initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width, height=device-height, target-densitydpi=device-dpi',
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: 'https://interactive.co.id/product/images/assets/product_detail/favicon.png' }
+      ],
     }
   },
 
