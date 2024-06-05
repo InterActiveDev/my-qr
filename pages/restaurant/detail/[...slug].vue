@@ -432,6 +432,7 @@ export default defineComponent({
 
       if (tableCode) {
         var tableCodeParams = atob(tableCode);
+        console.log("a", tableCodeParams);
         localStorage.setItem("table_code", tableCodeParams);
 
         // Check if tableCode exists in table_list
@@ -459,9 +460,6 @@ export default defineComponent({
   async mounted() {
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
-    const tableCode = this.$route.query.table_code
-      ? this.$route.query.table_code
-      : urlData.slug[1];
 
     this.restaurantId = urlData.slug[0];
     let locId = "";
