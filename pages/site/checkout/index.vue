@@ -1270,7 +1270,7 @@ export default defineComponent({
       modal.showModal();
 
       const dataCustomer = JSON.parse(localStorage.getItem("data_customer"));
-      if(dataCustomer){
+      if (dataCustomer) {
         this.name = dataCustomer.name;
         this.phone = dataCustomer.phone;
       }
@@ -1340,6 +1340,7 @@ export default defineComponent({
         localStorage.getItem("data_restaurant")
       );
       const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
+      const tableCode = localStorage.getItem("table_code");
 
       paymentMethod.forEach((element) => {
         if (this.table.paymentMethod == element.payment_category) {
@@ -1357,13 +1358,14 @@ export default defineComponent({
       const seconds = String(today.getSeconds()).padStart(2, "0");
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
       const data = [
         {
           mID: data_restaurant.mID, // kalau pakai qris
           appid: data_restaurant.appid,
           loc_id: locId,
           // restaurant_table: "",
-          restaurant_table: this.tableCode,
+          restaurant_table: tableCode,
           type_order: selectedOrderType.code_type,
           hl_enable_login: data_restaurant.hl_enable_login,
           data: [],

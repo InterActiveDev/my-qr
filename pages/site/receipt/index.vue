@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="title">
-                  <span>{{restaurant.loc_name}}</span>
+                  <span>{{ restaurant.loc_name }}</span>
                   <p>{{ restaurant.loc_addr }}</p>
                 </div>
               </div>
@@ -26,7 +26,7 @@
                   <div class="items">
                     <span class="title">Tanggal Order</span>
                     <span class="detail">{{
-                      customer.order_date? formatDate(customer.order_date):""
+                      customer.order_date ? formatDate(customer.order_date) : ""
                     }}</span>
                   </div>
                 </div>
@@ -38,8 +38,8 @@
                   </div>
                   <div class="items">
                     <span class="title">Meja</span>
-                    <span class="detail" v-if="customer.table !== ''">{{
-                      customer.table
+                    <span class="detail" v-if="table !== ''">{{
+                      table
                     }}</span>
                     <span class="detail" v-else>-</span>
                   </div>
@@ -53,7 +53,7 @@
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
                     <span class="detail">{{
-                      customer.order_date? formatDate(customer.order_date):""
+                      customer.order_date ? formatDate(customer.order_date) : ""
                     }}</span>
                   </div>
                 </div>
@@ -150,7 +150,11 @@
             <button class="btn btn-primary-outline" @click="backToHome">
               Pesan Lagi
             </button>
-            <button class="btn btn-primary" v-if="payment == 'cash'" @click="openModalCash">
+            <button
+              class="btn btn-primary"
+              v-if="payment == 'cash'"
+              @click="openModalCash"
+            >
               Bayar
             </button>
           </div>
@@ -244,10 +248,19 @@ export default defineComponent({
   },
   methods: {
     downloadReceipt() {
-      const dataRestaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+      const dataRestaurant = JSON.parse(
+        localStorage.getItem("data_restaurant")
+      );
       const dataCustomer = JSON.parse(localStorage.getItem("data_customer"));
       const date = this.formatDate(this.customer.order_date);
-      const filename = dataRestaurant.loc_name + "-" + dataCustomer.name + "-" + date + "-" + this.noNota;
+      const filename =
+        dataRestaurant.loc_name +
+        "-" +
+        dataCustomer.name +
+        "-" +
+        date +
+        "-" +
+        this.noNota;
       html2canvas(document.getElementById("receipt"), {
         logging: true,
         allowTaint: false,
@@ -273,14 +286,16 @@ export default defineComponent({
         const transactions = localStorage.getItem("qrContent");
         const location = localStorage.getItem("location");
         const dataRestaurant = localStorage.getItem("data_restaurant");
-        
-        if(!customerData || !typeOrderData || !checkoutData || !transactions){
-          this.$router.push("/restaurant/detail/"+location);
-          return; 
+        this.table = localStorage.getItem("table_code");
+
+        if (!customerData || !typeOrderData || !checkoutData || !transactions) {
+          this.$router.push("/restaurant/detail/" + location);
+          return;
         }
 
         const tableCode = localStorage.getItem("table_code");
-        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode);
+        this.navbarTo =
+          "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode);
 
         this.customer = customerData ? JSON.parse(customerData) : {};
         this.typeOrder = typeOrderData ? JSON.parse(typeOrderData) : {};
@@ -290,10 +305,11 @@ export default defineComponent({
 
         this.noNota = JSON.parse(transactions).noNotaNew;
         this.payment = JSON.parse(transactions).contents.paymentMethod;
-        
+
         const paymentStatus = JSON.parse(transactions).contents.status;
-        if(paymentStatus !== undefined){
-          this.status = JSON.parse(transactions).contents.status == 0 ? "PENDING" : "LUNAS";
+        if (paymentStatus !== undefined) {
+          this.status =
+            JSON.parse(transactions).contents.status == 0 ? "PENDING" : "LUNAS";
         }
 
         if (this.locProducts.length > 0) {
@@ -306,7 +322,7 @@ export default defineComponent({
     openModalCash() {
       // edw receipt
       // Select the element that you want to capture
-      
+
       let modalBill = document.getElementById("modalNotaCash");
       modalBill.showModal();
     },
@@ -324,13 +340,13 @@ export default defineComponent({
       const location = localStorage.getItem("location");
       const tableCode = localStorage.getItem("table_code");
 
-      if(tableCode){
+      if (tableCode) {
         this.$router.push(
           "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode)
         );
-      }else{
+      } else {
         console.log("b");
-        this.$router.push( "/restaurant/detail/" + location );
+        this.$router.push("/restaurant/detail/" + location);
       }
     },
     getCookie(name) {
@@ -376,17 +392,30 @@ export default defineComponent({
       return nominal.toLocaleString().replace(/,/g, ".");
     },
     formatDate(dateString) {
-        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        
-        const date = new Date(dateString);
-        const day = date.getDate();
-        const month = months[date.getMonth()];
-        const year = date.getFullYear();
-        
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        
-        return `${day} ${month} ${year} - ${hours}:${minutes}`;
+      const months = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+
+      return `${day} ${month} ${year} - ${hours}:${minutes}`;
     },
     formatHours(dateString) {
       const date = new Date(dateString);
