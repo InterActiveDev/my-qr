@@ -28,7 +28,7 @@
             @error="handleImageError"
           />
           <!-- Overlay elements -->
-          <span class="overlay-text-label" v-if="this.tableCode">
+          <span class="overlay-text-label" v-if="tableCode && tableCode !== 'undefined'">
             Table : {{ tableCode }}
           </span>
           <div class="overlay">
@@ -90,7 +90,7 @@ export default {
       this.locationName = dataRestaurant.loc_name;
       this.address = dataRestaurant.loc_addr;
       const tableCodeRaw = localStorage.getItem("table_code");
-      this.tableCode = tableCodeRaw;
+      this.tableCode = tableCodeRaw? tableCodeRaw:null;
       this.logo = dataRestaurant.loc_logo;
       const tableUrl = this.$route.query.table_code;
 
