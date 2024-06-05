@@ -484,6 +484,8 @@ export default defineComponent({
       ? this.$route.query.table_code
       : urlData.slug[1];
 
+    const use_table = localStorage.getItem("use_table");
+    
     if (tableCode) {
       var tableCodeParams = atob(tableCode);
       localStorage.setItem("table_code", tableCodeParams);
@@ -501,9 +503,11 @@ export default defineComponent({
         return this.$router.push("/page-not-found");
       }
     } else {
-      var tableCodeParams = "";
-      localStorage.setItem("table_code", tableCodeParams);
-      return this.$router.push("/table-not-found");
+      if(use_table == 1){
+        var tableCodeParams = "";
+        localStorage.setItem("table_code", tableCodeParams);
+        return this.$router.push("/table-not-found");
+      }
       // this.isHidden = true;
       // this.isLoading = false;
     }

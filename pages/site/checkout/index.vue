@@ -1259,7 +1259,7 @@ export default defineComponent({
       const tableCodeRaw = localStorage.getItem("table_code");
       if (tableCodeRaw) {
         this.$router.push(
-          "/restaurant/detail/" + location + "?table_code=" + btoa(ableCodeRaw)
+          "/restaurant/detail/" + location + "?table_code=" + btoa(tableCodeRaw)
         );
       } else {
         this.$router.push("/restaurant/detail/" + location);
@@ -1421,21 +1421,6 @@ export default defineComponent({
           console.log('result', result)
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
-            // get nota
-            this.steps = "get transactionId";
-            const getNotaUrl =
-              "/qr_myorder/get_transaction?transactionId=" + transactionId;
-            FetchData.getData(getNotaUrl).then((getNota) => {
-              // sukses simpan transaksi
-              const data = {
-                contents: result.data.result[0],
-                nota: result.data.result[0].noNota,
-                noNotaNew: getNota.data.data[0].myresto_ref,
-                invoice: result.data.result[0].qrisData?.noNota,
-                ref: result.data.result[0].qrisData?.refNo,
-                expired: result.data.result[0].qrisData?.expiredDate,
-              };
-            });
 
             if (this.table.paymentMethod != "e-money") {
               // cash and other payment
@@ -1446,14 +1431,15 @@ export default defineComponent({
               FetchData.syncMyResto(noNota, token)
                 .then((resultPos) => {
                   // console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
-                  // localStorage.setItem("isCheckout");
-                  localStorage.setItem("qrContent", JSON.stringify(data));
+                  // get nota
+                  this.getNota(result, transactionId);
                 })
                 .catch((err) => {
                   console.log("err: ", err.message);
                 });
             }else{
-              localStorage.setItem("qrContent", JSON.stringify(data));
+              // get nota
+              this.getNota(result, transactionId);
             }
           }
         })
@@ -1490,6 +1476,22 @@ export default defineComponent({
           this.$router.push("/qris");
         }
       }, 1000);
+    },
+    getNota(result, transactionId) {
+      this.steps = "get transactionId";
+      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+      FetchData.getData(getNotaUrl).then((getNota) => {
+        // sukses simpan transaksi
+        const dataQrContent = {
+          contents: result.data.result[0],
+          nota: result.data.result[0].noNota,
+          noNotaNew: getNota.data.data[0].myresto_ref,
+          invoice: result.data.result[0].qrisData?.noNota,
+          ref: result.data.result[0].qrisData?.refNo,
+          expired: result.data.result[0].qrisData?.expiredDate,
+        };
+        localStorage.setItem("qrContent", JSON.stringify(dataQrContent));
+      });
     },
     async openModal(name) {
       let dataCustomer = localStorage.getItem("data_customer");

@@ -16,6 +16,8 @@ export default defineComponent({
   },
   mounted() {
     const locId = this.$route.params.id;
+    localStorage.clear();
+
     if (locId) {
       localStorage.setItem("location", locId);
       this.goToIndex();
