@@ -1475,7 +1475,7 @@ export default defineComponent({
           clearInterval(checkQrContent);
           this.$router.push("/qris");
         }
-      }, 1000);
+      }, 2000);
     },
     getNota(result, transactionId) {
       this.steps = "get transactionId";
