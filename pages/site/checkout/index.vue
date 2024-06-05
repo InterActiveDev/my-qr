@@ -1435,7 +1435,6 @@ export default defineComponent({
                 ref: result.data.result[0].qrisData?.refNo,
                 expired: result.data.result[0].qrisData?.expiredDate,
               };
-              localStorage.setItem("qrContent", JSON.stringify(data));
             });
 
             if (this.table.paymentMethod != "e-money") {
@@ -1447,10 +1446,14 @@ export default defineComponent({
               FetchData.syncMyResto(noNota, token)
                 .then((resultPos) => {
                   // console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
+                  // localStorage.setItem("isCheckout");
+                  localStorage.setItem("qrContent", JSON.stringify(data));
                 })
                 .catch((err) => {
                   console.log("err: ", err.message);
                 });
+            }else{
+              localStorage.setItem("qrContent", JSON.stringify(data));
             }
           }
         })
