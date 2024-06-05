@@ -436,12 +436,18 @@ export default defineComponent({
   async mounted() {
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
-
-    this.restaurantId = urlData.slug[0];
+    
     let locId = "";
+
     try {
-      const decrypted = atob(this.restaurantId);
-      locId = decrypted;
+      const decrypted = atob(urlData.slug[0]);
+      if (decrypted.includes("&mymenu")) {
+        const cleanLocId = decrypted.split("&mymenu")[0];
+        locId = cleanLocId;
+      }else{
+        locId = decrypted;
+      }
+      this.restaurantId = btoa(locId);
     } catch (e) {
       console.error("Invalid restaurant ID:", e);
       locId = null;
@@ -672,9 +678,14 @@ export default defineComponent({
         localStorage.setItem("table_list", JSON.stringify(resTables.data.data));
 
         // set menu
+        this.steps = "sync data";
         const response = await FetchData.synchronize(locId);
         localStorage.setItem("data_menu", JSON.stringify(response.data.data));
       } catch (error) {
+        this.isErrorUrl = false;
+        this.isSkeleton = false;
+        this.isHidden = true;
+        console.log('error in steps: ', this.steps)
         console.log("error: " + error.message);
       }
     },
