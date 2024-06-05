@@ -93,7 +93,7 @@ export default {
       this.tableCode = tableCodeRaw;
       this.logo = dataRestaurant.loc_logo;
       const tableUrl = this.$route.query.table_code;
-
+      
       if(tableUrl){
         this.isTableUrl = true;
       }else{

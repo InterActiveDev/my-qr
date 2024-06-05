@@ -1,12 +1,8 @@
 <template>
   <div class="frame-error">
     <section id="error">
-      <h1 class="text-center">
-        Terjadi kesalahan. 
-        <br>
-        Silahkan scan ulang QR code.
-      </h1>
-      <img src="~/assets/images/not_found.png" alt="" />
+        <span>Maaf sepertinya meja anda nggak ada, coba scan lagi</span>
+      <img src="~/assets/images/not_found_2.png" alt="" />
     </section>
   </div>
   <!-- <div class="h-screen bg-white"></div> -->
