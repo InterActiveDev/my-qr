@@ -889,7 +889,7 @@ export default defineComponent({
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
-      this.tableCode = tableCodeRaw ? atob(tableCodeRaw) : "";
+      this.tableCode = tableCodeRaw ? tableCodeRaw : "";
       let orderTypeData = localStorage.getItem("order_type");
       localStorage.setItem(
         "selected_type_order",
