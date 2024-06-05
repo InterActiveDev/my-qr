@@ -333,6 +333,7 @@ export default defineComponent({
       modalBill.close();
     },
     backToHome() {
+      localStorage.removeItem("qrContent");
       localStorage.removeItem("cartItems");
       localStorage.removeItem("selected_type_order");
       localStorage.removeItem("data_customer");

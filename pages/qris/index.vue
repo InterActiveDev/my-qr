@@ -319,7 +319,7 @@ export default defineComponent({
 
       const data_restaurant = localStorage.getItem("data_restaurant");
       const mid = data_restaurant ? JSON.parse(data_restaurant) : "";
-
+      console.log('data', data)
       const checkoutData = localStorage.getItem("checkoutData");
       const checkout = checkoutData? JSON.parse(checkoutData):'';
       
@@ -327,6 +327,7 @@ export default defineComponent({
         this.expiredDate = data.expired;
         this.transactionId = data.contents.transactionId;
         this.link = data.contents.qrisData.content;
+        console.log('data.contents.qrisData.content', data.contents.qrisData.content)
         this.nmid = data.contents.qrisData.nmid;
         this.mID = mid.mID;
         this.total = checkout[0].total.toString();
