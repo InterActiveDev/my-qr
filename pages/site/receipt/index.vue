@@ -90,7 +90,7 @@
                           {{ data.product.topping }}
                         </p>
                         <p>
-                          {{ data.note }}
+                          {{ data.note.slice(0, 50) + "..." }}
                         </p>
                       </div>
                     </div>
@@ -145,6 +145,7 @@
             </div>
           </div>
         </section>
+
         <div class="bottom-nav-receipt" v-if="!isGeneratingPDF">
           <div class="row-bottom-nav">
             <button class="btn btn-primary-outline" @click="backToHome">
