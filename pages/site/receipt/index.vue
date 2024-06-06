@@ -90,7 +90,7 @@
                           {{ data.product.topping }}
                         </p>
                         <p>
-                          {{ data.note.slice(0, 50) + "..." }}
+                          {{ data.note.slice(0, 30) + "..." }}
                         </p>
                       </div>
                     </div>
