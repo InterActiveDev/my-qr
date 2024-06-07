@@ -349,7 +349,6 @@ export default defineComponent({
           "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode)
         );
       } else {
-        console.log("b");
         this.$router.push("/restaurant/detail/" + location);
       }
     },
