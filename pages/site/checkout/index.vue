@@ -883,8 +883,11 @@ export default defineComponent({
     async getList() {
       const location = localStorage.getItem("location");
       const tableCodeRaw = localStorage.getItem("table_code");
-      this.navbarTo =
-        "/restaurant/detail/" + location + "?table_code=" + btoa(tableCodeRaw);
+      if(localStorage.getItem('table_code') == 'null' || localStorage.getItem('table_code') == null){
+        this.navbarTo = "/restaurant/detail/" + location ;
+      }else{
+        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCodeRaw);
+      }
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
@@ -1512,11 +1515,11 @@ export default defineComponent({
 
           const checkQrContent = setInterval(() => {
             const data = JSON.parse(localStorage.getItem("qrContent"));
-            console.log('data', data)
-            if (data) {
+            // console.log('data', data)
+            // if (data) {
               clearInterval(checkQrContent);
               this.$router.push("/site/receipt");
-            }
+            // }
           }, 1000);
         });
       } else if (name === "e-money") {
