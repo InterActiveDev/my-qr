@@ -196,7 +196,7 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          console.log("error.message", error.message);
+          console.log("error message (1) : ", error.message);
         });
     },
     formatTime(seconds) {
@@ -267,7 +267,7 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          console.log("error.message", error.message);
+          console.log("error message (2) : ", error.message);
         });
     },
     updatePayment() {
@@ -308,45 +308,33 @@ export default defineComponent({
         nota_short: shortNota,
       };
       this.showModalWaitingQris = true; // to show the modal
-      console.log('this.transactionId', this.transactionId)
-      this.steps = "get transactionId";
-      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
-      FetchData.getData(getNotaUrl).then((getNota) => {
-        // sukses simpan transaksi
-        console.log('getNota', getNota)
-      })
-
-      this.toInputReceipt();
+     
 
       FetchData.updateData(urlUpdatePayment, data)
         .then((res) => {
           clearInterval(this.intervalId);
-          // localStorage.removeItem("qrContent");
 
-          setTimeout(() => {
-            this.toInputReceipt();
-          }, 2000);
+          this.steps = "get transactionId";
+          const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
+          FetchData.getData(getNotaUrl).then((getNota) => {
+            // sukses simpan transaksi
+            if(getNota.data.data.status === 1 || getNota.data.data.myresto_ref !== "") {
+              const qrContent = JSON.parse(localStorage.getItem("qrContent"));
+              qrContent.qr_nota_short = getNota.data.data[0].myresto_ref;
+              qrContent.qr_status = getNota.data.data[0].status;
+              localStorage.removeItem("qrContent");
+              
+              localStorage.setItem("qrContent", JSON.stringify(qrContent));
+              setTimeout(() => {
+                this.toInputReceipt();
+              }, 1000);
+            }
+          })
+
         })
         .catch((error) => {
-          console.log("error.message xx", error.message);
+          console.log("error message (3) : ", error.message);
         });
-    },
-    getNota(result, transactionId) {
-      this.steps = "get transactionId";
-      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
-      console.log('result.data.result[0]', result.data.result[0])
-      FetchData.getData(getNotaUrl).then((getNota) => {
-        // sukses simpan transaksi
-        const dataQrContent = {
-          contents: result.data.result[0],
-          nota: result.data.result[0].noNota,
-          noNotaNew: getNota.data.data[0].myresto_ref,
-          invoice: result.data.result[0].qrisData?.noNota,
-          ref: result.data.result[0].qrisData?.refNo,
-          expired: result.data.result[0].qrisData?.expiredDate,
-        };
-        localStorage.setItem("qrContent", JSON.stringify(dataQrContent));
-      });
     },
     getQr() {
       const qrContent = localStorage.getItem("qrContent");
@@ -354,7 +342,6 @@ export default defineComponent({
 
       const data_restaurant = localStorage.getItem("data_restaurant");
       const mid = data_restaurant ? JSON.parse(data_restaurant) : "";
-      console.log('data', data)
       const checkoutData = localStorage.getItem("checkoutData");
       const checkout = checkoutData? JSON.parse(checkoutData):'';
       
@@ -362,7 +349,6 @@ export default defineComponent({
         this.expiredDate = data.expired;
         this.transactionId = data.contents.transactionId;
         this.link = data.contents.qrisData.content;
-        console.log('data.contents.qrisData.content', data.contents.qrisData.content)
         this.nmid = data.contents.qrisData.nmid;
         this.mID = mid.mID;
         this.total = checkout[0].total.toString();

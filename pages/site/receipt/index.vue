@@ -286,8 +286,7 @@ export default defineComponent({
         const customerData = localStorage.getItem("data_customer");
         const typeOrderData = localStorage.getItem("selected_type_order");
         const checkoutData = localStorage.getItem("checkoutData");
-        const transactions = localStorage.getItem("qrContent");
-        console.log("transactions", transactions);
+        const transactions = JSON.parse(localStorage.getItem("qrContent"));
         const location = localStorage.getItem("location");
         const dataRestaurant = localStorage.getItem("data_restaurant");
         this.table = localStorage.getItem("table_code");
@@ -304,20 +303,12 @@ export default defineComponent({
         this.customer = customerData ? JSON.parse(customerData) : {};
         this.typeOrder = typeOrderData ? JSON.parse(typeOrderData) : {};
         this.locProducts = checkoutData ? JSON.parse(checkoutData) : [];
-        this.transaction = transactions ? JSON.parse(transactions) : {};
+        this.transaction = transactions ? transactions : {};
         this.restaurant = dataRestaurant ? JSON.parse(dataRestaurant) : {};
 
-        this.noNota = JSON.parse(transactions).noNotaNew ;
-
-        // this.noNota = shortNota;
-        console.log('JSON.parse(transactions).noNotaNew', JSON.parse(transactions).noNotaNew)
-        this.payment = JSON.parse(transactions).contents.paymentMethod;
-        console.log('JSON.parse(transactions).contents.status', JSON.parse(transactions).contents.status)
-        const paymentStatus = JSON.parse(transactions).contents.status;
-        if (paymentStatus !== undefined) {
-          this.status =
-            JSON.parse(transactions).contents.status == 0 ? "PENDING" : "LUNAS";
-        }
+        this.noNota = transactions.noNotaNew != null? transactions.noNotaNew : transactions.qr_nota_short? transactions.qr_nota_short:'';
+        this.payment = transactions.contents.paymentMethod;
+        this.status = transactions.contents.status != undefined? transactions.contents.status : transactions.qr_status == 1? "LUNAS":"PENDING";
 
         if (this.locProducts.length > 0) {
           this.products = this.locProducts[0].product || [];
