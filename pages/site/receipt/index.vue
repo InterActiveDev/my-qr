@@ -61,7 +61,7 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Pembayaran</span>
-                    <span class="detail">{{ payment }}</span>
+                    <span class="detail">{{ payment.toUpperCase() }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Status</span>
@@ -305,10 +305,12 @@ export default defineComponent({
         this.transaction = transactions ? JSON.parse(transactions) : {};
         this.restaurant = dataRestaurant ? JSON.parse(dataRestaurant) : {};
 
-        this.noNota = JSON.parse(transactions).noNotaNew;
+        this.noNota = JSON.parse(transactions).noNotaNew ;
+
+        // this.noNota = shortNota;
         console.log('JSON.parse(transactions).noNotaNew', JSON.parse(transactions).noNotaNew)
         this.payment = JSON.parse(transactions).contents.paymentMethod;
-
+        console.log('JSON.parse(transactions).contents.status', JSON.parse(transactions).contents.status)
         const paymentStatus = JSON.parse(transactions).contents.status;
         if (paymentStatus !== undefined) {
           this.status =

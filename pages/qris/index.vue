@@ -235,12 +235,10 @@ export default defineComponent({
     async generateQRCode(content) {
       const currentUrl = window.location.pathname;
       let timerStop = 0;
-      console.log('content', content)
       try {
         const qrCodeDataURL = await QRCode.toDataURL(content);
         this.qrCodeImage = qrCodeDataURL;
         const intervalId = setInterval(() => {
-          // if(currentUrl === '/qris'){
           if (timerStop <= 120) {
             // buat stop proses di background
             this.checkPayment(this.mID, this.invoiceId, this.refNo);
@@ -273,6 +271,7 @@ export default defineComponent({
         });
     },
     updatePayment() {
+
       const today = new Date();
       const year = today.getFullYear();
       const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -284,19 +283,32 @@ export default defineComponent({
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
-      const url = "/qr_myorder/update_payment";
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const urlUpdatePayment = "/qr_myorder/update_payment";
+
+      const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+      const qrContent = JSON.parse(localStorage.getItem("qrContent"));
+
+      let alpha = "";
+      let restoname = restaurant.loc_name.split(' ');
+
+      restoname.forEach(function(name) {
+          alpha += name.charAt(0).toUpperCase();
+      });
+
+      let short = String(qrContent.contents.qrisData.invoiceId).slice(-4);
+      let shortNota = alpha + "5" + short + "Q";
+
       const data = {
         transaction_id: this.transactionId,
         payment_status: "sudah",
         payment_amount: checkoutData[0].total.toString(),
         payment_date: dateYMD,
         date_process: dateYMDHMS,
+        nota_short: shortNota,
       };
       this.showModalWaitingQris = true; // to show the modal
-
-      const qrContent = localStorage.getItem("qrContent");
+      console.log('this.transactionId', this.transactionId)
       this.steps = "get transactionId";
       const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
       FetchData.getData(getNotaUrl).then((getNota) => {
@@ -306,22 +318,23 @@ export default defineComponent({
 
       this.toInputReceipt();
 
-      // FetchData.updateData(url, data)
-      //   .then((res) => {
-      //     clearInterval(this.intervalId);
-      //     // localStorage.removeItem("qrContent");
+      FetchData.updateData(urlUpdatePayment, data)
+        .then((res) => {
+          clearInterval(this.intervalId);
+          // localStorage.removeItem("qrContent");
 
-      //     setTimeout(() => {
-      //       this.toInputReceipt();
-      //     }, 2000);
-      //   })
-      //   .catch((error) => {
-      //     console.log("error.message xx", error.message);
-      //   });
+          setTimeout(() => {
+            this.toInputReceipt();
+          }, 2000);
+        })
+        .catch((error) => {
+          console.log("error.message xx", error.message);
+        });
     },
     getNota(result, transactionId) {
       this.steps = "get transactionId";
       const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+      console.log('result.data.result[0]', result.data.result[0])
       FetchData.getData(getNotaUrl).then((getNota) => {
         // sukses simpan transaksi
         const dataQrContent = {
