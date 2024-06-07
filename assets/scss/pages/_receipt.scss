@@ -1,6 +1,5 @@
 @media (min-width: 760px) {
   .frame-receipt {
-
     #receipt {
       padding-top: 40px;
       min-height: 100vh;
@@ -143,52 +142,67 @@
               }
             }
 
-            .total {
-              display: flex;
-              gap: 20px;
-              justify-content: end;
-              margin-top: 20px;
+            .border {
+              border-left: none;
+              border-right: none;
               border-top: 1px solid #c7c7c7;
               border-bottom: 1px solid #c7c7c7;
               padding-top: 10px;
               padding-bottom: 10px;
 
-              .title-total {
-                color: #000;
-                font-size: 14px;
-                font-weight: 600;
-                font-family: $font-family;
-              }
+              .total {
+                display: flex;
+                justify-content: end;
+                align-self: self-end;
 
-              .price {
-                color: #000;
-                font-size: 14px;
-                font-family: $font-family;
-                font-weight: 500;
+                .detail {
+                  display: flex;
+                  gap: 20px;
+                  width: 47%;
+
+                  .title-total {
+                    color: #000;
+                    font-size: 14px;
+                    font-weight: 600;
+                    font-family: $font-family;
+                    width: -webkit-fill-available;
+                  }
+
+                  .price {
+                    color: #000;
+                    font-size: 14px;
+                    font-family: $font-family;
+                    font-weight: 500;
+                  }
+                }
               }
             }
 
             .total-details {
               display: flex;
               flex-direction: column;
+              justify-content: end;
               gap: 8px;
               margin-top: 20px;
 
               .row-total {
                 display: flex;
                 gap: 20px;
-                justify-content: end;
+                align-self: self-end;
+                width: 47%;
 
                 .title-total {
                   color: #000;
                   font-size: 14px;
                   font-family: $font-family;
+                  width: -webkit-fill-available;
                 }
 
                 .price {
                   color: #000;
                   font-size: 14px;
                   font-family: $font-family;
+                  text-align: end;
                 }
 
                 .title-total-bold {
@@ -196,6 +210,7 @@
                   font-size: 14px;
                   font-family: $font-family;
                   font-weight: 600;
+                  width: -webkit-fill-available;
                 }
 
                 .price-bold {
@@ -203,6 +218,7 @@
                   font-size: 14px;
                   font-family: $font-family;
                   font-weight: 600;
+                  text-align: end;
                 }
               }
             }
@@ -262,7 +278,6 @@
 
 @media screen and (min-width: 390px) and (max-width: 759px) {
   .frame-receipt {
-
     #receipt {
       padding-top: 40px;
       min-height: 100vh;
@@ -404,52 +419,67 @@
               }
             }
 
-            .total {
-              display: flex;
-              gap: 20px;
-              justify-content: end;
-              margin-top: 20px;
+            .border {
+              border-left: none;
+              border-right: none;
               border-top: 1px solid #c7c7c7;
               border-bottom: 1px solid #c7c7c7;
               padding-top: 10px;
               padding-bottom: 10px;
 
-              .title-total {
-                color: #000;
-                font-size: 14px;
-                font-weight: 600;
-                font-family: $font-family;
-              }
+              .total {
+                display: flex;
+                justify-content: end;
+                align-self: self-end;
 
-              .price {
-                color: #000;
-                font-size: 14px;
-                font-family: $font-family;
-                font-weight: 500;
+                .detail {
+                  display: flex;
+                  gap: 20px;
+                  width: 60%;
+
+                  .title-total {
+                    color: #000;
+                    font-size: 14px;
+                    font-weight: 600;
+                    font-family: $font-family;
+                    width: -webkit-fill-available;
+                  }
+
+                  .price {
+                    color: #000;
+                    font-size: 14px;
+                    font-family: $font-family;
+                    font-weight: 500;
+                  }
+                }
               }
             }
 
             .total-details {
               display: flex;
               flex-direction: column;
+              justify-content: end;
               gap: 8px;
               margin-top: 20px;
 
               .row-total {
                 display: flex;
                 gap: 20px;
-                justify-content: end;
+                align-self: self-end;
+                width: 60%;
 
                 .title-total {
                   color: #000;
                   font-size: 14px;
                   font-family: $font-family;
+                  width: -webkit-fill-available;
                 }
 
                 .price {
                   color: #000;
                   font-size: 14px;
                   font-family: $font-family;
+                  text-align: end;
                 }
 
                 .title-total-bold {
@@ -457,6 +487,7 @@
                   font-size: 14px;
                   font-family: $font-family;
                   font-weight: 600;
+                  width: -webkit-fill-available;
                 }
 
                 .price-bold {
@@ -464,6 +495,7 @@
                   font-size: 14px;
                   font-family: $font-family;
                   font-weight: 600;
+                  text-align: end;
                 }
               }
             }
@@ -523,7 +555,6 @@
 
 @media screen and (min-width: 360px) and (max-width: 389px) {
   .frame-receipt {
-
     #receipt {
       padding-top: 40px;
       min-height: 100vh;
@@ -665,52 +696,67 @@
               }
             }
 
-            .total {
-              display: flex;
-              gap: 20px;
-              justify-content: end;
-              margin-top: 20px;
+            .border {
+              border-left: none;
+              border-right: none;
               border-top: 1px solid #c7c7c7;
               border-bottom: 1px solid #c7c7c7;
               padding-top: 10px;
               padding-bottom: 10px;
 
-              .title-total {
-                color: #000;
-                font-size: 14px;
-                font-weight: 600;
-                font-family: $font-family;
-              }
+              .total {
+                display: flex;
+                justify-content: end;
+                align-self: self-end;
 
-              .price {
-                color: #000;
-                font-size: 14px;
-                font-family: $font-family;
-                font-weight: 500;
+                .detail {
+                  display: flex;
+                  gap: 20px;
+                  width: 62%;
+
+                  .title-total {
+                    color: #000;
+                    font-size: 14px;
+                    font-weight: 600;
+                    font-family: $font-family;
+                    width: -webkit-fill-available;
+                  }
+
+                  .price {
+                    color: #000;
+                    font-size: 14px;
+                    font-family: $font-family;
+                    font-weight: 500;
+                  }
+                }
               }
             }
 
             .total-details {
               display: flex;
               flex-direction: column;
+              justify-content: end;
               gap: 8px;
               margin-top: 20px;
 
               .row-total {
                 display: flex;
                 gap: 20px;
-                justify-content: end;
+                align-self: self-end;
+                width: 62%;
 
                 .title-total {
                   color: #000;
                   font-size: 14px;
                   font-family: $font-family;
+                  width: -webkit-fill-available;
                 }
 
                 .price {
                   color: #000;
                   font-size: 14px;
                   font-family: $font-family;
+                  text-align: end;
                 }
 
                 .title-total-bold {
@@ -718,6 +764,7 @@
                   font-size: 14px;
                   font-family: $font-family;
                   font-weight: 600;
+                  width: -webkit-fill-available;
                 }
 
                 .price-bold {
@@ -725,6 +772,7 @@
                   font-size: 14px;
                   font-family: $font-family;
                   font-weight: 600;
+                  text-align: end;
                 }
               }
             }

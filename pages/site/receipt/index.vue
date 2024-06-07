@@ -38,9 +38,7 @@
                   </div>
                   <div class="items">
                     <span class="title">Meja</span>
-                    <span class="detail" v-if="table !== ''">{{
-                      table
-                    }}</span>
+                    <span class="detail" v-if="table !== ''">{{ table }}</span>
                     <span class="detail" v-else>-</span>
                   </div>
                 </div>
@@ -104,10 +102,14 @@
                   class="total-details"
                   v-if="locProducts && locProducts.length > 0 && locProducts[0]"
                 >
-                  <div class="total">
-                    <div class="title-total">Total</div>
-                    <div class="price">
-                      {{ formatCurrency(locProducts[0].subTotal) }}
+                  <div class="border">
+                    <div class="total">
+                      <div class="detail">
+                        <div class="title-total">Total</div>
+                        <div class="price">
+                          {{ formatCurrency(locProducts[0].subTotal) }}
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="row-total">
@@ -285,7 +287,7 @@ export default defineComponent({
         const typeOrderData = localStorage.getItem("selected_type_order");
         const checkoutData = localStorage.getItem("checkoutData");
         const transactions = localStorage.getItem("qrContent");
-        console.log('transactions', transactions)
+        console.log("transactions", transactions);
         const location = localStorage.getItem("location");
         const dataRestaurant = localStorage.getItem("data_restaurant");
         this.table = localStorage.getItem("table_code");
