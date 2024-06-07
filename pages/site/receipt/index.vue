@@ -308,7 +308,11 @@ export default defineComponent({
 
         this.noNota = transactions.noNotaNew != null? transactions.noNotaNew : transactions.qr_nota_short? transactions.qr_nota_short:'';
         this.payment = transactions.contents.paymentMethod;
-        this.status = transactions.contents.status != undefined? transactions.contents.status : transactions.qr_status == 1? "LUNAS":"PENDING";
+        if(transactions.contents.status == 0){
+          this.status = 'PENDING';
+        }else if(transactions.contents.status == undefined){
+          this.status = transactions.qr_status == 1? "LUNAS":"PENDING";
+        }
 
         if (this.locProducts.length > 0) {
           this.products = this.locProducts[0].product || [];
