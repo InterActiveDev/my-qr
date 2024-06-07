@@ -297,6 +297,12 @@ export default defineComponent({
       this.showModalWaitingQris = true; // to show the modal
 
       const qrContent = localStorage.getItem("qrContent");
+      this.steps = "get transactionId";
+      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
+      FetchData.getData(getNotaUrl).then((getNota) => {
+        // sukses simpan transaksi
+        console.log('getNota', getNota)
+      })
 
       this.toInputReceipt();
 
@@ -312,6 +318,22 @@ export default defineComponent({
       //   .catch((error) => {
       //     console.log("error.message xx", error.message);
       //   });
+    },
+    getNota(result, transactionId) {
+      this.steps = "get transactionId";
+      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+      FetchData.getData(getNotaUrl).then((getNota) => {
+        // sukses simpan transaksi
+        const dataQrContent = {
+          contents: result.data.result[0],
+          nota: result.data.result[0].noNota,
+          noNotaNew: getNota.data.data[0].myresto_ref,
+          invoice: result.data.result[0].qrisData?.noNota,
+          ref: result.data.result[0].qrisData?.refNo,
+          expired: result.data.result[0].qrisData?.expiredDate,
+        };
+        localStorage.setItem("qrContent", JSON.stringify(dataQrContent));
+      });
     },
     getQr() {
       const qrContent = localStorage.getItem("qrContent");

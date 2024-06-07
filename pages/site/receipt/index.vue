@@ -137,7 +137,7 @@
                   <div class="row-total">
                     <div class="title-total-bold">Total Semua</div>
                     <div class="price-bold">
-                      {{ formatCurrency(locProducts[0].subTotal) }}
+                      {{ formatCurrency(locProducts[0].total) }}
                     </div>
                   </div>
                 </div>
@@ -290,10 +290,10 @@ export default defineComponent({
         const dataRestaurant = localStorage.getItem("data_restaurant");
         this.table = localStorage.getItem("table_code");
 
-        // if (!customerData || !typeOrderData || !checkoutData || !transactions) {
-        //   this.$router.push("/restaurant/detail/" + location);
-        //   return;
-        // }
+        if (!customerData || !typeOrderData || !checkoutData || !transactions) {
+          this.$router.push("/restaurant/detail/" + location);
+          return;
+        }
 
         const tableCode = localStorage.getItem("table_code");
         this.navbarTo =
