@@ -279,8 +279,7 @@
 
               <div class="detail-item" v-if="serviceFee">
                 <span class="detail-text"
-                  >{{ serviceFeeName }} ({{ serviceFeePercentage
-                  }}{{ serviceFeeType }})</span
+                  >{{ serviceFeeName }} </span
                 >
 
                 <span class="detail-text">{{
@@ -290,7 +289,7 @@
 
               <div class="detail-item" v-if="tax">
                 <span class="detail-text"
-                  >{{ taxName }} ({{ taxPercentage }}%)</span
+                  >{{ taxName }} </span
                 >
 
                 <span class="detail-text">{{ formatCurrency(tax) }}</span>
@@ -924,10 +923,14 @@ export default defineComponent({
         this.taxPercentage = data_restaurant.tax_nominal;
       }
       if (data_restaurant.service_nominal != null) {
-        this.serviceFee = Math.round(
-          (this.subTotal * data_restaurant.service_nominal) / 100
-        );
-        this.serviceFeePercentage = data_restaurant.service_nominal;
+        if(this.serviceFeeType == 'val'){
+          this.serviceFee = data_restaurant.service_nominal;
+        }else{
+          this.serviceFee = Math.round(
+            (this.subTotal * data_restaurant.service_nominal) / 100
+          );
+          this.serviceFeePercentage = data_restaurant.service_nominal;
+        }
       }
 
       let tempTotalPay = 0;
