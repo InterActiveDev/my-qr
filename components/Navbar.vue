@@ -1,10 +1,17 @@
 <template>
   <div class="frame">
     <div class="navbar flex justify-between z-50">
+      <span>Dev</span>
       <div class="back">
         <div
           class="ml-20"
-          v-if="isIndexRoute || isCheckoutRoute || isReceipt || isIndexOrHomeRoute || isId"
+          v-if="
+            isIndexRoute ||
+            isCheckoutRoute ||
+            isReceipt ||
+            isIndexOrHomeRoute ||
+            isId
+          "
         ></div>
         <div class="ml-0" v-if="isQris"></div>
         <div class="ml-20" v-if="isRestaurantDetail">&nbsp;</div>
@@ -153,7 +160,7 @@ export default {
     to: String,
   },
   computed: {
-    isId(){
+    isId() {
       return this.$route.name === "id";
     },
     isIndexRoute() {
