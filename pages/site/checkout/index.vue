@@ -1516,10 +1516,10 @@ export default defineComponent({
           const checkQrContent = setInterval(() => {
             const data = JSON.parse(localStorage.getItem("qrContent"));
             // console.log('data', data)
-            // if (data) {
+            if (data) {
               clearInterval(checkQrContent);
               this.$router.push("/site/receipt");
-            // }
+            }
           }, 1000);
         });
       } else if (name === "e-money") {
