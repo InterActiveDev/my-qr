@@ -269,7 +269,7 @@ export default {
         const tableCode = localStorage.getItem("table_code");
         const cartItems = JSON.parse(localStorage.getItem("cart_items"));
 
-        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + tableCode;
+        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode);
         if (cartItems) {
           this.showBottomCart = true;
         } else {

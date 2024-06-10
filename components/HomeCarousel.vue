@@ -90,7 +90,7 @@ export default {
       this.locationName = dataRestaurant.loc_name;
       this.address = dataRestaurant.loc_addr;
       const tableCodeRaw = localStorage.getItem("table_code");
-      this.tableCode = tableCodeRaw? tableCodeRaw:null;
+      this.tableCode = tableCodeRaw? tableCodeRaw=='null'? null:tableCodeRaw:null;
       this.logo = dataRestaurant.loc_logo;
       const tableUrl = this.$route.query.table_code;
       

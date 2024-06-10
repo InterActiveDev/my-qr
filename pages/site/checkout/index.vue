@@ -279,8 +279,7 @@
 
               <div class="detail-item" v-if="serviceFee">
                 <span class="detail-text"
-                  >{{ serviceFeeName }} ({{ serviceFeePercentage
-                  }}{{ serviceFeeType }})</span
+                  >{{ serviceFeeName }} </span
                 >
 
                 <span class="detail-text">{{
@@ -290,7 +289,7 @@
 
               <div class="detail-item" v-if="tax">
                 <span class="detail-text"
-                  >{{ taxName }} ({{ taxPercentage }}%)</span
+                  >{{ taxName }} </span
                 >
 
                 <span class="detail-text">{{ formatCurrency(tax) }}</span>
@@ -883,8 +882,11 @@ export default defineComponent({
     async getList() {
       const location = localStorage.getItem("location");
       const tableCodeRaw = localStorage.getItem("table_code");
-      this.navbarTo =
-        "/restaurant/detail/" + location + "?table_code=" + btoa(tableCodeRaw);
+      if(localStorage.getItem('table_code') == 'null' || localStorage.getItem('table_code') == null){
+        this.navbarTo = "/restaurant/detail/" + location ;
+      }else{
+        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCodeRaw);
+      }
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
@@ -921,10 +923,14 @@ export default defineComponent({
         this.taxPercentage = data_restaurant.tax_nominal;
       }
       if (data_restaurant.service_nominal != null) {
-        this.serviceFee = Math.round(
-          (this.subTotal * data_restaurant.service_nominal) / 100
-        );
-        this.serviceFeePercentage = data_restaurant.service_nominal;
+        if(this.serviceFeeType == 'val'){
+          this.serviceFee = data_restaurant.service_nominal;
+        }else{
+          this.serviceFee = Math.round(
+            (this.subTotal * data_restaurant.service_nominal) / 100
+          );
+          this.serviceFeePercentage = data_restaurant.service_nominal;
+        }
       }
 
       let tempTotalPay = 0;
@@ -1414,11 +1420,9 @@ export default defineComponent({
         });
       });
 
-      console.log('data[0]', data[0])
       const url_insert_transaction = "/qr_myorder/insert_transaction";
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
-          console.log('result', result)
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
 
@@ -1450,7 +1454,7 @@ export default defineComponent({
           //   this.showModalError = false;
 
           // }, 3000); // 3000 milliseconds = 3 seconds
-          console.log("Error xxx zzz :", error);
+          console.log("Error :", error);
         });
     },
     openModalConfrimOrder() {
@@ -1512,7 +1516,6 @@ export default defineComponent({
 
           const checkQrContent = setInterval(() => {
             const data = JSON.parse(localStorage.getItem("qrContent"));
-            console.log('data', data)
             if (data) {
               clearInterval(checkQrContent);
               this.$router.push("/site/receipt");
