@@ -1420,11 +1420,9 @@ export default defineComponent({
         });
       });
 
-      console.log('data[0]', data[0])
       const url_insert_transaction = "/qr_myorder/insert_transaction";
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
-          console.log('result', result)
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
 
@@ -1456,7 +1454,7 @@ export default defineComponent({
           //   this.showModalError = false;
 
           // }, 3000); // 3000 milliseconds = 3 seconds
-          console.log("Error xxx zzz :", error);
+          console.log("Error :", error);
         });
     },
     openModalConfrimOrder() {
@@ -1518,7 +1516,6 @@ export default defineComponent({
 
           const checkQrContent = setInterval(() => {
             const data = JSON.parse(localStorage.getItem("qrContent"));
-            // console.log('data', data)
             if (data) {
               clearInterval(checkQrContent);
               this.$router.push("/site/receipt");

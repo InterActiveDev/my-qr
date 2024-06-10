@@ -196,7 +196,7 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          console.log("error.message", error.message);
+          console.log("error message (1) : ", error.message);
         });
     },
     formatTime(seconds) {
@@ -235,12 +235,10 @@ export default defineComponent({
     async generateQRCode(content) {
       const currentUrl = window.location.pathname;
       let timerStop = 0;
-      console.log('content', content)
       try {
         const qrCodeDataURL = await QRCode.toDataURL(content);
         this.qrCodeImage = qrCodeDataURL;
         const intervalId = setInterval(() => {
-          // if(currentUrl === '/qris'){
           if (timerStop <= 120) {
             // buat stop proses di background
             this.checkPayment(this.mID, this.invoiceId, this.refNo);
@@ -269,10 +267,11 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          console.log("error.message", error.message);
+          console.log("error message (2) : ", error.message);
         });
     },
     updatePayment() {
+
       const today = new Date();
       const year = today.getFullYear();
       const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -284,56 +283,58 @@ export default defineComponent({
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
-      const url = "/qr_myorder/update_payment";
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const urlUpdatePayment = "/qr_myorder/update_payment";
+
+      const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+      const qrContent = JSON.parse(localStorage.getItem("qrContent"));
+
+      let alpha = "";
+      let restoname = restaurant.loc_name.split(' ');
+
+      restoname.forEach(function(name) {
+          alpha += name.charAt(0).toUpperCase();
+      });
+
+      let short = String(qrContent.contents.qrisData.invoiceId).slice(-4);
+      let shortNota = alpha + "5" + short + "Q";
+
       const data = {
         transaction_id: this.transactionId,
         payment_status: "sudah",
         payment_amount: checkoutData[0].total.toString(),
         payment_date: dateYMD,
         date_process: dateYMDHMS,
+        nota_short: shortNota,
       };
       this.showModalWaitingQris = true; // to show the modal
+     
 
-      const qrContent = localStorage.getItem("qrContent");
-      this.steps = "get transactionId";
-      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
-      FetchData.getData(getNotaUrl).then((getNota) => {
-        // sukses simpan transaksi
-        console.log('getNota', getNota)
-      })
+      FetchData.updateData(urlUpdatePayment, data)
+        .then((res) => {
+          clearInterval(this.intervalId);
 
-      this.toInputReceipt();
+          this.steps = "get transactionId";
+          const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
+          FetchData.getData(getNotaUrl).then((getNota) => {
+            // sukses simpan transaksi
+            if(getNota.data.data.status === 1 || getNota.data.data.myresto_ref !== "") {
+              const qrContent = JSON.parse(localStorage.getItem("qrContent"));
+              qrContent.qr_nota_short = getNota.data.data[0].myresto_ref;
+              qrContent.qr_status = getNota.data.data[0].status;
+              localStorage.removeItem("qrContent");
+              
+              localStorage.setItem("qrContent", JSON.stringify(qrContent));
+              setTimeout(() => {
+                this.toInputReceipt();
+              }, 1000);
+            }
+          })
 
-      // FetchData.updateData(url, data)
-      //   .then((res) => {
-      //     clearInterval(this.intervalId);
-      //     // localStorage.removeItem("qrContent");
-
-      //     setTimeout(() => {
-      //       this.toInputReceipt();
-      //     }, 2000);
-      //   })
-      //   .catch((error) => {
-      //     console.log("error.message xx", error.message);
-      //   });
-    },
-    getNota(result, transactionId) {
-      this.steps = "get transactionId";
-      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
-      FetchData.getData(getNotaUrl).then((getNota) => {
-        // sukses simpan transaksi
-        const dataQrContent = {
-          contents: result.data.result[0],
-          nota: result.data.result[0].noNota,
-          noNotaNew: getNota.data.data[0].myresto_ref,
-          invoice: result.data.result[0].qrisData?.noNota,
-          ref: result.data.result[0].qrisData?.refNo,
-          expired: result.data.result[0].qrisData?.expiredDate,
-        };
-        localStorage.setItem("qrContent", JSON.stringify(dataQrContent));
-      });
+        })
+        .catch((error) => {
+          console.log("error message (3) : ", error.message);
+        });
     },
     getQr() {
       const qrContent = localStorage.getItem("qrContent");
@@ -341,7 +342,6 @@ export default defineComponent({
 
       const data_restaurant = localStorage.getItem("data_restaurant");
       const mid = data_restaurant ? JSON.parse(data_restaurant) : "";
-      console.log('data', data)
       const checkoutData = localStorage.getItem("checkoutData");
       const checkout = checkoutData? JSON.parse(checkoutData):'';
       
@@ -349,7 +349,6 @@ export default defineComponent({
         this.expiredDate = data.expired;
         this.transactionId = data.contents.transactionId;
         this.link = data.contents.qrisData.content;
-        console.log('data.contents.qrisData.content', data.contents.qrisData.content)
         this.nmid = data.contents.qrisData.nmid;
         this.mID = mid.mID;
         this.total = checkout[0].total.toString();

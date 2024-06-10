@@ -464,7 +464,6 @@ export default defineComponent({
     // cek update data
     const urlCheckUpdate = "/qr_myorder/check_update?loc=" + locId;
     const last_updated_data = await FetchData.getData(urlCheckUpdate);
-    console.log('last_updated_data', last_updated_data.data.message)
     if(last_updated_data.data.message != 'No New Update Found.'){
       const date = new Date(last_updated_data.data.data[0].last_updated_data);
       const last_update = date.toISOString().slice(0, 19).replace("T", " ");
@@ -561,7 +560,6 @@ export default defineComponent({
         this.steps = "get restaurant detail";
         const urlGetRestoDetail = "/qr_myorder/get_restaurant_detail?loc=" + locId;
         const restaurant = await FetchData.getData(urlGetRestoDetail);
-        console.log('restaurant', restaurant)
         const appid = restaurant.data.data[0].appid;
         localStorage.setItem(
           "data_restaurant",
@@ -579,7 +577,6 @@ export default defineComponent({
           ? this.$route.query.table_code
           : this.$route.params.slug[1];
         var tableParams = this.$route.query.table_code;
-        console.log('tableCode', tableCode)
 
         if (tableCode) {
           localStorage.setItem("table_code", tableParams);
