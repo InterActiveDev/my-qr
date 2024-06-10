@@ -3,6 +3,37 @@
     <div>
       <section id="home">
         <div class="frame" :class="!products || !tableCode ? 'hidden' : ''">
+          <button
+            v-show="showScrollButton"
+            @click="scrollToTop"
+            class="scroll-to-top"
+          >
+            <svg
+              fill="#ffffff"
+              height="50px"
+              width="50px"
+              version="1.1"
+              id="Layer_1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              viewBox="0 0 330 330"
+              xml:space="preserve"
+              stroke="#ffffff"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  id="XMLID_224_"
+                  d="M325.606,229.393l-150.004-150C172.79,76.58,168.974,75,164.996,75c-3.979,0-7.794,1.581-10.607,4.394 l-149.996,150c-5.858,5.858-5.858,15.355,0,21.213c5.857,5.857,15.355,5.858,21.213,0l139.39-139.393l139.397,139.393 C307.322,253.536,311.161,255,315,255c3.839,0,7.678-1.464,10.607-4.394C331.464,244.748,331.464,235.251,325.606,229.393z"
+                ></path>
+              </g>
+            </svg>
+          </button>
           <!-- carousel -->
           <Navbar :to="navbarTo" />
           <NuxtLazyHydrate>
@@ -198,11 +229,7 @@
             </div>
           </div>
 
-          <div
-            v-if="
-              (searchQuery == '' && isErrorUrl == false)
-            "
-          >
+          <div v-if="searchQuery == '' && isErrorUrl == false">
             <div v-for="perProduct in products" :key="perProduct.category_id">
               <div
                 v-if="
@@ -307,6 +334,9 @@
       </section>
 
       <div class="flex justify-center">
+        <div class="all-items-text">Semua item sudah dimunculkan</div>
+      </div>
+      <div class="flex justify-center">
         <div class="spacer"></div>
       </div>
       <div
@@ -351,6 +381,7 @@ export default defineComponent({
   },
   data() {
     return {
+      showScrollButton: false,
       navbarTo: "/",
       isHidden: true,
       isUseTable: false,
@@ -436,7 +467,7 @@ export default defineComponent({
   async mounted() {
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
-    
+
     let locId = "";
 
     try {
@@ -444,7 +475,7 @@ export default defineComponent({
       if (decrypted.includes("&mymenu")) {
         const cleanLocId = decrypted.split("&mymenu")[0];
         locId = cleanLocId;
-      }else{
+      } else {
         locId = decrypted;
       }
       this.restaurantId = btoa(locId);
@@ -464,7 +495,7 @@ export default defineComponent({
     // cek update data
     const urlCheckUpdate = "/qr_myorder/check_update?loc=" + locId;
     const last_updated_data = await FetchData.getData(urlCheckUpdate);
-    if(last_updated_data.data.message != 'No New Update Found.'){
+    if (last_updated_data.data.message != "No New Update Found.") {
       const date = new Date(last_updated_data.data.data[0].last_updated_data);
       const last_update = date.toISOString().slice(0, 19).replace("T", " ");
       localStorage.setItem("last_update", JSON.stringify(last_update));
@@ -487,7 +518,7 @@ export default defineComponent({
       : urlData.slug[1];
 
     const use_table = localStorage.getItem("use_table");
-    
+
     if (tableCode) {
       var tableCodeParams = atob(tableCode);
       localStorage.setItem("table_code", tableCodeParams);
@@ -505,7 +536,7 @@ export default defineComponent({
         return this.$router.push("/page-not-found");
       }
     } else {
-      if(use_table == 1){
+      if (use_table == 1) {
         var tableCodeParams = "";
         localStorage.setItem("table_code", tableCodeParams);
         return this.$router.push("/table-not-found");
@@ -523,11 +554,21 @@ export default defineComponent({
     if (process.client) {
       this.getCartItems();
     }
+    window.addEventListener("scroll", this.handleScroll);
   },
-  beforeCreate() {
-    // console.log('beforeCreate')
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    handleScroll() {
+      this.showScrollButton = window.scrollY > 200;
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    },
     fetchProducts() {
       // Simulasi pengambilan data
       this.isLoading = "open";
@@ -558,7 +599,8 @@ export default defineComponent({
 
         // set detail restaurant
         this.steps = "get restaurant detail";
-        const urlGetRestoDetail = "/qr_myorder/get_restaurant_detail?loc=" + locId;
+        const urlGetRestoDetail =
+          "/qr_myorder/get_restaurant_detail?loc=" + locId;
         const restaurant = await FetchData.getData(urlGetRestoDetail);
         const appid = restaurant.data.data[0].appid;
         localStorage.setItem(
@@ -567,7 +609,11 @@ export default defineComponent({
         );
         localStorage.setItem(
           "use_table",
-          JSON.parse(restaurant.data.data[0].use_table == ""? 0:restaurant.data.data[0].use_table)
+          JSON.parse(
+            restaurant.data.data[0].use_table == ""
+              ? 0
+              : restaurant.data.data[0].use_table
+          )
         );
 
         // use_myorder_link_table = '0' = 'both'
@@ -690,7 +736,7 @@ export default defineComponent({
         this.isErrorUrl = false;
         this.isSkeleton = false;
         this.isHidden = true;
-        console.log('error in steps: ', this.steps)
+        console.log("error in steps: ", this.steps);
         console.log("error: " + error.message);
       }
     },
@@ -783,3 +829,4 @@ export default defineComponent({
   },
 });
 </script>
+
