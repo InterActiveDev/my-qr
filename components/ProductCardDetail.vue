@@ -12,6 +12,7 @@
           loading="lazy"
           preload
           :placeholder="productPlaceholder"
+          @error="setDefaultImage"
         />
         <NuxtImg
           v-else
@@ -113,6 +114,9 @@ export default {
     },
   },
   methods: {
+    setDefaultImage(event) {
+      event.target.src = this.productPlaceholder;
+    },
     addProduct() {
       this.showAddProductModal = true;
       this.$nextTick(() => {
