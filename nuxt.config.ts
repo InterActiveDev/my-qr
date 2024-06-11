@@ -15,7 +15,6 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/x-icon', href: 'https://interactive.co.id/product/images/assets/product_detail/favicon.png' }
       ],
-      meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
     }
   },
 
