@@ -31,9 +31,15 @@ export default {
     };
   },
   mounted() {
+    document.addEventListener("gesturestart", this.preventGesture);
+    document.addEventListener("gesturechange", this.preventGesture);
+    document.addEventListener("gestureend", this.preventGesture);
     document.addEventListener("contextmenu", this.preventContextMenu);
   },
   beforeDestroy() {
+    document.removeEventListener("gesturestart", this.preventGesture);
+    document.removeEventListener("gesturechange", this.preventGesture);
+    document.removeEventListener("gestureend", this.preventGesture);
     document.removeEventListener("contextmenu", this.preventContextMenu);
   },
   destroyed() {
@@ -45,6 +51,9 @@ export default {
     },
   },
   methods: {
+    preventGesture(event) {
+      event.preventDefault();
+    },
     preventContextMenu(event) {
       event.preventDefault();
     },
@@ -69,4 +78,8 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/style.scss";
+
+html {
+  touch-action: manipulation;
+}
 </style>
