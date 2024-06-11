@@ -1349,10 +1349,18 @@ export default defineComponent({
       const tableCode = localStorage.getItem("table_code");
 
       paymentMethod.forEach((element) => {
-        if (this.table.paymentMethod == element.payment_category) {
-          this.nameMethod = element.payment_id;
+        console.log('element', element)
+        if (this.table.paymentMethod == element.payment_category ) {
+          if(this.table.paymentMethod.toLowerCase() == 'cash'){
+            if(element.payment_method.toLowerCase() == 'cash'){
+              this.nameMethod = element.payment_id;
+            }
+          }else{
+            this.nameMethod = element.payment_id;
+          }
         }
       });
+      console.log('this.nameMethod', this.nameMethod)
 
       const today = new Date();
       const year = today.getFullYear();
@@ -1370,7 +1378,6 @@ export default defineComponent({
           mID: data_restaurant.mID, // kalau pakai qris
           appid: data_restaurant.appid,
           loc_id: locId,
-          // restaurant_table: "",
           restaurant_table: tableCode,
           type_order: selectedOrderType.code_type,
           hl_enable_login: data_restaurant.hl_enable_login,
@@ -1425,7 +1432,7 @@ export default defineComponent({
         .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
-
+            console.log('result', result)
             if (this.table.paymentMethod != "e-money") {
               // cash and other payment
               const token = localStorage.getItem("token");
@@ -1503,6 +1510,7 @@ export default defineComponent({
       dataCustomer = dataCustomer ? JSON.parse(dataCustomer) : {};
 
       if (name === "cash") {
+        console.log('name', name)
         localStorage.removeItem("qrContent");
         let modalPayment = document.getElementById("modalSelectPayments");
         modalPayment.close();

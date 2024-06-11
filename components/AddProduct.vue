@@ -11,7 +11,7 @@
               <div class="description">
                 <span>Details Menu</span>
               </div>
-              
+
               <form method="dialog">
                 <button @click="closeAddProduct">
                   <svg
@@ -37,6 +37,7 @@
                   :src="getProduct.product_images"
                   preload
                   loading="lazy"
+                  @error="setDefaultImage"
                 />
                 <NuxtImg
                   v-else
@@ -108,10 +109,7 @@
                 </div>
                 <div class="form-control">
                   <label class="label cursor-pointer">
-                    <span
-                      class="label-text text-lg text-black"
-                      >Bungkus</span
-                    >
+                    <span class="label-text text-lg text-black">Bungkus</span>
                     <input
                       type="checkbox"
                       class="toggle toggle-success toggle-md"
@@ -263,6 +261,7 @@
 <script>
 import CarouselCart from "@/components/CarouselCart.vue";
 import QuantityInput from "@/components/QuantityInput.vue";
+import defaultImage from "~/assets/images/no-image.jpg";
 
 export default {
   components: {
@@ -297,6 +296,9 @@ export default {
     // this.checkType();
   },
   methods: {
+    setDefaultImage(event) {
+      event.target.src = defaultImage;
+    },
     checkType() {
       const check = JSON.parse(localStorage.getItem("type_order"));
       check.name === "Take away" ? (this.wrap = true) : (this.wrap = false);
