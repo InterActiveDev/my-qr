@@ -31,9 +31,19 @@ export default {
     };
   },
   mounted() {
-    document.addEventListener("gesturestart", this.preventGesture);
-    document.addEventListener("gesturechange", this.preventGesture);
-    document.addEventListener("gestureend", this.preventGesture);
+    document.addEventListener("gesturestart", function (e) {
+    	e.preventDefault();
+        document.body.style.zoom = 0.99;
+    });
+    document.addEventListener("gesturechange", function (e) {
+    	e.preventDefault();
+    
+      document.body.style.zoom = 0.99;
+    });
+    document.addEventListener("gestureend", function (e) {
+    	  e.preventDefault();
+        document.body.style.zoom = 1;
+    });
     document.addEventListener("contextmenu", this.preventContextMenu);
   },
   beforeDestroy() {
