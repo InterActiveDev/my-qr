@@ -408,10 +408,10 @@ export default defineComponent({
     };
   },
   created() {
+    this.isSkeleton = true;
     if (process.client) {
       this.fetchProducts();
       this.loading = false;
-      this.isSkeleton = true;
       const location = localStorage.getItem("location");
       const urlData = this.$route.params;
       this.restaurantId = urlData.slug[0];
