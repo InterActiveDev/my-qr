@@ -4,7 +4,7 @@
       <meta charset="UTF-8" />
       <meta
         name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
       />
       <link rel="icon" type="image/png" href="/icon.png" />
       <link
@@ -31,9 +31,13 @@ export default {
     };
   },
   mounted() {
+ document.addEventListener('touchmove', this.preventPinchZoom, { passive: false });
     document.addEventListener("contextmenu", this.preventContextMenu);
   },
   beforeDestroy() {
+    document.removeEventListener("gesturestart", this.preventGesture);
+    document.removeEventListener("gesturechange", this.preventGesture);
+    document.removeEventListener("gestureend", this.preventGesture);
     document.removeEventListener("contextmenu", this.preventContextMenu);
   },
   destroyed() {
@@ -45,6 +49,14 @@ export default {
     },
   },
   methods: {
+    preventPinchZoom(event) {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    },
+    preventGesture(event) {
+      event.preventDefault();
+    },
     preventContextMenu(event) {
       event.preventDefault();
     },
@@ -68,5 +80,8 @@ export default {
 
 
 <style lang="scss">
+html {
+  touch-action: pan-y;
+}
 @import "@/assets/scss/style.scss";
 </style>
