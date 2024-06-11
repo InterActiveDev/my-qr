@@ -2,7 +2,10 @@
   <div>
     <head>
       <meta charset="UTF-8" />
-      <meta name="viewport" content= "width=device-width, user-scalable=no">
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
       <link rel="icon" type="image/png" href="/icon.png" />
       <link
         rel="stylesheet"
@@ -84,9 +87,8 @@ export default {
 
 
 <style lang="scss">
-@import "@/assets/scss/style.scss";
-
-html {
-  touch-action: manipulation;
+body {
+  touch-action: pan-y;
 }
+@import "@/assets/scss/style.scss";
 </style>
