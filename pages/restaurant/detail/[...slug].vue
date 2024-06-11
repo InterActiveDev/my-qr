@@ -134,7 +134,7 @@
 
           <!-- Loading -->
           <div
-            v-if="isLoading == 'open'"
+            v-if="isLoading == true"
             class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
           >
             <div class="bg-white p-6 rounded-lg text-center shadow-lg">
@@ -401,17 +401,17 @@ export default defineComponent({
       localStorageListener: null,
       loading: true,
       tableCode: null,
-      isLoading: "",
+      isLoading: true,
       loadingProgress: 0,
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
     };
   },
   created() {
-    this.isSkeleton = true;
-    // this.loading = false;
-
     if (process.client) {
+      this.fetchProducts();
+      this.loading = false;
+      this.isSkeleton = true;
       const location = localStorage.getItem("location");
       const urlData = this.$route.params;
       this.restaurantId = urlData.slug[0];
@@ -420,8 +420,6 @@ export default defineComponent({
       const tableCode = this.$route.query.table_code
         ? this.$route.query.table_code
         : urlData.slug[1];
-
-      this.fetchProducts();
 
       if (use_table === 0) {
         // both
@@ -571,21 +569,30 @@ export default defineComponent({
     },
     fetchProducts() {
       // Simulasi pengambilan data
-      this.isLoading = "open";
-      this.loadingProgress = 0;
-      const interval = setInterval(() => {
+      this.isLoading = true;
+      // this.loadingProgress = 0;
+      const updateProgress = () => {
         if (this.loadingProgress < 100) {
-          this.loadingProgress += 20; // Sesuaikan interval sesuai kebutuhan
+          this.loadingProgress += 10; // Sesuaikan interval sesuai kebutuhan
+          this.$nextTick(() => {
+            requestAnimationFrame(updateProgress);
+          });
+        } else {
+          this.$nextTick(() => {
+            this.isLoading = false;
+          });
         }
-        // else if() {
-
-        // }
-        else {
-          this.isLoading = "";
-          clearInterval(interval);
-          this.isLoading = "close";
-        }
-      }, 200); // Sesuaikan interval sesuai kebutuhan
+      };
+      requestAnimationFrame(updateProgress);
+      // const interval = setInterval(() => {
+      //   if (this.loadingProgress < 100) {
+      //     this.loadingProgress += 20; // Sesuaikan interval sesuai kebutuhan
+      //   } else {
+      //     this.isLoading = "";
+      //     clearInterval(interval);
+      //     this.isLoading = "close";
+      //   }
+      // }, 200);
     },
     async starter(locId) {
       try {
