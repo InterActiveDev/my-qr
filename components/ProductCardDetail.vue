@@ -90,6 +90,7 @@
 
 <script>
 import AddProduct from "@/components/AddProduct.vue";
+import defaultImage from "~/assets/images/no-image.jpg";
 export default {
   name: "ProductCard",
   component: {
@@ -115,7 +116,7 @@ export default {
   },
   methods: {
     setDefaultImage(event) {
-      event.target.src = this.productPlaceholder;
+      event.target.src = defaultImage;
     },
     addProduct() {
       this.showAddProductModal = true;

@@ -841,7 +841,7 @@
         gap: 10px;
         position: sticky;
         bottom: 0;
-        z-index: 999;
+        z-index: 1000;
         flex: 1 0 0;
 
         .button-cart {
@@ -1293,7 +1293,7 @@
         position: sticky;
         bottom: 0;
         flex: 1 0 0;
-        z-index: 999;
+        z-index: 1000;
 
         .button-cart {
           width: 100%;
