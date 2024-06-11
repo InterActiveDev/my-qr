@@ -87,8 +87,5 @@ export default {
 
 
 <style lang="scss">
-body {
-  touch-action: pan-y;
-}
 @import "@/assets/scss/style.scss";
 </style>
