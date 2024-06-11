@@ -52,11 +52,12 @@
               <div class="product">
                 <div class="images">
                   <div v-if="item.product.product_images">
-                    <NuxtImg
+                    <img
                       :src="item.product.product_images"
                       loading="lazy"
                       preload
                       alt=""
+                      @error="setDefaultImage"
                     />
                   </div>
                 </div>
@@ -249,6 +250,7 @@
 import QuantityInput from "@/components/QuantityInput.vue";
 import ToastComponent from "@/components/Toast.vue";
 import ModalChangeMenu from "@/components/ModalChangeMenu.vue";
+import defaultImage from "~/assets/images/no-image.jpg";
 
 export default {
   components: {
@@ -282,6 +284,9 @@ export default {
     this.calculateTotalPrice();
   },
   methods: {
+    setDefaultImage(event) {
+      event.target.src = defaultImage;
+    },
     checkLocalStorage() {
       const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       // console.log('ini error', currentCartItems);
