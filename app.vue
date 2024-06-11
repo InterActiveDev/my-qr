@@ -31,19 +31,9 @@ export default {
     };
   },
   mounted() {
-    document.addEventListener("gesturestart", function (e) {
-    	e.preventDefault();
-        document.body.style.zoom = 0.99;
-    });
-    document.addEventListener("gesturechange", function (e) {
-    	e.preventDefault();
-    
-      document.body.style.zoom = 0.99;
-    });
-    document.addEventListener("gestureend", function (e) {
-    	  e.preventDefault();
-        document.body.style.zoom = 1;
-    });
+  document.addEventListener('touchmove', function (event) {
+    if (event.scale !== 1) { event.preventDefault(); }
+  }, { passive: false });
     document.addEventListener("contextmenu", this.preventContextMenu);
   },
   beforeDestroy() {
