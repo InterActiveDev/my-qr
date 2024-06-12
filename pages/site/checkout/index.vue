@@ -1351,38 +1351,6 @@ export default defineComponent({
       const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
       const tableCode = localStorage.getItem("table_code");
 
-      // if (this.table.paymentMethod.toLowerCase() === "cash") {
-      //   const matchingMethods = paymentMethod.filter(
-      //     (element) =>
-      //       element.payment_category.toLowerCase() ===
-      //       this.table.paymentMethod.toLowerCase()
-      //   );
-
-      //   // Find the specific method for "cash" with "EDC" key
-      //   const edcMethod = matchingMethods.find(
-      //     (element) => element.payment_myresto_key.toLowerCase() === "edc"
-      //   );
-
-      //   console.log("Payment method with EDC key:", edcMethod);
-      //   if (edcMethod) {
-      //     this.nameMethod = edcMethod.payment_id;
-      //   } else {
-      //     // If no "EDC" key method found, just take the first "cash" method
-      //     const cashMethod = matchingMethods.find(
-      //       (element) => element.payment_myresto_key.toLowerCase() === "cash"
-      //     );
-      //     if (cashMethod) {
-      //       this.nameMethod = cashMethod.payment_id;
-      //       console.log("Selected cash payment method:", cashMethod);
-      //     }
-      //   }
-      // } else {
-      //   // For non-cash methods, just take the first matching method
-      //   const selectedMethod = matchingMethods[0];
-      //   if (selectedMethod) {
-      //     console.log("Selected payment method:", selectedMethod);
-      //   }
-      // }
       this.nameMethod = this.table.paymentMethod.payment_id;
 
       if (!this.nameMethod) {
