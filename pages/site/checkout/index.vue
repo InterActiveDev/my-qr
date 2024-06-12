@@ -980,7 +980,7 @@ export default defineComponent({
       // disable buat tes tanpa rounding
       // this.totalPay = tempTotalPay;
       this.totalPay = tempTotalPay + this.rounding;
-      if (this.totalPay <= 0) {
+      if (this.totalPay = 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
       }
