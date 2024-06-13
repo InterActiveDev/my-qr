@@ -1,6 +1,15 @@
 <template>
   <section id="footer">
-    <span>BY</span>
-    <img src="~/assets/icons/logo.png" alt="" srcset="" loading="lazy" preload />
+    <span>© {{ currentYear }}, InterActive. All rights reserved</span>
   </section>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      currentYear: new Date().getFullYear(),
+    };
+  },
+};
+</script>
