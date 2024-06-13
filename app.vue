@@ -15,11 +15,7 @@
       />
     </head>
     <VitePwaManifest />
-    <!-- <div @touchstart="resetTimer"> -->
-    <!-- <div class="flex justify-center"> -->
     <NuxtPage />
-    <!-- </div> -->
-    <!-- </div> -->
   </div>
 </template>
 
@@ -28,25 +24,20 @@ export default {
   data() {
     return {
       timeoutId: null,
+      intervalId: null,
     };
   },
   mounted() {
- document.addEventListener('touchmove', this.preventPinchZoom, { passive: false });
+    document.addEventListener("touchmove", this.preventPinchZoom, {
+      passive: false,
+    });
     document.addEventListener("contextmenu", this.preventContextMenu);
+    this.startCartCheckTimer();
   },
   beforeDestroy() {
-    document.removeEventListener("gesturestart", this.preventGesture);
-    document.removeEventListener("gesturechange", this.preventGesture);
-    document.removeEventListener("gestureend", this.preventGesture);
+    document.removeEventListener("touchmove", this.preventPinchZoom);
     document.removeEventListener("contextmenu", this.preventContextMenu);
-  },
-  destroyed() {
-    clearTimeout(this.timeoutId);
-  },
-  watch: {
-    $route(to, from) {
-      this.resetTimer();
-    },
+    this.stopCartCheckTimer();
   },
   methods: {
     preventPinchZoom(event) {
@@ -54,30 +45,32 @@ export default {
         event.preventDefault();
       }
     },
-    preventGesture(event) {
-      event.preventDefault();
-    },
     preventContextMenu(event) {
       event.preventDefault();
     },
-    resetTimer() {
-      clearTimeout(this.timeoutId);
-      const location = localStorage.getItem("location");
+    startCartCheckTimer() {
+      this.stopCartCheckTimer(); // Stop any existing timer
 
-      this.navbarTo = "/restaurant/detail/" + location;
-      this.timeoutId = setTimeout(() => {
-        localStorage.removeItem("cart_items");
-        localStorage.removeItem("type_order");
-        localStorage.removeItem("checkoutData");
-        localStorage.removeItem("data_customer");
-        localStorage.removeItem("qrContent");
-        this.$router.push(this.navbarTo);
-      }, 25 * 60 * 1000);
+      this.intervalId = setInterval(() => {
+        if (localStorage.getItem("cart_items")) {
+          this.timeoutId = setTimeout(() => {
+            localStorage.removeItem("cart_items");
+            console.log("cart_items removed after 1 minute");
+          }, 2 * 60 * 60 * 1000); // 1 minute
+        }
+      }, 1000); // Check every second
+    },
+    stopCartCheckTimer() {
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
+      if (this.timeoutId) {
+        clearTimeout(this.timeoutId);
+      }
     },
   },
 };
 </script>
-
 
 <style lang="scss">
 html {
