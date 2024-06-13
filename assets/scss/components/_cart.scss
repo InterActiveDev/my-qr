@@ -287,7 +287,7 @@
   }
 }
 
-@media screen and (min-width: 390px) and (max-width: 760px) {
+@media screen and (min-width: 390px) and (max-width: 759px) {
   #cart {
     .modal-box {
       width: 370px;
@@ -380,7 +380,8 @@
 
             .card-cart-item {
               width: 100%;
-              height: auto;
+              height: 150px;
+              max-height: 150px;
               background: #fff;
               box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.15);
               padding: 20px;
@@ -669,7 +670,8 @@
 
             .card-cart-item {
               width: 100%;
-              height: auto;
+              height: 150px;
+              max-height: 150px;
               background: #fff;
               box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.15);
               padding: 20px;
