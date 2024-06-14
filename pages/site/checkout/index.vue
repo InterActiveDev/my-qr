@@ -322,7 +322,7 @@
             <div class="btn-group">
               <button
                 class="btn btn-pay"
-                :class="this.totalPay <= 0? ' cursor-not-allowed' : '' "
+                :class="this.totalPay <= 0 ? ' cursor-not-allowed' : ''"
                 @click="openModalDataCustomer"
               >
                 BAYAR
@@ -1274,7 +1274,7 @@ export default defineComponent({
       }
     },
     openModalDataCustomer() {
-      if(this.totalPay == 0){
+      if (this.totalPay == 0) {
         return;
       }
       let modal = document.getElementById("modalInformationData");
@@ -1353,6 +1353,9 @@ export default defineComponent({
       const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
       const tableCode = localStorage.getItem("table_code");
 
+      localStorage.setItem("receipt", JSON.stringify(checkoutData));
+      // localStorage.removeItem("cart_items");
+
       this.nameMethod = this.table.paymentMethod.payment_id;
 
       if (!this.nameMethod) {
@@ -1388,7 +1391,9 @@ export default defineComponent({
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
             payment_name:
-              this.table.paymentMethod.payment_category == "e-money" ? "qris" : "cash", // qris - cash
+              this.table.paymentMethod.payment_category == "e-money"
+                ? "qris"
+                : "cash", // qris - cash
             paymdate: dateYMD,
           },
           guest_detail: {
