@@ -283,9 +283,10 @@ export default defineComponent({
     },
     getData() {
       if (process.client) {
+        localStorage.removeItem("checkoutData");
         const customerData = localStorage.getItem("data_customer");
         const typeOrderData = localStorage.getItem("selected_type_order");
-        const checkoutData = localStorage.getItem("checkoutData");
+        const checkoutData = localStorage.getItem("receipt");
         const transactions = JSON.parse(localStorage.getItem("qrContent"));
         const location = localStorage.getItem("location");
         const dataRestaurant = localStorage.getItem("data_restaurant");
@@ -306,12 +307,17 @@ export default defineComponent({
         this.transaction = transactions ? transactions : {};
         this.restaurant = dataRestaurant ? JSON.parse(dataRestaurant) : {};
 
-        this.noNota = transactions.noNotaNew != null? transactions.noNotaNew : transactions.qr_nota_short? transactions.qr_nota_short:'';
+        this.noNota =
+          transactions.noNotaNew != null
+            ? transactions.noNotaNew
+            : transactions.qr_nota_short
+            ? transactions.qr_nota_short
+            : "";
         this.payment = transactions.contents.paymentMethod;
-        if(transactions.contents.status == 0){
-          this.status = 'PENDING';
-        }else if(transactions.contents.status == undefined){
-          this.status = transactions.qr_status == 1? "LUNAS":"PENDING";
+        if (transactions.contents.status == 0) {
+          this.status = "PENDING";
+        } else if (transactions.contents.status == undefined) {
+          this.status = transactions.qr_status == 1 ? "LUNAS" : "PENDING";
         }
 
         if (this.locProducts.length > 0) {
@@ -340,6 +346,7 @@ export default defineComponent({
       localStorage.removeItem("temporary_item_cart");
       localStorage.removeItem("cart_items");
       localStorage.removeItem("checkoutData");
+      localStorage.removeItem("receipt");
       const location = localStorage.getItem("location");
       const tableCode = localStorage.getItem("table_code");
 
