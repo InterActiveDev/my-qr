@@ -855,10 +855,10 @@ export default defineComponent({
       changeItem: null,
     };
   },
-  async mounted() {
+  mounted() {
     // localStorage.removeItem("qrContent");
     // localStorage.removeItem("checkoutData");
-    await this.getList();
+    this.getList();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
   },
   beforeDestroy() {
@@ -875,7 +875,7 @@ export default defineComponent({
         this.getList();
       }
     },
-    async getList() {
+     getList() {
       const location = localStorage.getItem("location");
       const tableCodeRaw = localStorage.getItem("table_code");
       if (
@@ -910,7 +910,7 @@ export default defineComponent({
       this.paymentMethod =
         JSON.parse(localStorage.getItem("payment_method")) || [];
       this.orderTypes =
-        (await JSON.parse(localStorage.getItem("order_type"))) || [];
+        ( JSON.parse(localStorage.getItem("order_type"))) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
@@ -980,7 +980,7 @@ export default defineComponent({
       // disable buat tes tanpa rounding
       // this.totalPay = tempTotalPay;
       this.totalPay = tempTotalPay + this.rounding;
-      if (this.totalPay = 0) {
+      if ((this.totalPay = 0)) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
       }
@@ -1430,7 +1430,7 @@ export default defineComponent({
         .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
-            console.log('result', result)
+            console.log("result", result);
             if (this.table.paymentMethod != "e-money") {
               // cash and other payment
               const token = localStorage.getItem("token");
@@ -1446,7 +1446,7 @@ export default defineComponent({
                 .catch((err) => {
                   console.log("err: ", err.message);
                 });
-            }else{
+            } else {
               // get nota
               this.getNota(result, transactionId);
             }
