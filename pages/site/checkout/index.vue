@@ -1287,6 +1287,8 @@ export default defineComponent({
       }
     },
     openModalPayment() {
+      localStorage.removeItem("checkoutData");
+      
       let modalCustomer = document.getElementById("modalInformationData");
       let modal = document.getElementById("modalSelectPayments");
       this.name = "";

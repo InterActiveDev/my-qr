@@ -283,7 +283,6 @@ export default defineComponent({
     },
     getData() {
       if (process.client) {
-        localStorage.removeItem("checkoutData");
         const customerData = localStorage.getItem("data_customer");
         const typeOrderData = localStorage.getItem("selected_type_order");
         const checkoutData = localStorage.getItem("receipt");

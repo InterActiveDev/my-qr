@@ -36,13 +36,9 @@
         <p>{{ product.description }}</p>
       </div>
 
-      <div class="price">
-        <span class="price-fix-dark">{{
-          formatCurrency(product.product_pricenow)
-        }}</span>
-        <!-- <span class="price-discount">{{
-          formatCurrency(product.real_price)
-        }}</span> -->
+      <div class="flex flex-row w-full justify-between text-black items-center">
+        <span class="font-medium">{{ formatCurrency(product.product_pricenow) }}</span>
+        <span v-if="product.product_stockstat === 'yes'" class="font-medium text-sm pt-[2px]" :class="product.product_stock <= 0? 'text-red-500': ''" >{{ product.product_stock > 0? 'Stock : ' + product.product_stock: 'Habis' }}</span>
       </div>
 
       <div class="card-actions cursor-pointer">
