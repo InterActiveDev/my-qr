@@ -461,7 +461,6 @@ export default defineComponent({
       }
     }
   },
-
   async mounted() {
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
@@ -484,6 +483,7 @@ export default defineComponent({
     }
 
     if (location && location != this.restaurantId) {
+      console.log('Data restoran berbeda. Sinkronkan ulang data ...');
       await this.starter(locId);
     }
 
@@ -496,17 +496,17 @@ export default defineComponent({
     if (last_updated_data.data.message != "No New Update Found.") {
       const date = new Date(last_updated_data.data.data[0].last_updated_data);
       const last_update = date.toISOString().slice(0, 19).replace("T", " ");
+      console.log("asas", last_updated_data.data);
       localStorage.setItem("last_update", JSON.stringify(last_update));
     }
 
     if (data_restaurant === null || data_menu === null) {
+      console.log('Data restoran atau data menu kosong. Sinkronkan data ...');
       await this.starter(locId);
     } else {
-      if (
-        last_updated_data.data.data[0].last_updated_data !==
-        data_restaurant.last_updated_data
-      ) {
+      if (last_updated_data.data.data[0].last_updated_data !== data_restaurant.last_updated_data) {
         // jika data update terakhir tidak sesuai dengan data kita, sinkronkan data ulang
+        console.log('Data update terakhir tidak sesuai. Sinkronkan data ulang...');
         await this.starter(locId);
       }
     }

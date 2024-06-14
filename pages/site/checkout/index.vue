@@ -322,8 +322,8 @@
             <div class="btn-group">
               <button
                 class="btn btn-pay"
+                :class="this.totalPay <= 0? ' cursor-not-allowed' : '' "
                 @click="openModalDataCustomer"
-                :disabled="validatePayment"
               >
                 BAYAR
               </button>
@@ -875,7 +875,7 @@ export default defineComponent({
         this.getList();
       }
     },
-     getList() {
+    getList() {
       const location = localStorage.getItem("location");
       const tableCodeRaw = localStorage.getItem("table_code");
       if (
@@ -909,8 +909,7 @@ export default defineComponent({
 
       this.paymentMethod =
         JSON.parse(localStorage.getItem("payment_method")) || [];
-      this.orderTypes =
-        ( JSON.parse(localStorage.getItem("order_type"))) || [];
+      this.orderTypes = JSON.parse(localStorage.getItem("order_type")) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
@@ -980,7 +979,7 @@ export default defineComponent({
       // disable buat tes tanpa rounding
       // this.totalPay = tempTotalPay;
       this.totalPay = tempTotalPay + this.rounding;
-      if ((this.totalPay = 0)) {
+      if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
       }
@@ -1275,6 +1274,9 @@ export default defineComponent({
       }
     },
     openModalDataCustomer() {
+      if(this.totalPay == 0){
+        return;
+      }
       let modal = document.getElementById("modalInformationData");
       modal.showModal();
 
@@ -1358,8 +1360,6 @@ export default defineComponent({
       }
       // console.log("ww", matchingMethods);
 
-      console.log("this.nameMethod", this.nameMethod);
-
       const today = new Date();
       const year = today.getFullYear();
       const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -1388,7 +1388,7 @@ export default defineComponent({
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
             payment_name:
-              this.table.paymentMethod == "e-money" ? "qris" : "cash", // qris - cash
+              this.table.paymentMethod.payment_category == "e-money" ? "qris" : "cash", // qris - cash
             paymdate: dateYMD,
           },
           guest_detail: {
