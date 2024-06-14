@@ -1437,15 +1437,9 @@ export default defineComponent({
               const noNota = {
                 no_nota: result.data.result[0].noNota,
               };
-              FetchData.syncMyResto(noNota, token)
-                .then((resultPos) => {
-                  // console.log("sync to myResto: "+JSON.stringify(resultPos, null, 2));
-                  // get nota
-                  this.getNota(result, transactionId);
-                })
-                .catch((err) => {
-                  console.log("err: ", err.message);
-                });
+
+              this.getNota(result, transactionId);
+
             } else {
               // get nota
               this.getNota(result, transactionId);
