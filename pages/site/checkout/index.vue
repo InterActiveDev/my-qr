@@ -1476,6 +1476,7 @@ export default defineComponent({
         const data = JSON.parse(localStorage.getItem("qrContent"));
         if (data) {
           clearInterval(checkQrContent);
+          console.log('to qris')
           this.$router.push("/qris");
         }
       }, 2000);
