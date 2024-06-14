@@ -322,8 +322,8 @@
             <div class="btn-group">
               <button
                 class="btn btn-pay"
+                :class="this.totalPay <= 0? ' cursor-not-allowed' : '' "
                 @click="openModalDataCustomer"
-                :disabled="validatePayment"
               >
                 BAYAR
               </button>
@@ -979,7 +979,7 @@ export default defineComponent({
       // disable buat tes tanpa rounding
       // this.totalPay = tempTotalPay;
       this.totalPay = tempTotalPay + this.rounding;
-      if (this.totalPay == 0) {
+      if (this.totalPay <= 0) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
       }
@@ -1274,6 +1274,9 @@ export default defineComponent({
       }
     },
     openModalDataCustomer() {
+      if(this.totalPay == 0){
+        return;
+      }
       let modal = document.getElementById("modalInformationData");
       modal.showModal();
 

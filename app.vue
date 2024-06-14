@@ -55,8 +55,8 @@ export default {
         if (localStorage.getItem("cart_items")) {
           this.timeoutId = setTimeout(() => {
             localStorage.removeItem("cart_items");
-            console.log("cart_items removed after 1 minute");
-          }, 2 * 60 * 60 * 1000); // 1 minute
+            console.log("cart_items removed after 20 minute");
+          }, 2 * 60 * 60 * 20000); // 1 minute
         }
       }, 1000); // Check every second
     },
