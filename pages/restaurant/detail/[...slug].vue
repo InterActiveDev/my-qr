@@ -484,6 +484,7 @@ export default defineComponent({
     }
 
     if (location && location != this.restaurantId) {
+      console.log('Data restoran berbeda. Sinkronkan ulang data ...');
       await this.starter(locId);
     }
 
@@ -500,13 +501,12 @@ export default defineComponent({
     }
 
     if (data_restaurant === null || data_menu === null) {
+      console.log('Data restoran atau data menu kosong. Sinkronkan data ...');
       await this.starter(locId);
     } else {
-      if (
-        last_updated_data.data.data[0].last_updated_data !==
-        data_restaurant.last_updated_data
-      ) {
+      if (last_updated_data.data.data[0].last_updated_data !== data_restaurant.last_updated_data) {
         // jika data update terakhir tidak sesuai dengan data kita, sinkronkan data ulang
+        console.log('Data update terakhir tidak sesuai. Sinkronkan data ulang...');
         await this.starter(locId);
       }
     }
