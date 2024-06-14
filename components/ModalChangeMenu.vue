@@ -52,6 +52,10 @@
                   formatCurrency(getProduct.product.product_pricenow)
                 }}</span>
 
+                <span v-if="getProduct.product.product_stockstat === 'yes'" class="text-black font-medium text-center" :class="getProduct.product.product_stock <= 0? 'text-red-500': ''">
+                  {{ getProduct.product.product_stock > 0? 'Stock : ' + getProduct.product.product_stock: 'Habis' }}
+                </span>
+
                 <div class="split-item">
                   <div class="btn-minus">
                     <button class="btn" @click="decrementValue">
