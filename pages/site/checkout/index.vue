@@ -278,9 +278,7 @@
               </div>
 
               <div class="detail-item" v-if="serviceFee">
-                <span class="detail-text"
-                  >{{ serviceFeeName }} </span
-                >
+                <span class="detail-text">{{ serviceFeeName }} </span>
 
                 <span class="detail-text">{{
                   formatCurrency(serviceFee)
@@ -288,9 +286,7 @@
               </div>
 
               <div class="detail-item" v-if="tax">
-                <span class="detail-text"
-                  >{{ taxName }} </span
-                >
+                <span class="detail-text">{{ taxName }} </span>
 
                 <span class="detail-text">{{ formatCurrency(tax) }}</span>
               </div>
@@ -364,7 +360,7 @@
               <span>QRIS </span>
             </div>
           </div> -->
-          <div class="item" @click="openModal(payment.payment_category)">
+          <div class="item" @click="openModal(payment)">
             <div class="col-1">
               <img
                 v-if="payment.payment_category === 'e-money'"
@@ -859,10 +855,10 @@ export default defineComponent({
       changeItem: null,
     };
   },
-  async mounted() {
+  mounted() {
     // localStorage.removeItem("qrContent");
     // localStorage.removeItem("checkoutData");
-    await this.getList();
+    this.getList();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
   },
   beforeDestroy() {
@@ -879,13 +875,20 @@ export default defineComponent({
         this.getList();
       }
     },
-    async getList() {
+     getList() {
       const location = localStorage.getItem("location");
       const tableCodeRaw = localStorage.getItem("table_code");
-      if(localStorage.getItem('table_code') == 'null' || localStorage.getItem('table_code') == null){
-        this.navbarTo = "/restaurant/detail/" + location ;
-      }else{
-        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCodeRaw);
+      if (
+        localStorage.getItem("table_code") == "null" ||
+        localStorage.getItem("table_code") == null
+      ) {
+        this.navbarTo = "/restaurant/detail/" + location;
+      } else {
+        this.navbarTo =
+          "/restaurant/detail/" +
+          location +
+          "?table_code=" +
+          btoa(tableCodeRaw);
       }
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const data_restaurant =
@@ -907,7 +910,7 @@ export default defineComponent({
       this.paymentMethod =
         JSON.parse(localStorage.getItem("payment_method")) || [];
       this.orderTypes =
-        (await JSON.parse(localStorage.getItem("order_type"))) || [];
+        ( JSON.parse(localStorage.getItem("order_type"))) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
       this.countSubTotal = cartItems.length;
@@ -923,9 +926,9 @@ export default defineComponent({
         this.taxPercentage = data_restaurant.tax_nominal;
       }
       if (data_restaurant.service_nominal != null) {
-        if(this.serviceFeeType == 'val'){
+        if (this.serviceFeeType == "val") {
           this.serviceFee = data_restaurant.service_nominal;
-        }else{
+        } else {
           this.serviceFee = Math.round(
             (this.subTotal * data_restaurant.service_nominal) / 100
           );
@@ -977,7 +980,7 @@ export default defineComponent({
       // disable buat tes tanpa rounding
       // this.totalPay = tempTotalPay;
       this.totalPay = tempTotalPay + this.rounding;
-      if (this.totalPay <= 0) {
+      if ((this.totalPay = 0)) {
         // kalau jumlah kurang dari 0 di disable button nya
         this.validatePayment = true;
       }
@@ -1348,19 +1351,14 @@ export default defineComponent({
       const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
       const tableCode = localStorage.getItem("table_code");
 
-      paymentMethod.forEach((element) => {
-        console.log('element', element)
-        if (this.table.paymentMethod == element.payment_category ) {
-          if(this.table.paymentMethod.toLowerCase() == 'cash'){
-            if(element.payment_method.toLowerCase() == 'cash'){
-              this.nameMethod = element.payment_id;
-            }
-          }else{
-            this.nameMethod = element.payment_id;
-          }
-        }
-      });
-      console.log('this.nameMethod', this.nameMethod)
+      this.nameMethod = this.table.paymentMethod.payment_id;
+
+      if (!this.nameMethod) {
+        console.error("No matching payment method found.");
+      }
+      // console.log("ww", matchingMethods);
+
+      console.log("this.nameMethod", this.nameMethod);
 
       const today = new Date();
       const year = today.getFullYear();
@@ -1432,7 +1430,7 @@ export default defineComponent({
         .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
-            console.log('result', result)
+            console.log("result", result);
             if (this.table.paymentMethod != "e-money") {
               // cash and other payment
               const token = localStorage.getItem("token");
@@ -1448,7 +1446,7 @@ export default defineComponent({
                 .catch((err) => {
                   console.log("err: ", err.message);
                 });
-            }else{
+            } else {
               // get nota
               this.getNota(result, transactionId);
             }
@@ -1490,7 +1488,8 @@ export default defineComponent({
     },
     getNota(result, transactionId) {
       this.steps = "get transactionId";
-      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+      const getNotaUrl =
+        "/qr_myorder/get_transaction?transactionId=" + transactionId;
       FetchData.getData(getNotaUrl).then((getNota) => {
         // sukses simpan transaksi
         const dataQrContent = {
@@ -1504,17 +1503,17 @@ export default defineComponent({
         localStorage.setItem("qrContent", JSON.stringify(dataQrContent));
       });
     },
-    async openModal(name) {
+    async openModal(payment) {
       let dataCustomer = localStorage.getItem("data_customer");
 
       dataCustomer = dataCustomer ? JSON.parse(dataCustomer) : {};
 
-      if (name === "cash") {
-        console.log('name', name)
+      if (payment.payment_category === "cash") {
+        console.log("name", payment.payment_category);
         localStorage.removeItem("qrContent");
         let modalPayment = document.getElementById("modalSelectPayments");
         modalPayment.close();
-        dataCustomer.paymentMethod = "cash";
+        dataCustomer.paymentMethod = payment;
         this.showModalWaiting = true;
 
         this.$nextTick(() => {
@@ -1530,9 +1529,9 @@ export default defineComponent({
             }
           }, 1000);
         });
-      } else if (name === "e-money") {
+      } else if (payment.payment_category === "e-money") {
         localStorage.removeItem("qrContent");
-        dataCustomer.paymentMethod = "e-money";
+        dataCustomer.paymentMethod = payment;
         this.openModalQrisMethod();
       } else {
         alert("Payment method is not registered.");

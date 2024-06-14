@@ -15,7 +15,8 @@
           background: #fff;
           padding: 20px;
           min-height: 600px;
-          height: auto;
+          height: 150px;
+          max-height: 150px;
           overflow-y: auto;
 
           .head {
@@ -286,7 +287,7 @@
   }
 }
 
-@media screen and (min-width: 390px) and (max-width: 760px) {
+@media screen and (min-width: 390px) and (max-width: 759px) {
   #cart {
     .modal-box {
       width: 370px;
@@ -303,7 +304,8 @@
           background: #fff;
           padding: 20px;
           min-height: 600px;
-          height: auto;
+          height: 150px;
+          max-height: 150px;
           overflow-y: auto;
 
           .head {
@@ -378,7 +380,8 @@
 
             .card-cart-item {
               width: 100%;
-              height: auto;
+              height: 150px;
+              max-height: 150px;
               background: #fff;
               box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.15);
               padding: 20px;
@@ -574,7 +577,7 @@
   }
 }
 
-@media screen and (min-width: 360px) and (max-width: 390px) {
+@media screen and (min-width: 360px) and (max-width: 389px) {
   #cart {
     .modal-box {
       width: 340px;
@@ -591,7 +594,8 @@
           background: #fff;
           padding: 20px;
           min-height: 600px;
-          height: auto;
+          height: 150px;
+          max-height: 150px;
           overflow-y: auto;
 
           .head {
@@ -666,7 +670,8 @@
 
             .card-cart-item {
               width: 100%;
-              height: auto;
+              height: 150px;
+              max-height: 150px;
               background: #fff;
               box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.15);
               padding: 20px;
@@ -705,7 +710,7 @@
                         color: #000;
                         text-overflow: ellipsis;
                         font-family: $font-family;
-                        font-size: 14px;
+                        font-size: 12px;
                         font-style: normal;
                         font-weight: 700;
                         line-height: normal;
@@ -717,7 +722,7 @@
                         text-align: left;
                         text-overflow: ellipsis;
                         font-family: $font-family;
-                        font-size: 14px;
+                        font-size: 12px;
                         font-style: normal;
                         font-weight: 800;
                         line-height: normal;
@@ -729,7 +734,7 @@
                         text-overflow: ellipsis;
                         white-space: nowrap;
                         font-family: $font-family;
-                        font-size: 16px;
+                        font-size: 12px;
                         font-style: normal;
                         font-weight: 500;
                         line-height: normal;

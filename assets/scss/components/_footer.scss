@@ -6,24 +6,20 @@
     align-items: center;
     gap: 19px;
     align-self: stretch;
-    padding: 50px;
-    background-color: #fff;
+    padding: 15px;
+    background-color: #232323;
     bottom: 0;
     width: 480px;
 
     span {
-      overflow: hidden;
-      color: #000;
-      text-overflow: ellipsis;
+      color: #ccc;
+      text-align: right;
       font-family: $font-family;
-      font-size: 20px;
+      font-size: 14px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 400;
       line-height: normal;
-    }
-
-    img {
-      width: 50%;
+      letter-spacing: 0.25px;
     }
   }
 }
@@ -36,24 +32,20 @@
     align-items: center;
     gap: 19px;
     align-self: stretch;
-    padding: 50px;
-    background-color: #fff;
+    padding: 15px;
+    background-color: #232323;
     bottom: 0;
     width: 100%;
 
     span {
-      overflow: hidden;
-      color: #000;
-      text-overflow: ellipsis;
+      color: #ccc;
+      text-align: right;
       font-family: $font-family;
-      font-size: 20px;
+      font-size: 12px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 400;
       line-height: normal;
-    }
-
-    img {
-      width: 50%;
+      letter-spacing: 0.25px;
     }
   }
 }
@@ -66,24 +58,20 @@
     align-items: center;
     gap: 19px;
     align-self: stretch;
-    padding: 50px;
-    background-color: #fff;
+    padding: 15px;
+    background-color: #232323;
     bottom: 0;
     width: 100%;
 
     span {
-      overflow: hidden;
-      color: #000;
-      text-overflow: ellipsis;
+      color: #ccc;
+      text-align: right;
       font-family: $font-family;
-      font-size: 20px;
+      font-size: 12px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 400;
       line-height: normal;
-    }
-
-    img {
-      width: 50%;
+      letter-spacing: 0.25px;
     }
   }
 }
