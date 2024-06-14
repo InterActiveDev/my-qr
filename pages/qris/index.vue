@@ -158,16 +158,17 @@ export default defineComponent({
       this.countDownInterval = setInterval(() => {
         if (this.countDown > 0) {
           this.countDown--;
-
-          // bypass payment
-          // if(this.countDown == 5){
-          //   this.updatePayment();
-          // }
         } else {
           clearInterval(this.intervalId);
           clearInterval(this.setInterval);
           this.showModalCancel = true;
-
+          // FetchData.syncMyResto(noNota, token)
+          //   .then((resultPos) => {
+          //     // get nota
+          //   })
+          //   .catch((err) => {
+          //     console.log("err: ", err.message);
+          //   });
           setTimeout(() => {
             clearInterval(this.countDownInterval);
             // this.checkPayment();
