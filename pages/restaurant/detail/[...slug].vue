@@ -485,7 +485,7 @@ export default defineComponent({
     } catch (e) {
       console.error("Invalid restaurant ID:", e);
       locId = null;
-      return this.$router.push("/page-not-found");
+      return this.$router.push("/error/page-not-found");
     }
 
     if (location && location != this.restaurantId) {
@@ -502,7 +502,7 @@ export default defineComponent({
     if (last_updated_data.data.message != "No New Update Found.") {
       const date = new Date(last_updated_data.data.data[0].last_updated_data);
       const last_update = date.toISOString().slice(0, 19).replace("T", " ");
-      console.log("asas", last_updated_data.data);
+      console.log("last updated data: ", last_updated_data.data.data[0].last_updated_data);
       localStorage.setItem("last_update", JSON.stringify(last_update));
     }
 
@@ -542,13 +542,13 @@ export default defineComponent({
         console.error("Table code not found in table list.");
         this.isErrorUrl = true;
         this.isHidden = false;
-        return this.$router.push("/page-not-found");
+        return this.$router.push("/error/page-not-found");
       }
     } else {
       if (use_table == 1) {
         var tableCodeParams = "";
         localStorage.setItem("table_code", tableCodeParams);
-        return this.$router.push("/table-not-found");
+        return this.$router.push("/error/table-not-found");
       }
       // this.isHidden = true;
       // this.isLoading = false;
@@ -569,7 +569,7 @@ export default defineComponent({
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    handleScroll() {
+    handleScroll() {  
       this.showScrollButton = window.scrollY > 200;
     },
     scrollToTop() {
