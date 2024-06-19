@@ -217,8 +217,6 @@ export default defineComponent({
         this.qrCodeImage = qrCodeDataURL;
         const intervalId = setInterval(() => {
           if (timerStop <= 240) { // 20 menit
-            console.log('timerStop', timerStop)
-
             // buat stop proses di background, biar ga jalan terus pengecekannya
             this.checkPayment(this.mID, this.invoiceId, this.refNo);
             timerStop++;
