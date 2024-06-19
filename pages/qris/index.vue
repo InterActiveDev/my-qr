@@ -174,7 +174,7 @@ export default defineComponent({
           //   });
           setTimeout(() => {
             clearInterval(this.countDownInterval);
-            // this.checkPayment();
+            this.checkPayment();
             this.$router.push("/site/checkout");
           }, 2000);
         }
