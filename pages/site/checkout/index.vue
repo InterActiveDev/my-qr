@@ -1437,15 +1437,25 @@ export default defineComponent({
         .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
-            console.log("result", result);
-            if (this.table.paymentMethod != "e-money") {
+            console.log('this.table.paymentMethod', this.table.paymentMethod)
+            if (this.table.paymentMethod.payment_category != "e-money") {
               // cash and other payment
               const token = localStorage.getItem("token");
               const noNota = {
                 no_nota: result.data.result[0].noNota,
               };
 
-              this.getNota(result, transactionId);
+              if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){
+                // sync ke my Resto kalau payment cash
+                FetchData.syncMyResto(noNota, token)
+                  .then((resultPos) => {
+                    // get nota
+                    this.getNota(result, transactionId);
+                  })
+                  .catch((err) => {
+                    console.log("err: ", err.message);
+                  });
+              }
 
             } else {
               // get nota
@@ -1490,10 +1500,10 @@ export default defineComponent({
     },
     getNota(result, transactionId) {
       this.steps = "get transactionId";
-      const getNotaUrl =
-        "/qr_myorder/get_transaction?transactionId=" + transactionId;
+      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
       FetchData.getData(getNotaUrl).then((getNota) => {
         // sukses simpan transaksi
+        console.log('getNota', getNota)
         const dataQrContent = {
           contents: result.data.result[0],
           nota: result.data.result[0].noNota,
