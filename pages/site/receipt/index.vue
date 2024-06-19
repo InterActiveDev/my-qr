@@ -88,7 +88,7 @@
                           {{ data.product.topping }}
                         </p>
                         <p>
-                          {{ data.note.slice(0, 30) + "..." }}
+                          {{ data.note ? (data.note.slice(0, 30) + (data.note.length > 30 ? "..." : "")) : "" }}
                         </p>
                       </div>
                     </div>
