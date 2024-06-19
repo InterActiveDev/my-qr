@@ -1444,8 +1444,19 @@ export default defineComponent({
                 no_nota: result.data.result[0].noNota,
               };
 
-              if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){
-                // sync ke my Resto kalau payment cash
+              if(this.table.paymentMethod.payment_myresto_key !== null){
+                if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){
+                  // sync ke my Resto kalau payment cash
+                  FetchData.syncMyResto(noNota, token)
+                    .then((resultPos) => {
+                      // get nota
+                      this.getNota(result, transactionId);
+                    })
+                    .catch((err) => {
+                      console.log("err: ", err.message);
+                    });
+                }
+              }else{
                 FetchData.syncMyResto(noNota, token)
                   .then((resultPos) => {
                     // get nota
