@@ -502,7 +502,7 @@ export default defineComponent({
     if (last_updated_data.data.message != "No New Update Found.") {
       const date = new Date(last_updated_data.data.data[0].last_updated_data);
       const last_update = date.toISOString().slice(0, 19).replace("T", " ");
-      console.log("asas", last_updated_data.data);
+      console.log("last updated data: ", last_updated_data.data.data[0].last_updated_data);
       localStorage.setItem("last_update", JSON.stringify(last_update));
     }
 

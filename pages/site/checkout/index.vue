@@ -1000,7 +1000,7 @@ export default defineComponent({
       this.showModalPromo = false;
     },
     closeErrorModal() {
-      this.showModalErrorPromo = false;
+      this.showModalError = false;
     },
     openDetailPromo(promoId) {
       this.showModalPromo = false;
@@ -1344,8 +1344,7 @@ export default defineComponent({
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer =
-        JSON.parse(localStorage.getItem("data_customer")) || [];
+      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
       const selectedOrderType = JSON.parse(
         localStorage.getItem("selected_type_order")
       );
@@ -1375,13 +1374,14 @@ export default defineComponent({
       const seconds = String(today.getSeconds()).padStart(2, "0");
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
+      
       const data = [
         {
           mID: data_restaurant.mID, // kalau pakai qris
           appid: data_restaurant.appid,
           loc_id: locId,
           restaurant_table: tableCode,
+          table_id: dataCustomer.table_id,
           type_order: selectedOrderType.code_type,
           hl_enable_login: data_restaurant.hl_enable_login,
           data: [],
@@ -1437,7 +1437,6 @@ export default defineComponent({
         .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
-            console.log('this.table.paymentMethod', this.table.paymentMethod)
             if (this.table.paymentMethod.payment_category != "e-money") {
               // cash and other payment
               const token = localStorage.getItem("token");
@@ -1493,7 +1492,6 @@ export default defineComponent({
         const data = JSON.parse(localStorage.getItem("qrContent"));
         if (data) {
           clearInterval(checkQrContent);
-          console.log('to qris')
           this.$router.push("/qris");
         }
       }, 2000);
@@ -1503,7 +1501,6 @@ export default defineComponent({
       const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
       FetchData.getData(getNotaUrl).then((getNota) => {
         // sukses simpan transaksi
-        console.log('getNota', getNota)
         const dataQrContent = {
           contents: result.data.result[0],
           nota: result.data.result[0].noNota,
@@ -1613,8 +1610,12 @@ export default defineComponent({
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     goToReceipt() {
+      const tables = localStorage.getItem("table_list")? JSON.parse(localStorage.getItem("table_list")) : [];
+      // const table = tables.find((table) => table.table_name === this.tableCode);
+      const table = tables.find((table) => table.table_name === this.tableCode);
+
       const dataCustomer = {
-        table: "",
+        table_id: table? table.table_id:'',
         table: this.tableCode,
         name: this.name,
         phone: this.phone,

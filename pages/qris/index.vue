@@ -131,7 +131,6 @@ export default defineComponent({
   },
   async mounted() {
     await this.getQr();
-    // this.startCountDown();
   },
   methods: {
     getCookie(name) {
@@ -243,12 +242,14 @@ export default defineComponent({
         const qrCodeDataURL = await QRCode.toDataURL(content);
         this.qrCodeImage = qrCodeDataURL;
         const intervalId = setInterval(() => {
-          if (timerStop <= 120) {
-            // buat stop proses di background
+          if (timerStop <= 240) { // 20 menit
+            // buat stop proses di background, biar ga jalan terus pengecekannya
             this.checkPayment(this.mID, this.invoiceId, this.refNo);
             timerStop++;
+          }else{
+            clearInterval(this.intervalId);
           }
-        }, 5000);
+        }, 5000); // tiap 5 detik
 
         this.intervalId = intervalId;
       } catch (error) {
@@ -286,13 +287,11 @@ export default defineComponent({
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
-      const urlUpdatePayment = "/qr_myorder/update_payment";
-
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
       const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
       const qrContent = JSON.parse(localStorage.getItem("qrContent"));
 
+      // creating short no nota manual
       let alpha = "";
       let restoname = restaurant.loc_name.split(" ");
 
@@ -313,6 +312,8 @@ export default defineComponent({
       };
       this.showModalWaitingQris = true; // to show the modal
 
+      this.steps = "update payment";
+      const urlUpdatePayment = "/qr_myorder/update_payment";
       FetchData.updateData(urlUpdatePayment, data)
         .then((res) => {
           clearInterval(this.intervalId);
