@@ -1437,7 +1437,6 @@ export default defineComponent({
         .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
-            console.log('this.table.paymentMethod', this.table.paymentMethod)
             if (this.table.paymentMethod.payment_category != "e-money") {
               // cash and other payment
               const token = localStorage.getItem("token");
@@ -1493,7 +1492,6 @@ export default defineComponent({
         const data = JSON.parse(localStorage.getItem("qrContent"));
         if (data) {
           clearInterval(checkQrContent);
-          console.log('to qris')
           this.$router.push("/qris");
         }
       }, 2000);
@@ -1503,7 +1501,6 @@ export default defineComponent({
       const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
       FetchData.getData(getNotaUrl).then((getNota) => {
         // sukses simpan transaksi
-        console.log('getNota', getNota)
         const dataQrContent = {
           contents: result.data.result[0],
           nota: result.data.result[0].noNota,
