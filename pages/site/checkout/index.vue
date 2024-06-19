@@ -1444,8 +1444,22 @@ export default defineComponent({
                 no_nota: result.data.result[0].noNota,
               };
 
-              if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){
-                // sync ke my Resto kalau payment cash
+              // ini karna ada case data nya myresto_key kosong 
+              if(this.table.paymentMethod.payment_myresto_key !== null){ 
+                // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
+                if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){ 
+                  // sync ke my Resto kalau payment cash
+                  FetchData.syncMyResto(noNota, token)
+                    .then((resultPos) => {
+                      // get nota
+                      this.getNota(result, transactionId);
+                    })
+                    .catch((err) => {
+                      console.log("err: ", err.message);
+                    });
+                }
+              }else{
+                // kalau data myresto_key kosong, langsung sync ke my Resto 
                 FetchData.syncMyResto(noNota, token)
                   .then((resultPos) => {
                     // get nota
