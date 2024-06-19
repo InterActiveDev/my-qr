@@ -156,6 +156,29 @@ export default defineComponent({
         link.click();
       });
     },
+    startCountDown() {
+      this.countDownInterval = setInterval(() => {
+        if (this.countDown > 0) {
+          this.countDown--;
+        } else {
+          clearInterval(this.intervalId);
+          clearInterval(this.setInterval);
+          this.showModalCancel = true;
+          // FetchData.syncMyResto(noNota, token)
+          //   .then((resultPos) => {
+          //     // get nota
+          //   })
+          //   .catch((err) => {
+          //     console.log("err: ", err.message);
+          //   });
+          setTimeout(() => {
+            clearInterval(this.countDownInterval);
+            this.checkPayment();
+            this.$router.push("/site/checkout");
+          }, 2000);
+        }
+      }, 1000);
+    },
     checkPaymentTrigger() {
       const url = "/qr_myorder/check_payment_qris";
       const data = {
