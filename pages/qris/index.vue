@@ -49,7 +49,10 @@
                 <button class="btn btn-check mb-5" @click="checkPaymentTrigger">
                   Periksa Status Pembayaran
                 </button>
-                <button class="btn btn-download-qris mb-5" @click="downloadQris">
+                <button
+                  class="btn btn-download-qris mb-5"
+                  @click="downloadQris"
+                >
                   Download
                 </button>
                 <p class="caption">Selesaikan pembayaran sebelum :</p>
@@ -267,10 +270,10 @@ export default defineComponent({
 
       // creating short no nota manual
       let alpha = "";
-      let restoname = restaurant.loc_name.split(' ');
+      let restoname = restaurant.loc_name.split(" ");
 
-      restoname.forEach(function(name) {
-          alpha += name.charAt(0).toUpperCase();
+      restoname.forEach(function (name) {
+        alpha += name.charAt(0).toUpperCase();
       });
 
       let short = String(qrContent.contents.qrisData.invoiceId).slice(-4);
@@ -293,37 +296,41 @@ export default defineComponent({
           clearInterval(this.intervalId);
 
           this.steps = "get transactionId";
-          const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
+          const getNotaUrl =
+            "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
           FetchData.getData(getNotaUrl).then((getNota) => {
             // sukses simpan transaksi
-            if(getNota.data.data.status === 1 || getNota.data.data.myresto_ref !== "") {
+            if (
+              getNota.data.data.status === 1 ||
+              getNota.data.data.myresto_ref !== ""
+            ) {
               const qrContent = JSON.parse(localStorage.getItem("qrContent"));
               qrContent.qr_nota_short = getNota.data.data[0].myresto_ref;
               qrContent.qr_status = getNota.data.data[0].status;
               localStorage.removeItem("qrContent");
-              
+
               localStorage.setItem("qrContent", JSON.stringify(qrContent));
               setTimeout(() => {
                 this.toInputReceipt();
               }, 1000);
             }
-          })
-
+          });
         })
         .catch((error) => {
           console.log("error message (3) : ", error.message);
         });
     },
     getQr() {
+      localStorage.removeItem("checkoutData");
       const qrContent = localStorage.getItem("qrContent");
       const data = qrContent ? JSON.parse(qrContent) : "";
 
       const data_restaurant = localStorage.getItem("data_restaurant");
       const mid = data_restaurant ? JSON.parse(data_restaurant) : "";
-      const checkoutData = localStorage.getItem("checkoutData");
-      const checkout = checkoutData? JSON.parse(checkoutData):'';
-      
-      if(data && mid && checkout){
+      const checkoutData = localStorage.getItem("receipt");
+      const checkout = checkoutData ? JSON.parse(checkoutData) : "";
+
+      if (data && mid && checkout) {
         this.expiredDate = data.expired;
         this.transactionId = data.contents.transactionId;
         this.link = data.contents.qrisData.content;
