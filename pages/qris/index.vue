@@ -173,7 +173,7 @@ export default defineComponent({
           //   });
           setTimeout(() => {
             clearInterval(this.countDownInterval);
-            this.checkPayment();
+            // this.checkPayment();
             this.$router.push("/site/checkout");
           }, 2000);
         }
@@ -189,6 +189,7 @@ export default defineComponent({
 
       FetchData.createData(url, data)
         .then((res) => {
+          console.log(res.data.data.status);
           if (res.data.data.status === "success") {
             this.messagePaymentError = "";
             this.messagePaymentSuccess = "Pembayaran berhasil";
@@ -199,7 +200,7 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          console.log("error message (1) : ", error.message);
+          console.log("error message (1) : ", error);
         });
     },
     formatTime(seconds) {
@@ -266,6 +267,7 @@ export default defineComponent({
 
       FetchData.createData(url, data)
         .then((res) => {
+          console.log(res.data.data.status);
           if (res.data.data.status === "success") {
             clearInterval(this.intervalId);
             this.updatePayment();
@@ -287,7 +289,7 @@ export default defineComponent({
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData = JSON.parse(localStorage.getItem("receipt")) || [];
       const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
       const qrContent = JSON.parse(localStorage.getItem("qrContent"));
 
