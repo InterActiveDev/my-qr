@@ -234,11 +234,10 @@
               <div
                 v-if="
                   (perProduct.order_time_start < perProduct.order_time_end &&
-                    perProduct.order_time_start <= clockNow &&
-                    perProduct.order_time_end >= clockNow) ||
-                  (perProduct.order_time_start > perProduct.order_time_end &&
-                    perProduct.order_time_start >= clockNow) ||
-                  perProduct.order_time_end <= clockNow
+                  perProduct.order_time_start <= clockNow &&
+                  perProduct.order_time_end >= clockNow) ||
+                  (perProduct.order_time_start >= perProduct.order_time_end &&
+                  clockNow >= perProduct.order_time_start)
                 "
               >
                 <div class="spacer"></div>
