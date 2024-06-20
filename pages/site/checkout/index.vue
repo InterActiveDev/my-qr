@@ -1457,6 +1457,19 @@ export default defineComponent({
                     .catch((err) => {
                       console.log("err: ", err.message);
                     });
+
+                  // tes lokal
+                  // this.getNota(result, transactionId);
+                }else{
+                  // edc and other (actually do the same atm)
+                  FetchData.syncMyResto(noNota, token)
+                    .then((resultPos) => {
+                      // get nota
+                      this.getNota(result, transactionId);
+                    })
+                    .catch((err) => {
+                      console.log("err: ", err.message);
+                    });
                 }
               }else{
                 // kalau data myresto_key kosong, langsung sync ke my Resto 
@@ -1468,6 +1481,9 @@ export default defineComponent({
                   .catch((err) => {
                     console.log("err: ", err.message);
                   });
+                
+                // tes lokal
+                // this.getNota(result, transactionId);
               }
 
             } else {
