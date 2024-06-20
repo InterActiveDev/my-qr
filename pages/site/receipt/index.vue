@@ -313,7 +313,7 @@ export default defineComponent({
             : transactions.qr_nota_short
             ? transactions.qr_nota_short
             : "";
-        this.payment = transactions.contents.paymentMethod;
+        this.payment = this.customer.paymentMethod.payment_myresto_key;
         if (transactions.contents.status == 0) {
           this.status = "PENDING";
         } else if (transactions.contents.status == undefined) {
