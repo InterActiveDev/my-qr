@@ -37,153 +37,159 @@
 
             <div class="list-item-order">
               <div v-if="products">
-                <div
-                  class="item mb-2"
-                  v-for="(items, index) in products"
-                  :key="items.uuid"
-                >
-                  <div class="col-1">
-                    <span class="item-name">
-                      <span
-                        >({{ items.quantityItem }}x)
-                        {{ items.product.product_name }}</span
-                      >
+                <div v-for="(items, index) in products" :key="items.uuid">
+                  <!-- {{ currentTime <= items.orderTimeEnd && currentTime >= items.orderTimeStart }} -->
+                  <div class="item mb-2">
+                    <div class="col-1">
+                      <span class="item-name">
+                        <span
+                          >({{ items.quantityItem }}x)
+                          {{ items.product.product_name }}</span
+                        >
+                        <small
+                          class="italic ml-2 text-red-700"
+                          v-if="
+                            currentTime >= items.orderTimeEnd &&
+                            currentTime <= items.orderTimeStart
+                          "
+                        >*Tidak tersedia diwaktu sekarang</small>
 
-                      <p class="font-grey">
-                        {{ formatCurrency(items.product.product_pricenow) }}
-                      </p>
-                      <p class="topping">
-                        {{
-                          items.topping.name != undefined
-                            ? "(" +
-                              items.topping.name +
-                              " - " +
-                              formatCurrency(items.topping.price) +
-                              ")"
-                            : ""
-                        }}
-                      </p>
-                      <p class="font-grey">
-                        {{
-                          items.note.length > 50
-                            ? "Notes: " + items.note.slice(0, 30) + "..."
-                            : items.note
-                            ? "Notes: " + items.note
-                            : ""
-                        }}
-                      </p>
-                      <span class="font-bold">
-                        {{ items.istakeaway == 1 ? "[ Bungkus ]" : "" }}
+                        <p class="font-grey">
+                          {{ formatCurrency(items.product.product_pricenow) }}
+                        </p>
+                        <p class="topping">
+                          {{
+                            items.topping.name != undefined
+                              ? "(" +
+                                items.topping.name +
+                                " - " +
+                                formatCurrency(items.topping.price) +
+                                ")"
+                              : ""
+                          }}
+                        </p>
+                        <p class="font-grey">
+                          {{
+                            items.note.length > 50
+                              ? "Notes: " + items.note.slice(0, 30) + "..."
+                              : items.note
+                              ? "Notes: " + items.note
+                              : ""
+                          }}
+                        </p>
+                        <span class="font-bold">
+                          {{ items.istakeaway == 1 ? "[ Bungkus ]" : "" }}
+                        </span>
                       </span>
-                    </span>
 
-                    <div class="qty">
-                      <div class="split-item">
-                        <div class="btn-minus">
-                          <button class="btn" @click="decrementValue(index)">
+                      <div class="qty">
+                        <div class="split-item">
+                          <div class="btn-minus">
+                            <button class="btn" @click="decrementValue(index)">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="5"
+                                viewBox="0 0 21 5"
+                                fill="none"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M0.192383 2.5C0.192383 1.39543 1.08781 0.5 2.19238 0.5H18.1924C19.297 0.5 20.1924 1.39543 20.1924 2.5C20.1924 3.60457 19.297 4.5 18.1924 4.5H2.19238C1.08781 4.5 0.192383 3.60457 0.192383 2.5Z"
+                                  fill="#DA2424"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="1"
+                            class="input input-ghost w-full max-w-xs"
+                            :value="items.quantityItem"
+                            @input="updateQuantity(index, $event)"
+                            readonly
+                          />
+                          <div class="btn-plus">
+                            <button class="btn" @click="incrementValue(index)">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 21 21"
+                                fill="none"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M0.192383 10.498C0.192383 9.39348 1.08781 8.49805 2.19238 8.49805H18.1924C19.297 8.49805 20.1924 9.39348 20.1924 10.498C20.1924 11.6026 19.297 12.498 18.1924 12.498H2.19238C1.08781 12.498 0.192383 11.6026 0.192383 10.498Z"
+                                  fill="white"
+                                />
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M10.1924 0.5C11.297 0.5 12.1924 1.39543 12.1924 2.5L12.1924 18.5C12.1924 19.6046 11.297 20.5 10.1924 20.5C9.08781 20.5 8.19238 19.6046 8.19238 18.5L8.19238 2.5C8.19238 1.39543 9.08781 0.5 10.1924 0.5Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div class="btn-edit" @click="handleMenuChange(items)">
+                          <button>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="5"
-                              viewBox="0 0 21 5"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                            >
+                              <g
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"
+                                />
+                                <path d="m14.5 6.5l3 3" />
+                              </g>
+                            </svg>
+                          </button>
+                        </div>
+
+                        <div>
+                          <button @click="removeItem(index)">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="25"
+                              height="25"
+                              viewBox="0 0 34 34"
                               fill="none"
                             >
                               <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M0.192383 2.5C0.192383 1.39543 1.08781 0.5 2.19238 0.5H18.1924C19.297 0.5 20.1924 1.39543 20.1924 2.5C20.1924 3.60457 19.297 4.5 18.1924 4.5H2.19238C1.08781 4.5 0.192383 3.60457 0.192383 2.5Z"
+                                d="M13.964 7.28585H20.0354C20.0354 6.48073 19.7156 5.70859 19.1463 5.13928C18.577 4.56997 17.8048 4.25014 16.9997 4.25014C16.1946 4.25014 15.4225 4.56997 14.8531 5.13928C14.2838 5.70859 13.964 6.48073 13.964 7.28585ZM12.1426 7.28585C12.1426 5.99766 12.6543 4.76223 13.5652 3.85134C14.4761 2.94044 15.7115 2.42871 16.9997 2.42871C18.2879 2.42871 19.5233 2.94044 20.4342 3.85134C21.3451 4.76223 21.8569 5.99766 21.8569 7.28585H29.4462C29.6877 7.28585 29.9193 7.3818 30.0901 7.5526C30.2609 7.72339 30.3569 7.95503 30.3569 8.19657C30.3569 8.4381 30.2609 8.66975 30.0901 8.84054C29.9193 9.01133 29.6877 9.10728 29.4462 9.10728H27.8554L26.3777 26.8395C26.2701 28.1295 25.6818 29.3319 24.7293 30.2084C23.7767 31.0849 22.5296 31.5715 21.2352 31.5716H12.7643C11.4699 31.5715 10.2227 31.0849 9.27019 30.2084C8.31766 29.3319 7.72931 28.1295 7.62179 26.8395L6.14401 9.10728H4.55329C4.31176 9.10728 4.08011 9.01133 3.90932 8.84054C3.73853 8.66975 3.64258 8.4381 3.64258 8.19657C3.64258 7.95503 3.73853 7.72339 3.90932 7.5526C4.08011 7.3818 4.31176 7.28585 4.55329 7.28585H12.1426ZM9.43715 26.6877C9.50659 27.5224 9.88719 28.3006 10.5035 28.8678C11.1197 29.435 11.9267 29.75 12.7643 29.7501H21.2352C22.0727 29.75 22.8797 29.435 23.496 28.8678C24.1123 28.3006 24.4929 27.5224 24.5623 26.6877L26.0292 9.10728H7.97151L9.43715 26.6877ZM14.2676 13.3573C14.5091 13.3573 14.7408 13.4532 14.9116 13.624C15.0823 13.7948 15.1783 14.0265 15.1783 14.268V24.5894C15.1783 24.831 15.0823 25.0626 14.9116 25.2334C14.7408 25.4042 14.5091 25.5001 14.2676 25.5001C14.026 25.5001 13.7944 25.4042 13.6236 25.2334C13.4528 25.0626 13.3569 24.831 13.3569 24.5894V14.268C13.3569 14.0265 13.4528 13.7948 13.6236 13.624C13.7944 13.4532 14.026 13.3573 14.2676 13.3573ZM20.6426 14.268C20.6426 14.0265 20.5466 13.7948 20.3758 13.624C20.205 13.4532 19.9734 13.3573 19.7319 13.3573C19.4903 13.3573 19.2587 13.4532 19.0879 13.624C18.9171 13.7948 18.8212 14.0265 18.8212 14.268V24.5894C18.8212 24.831 18.9171 25.0626 19.0879 25.2334C19.2587 25.4042 19.4903 25.5001 19.7319 25.5001C19.9734 25.5001 20.205 25.4042 20.3758 25.2334C20.5466 25.0626 20.6426 24.831 20.6426 24.5894V14.268Z"
                                 fill="#DA2424"
                               />
                             </svg>
                           </button>
                         </div>
-                        <input
-                          type="text"
-                          placeholder="1"
-                          class="input input-ghost w-full max-w-xs"
-                          :value="items.quantityItem"
-                          @input="updateQuantity(index, $event)"
-                          readonly
-                        />
-                        <div class="btn-plus">
-                          <button class="btn" @click="incrementValue(index)">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              viewBox="0 0 21 21"
-                              fill="none"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M0.192383 10.498C0.192383 9.39348 1.08781 8.49805 2.19238 8.49805H18.1924C19.297 8.49805 20.1924 9.39348 20.1924 10.498C20.1924 11.6026 19.297 12.498 18.1924 12.498H2.19238C1.08781 12.498 0.192383 11.6026 0.192383 10.498Z"
-                                fill="white"
-                              />
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M10.1924 0.5C11.297 0.5 12.1924 1.39543 12.1924 2.5L12.1924 18.5C12.1924 19.6046 11.297 20.5 10.1924 20.5C9.08781 20.5 8.19238 19.6046 8.19238 18.5L8.19238 2.5C8.19238 1.39543 9.08781 0.5 10.1924 0.5Z"
-                                fill="white"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-
-                      <div class="btn-edit" @click="handleMenuChange(items)">
-                        <button>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                          >
-                            <g
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"
-                              />
-                              <path d="m14.5 6.5l3 3" />
-                            </g>
-                          </svg>
-                        </button>
-                      </div>
-
-                      <div>
-                        <button @click="removeItem(index)">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="25"
-                            viewBox="0 0 34 34"
-                            fill="none"
-                          >
-                            <path
-                              d="M13.964 7.28585H20.0354C20.0354 6.48073 19.7156 5.70859 19.1463 5.13928C18.577 4.56997 17.8048 4.25014 16.9997 4.25014C16.1946 4.25014 15.4225 4.56997 14.8531 5.13928C14.2838 5.70859 13.964 6.48073 13.964 7.28585ZM12.1426 7.28585C12.1426 5.99766 12.6543 4.76223 13.5652 3.85134C14.4761 2.94044 15.7115 2.42871 16.9997 2.42871C18.2879 2.42871 19.5233 2.94044 20.4342 3.85134C21.3451 4.76223 21.8569 5.99766 21.8569 7.28585H29.4462C29.6877 7.28585 29.9193 7.3818 30.0901 7.5526C30.2609 7.72339 30.3569 7.95503 30.3569 8.19657C30.3569 8.4381 30.2609 8.66975 30.0901 8.84054C29.9193 9.01133 29.6877 9.10728 29.4462 9.10728H27.8554L26.3777 26.8395C26.2701 28.1295 25.6818 29.3319 24.7293 30.2084C23.7767 31.0849 22.5296 31.5715 21.2352 31.5716H12.7643C11.4699 31.5715 10.2227 31.0849 9.27019 30.2084C8.31766 29.3319 7.72931 28.1295 7.62179 26.8395L6.14401 9.10728H4.55329C4.31176 9.10728 4.08011 9.01133 3.90932 8.84054C3.73853 8.66975 3.64258 8.4381 3.64258 8.19657C3.64258 7.95503 3.73853 7.72339 3.90932 7.5526C4.08011 7.3818 4.31176 7.28585 4.55329 7.28585H12.1426ZM9.43715 26.6877C9.50659 27.5224 9.88719 28.3006 10.5035 28.8678C11.1197 29.435 11.9267 29.75 12.7643 29.7501H21.2352C22.0727 29.75 22.8797 29.435 23.496 28.8678C24.1123 28.3006 24.4929 27.5224 24.5623 26.6877L26.0292 9.10728H7.97151L9.43715 26.6877ZM14.2676 13.3573C14.5091 13.3573 14.7408 13.4532 14.9116 13.624C15.0823 13.7948 15.1783 14.0265 15.1783 14.268V24.5894C15.1783 24.831 15.0823 25.0626 14.9116 25.2334C14.7408 25.4042 14.5091 25.5001 14.2676 25.5001C14.026 25.5001 13.7944 25.4042 13.6236 25.2334C13.4528 25.0626 13.3569 24.831 13.3569 24.5894V14.268C13.3569 14.0265 13.4528 13.7948 13.6236 13.624C13.7944 13.4532 14.026 13.3573 14.2676 13.3573ZM20.6426 14.268C20.6426 14.0265 20.5466 13.7948 20.3758 13.624C20.205 13.4532 19.9734 13.3573 19.7319 13.3573C19.4903 13.3573 19.2587 13.4532 19.0879 13.624C18.9171 13.7948 18.8212 14.0265 18.8212 14.268V24.5894C18.8212 24.831 18.9171 25.0626 19.0879 25.2334C19.2587 25.4042 19.4903 25.5001 19.7319 25.5001C19.9734 25.5001 20.205 25.4042 20.3758 25.2334C20.5466 25.0626 20.6426 24.831 20.6426 24.5894V14.268Z"
-                              fill="#DA2424"
-                            />
-                          </svg>
-                        </button>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-2">
-                    <p class="">&nbsp;</p>
-                    <p>
-                      {{
-                        formatCurrency(
-                          (items.product.product_pricenow +
-                            (items.topping?.price || 0)) *
-                            parseInt(items.quantityItem)
-                        )
-                      }}
-                    </p>
+                    <div class="col-2">
+                      <p class="">&nbsp;</p>
+                      <p>
+                        {{
+                          formatCurrency(
+                            (items.product.product_pricenow +
+                              (items.topping?.price || 0)) *
+                              parseInt(items.quantityItem)
+                          )
+                        }}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -792,6 +798,7 @@ export default defineComponent({
       navbarTo: "/",
       errorsTable: "",
       errors: "",
+      currentTime: "",
       name: "",
       table: "",
       tableCode: "",
@@ -859,6 +866,7 @@ export default defineComponent({
     // localStorage.removeItem("qrContent");
     // localStorage.removeItem("checkoutData");
     this.getList();
+    this.updateCurrentTime();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
   },
   beforeDestroy() {
@@ -866,6 +874,12 @@ export default defineComponent({
     clearInterval(this.localStorageTimer);
   },
   methods: {
+    updateCurrentTime() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      this.currentTime = `${hours}:${minutes}`;
+    },
     checkLocalStorage() {
       // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       const currentCartItems =
@@ -1288,7 +1302,7 @@ export default defineComponent({
     },
     openModalPayment() {
       localStorage.removeItem("checkoutData");
-      
+
       let modalCustomer = document.getElementById("modalInformationData");
       let modal = document.getElementById("modalSelectPayments");
       this.name = "";
@@ -1344,7 +1358,8 @@ export default defineComponent({
       const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
+      const dataCustomer =
+        JSON.parse(localStorage.getItem("data_customer")) || [];
       const selectedOrderType = JSON.parse(
         localStorage.getItem("selected_type_order")
       );
@@ -1374,7 +1389,7 @@ export default defineComponent({
       const seconds = String(today.getSeconds()).padStart(2, "0");
       const dateYMD = `${year}-${month}-${day}`;
       const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      
+
       const data = [
         {
           mID: data_restaurant.mID, // kalau pakai qris
@@ -1451,10 +1466,13 @@ export default defineComponent({
                 no_nota: result.data.result[0].noNota,
               };
 
-              // ini karna ada case data nya myresto_key kosong 
-              if(this.table.paymentMethod.payment_myresto_key !== null){ 
+              // ini karna ada case data nya myresto_key kosong
+              if (this.table.paymentMethod.payment_myresto_key !== null) {
                 // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
-                if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){ 
+                if (
+                  this.table.paymentMethod.payment_myresto_key.toLowerCase() ==
+                  "cash"
+                ) {
                   // sync ke my Resto kalau payment cash
                   // FetchData.syncMyResto(noNota, token)
                   //   .then((resultPos) => {
@@ -1467,7 +1485,7 @@ export default defineComponent({
 
                   // tes lokal
                   this.getNota(result, transactionId);
-                }else{
+                } else {
                   // edc and other (actually do the same atm)
                   FetchData.syncMyResto(noNota, token)
                     .then((resultPos) => {
@@ -1478,8 +1496,8 @@ export default defineComponent({
                       console.log("err: ", err.message);
                     });
                 }
-              }else{
-                // kalau data myresto_key kosong, langsung sync ke my Resto 
+              } else {
+                // kalau data myresto_key kosong, langsung sync ke my Resto
                 // FetchData.syncMyResto(noNota, token)
                 //   .then((resultPos) => {
                 //     // get nota
@@ -1488,11 +1506,10 @@ export default defineComponent({
                 //   .catch((err) => {
                 //     console.log("err: ", err.message);
                 //   });
-                
+
                 // tes lokal
                 this.getNota(result, transactionId);
               }
-
             } else {
               // get nota
               this.getNota(result, transactionId);
@@ -1535,7 +1552,8 @@ export default defineComponent({
     },
     getNota(result, transactionId) {
       this.steps = "get transactionId";
-      const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + transactionId;
+      const getNotaUrl =
+        "/qr_myorder/get_transaction?transactionId=" + transactionId;
       FetchData.getData(getNotaUrl).then((getNota) => {
         // sukses simpan transaksi
         const dataQrContent = {
@@ -1647,12 +1665,14 @@ export default defineComponent({
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     goToReceipt() {
-      const tables = localStorage.getItem("table_list")? JSON.parse(localStorage.getItem("table_list")) : [];
+      const tables = localStorage.getItem("table_list")
+        ? JSON.parse(localStorage.getItem("table_list"))
+        : [];
       // const table = tables.find((table) => table.table_name === this.tableCode);
       const table = tables.find((table) => table.table_name === this.tableCode);
 
       const dataCustomer = {
-        table_id: table? table.table_id:'',
+        table_id: table ? table.table_id : "",
         table: this.tableCode,
         name: this.name,
         phone: this.phone,

@@ -234,10 +234,10 @@
               <div
                 v-if="
                   (perProduct.order_time_start < perProduct.order_time_end &&
-                  perProduct.order_time_start <= clockNow &&
-                  perProduct.order_time_end >= clockNow) ||
+                    perProduct.order_time_start <= clockNow &&
+                    perProduct.order_time_end >= clockNow) ||
                   (perProduct.order_time_start >= perProduct.order_time_end &&
-                  clockNow >= perProduct.order_time_start)
+                    clockNow >= perProduct.order_time_start)
                 "
               >
                 <div class="spacer"></div>
@@ -301,7 +301,7 @@
                     </button>
                   </div>
 
-                  <ProductSlider :products="perProduct.product_details" />
+                  <ProductSlider  :category="perProduct" :products="perProduct.product_details" />
                 </div>
               </div>
             </div>
@@ -309,14 +309,26 @@
 
           <div v-else class="else" :class="!isErrorUrl ? '' : 'hidden'">
             <div class="spacer"></div>
-            <div class="list-product">
-              <div class="product">
-                <div
-                  class="product-item"
-                  v-for="items in filteredProducts"
-                  :key="items.product_id"
-                >
-                  <ProductCard :product="items" :loading="loading" />
+            <div v-for="perProduct in products" :key="perProduct.category_id">
+              <div
+                v-if="
+                  (perProduct.order_time_start < perProduct.order_time_end &&
+                    perProduct.order_time_start <= clockNow &&
+                    perProduct.order_time_end >= clockNow) ||
+                  (perProduct.order_time_start >= perProduct.order_time_end &&
+                    clockNow >= perProduct.order_time_start)
+                "
+              >
+                <div class="list-product">
+                  <div class="product">
+                    <div
+                      class="product-item"
+                      v-for="items in filteredProducts"
+                      :key="items.product_id"
+                    >
+                      <ProductCard :product="items" :category="perProduct" :loading="loading" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -501,7 +513,10 @@ export default defineComponent({
     if (last_updated_data.data.message != "No New Update Found.") {
       const date = new Date(last_updated_data.data.data[0].last_updated_data);
       const last_update = date.toISOString().slice(0, 19).replace("T", " ");
-      console.log("last updated data: ", last_updated_data.data.data[0].last_updated_data);
+      console.log(
+        "last updated data: ",
+        last_updated_data.data.data[0].last_updated_data
+      );
       localStorage.setItem("last_update", JSON.stringify(last_update));
     }
 
@@ -568,7 +583,7 @@ export default defineComponent({
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    handleScroll() {  
+    handleScroll() {
       this.showScrollButton = window.scrollY > 200;
     },
     scrollToTop() {
@@ -804,7 +819,7 @@ export default defineComponent({
               orderEnd >= currentTime) ||
             (orderStart > orderEnd &&
               (orderStart >= currentTime || orderEnd <= currentTime));
-
+          console.log("as", isOrderInRange);
           if (isOrderInRange) {
             const filteredDetails = product.product_details.filter((detail) =>
               detail.product_name
@@ -814,6 +829,7 @@ export default defineComponent({
             tempArr.push(...filteredDetails);
           }
         });
+
         this.filteredProducts = tempArr;
 
         return this.filteredProducts;
