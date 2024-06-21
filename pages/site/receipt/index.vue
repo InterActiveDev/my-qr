@@ -4,7 +4,6 @@
       <div class="frame-receipt">
         <Navbar :to="navbarTo" v-if="!isGeneratingPDF" />
         <section id="receipt">
-          {{test}}
           <div class="wrapper">
             <div class="content">
               <div class="head">
@@ -15,6 +14,7 @@
                 <div class="title">
                   <span>{{ restaurant.loc_name }}</span>
                   <p>{{ restaurant.loc_addr }}</p>
+          {{test}}
                 </div>
               </div>
 
@@ -253,7 +253,7 @@ export default defineComponent({
       restaurant: {},
     };
   },
-  async mounted() {
+  mounted() {
     // this.$refs.inputField.focus();
     this.isAndroid = navigator.userAgent.toLowerCase().includes("android");
     if (typeof Android !== "undefined") {
