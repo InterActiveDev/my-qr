@@ -1437,12 +1437,12 @@ export default defineComponent({
       const appid = data_restaurant.appid;
 
       if(appid == 'MP01M381F20190423491' && host == 'localhost:3000'){
-        // console.log('checkoutData[0].product', checkoutData[0].product)
-        // const url_check = "/qr_myorder/check_stock";
-        // FetchData.createData(url_check, checkoutData[0].product)
-        //   .then((result) => {
-        //     console.log('result xxx', result)
-        //   })
+        console.log('checkoutData[0].product', checkoutData[0].product)
+        const url_check = "/qr_myorder/check_stock";
+        FetchData.createData(url_check, checkoutData[0].product)
+          .then((result) => {
+            console.log('result xxx', result)
+          })
       }
 
       FetchData.createData(url_insert_transaction, data[0])
