@@ -784,6 +784,7 @@ export default defineComponent({
     getListCategory() {
       const time = new Date().toLocaleTimeString();
       this.category = JSON.parse(localStorage.getItem("data_menu"));
+      
       const filteredCategory = this.category.filter((item) => 
                   (item.order_time_start < item.order_time_end &&
                   item.order_time_start <= time &&
