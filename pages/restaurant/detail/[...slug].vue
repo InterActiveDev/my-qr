@@ -94,13 +94,14 @@
               <div class="row-item">
                 <div
                   class="item"
-                  v-for="(items, index) in category"
+                  v-for="(items, index) in filteredCategory"
                   :key="index"
                   @click="toDetail(items.category_id)"
                 >
                   <div class="description cursor-pointer">
                     <span>{{ items.category_name }}</span>
                     <p>
+                      &nbsp;
                       Temukan kejutan di setiap promo spesial kami, hanya untuk
                       Anda!
                     </p>
@@ -237,7 +238,9 @@
                   perProduct.order_time_start <= clockNow &&
                   perProduct.order_time_end >= clockNow) ||
                   (perProduct.order_time_start >= perProduct.order_time_end &&
-                  clockNow >= perProduct.order_time_start)
+                  clockNow >= perProduct.order_time_start) ||
+                  (perProduct.order_time_start > perProduct.order_time_end && 
+                  perProduct.order_time_start >= clockNow && perProduct.order_time_end >= clockNow)
                 "
               >
                 <div class="spacer"></div>
@@ -392,6 +395,7 @@ export default defineComponent({
       products: [],
       showBottomCart: false,
       category: [],
+      filteredCategory: [],
       searchQuery: "",
       filteredProducts: [],
       filteredProductsByClock: [],
@@ -778,7 +782,18 @@ export default defineComponent({
       });
     },
     getListCategory() {
+      const time = new Date().toLocaleTimeString();
       this.category = JSON.parse(localStorage.getItem("data_menu"));
+      const filteredCategory = this.category.filter((item) => 
+                  (item.order_time_start < item.order_time_end &&
+                  item.order_time_start <= time &&
+                  item.order_time_end >= time) ||
+                  (item.order_time_start >= item.order_time_end &&
+                  time >= item.order_time_start) ||
+                  (item.order_time_start > item.order_time_end && 
+                  item.order_time_start >= time && item.order_time_end >= time)
+      )
+      this.filteredCategory = filteredCategory;
     },
     getCartItems() {
       if (process.client) {
@@ -798,12 +813,18 @@ export default defineComponent({
         this.products.forEach((product) => {
           const orderStart = product.order_time_start;
           const orderEnd = product.order_time_end;
-          const isOrderInRange =
-            (orderStart < orderEnd &&
-              orderStart <= currentTime &&
-              orderEnd >= currentTime) ||
-            (orderStart > orderEnd &&
-              (orderStart >= currentTime || orderEnd <= currentTime));
+          const isOrderInRange = ((orderStart < orderEnd &&
+            orderStart <= currentTime &&
+            orderEnd >= currentTime) ||
+            (orderStart >= orderEnd &&
+            currentTime >= orderStart) ||
+            (orderStart > orderEnd && 
+            orderStart >= currentTime && orderEnd >= currentTime));
+            // (orderStart < orderEnd &&
+            //   orderStart <= currentTime &&
+            //   orderEnd >= currentTime) ||
+            // (orderStart > orderEnd &&
+            //   (orderStart >= currentTime || orderEnd <= currentTime));
 
           if (isOrderInRange) {
             const filteredDetails = product.product_details.filter((detail) =>
