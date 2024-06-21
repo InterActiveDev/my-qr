@@ -14,6 +14,7 @@
                 <div class="title">
                   <span>{{ restaurant.loc_name }}</span>
                   <p>{{ restaurant.loc_addr }}</p>
+          {{test}}
                 </div>
               </div>
 
@@ -88,7 +89,12 @@
                           {{ data.product.topping }}
                         </p>
                         <p>
-                          {{ data.note.slice(0, 30) + "..." }}
+                          {{
+                            data.note
+                              ? data.note.slice(0, 30) +
+                                (data.note.length > 30 ? "..." : "")
+                              : ""
+                          }}
                         </p>
                       </div>
                     </div>
@@ -226,6 +232,8 @@ export default defineComponent({
   },
   data() {
     return {
+      test: "",
+      isAndroid: "",
       navbarTo: "/site/checkout",
       email: "",
       isAndroid: "",
@@ -245,11 +253,20 @@ export default defineComponent({
       restaurant: {},
     };
   },
-  async mounted() {
+  mounted() {
     // this.$refs.inputField.focus();
-    this.getData();
+    this.isAndroid = navigator.userAgent.toLowerCase().includes("android");
+    if (typeof Android !== "undefined") {
+      this.printAndroid();
+      this.getData();
+    } else {
+      this.getData();
+    }
   },
   methods: {
+    printAndroid(){
+      this.test = "print android success"
+    },
     downloadReceipt() {
       const dataRestaurant = JSON.parse(
         localStorage.getItem("data_restaurant")
