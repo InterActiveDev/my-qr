@@ -14,7 +14,7 @@
                 <div class="title">
                   <span>{{ restaurant.loc_name }}</span>
                   <p>{{ restaurant.loc_addr }}</p>
-                  {{ test }} {{ isAndroid }}
+                  {{ test }}
                 </div>
               </div>
 
@@ -237,6 +237,7 @@ export default defineComponent({
       navbarTo: "/site/checkout",
       email: "",
       isAndroid: "",
+      isIOS: "",
       noNota: "",
       status: "PENDING",
       payment: "",
@@ -256,18 +257,28 @@ export default defineComponent({
   mounted() {
     // this.$refs.inputField.focus();
     this.isAndroid = navigator.userAgent.toLowerCase().includes("android");
-    if (this.isAndroid == true) {
-      console.log("a");
+    this.isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (this.isAndroid) {
+      console.log("Android detected");
       this.printAndroid();
       this.getData();
+    } else if (this.isIOS) {
+      console.log("iOS detected");
+      this.printIOS(); // Add any specific iOS functionality here
+      this.getData();
     } else {
-      console.log("b");
+      console.log("Other OS detected");
       this.getData();
     }
   },
   methods: {
     printAndroid() {
       this.test = "print android success";
+    },
+    printIOS() {
+      this.test = "print IOS success";
     },
     downloadReceipt() {
       const dataRestaurant = JSON.parse(

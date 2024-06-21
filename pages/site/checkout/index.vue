@@ -1456,17 +1456,17 @@ export default defineComponent({
                 // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
                 if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){ 
                   // sync ke my Resto kalau payment cash
-                  // FetchData.syncMyResto(noNota, token)
-                  //   .then((resultPos) => {
-                  //     // get nota
-                  //     this.getNota(result, transactionId);
-                  //   })
-                  //   .catch((err) => {
-                  //     console.log("err: ", err.message);
-                  //   });
+                  FetchData.syncMyResto(noNota, token)
+                    .then((resultPos) => {
+                      // get nota
+                      this.getNota(result, transactionId);
+                    })
+                    .catch((err) => {
+                      console.log("err: ", err.message);
+                    });
 
                   // tes lokal
-                  this.getNota(result, transactionId);
+                  // this.getNota(result, transactionId);
                 }else{
                   // edc and other (actually do the same atm)
                   FetchData.syncMyResto(noNota, token)
@@ -1480,17 +1480,17 @@ export default defineComponent({
                 }
               }else{
                 // kalau data myresto_key kosong, langsung sync ke my Resto 
-                // FetchData.syncMyResto(noNota, token)
-                //   .then((resultPos) => {
-                //     // get nota
-                //     this.getNota(result, transactionId);
-                //   })
-                //   .catch((err) => {
-                //     console.log("err: ", err.message);
-                //   });
+                FetchData.syncMyResto(noNota, token)
+                  .then((resultPos) => {
+                    // get nota
+                    this.getNota(result, transactionId);
+                  })
+                  .catch((err) => {
+                    console.log("err: ", err.message);
+                  });
                 
                 // tes lokal
-                this.getNota(result, transactionId);
+                // this.getNota(result, transactionId);
               }
 
             } else {
