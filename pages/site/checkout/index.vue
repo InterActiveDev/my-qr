@@ -1432,30 +1432,65 @@ export default defineComponent({
         });
       });
 
-      // console.log('checkoutData[0].product', checkoutData[0].product)
-      // const url_check = "/qr_myorder/check_stock";
-      // FetchData.createData(url_check, checkoutData[0].product)
-      //   .then((result) => {
-      //     console.log('result xxx', result)
-      //   })
-
       const url_insert_transaction = "/qr_myorder/insert_transaction";
+      const host = window.location.host;
+      const appid = data_restaurant.appid;
+
+      if(appid == 'MP01M381F20190423491' && host == 'localhost:3000'){
+        // console.log('checkoutData[0].product', checkoutData[0].product)
+        // const url_check = "/qr_myorder/check_stock";
+        // FetchData.createData(url_check, checkoutData[0].product)
+        //   .then((result) => {
+        //     console.log('result xxx', result)
+        //   })
+      }
+
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
-            if (this.table.paymentMethod.payment_category != "e-money") {
-              // cash and other payment
-              const token = localStorage.getItem("token");
-              const noNota = {
-                no_nota: result.data.result[0].noNota,
-              };
 
-              // ini karna ada case data nya myresto_key kosong 
-              if(this.table.paymentMethod.payment_myresto_key !== null){ 
-                // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
-                if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){ 
-                  // sync ke my Resto kalau payment cash
+            if(appid == 'MP01M381F20190423491' && host == 'localhost:3000'){
+              // ini akses test
+              this.getNota(result, transactionId);
+            }else{
+              // ini akses real
+              if (this.table.paymentMethod.payment_category != "e-money") {
+                // cash and other payment
+                const token = localStorage.getItem("token");
+                const noNota = {
+                  no_nota: result.data.result[0].noNota,
+                };
+  
+                // ini karna ada case data nya myresto_key kosong 
+                if(this.table.paymentMethod.payment_myresto_key !== null){ 
+                  // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
+                  if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){ 
+                    // sync ke my Resto kalau payment cash
+                    FetchData.syncMyResto(noNota, token)
+                      .then((resultPos) => {
+                        // get nota
+                        this.getNota(result, transactionId);
+                      })
+                      .catch((err) => {
+                        console.log("err: ", err.message);
+                      });
+  
+                    // tes lokal
+                    // this.getNota(result, transactionId);
+                  }else{
+                    // edc and other (actually do the same atm)
+                    FetchData.syncMyResto(noNota, token)
+                      .then((resultPos) => {
+                        // get nota
+                        this.getNota(result, transactionId);
+                      })
+                      .catch((err) => {
+                        console.log("err: ", err.message);
+                      });
+                  }
+                }else{
+                  // kalau data myresto_key kosong, langsung sync ke my Resto 
                   FetchData.syncMyResto(noNota, token)
                     .then((resultPos) => {
                       // get nota
@@ -1464,38 +1499,15 @@ export default defineComponent({
                     .catch((err) => {
                       console.log("err: ", err.message);
                     });
-
+                  
                   // tes lokal
                   // this.getNota(result, transactionId);
-                }else{
-                  // edc and other (actually do the same atm)
-                  FetchData.syncMyResto(noNota, token)
-                    .then((resultPos) => {
-                      // get nota
-                      this.getNota(result, transactionId);
-                    })
-                    .catch((err) => {
-                      console.log("err: ", err.message);
-                    });
                 }
-              }else{
-                // kalau data myresto_key kosong, langsung sync ke my Resto 
-                FetchData.syncMyResto(noNota, token)
-                  .then((resultPos) => {
-                    // get nota
-                    this.getNota(result, transactionId);
-                  })
-                  .catch((err) => {
-                    console.log("err: ", err.message);
-                  });
-                
-                // tes lokal
-                // this.getNota(result, transactionId);
+  
+              } else {
+                // get nota
+                this.getNota(result, transactionId);
               }
-
-            } else {
-              // get nota
-              this.getNota(result, transactionId);
             }
           }
         })
