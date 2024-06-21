@@ -14,7 +14,7 @@
                 <div class="title">
                   <span>{{ restaurant.loc_name }}</span>
                   <p>{{ restaurant.loc_addr }}</p>
-          {{test}}
+                  {{ test }} {{ isAndroid }}
                 </div>
               </div>
 
@@ -256,16 +256,18 @@ export default defineComponent({
   mounted() {
     // this.$refs.inputField.focus();
     this.isAndroid = navigator.userAgent.toLowerCase().includes("android");
-    if (typeof Android !== "undefined") {
+    if (this.isAndroid == true) {
+      console.log("a");
       this.printAndroid();
       this.getData();
     } else {
+      console.log("b");
       this.getData();
     }
   },
   methods: {
-    printAndroid(){
-      this.test = "print android success"
+    printAndroid() {
+      this.test = "print android success";
     },
     downloadReceipt() {
       const dataRestaurant = JSON.parse(
