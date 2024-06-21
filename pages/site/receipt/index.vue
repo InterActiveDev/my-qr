@@ -4,6 +4,7 @@
       <div class="frame-receipt">
         <Navbar :to="navbarTo" v-if="!isGeneratingPDF" />
         <section id="receipt">
+          {{test}}
           <div class="wrapper">
             <div class="content">
               <div class="head">
@@ -88,7 +89,12 @@
                           {{ data.product.topping }}
                         </p>
                         <p>
-                          {{ data.note ? (data.note.slice(0, 30) + (data.note.length > 30 ? "..." : "")) : "" }}
+                          {{
+                            data.note
+                              ? data.note.slice(0, 30) +
+                                (data.note.length > 30 ? "..." : "")
+                              : ""
+                          }}
                         </p>
                       </div>
                     </div>
@@ -226,6 +232,8 @@ export default defineComponent({
   },
   data() {
     return {
+      test: "",
+      isAndroid: "",
       navbarTo: "/site/checkout",
       email: "",
       isAndroid: "",
@@ -247,9 +255,18 @@ export default defineComponent({
   },
   async mounted() {
     // this.$refs.inputField.focus();
-    this.getData();
+    this.isAndroid = navigator.userAgent.toLowerCase().includes("android");
+    if (typeof Android !== "undefined") {
+      this.printAndroid();
+      this.getData();
+    } else {
+      this.getData();
+    }
   },
   methods: {
+    printAndroid(){
+      this.test = "print android success"
+    },
     downloadReceipt() {
       const dataRestaurant = JSON.parse(
         localStorage.getItem("data_restaurant")
