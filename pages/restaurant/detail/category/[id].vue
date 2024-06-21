@@ -155,7 +155,7 @@
           </div>
         </div>
 
-        <!-- Modal All Product -->
+        <!-- Modal All Product filtered-->
         <dialog id="modalAllProduct" class="modal" v-if="showModalCategory" >
           <div class="modal-box">
             <div class="row-item">
