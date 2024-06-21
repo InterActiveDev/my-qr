@@ -14,7 +14,6 @@
                 <div class="title">
                   <span>{{ restaurant.loc_name }}</span>
                   <p>{{ restaurant.loc_addr }}</p>
-                  {{ test }}
                 </div>
               </div>
 
