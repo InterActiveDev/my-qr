@@ -1432,6 +1432,13 @@ export default defineComponent({
         });
       });
 
+      // console.log('checkoutData[0].product', checkoutData[0].product)
+      // const url_check = "/qr_myorder/check_stock";
+      // FetchData.createData(url_check, checkoutData[0].product)
+      //   .then((result) => {
+      //     console.log('result xxx', result)
+      //   })
+
       const url_insert_transaction = "/qr_myorder/insert_transaction";
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
@@ -1449,6 +1456,19 @@ export default defineComponent({
                 // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
                 if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){ 
                   // sync ke my Resto kalau payment cash
+                  // FetchData.syncMyResto(noNota, token)
+                  //   .then((resultPos) => {
+                  //     // get nota
+                  //     this.getNota(result, transactionId);
+                  //   })
+                  //   .catch((err) => {
+                  //     console.log("err: ", err.message);
+                  //   });
+
+                  // tes lokal
+                  this.getNota(result, transactionId);
+                }else{
+                  // edc and other (actually do the same atm)
                   FetchData.syncMyResto(noNota, token)
                     .then((resultPos) => {
                       // get nota
@@ -1460,14 +1480,17 @@ export default defineComponent({
                 }
               }else{
                 // kalau data myresto_key kosong, langsung sync ke my Resto 
-                FetchData.syncMyResto(noNota, token)
-                  .then((resultPos) => {
-                    // get nota
-                    this.getNota(result, transactionId);
-                  })
-                  .catch((err) => {
-                    console.log("err: ", err.message);
-                  });
+                // FetchData.syncMyResto(noNota, token)
+                //   .then((resultPos) => {
+                //     // get nota
+                //     this.getNota(result, transactionId);
+                //   })
+                //   .catch((err) => {
+                //     console.log("err: ", err.message);
+                //   });
+                
+                // tes lokal
+                this.getNota(result, transactionId);
               }
 
             } else {
