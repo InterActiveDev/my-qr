@@ -395,6 +395,7 @@ export default defineComponent({
   },
   data() {
     return {
+      appVersion: "1.0.0",
       showScrollButton: false,
       navbarTo: "/",
       isHidden: true,
@@ -477,6 +478,7 @@ export default defineComponent({
     }
   },
   async mounted() {
+    const appVersion = localStorage.getItem("appVersion");
     const location = localStorage.getItem("location");
     const urlData = this.$route.params;
 
@@ -508,6 +510,18 @@ export default defineComponent({
       await this.starter(locId);
     }
 
+    if (appVersion == null) {
+      localStorage.setItem("appVersion", this.appVersion);
+      console.log('setting appVersion: ', this.appVersion);
+    }else if(appVersion != null && appVersion != this.appVersion){
+      localStorage.setItem("appVersion", this.appVersion);
+      console.log('appVersion is different. Setting new appVersion: ', this.appVersion);
+      console.log("appVersion is different. Sinkronkan ulang data ...");
+      await this.starter(locId);
+    }else{
+      console.log('appVersion: ', appVersion);
+    }
+
     const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
     const data_menu = JSON.parse(localStorage.getItem("data_menu"));
 
@@ -517,10 +531,7 @@ export default defineComponent({
     if (last_updated_data.data.message != "No New Update Found.") {
       const date = new Date(last_updated_data.data.data[0].last_updated_data);
       const last_update = date.toISOString().slice(0, 19).replace("T", " ");
-      console.log(
-        "last updated data: ",
-        last_updated_data.data.data[0].last_updated_data
-      );
+      console.log("last updated data: ", last_update);
       localStorage.setItem("last_update", JSON.stringify(last_update));
     }
 
@@ -640,10 +651,7 @@ export default defineComponent({
           "/qr_myorder/get_restaurant_detail?loc=" + locId;
         const restaurant = await FetchData.getData(urlGetRestoDetail);
         const appid = restaurant.data.data[0].appid;
-        localStorage.setItem(
-          "data_restaurant",
-          JSON.stringify(restaurant.data.data[0])
-        );
+        localStorage.setItem("data_restaurant", JSON.stringify(restaurant.data.data[0]));
         localStorage.setItem(
           "use_table",
           JSON.parse(
@@ -836,11 +844,6 @@ export default defineComponent({
             currentTime >= orderStart) ||
             (orderStart > orderEnd && 
             orderStart >= currentTime && orderEnd >= currentTime));
-            // (orderStart < orderEnd &&
-            //   orderStart <= currentTime &&
-            //   orderEnd >= currentTime) ||
-            // (orderStart > orderEnd &&
-            //   (orderStart >= currentTime || orderEnd <= currentTime));
 
           if (isOrderInRange) {
             const filteredDetails = product.product_details.filter((detail) =>
@@ -878,8 +881,8 @@ export default defineComponent({
     closeModalCategory() {
       this.showModalCategory = false;
       this.$nextTick(() => {
-        let modal = document.getElementById("modalAllProduct");
-        modal.close();
+        // let modal = document.getElementById("modalAllProduct");
+        // modal.close();
       });
     },
   },
