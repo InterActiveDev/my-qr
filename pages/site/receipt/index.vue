@@ -14,7 +14,6 @@
                 <div class="title">
                   <span>{{ restaurant.loc_name }}</span>
                   <p>{{ restaurant.loc_addr }}</p>
-                  {{ test }}
                 </div>
               </div>
 
@@ -313,6 +312,7 @@ export default defineComponent({
     },
     getData() {
       if (process.client) {
+        localStorage.removeItem("checkoutData");
         const customerData = localStorage.getItem("data_customer");
         const typeOrderData = localStorage.getItem("selected_type_order");
         const checkoutData = localStorage.getItem("receipt");
