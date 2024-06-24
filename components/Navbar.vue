@@ -4,7 +4,14 @@
       <div class="back">
         <div
           class="ml-20"
-          v-if="isIndexRoute || isCheckoutRoute || isReceipt || isIndexOrHomeRoute || isId"
+          v-if="
+            isIndexRoute ||
+            isCheckoutRoute ||
+            isReceipt ||
+            isIndexOrHomeRoute ||
+            isId ||
+            isListBranchStore
+          "
         ></div>
         <div class="ml-0" v-if="isQris"></div>
         <div class="ml-20" v-if="isRestaurantDetail">&nbsp;</div>
@@ -15,7 +22,8 @@
             !isRestaurantDetail &&
             !isReceipt &&
             !isIndexOrHomeRoute &&
-            !isId
+            !isId &&
+            !isListBranchStore
           "
           :to="to"
           class="text-xl ml-3"
@@ -153,7 +161,7 @@ export default {
     to: String,
   },
   computed: {
-    isId(){
+    isId() {
       return this.$route.name === "id";
     },
     isIndexRoute() {
@@ -173,6 +181,9 @@ export default {
     },
     isRestaurantDetail() {
       return this.$route.name === "restaurant-detail-id";
+    },
+    isListBranchStore() {
+      return this.$route.name === "site-list-branch-slug";
     },
     isBackOfficeRoute() {
       return (
