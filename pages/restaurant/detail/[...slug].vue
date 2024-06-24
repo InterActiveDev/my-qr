@@ -234,13 +234,14 @@
             <div v-for="perProduct in products" :key="perProduct.category_id">
               <div
                 v-if="
-                  (perProduct.order_time_start < perProduct.order_time_end &&
-                    perProduct.order_time_start <= clockNow &&
-                    perProduct.order_time_end >= clockNow) ||
+                  (perProduct.order_time_start <= perProduct.order_time_end &&
+                    perProduct.order_time_start <= clockNow && perProduct.order_time_end >= clockNow) ||
                   (perProduct.order_time_start >= perProduct.order_time_end &&
                   clockNow >= perProduct.order_time_start) ||
                   (perProduct.order_time_start > perProduct.order_time_end && 
-                  perProduct.order_time_start >= clockNow && perProduct.order_time_end >= clockNow)
+                  perProduct.order_time_start >= clockNow && perProduct.order_time_end >= clockNow) ||
+                  (perProduct.order_time_start <= perProduct.order_time_end && 
+                  perProduct.order_time_start <= clockNow && perProduct.order_time_end >= clockNow)
                 "
               >
                 <div class="spacer"></div>
@@ -302,12 +303,8 @@
                         </defs>
                       </svg>
                       <!-- end icon -->
-
                       <span> {{ perProduct.category_name }} </span>
                     </div>
-
-                    <!-- <div class="border-list-product"></div> -->
-
                     <button
                       @click="toDetail(perProduct.category_id)"
                       class="link-see-all"
@@ -326,12 +323,13 @@
             <div class="spacer"></div>
             <div v-for="perProduct in products" :key="perProduct.category_id">
               <div
-                v-if="
-                  (perProduct.order_time_start < perProduct.order_time_end &&
-                    perProduct.order_time_start <= clockNow &&
-                    perProduct.order_time_end >= clockNow) ||
-                  (perProduct.order_time_start >= perProduct.order_time_end &&
-                    clockNow >= perProduct.order_time_start)
+                v-if="(perProduct.order_time_start < perProduct.order_time_end &&
+                      perProduct.order_time_start <= clockNow &&
+                      perProduct.order_time_end >= clockNow) ||
+                      (perProduct.order_time_start >= perProduct.order_time_end &&
+                      clockNow >= perProduct.order_time_start) ||
+                      (perProduct.order_time_start > perProduct.order_time_end && 
+                      perProduct.order_time_start >= clockNow && perProduct.order_time_end >= clockNow)
                 "
               >
                 <div class="list-product">
@@ -855,7 +853,7 @@ export default defineComponent({
       }
     },
     getList() {
-      this.clockNow = new Date().toLocaleTimeString();
+      this.clockNow = new Date().toLocaleTimeString('en-GB', { hour12: false });
       let storedProducts = localStorage.getItem("data_menu");
       this.products = JSON.parse(storedProducts);
       this.countProduct = 0;
@@ -915,7 +913,6 @@ export default defineComponent({
         });
 
         this.filteredProducts = tempArr;
-
         return this.filteredProducts;
       } else {
         this.filteredProducts = [];
