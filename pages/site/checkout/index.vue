@@ -535,7 +535,11 @@
     <!-- end modal promo -->
 
     <!-- modal detail promo -->
-    <dialog id="modalPromoDetail" class="modal bg-black/50" :open="showModalPromoDetail">
+    <dialog
+      id="modalPromoDetail"
+      class="modal bg-black/50"
+      :open="showModalPromoDetail"
+    >
       <div class="modal-box">
         <div class="modal-header">
           <h1>Pilih Promo</h1>
@@ -687,7 +691,7 @@
 
     <!-- modal error  -->
     <dialog :open="showModalError" class="modal modal-general bg-black/50">
-      <div class="modal-box flex flex-col">
+      <div class="modal-box flex flex-col" style="gap: 0px;">
         <div class="flex flex-row justify-end items-center">
           <button @click="closeErrorModal()">
             <svg
@@ -705,8 +709,16 @@
           </button>
         </div>
 
+        <div class="flex justify-center">
+          <img
+            src="~/assets/images/illustration-error.png"
+            style="width: 200px !important;"
+            alt="error"
+          />
+        </div>
+
         <div class="mt-7 text-center">
-          <h1>{{ errorMassage }}</h1>
+          <h1 class="text-slate-950">{{ errorMassage }}</h1>
         </div>
       </div>
 
