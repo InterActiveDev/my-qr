@@ -1,7 +1,7 @@
 <template>
   <!-- <NuxtLazyHydrate> -->
   <div class="card bg-base-100 shadow-xl" rel="preload">
-    <figure @click="addProduct(product)">
+    <figure @click="addProduct(product, category)">
       <NuxtLazyHydrate>
         <img
           v-if="product.product_images"
@@ -42,7 +42,7 @@
       </div>
 
       <div class="card-actions cursor-pointer">
-        <div class="btn-add-cart" @click="addProduct(product)">
+        <div class="btn-add-cart" @click="addProduct(product, category)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="26"
@@ -84,6 +84,7 @@
   <AddProduct
     v-if="showAddProductModal"
     :getProduct="product"
+    :getCategory="category"
     ref="modalComponent"
   />
   <!-- v-bind:show-bottom-cart="showBottomCart" -->
@@ -114,19 +115,24 @@ export default {
       type: Object,
       required: true,
     },
+    category: {
+      type: Object,
+      required: true,
+    }
   },
   methods: {
     setDefaultImage(event) {
       event.target.src = defaultImage;
     },
-    addProduct(product) {
+    addProduct(product, category) {
+      console.log("aaa", category);
       this.showAddProductModal = true;
       this.$nextTick(() => {
         if (
           this.$refs.modalComponent &&
           typeof this.$refs.modalComponent.showModal === "function"
         ) {
-          this.$refs.modalComponent.showModal(product);
+          this.$refs.modalComponent.showModal(product, category);
         } else {
           console.error(
             "showModal function is not available on modalComponent"
