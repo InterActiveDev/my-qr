@@ -52,7 +52,8 @@
                             currentTime >= items.orderTimeEnd &&
                             currentTime <= items.orderTimeStart
                           "
-                        >*Tidak tersedia diwaktu sekarang</small>
+                          >*Tidak tersedia diwaktu sekarang</small
+                        >
 
                         <p class="font-grey">
                           {{ formatCurrency(items.product.product_pricenow) }}
@@ -527,11 +528,14 @@
           </div>
         </div>
       </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
     <!-- end modal promo -->
 
     <!-- modal detail promo -->
-    <dialog id="modalPromoDetail" class="modal" :open="showModalPromoDetail">
+    <dialog id="modalPromoDetail" class="modal bg-black/50" :open="showModalPromoDetail">
       <div class="modal-box">
         <div class="modal-header">
           <h1>Pilih Promo</h1>
@@ -641,11 +645,14 @@
         <div></div>
         <!-- pass some data to here -->
       </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
     <!-- end modal detail promo -->
 
     <!-- modal error promo -->
-    <dialog class="modal modal-general bg-black/50" :open="showModalErrorPromo">
+    <dialog :open="showModalErrorPromo" class="modal bg-black/50">
       <div class="modal-box flex flex-col">
         <div class="flex flex-row justify-end items-center">
           <button @click="closeErrorModal()">
@@ -671,11 +678,15 @@
           </h1>
         </div>
       </div>
+
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
     <!-- end modal promo -->
 
     <!-- modal error  -->
-    <dialog class="modal modal-general bg-black/50" :open="showModalError">
+    <dialog :open="showModalError" class="modal modal-general bg-black/50">
       <div class="modal-box flex flex-col">
         <div class="flex flex-row justify-end items-center">
           <button @click="closeErrorModal()">
@@ -695,9 +706,13 @@
         </div>
 
         <div class="mt-7 text-center">
-          <h1>Something went wrong.</h1>
+          <h1>{{ errorMassage }}</h1>
         </div>
       </div>
+
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
     <!-- end modal  -->
   </div>
@@ -798,6 +813,7 @@ export default defineComponent({
       navbarTo: "/",
       errorsTable: "",
       errors: "",
+      errorMassage: "",
       currentTime: "",
       name: "",
       table: "",
@@ -1485,7 +1501,7 @@ export default defineComponent({
 
                   // tes lokal
                   // this.getNota(result, transactionId);
-                }else{
+                } else {
                   // edc and other (actually do the same atm)
                   FetchData.syncMyResto(noNota, token)
                     .then((resultPos) => {
@@ -1496,8 +1512,8 @@ export default defineComponent({
                       console.log("err: ", err.message);
                     });
                 }
-              }else{
-                // kalau data myresto_key kosong, langsung sync ke my Resto 
+              } else {
+                // kalau data myresto_key kosong, langsung sync ke my Resto
                 FetchData.syncMyResto(noNota, token)
                   .then((resultPos) => {
                     // get nota
@@ -1506,7 +1522,7 @@ export default defineComponent({
                   .catch((err) => {
                     console.log("err: ", err.message);
                   });
-                
+
                 // tes lokal
                 // this.getNota(result, transactionId);
               }
@@ -1519,6 +1535,7 @@ export default defineComponent({
         .catch((error) => {
           this.showModalWaiting = false;
           this.showModalError = true;
+          this.errorMassage = error.message;
           // setTimeout(() => {
           //   this.showModalError = false;
 
