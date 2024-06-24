@@ -5,7 +5,7 @@
       v-for="product in displayedProducts"
       :key="product.product_id"
     >
-      <ProductCard :product="product" />
+      <ProductCard :product="product" :category="category"/>
     </div>
   </div>
 </template>
@@ -36,6 +36,10 @@ export default {
   props: {
     products: {
       type: Array,
+      required: true,
+    },
+    category: {
+      type: Object,
       required: true,
     },
   },

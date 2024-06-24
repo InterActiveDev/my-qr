@@ -277,6 +277,10 @@ export default {
       type: Object,
       required: true,
     },
+    getCategory: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     const modifiers = this.getProduct.modifier;
@@ -320,6 +324,8 @@ export default {
         wrapStatus = 0;
       }
       const newItem = {
+        orderTimeStart: this.getCategory.order_time_start,
+        orderTimeEnd: this.getCategory.order_time_end,
         product: this.getProduct,
         note: this.note,
         topping: this.topping,
