@@ -60,7 +60,7 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Pembayaran</span>
-                    <span class="detail">{{ payment.toUpperCase() }}</span>
+                    <span class="detail">{{ payment?.toUpperCase() }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Status</span>

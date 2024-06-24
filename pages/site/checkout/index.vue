@@ -360,7 +360,7 @@
               <span>QRIS </span>
             </div>
           </div> -->
-          <div class="item" @click="openModal(payment)">
+          <div class="item cursor-pointer" @click="openModal(payment)">
             <div class="col-1">
               <img
                 v-if="payment.payment_category === 'e-money'"
@@ -688,8 +688,9 @@
           </button>
         </div>
 
-        <div class="mt-7 text-center">
-          <h1>Something went wrong.</h1>
+        <div class="mt-7 text-center text-black">
+          <h1 class="text-2xl font-bold mb-3">Something went wrong.</h1>
+          <p v-if="errorMessages != ''">{{errorMessages}}</p>
         </div>
       </div>
     </dialog>
@@ -796,6 +797,7 @@ export default defineComponent({
       table: "",
       tableCode: "",
       phone: "",
+      errorMessages: '',
       showModalError: false,
       showModalErrorPromo: false,
       showModalPromo: false,
@@ -1335,7 +1337,7 @@ export default defineComponent({
       }
       return "";
     },
-    sendTransaction() {
+    async sendTransaction() {
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
@@ -1436,23 +1438,34 @@ export default defineComponent({
       const host = window.location.host;
       const appid = data_restaurant.appid;
 
-      if(appid == 'MP01M381F20190423491' && host == 'localhost:3000'){
-        console.log('checkoutData[0].product', checkoutData[0].product)
+      // test edwin
+      let checkStock = null;
+      if((appid == 'MP01M381F20190423491' || appid == 'MP01M51463F20230206169') && (host == 'localhost:3000')){
         const url_check = "/qr_myorder/check_stock";
-        FetchData.createData(url_check, checkoutData[0].product)
+        await FetchData.createData(url_check, checkoutData[0].product)
           .then((result) => {
-            console.log('result xxx', result)
-          })
+            checkStock = result.data;
+          }).catch((error) => {
+            checkStock = error.response.data;
+          });
       }
 
-      FetchData.createData(url_insert_transaction, data[0])
+      if(checkStock.status === 'error'){
+        console.log('checkStock ooutside', checkStock)
+        return false;
+      }
+
+
+      const check = await FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
+            
+            // baru berlaku buat akun tes saja | MP01M51463F20230206169 budidi | MP01M381F20190423491 keripiku
+            if((appid == 'MP01M381F20190423491' || appid == 'MP01M51463F20230206169') && (host == 'localhost:3000')){
 
-            if(appid == 'MP01M381F20190423491' && host == 'localhost:3000'){
-              // ini akses test
               this.getNota(result, transactionId);
+              return true;
             }else{
               // ini akses real
               if (this.table.paymentMethod.payment_category != "e-money") {
@@ -1508,6 +1521,8 @@ export default defineComponent({
                 // get nota
                 this.getNota(result, transactionId);
               }
+
+              return true;
             }
           }
         })
@@ -1520,6 +1535,8 @@ export default defineComponent({
           // }, 3000); // 3000 milliseconds = 3 seconds
           console.log("Error :", error);
         });
+
+        return check;
     },
     openModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");
@@ -1531,10 +1548,18 @@ export default defineComponent({
       let modalPayment = document.getElementById("modalSelectPayments");
       modalPayment.close();
       this.showModalWaiting = true;
-      this.$nextTick(() => {
-        this.sendTransaction();
+      this.$nextTick(async () => {
         let modal = document.getElementById("modalWaiting");
         modal.showModal();
+        
+        const res = await this.sendTransaction();
+        if(res === false){
+          this.showModalWaiting = false;
+
+          this.errorMessages = 'Stock Produk Tidak Mencukupi.';
+          this.showModalError = true;
+          return false;
+        }
       });
 
       const checkQrContent = setInterval(() => {
@@ -1574,10 +1599,18 @@ export default defineComponent({
         dataCustomer.paymentMethod = payment;
         this.showModalWaiting = true;
 
-        this.$nextTick(() => {
+        this.$nextTick(async () => {
           let modal = document.getElementById("modalWaiting");
           modal.showModal();
-          this.sendTransaction();
+          const transaction = await this.sendTransaction();
+          console.log('transaction', transaction)
+
+
+          if(transaction === false){
+            this.showModalWaiting = false;
+            this.errorMessages = 'Stock Produk Tidak Mencukupi.';
+            this.showModalError = true;
+          }
 
           const checkQrContent = setInterval(() => {
             const data = JSON.parse(localStorage.getItem("qrContent"));

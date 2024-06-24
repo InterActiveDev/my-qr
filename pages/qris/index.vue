@@ -85,7 +85,7 @@
           class="modal"
           :open="showModalWaitingQris"
         >
-          <div class="modal-box">
+          <div class="modal-box min-h-[300px]">
             <span class="loading loading-spinner"></span>
             <h2>Menyiapkan ...</h2>
           </div>
@@ -258,37 +258,30 @@ export default defineComponent({
       }
     },
     checkPayment(mID, invoiceId, refNo) {
-      const url = "/qr_myorder/check_payment_qris";
       const data = {
         mID: mID,
         invoiceId: invoiceId,
         refNo: refNo,
       };
 
+      this.steps = "Checking payment qris";
+      const url = "/qr_myorder/check_payment_qris";
       FetchData.createData(url, data)
         .then((res) => {
-          console.log(res.data.data.status);
           if (res.data.data.status === "success") {
             clearInterval(this.intervalId);
             this.updatePayment();
           }
+          this.updatePayment(); // tes edwin || bypass payment
+
         })
         .catch((error) => {
           console.log("error message (2) : ", error.message);
         });
     },
-    updatePayment() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const day = String(today.getDate()).padStart(2, "0");
-      // Retrieve current time
-      const hours = String(today.getHours()).padStart(2, "0");
-      const minutes = String(today.getMinutes()).padStart(2, "0");
-      const seconds = String(today.getSeconds()).padStart(2, "0");
-      const dateYMD = `${year}-${month}-${day}`;
-      const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
+    async updatePayment() {
+      const dateYMD = this.getDate("dateYMD");
+      const dateYMDHMS = this.getDate("dateYMDHMS");
       const checkoutData = JSON.parse(localStorage.getItem("receipt")) || [];
       const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
       const qrContent = JSON.parse(localStorage.getItem("qrContent"));
@@ -314,6 +307,15 @@ export default defineComponent({
       };
       this.showModalWaitingQris = true; // to show the modal
 
+      
+      this.steps = "check status nota";
+      const urlStatusNota = "/qr_myorder/check_nota_status_by_id?transactionId="+this.transactionId;
+      const checkNota = await FetchData.getData(urlStatusNota);
+
+      if(checkNota && checkNota.data.data[0].payment_status === 1){
+        this.toInputReceipt();
+      }
+
       this.steps = "update payment";
       const urlUpdatePayment = "/qr_myorder/update_payment";
       FetchData.updateData(urlUpdatePayment, data)
@@ -321,8 +323,7 @@ export default defineComponent({
           clearInterval(this.intervalId);
 
           this.steps = "get transactionId";
-          const getNotaUrl =
-            "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
+          const getNotaUrl = "/qr_myorder/get_transaction?transactionId=" + this.transactionId;
           FetchData.getData(getNotaUrl).then((getNota) => {
             // sukses simpan transaksi
             if (
@@ -335,7 +336,10 @@ export default defineComponent({
               localStorage.removeItem("qrContent");
 
               localStorage.setItem("qrContent", JSON.stringify(qrContent));
-              setTimeout(() => {
+              setTimeout(async () => {
+                this.steps = "update stock";
+                const urlUpdateStock = `/qr_myorder/update_stock?transaction_id=${this.transactionId}`;
+                const stockUpdate = await FetchData.createData(urlUpdateStock, data);
                 this.toInputReceipt();
               }, 1000);
             }
@@ -372,6 +376,23 @@ export default defineComponent({
     },
     toInputReceipt() {
       this.$router.push("/site/receipt");
+    },
+    getDate(data){
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      // Retrieve current time
+      const hours = String(today.getHours()).padStart(2, "0");
+      const minutes = String(today.getMinutes()).padStart(2, "0");
+      const seconds = String(today.getSeconds()).padStart(2, "0");
+      const dateYMD = `${year}-${month}-${day}`;
+      const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      if(data === "dateYMD"){
+        return dateYMD;
+      }else if(data === "dateYMDHMS"){
+        return dateYMDHMS;        
+      }
     },
     formatCurrency(amount) {
       const numberValue = parseFloat(amount);
