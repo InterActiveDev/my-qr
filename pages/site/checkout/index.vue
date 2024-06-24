@@ -52,7 +52,8 @@
                             currentTime >= items.orderTimeEnd &&
                             currentTime <= items.orderTimeStart
                           "
-                        >*Tidak tersedia diwaktu sekarang</small>
+                          >*Tidak tersedia diwaktu sekarang</small
+                        >
 
                         <p class="font-grey">
                           {{ formatCurrency(items.product.product_pricenow) }}
@@ -527,11 +528,18 @@
           </div>
         </div>
       </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
     <!-- end modal promo -->
 
     <!-- modal detail promo -->
-    <dialog id="modalPromoDetail" class="modal" :open="showModalPromoDetail">
+    <dialog
+      id="modalPromoDetail"
+      class="modal bg-black/50"
+      :open="showModalPromoDetail"
+    >
       <div class="modal-box">
         <div class="modal-header">
           <h1>Pilih Promo</h1>
@@ -641,11 +649,14 @@
         <div></div>
         <!-- pass some data to here -->
       </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
     <!-- end modal detail promo -->
 
     <!-- modal error promo -->
-    <dialog class="modal modal-general bg-black/50" :open="showModalErrorPromo">
+    <dialog :open="showModalErrorPromo" class="modal bg-black/50">
       <div class="modal-box flex flex-col">
         <div class="flex flex-row justify-end items-center">
           <button @click="closeErrorModal()">
@@ -671,12 +682,16 @@
           </h1>
         </div>
       </div>
+
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
     <!-- end modal promo -->
 
     <!-- modal error  -->
-    <dialog class="modal modal-general bg-black/50" :open="showModalError">
-      <div class="modal-box flex flex-col">
+    <dialog :open="showModalError" class="modal modal-general bg-black/50">
+      <div class="modal-box flex flex-col" style="gap: 0px;">
         <div class="flex flex-row justify-end items-center">
           <button @click="closeErrorModal()">
             <svg
@@ -694,10 +709,22 @@
           </button>
         </div>
 
+        <div class="flex justify-center">
+          <img
+            src="~/assets/images/illustration-error.png"
+            style="width: 200px !important;"
+            alt="error"
+          />
+        </div>
+
         <div class="mt-7 text-center">
-          <h1>Something went wrong.</h1>
+          <h1 class="text-slate-950">{{ errorMassage }}</h1>
         </div>
       </div>
+
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
     <!-- end modal  -->
   </div>
@@ -798,6 +825,7 @@ export default defineComponent({
       navbarTo: "/",
       errorsTable: "",
       errors: "",
+      errorMassage: "",
       currentTime: "",
       name: "",
       table: "",
@@ -1529,6 +1557,7 @@ export default defineComponent({
         .catch((error) => {
           this.showModalWaiting = false;
           this.showModalError = true;
+          this.errorMassage = error.message;
           // setTimeout(() => {
           //   this.showModalError = false;
 

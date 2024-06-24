@@ -259,14 +259,16 @@ export default defineComponent({
     this.isIOS =
       /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-    if (this.isAndroid) {
-      console.log("Android detected");
-      this.printAndroid();
-      this.getData();
-    } else if (this.isIOS) {
-      console.log("iOS detected");
-      this.printIOS(); // Add any specific iOS functionality here
-      this.getData();
+    const dataRes = JSON.parse(localStorage.getItem("data_restaurant"));
+
+    if (dataRes.loc_myorderqr_print == 1) {
+      if (this.isAndroid) {
+        console.log("Android detected");
+        this.getData();
+        this.printAndroid();
+      } else {
+        this.getData();
+      }
     } else {
       console.log("Other OS detected");
       this.getData();
@@ -275,9 +277,20 @@ export default defineComponent({
   methods: {
     printAndroid() {
       this.test = "print android success";
-    },
-    printIOS() {
-      this.test = "print IOS success";
+      const data = {
+        name: this.customer.name,
+        dateOrder: this.customer.order_date,
+        typeOrder: this.typeOrder.name,
+        table: this.table !== "" ? this.table : "",
+        noNota: this.noNota,
+        timeOrder: this.customer.order_date,
+        payment: this.payment.toUpperCase(),
+        status: this.status,
+        products: this.products,
+        total: this.locProducts[0],
+      };
+
+      Android.showToast(data);
     },
     downloadReceipt() {
       const dataRestaurant = JSON.parse(
