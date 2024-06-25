@@ -150,7 +150,7 @@
               v-for="product in products"
               :key="product.id"
             >
-              <ProductCardDetail :product="product" />
+              <ProductCardDetail :product="product" :category="category" />
             </div>
           </div>
         </div>
@@ -294,7 +294,6 @@ export default {
 
       dataMenus.forEach((element) => {
         if (element.category_id == parseInt(this.paramsID)) {
-          console.log("Filtered Data Menus:", element);
           this.products = element.product_details;
           this.categoryName = element.category_name;
         }
@@ -304,13 +303,13 @@ export default {
       const time = new Date().toLocaleTimeString();
       this.category = JSON.parse(localStorage.getItem("data_menu"));
       const filteredCategory = this.category.filter((item) => 
-                  (item.order_time_start < item.order_time_end &&
-                  item.order_time_start <= time &&
-                  item.order_time_end >= time) ||
-                  (item.order_time_start >= item.order_time_end &&
-                  time >= item.order_time_start) ||
-                  (item.order_time_start > item.order_time_end && 
-                  item.order_time_start >= time && item.order_time_end >= time)
+        (item.order_time_start < item.order_time_end &&
+        item.order_time_start <= time &&
+        item.order_time_end >= time) ||
+        (item.order_time_start >= item.order_time_end &&
+        time >= item.order_time_start) ||
+        (item.order_time_start > item.order_time_end && 
+        item.order_time_start >= time && item.order_time_end >= time)
       )
       this.filteredCategory = filteredCategory;
     },

@@ -125,7 +125,6 @@ export default {
       event.target.src = defaultImage;
     },
     addProduct(product, category) {
-      console.log("aaa", category);
       this.showAddProductModal = true;
       this.$nextTick(() => {
         if (

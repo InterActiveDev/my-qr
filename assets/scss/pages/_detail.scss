@@ -151,6 +151,9 @@
                 width: 100%;
                 img {
                   width: 100%;
+                  height: 200px;
+                  max-height: 200px;
+                  object-fit: cover;
                 }
               }
 
@@ -479,6 +482,9 @@
                 width: 100%;
                 img {
                   width: 100%;
+                  height: 160px;
+                  max-height: 160px;
+                  object-fit: cover;
                 }
               }
 
@@ -752,6 +758,9 @@
                 width: 100%;
                 img {
                   width: 100%;
+                  height: 160px;
+                  max-height: 160px;
+                  object-fit: cover;
                 }
               }
 
