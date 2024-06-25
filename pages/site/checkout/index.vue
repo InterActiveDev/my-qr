@@ -375,6 +375,12 @@
                 loading="lazy"
                 alt=""
               />
+              <img
+                v-else-if="payment.payment_category === 'cash' && payment.payment_method === 'EDC'"
+                src="~/assets/icons/edc.png"
+                loading="lazy"
+                alt=""
+              />
 
               <img v-else src="~/assets/icons/cash.png" loading="lazy" alt="" />
               <span>{{ payment.payment_method }} </span>
