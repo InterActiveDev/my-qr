@@ -286,11 +286,10 @@ export default defineComponent({
         timeOrder: this.customer.order_date,
         payment: this.payment.toUpperCase(),
         status: this.status,
-        products: this.products,
         total: this.locProducts[0],
       };
 
-      Android.showToast(data);
+      Android.showToast(JSON.stringify(data));
     },
     downloadReceipt() {
       const dataRestaurant = JSON.parse(
