@@ -45,7 +45,7 @@
                 class="grow bg-white"
                 placeholder="Cari Toko"
                 v-model="searchQuery"
-                @input="searchProducts"
+                @input="searchStore"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,24 +66,59 @@
         <!-- end sort item -->
 
         <div class="spacer"></div>
-            
+
         <div class="store">
           <div class="head">
             <span>Toko yang tersedia</span>
           </div>
 
-          <div class="list-branch">
-            <div class="card shadow-xl" rel="preload" v-for="n in 16" :key="n">
-              <figure>
-                <img
-                  src="~/assets/images/dimsum-1.png"
-                  class="image-card min-w-full"
-                  width="327"
-                  height="322"
-                  loading="lazy"
-                  preload
-                />
-              </figure>
+          <div class="list-branch" v-if="isSkeleton">
+            <div
+              class="card bg-base-100 shadow-xl"
+              rel="preload"
+              v-for="n in 4"
+              :key="n"
+            >
+              <div class="flex w-52 flex-col gap-4">
+                <div class="skeleton h-32 w-full"></div>
+                <div class="skeleton h-4 w-28"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-branch" v-else>
+            <div
+              class="card shadow-xl"
+              rel="preload"
+              v-for="(items, index) in dataStore"
+              :key="index"
+            >
+              <div @click="goToMenu(items.loc_id)">
+                <figure>
+                  <img
+                    v-if="items.loc_logo"
+                    :src="items.loc_logo"
+                    class="image-card min-w-full"
+                    width="327"
+                    height="322"
+                    loading="lazy"
+                    preload
+                    :placeholder="productPlaceholder"
+                    @error="setDefaultImage"
+                  />
+                  <NuxtImg
+                    v-else
+                    :src="productPlaceholder || null"
+                    class="image-card"
+                    width="327"
+                    height="322"
+                    loading="lazy"
+                    preload
+                  />
+                </figure>
+              </div>
               <div class="title">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +132,7 @@
                     fill="#242424"
                   />
                 </svg>
-                <span>Gacoan</span>
+                <span>{{ items.loc_name }}</span>
               </div>
             </div>
           </div>
@@ -112,11 +147,14 @@
 </template>
 
 <script>
+import { defineComponent } from "@vue/composition-api";
 import ProductCardDetail from "~/components/ProductCardDetail.vue";
+import FetchData from "~/middleware/services/Fetch.js";
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import BottomNavCart from "@/components/BottomNavCart.vue";
 import HomeCarousel from "@/components/HomeCarousel.vue";
+import defaultImage from "~/assets/images/no-image.jpg";
 
 export default {
   components: {
@@ -128,9 +166,16 @@ export default {
       navbarTo: "/",
       searchQuery: "",
       showScrollButton: false,
+      dataStore: [],
+      productPlaceholder:
+        'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
+      isSkeleton: false,
     };
   },
-  mounted() {
+  async mounted() {
+    this.isSkeleton = true;
+    await this.getList();
+    this.isSkeleton = false;
     window.addEventListener("scroll", this.handleScroll);
   },
   beforeDestroy() {
@@ -138,6 +183,12 @@ export default {
   },
   created() {},
   methods: {
+    goToMenu(locId) {
+      return this.$router.push("/restaurant/detail/" + btoa(locId));
+    },
+    setDefaultImage(event) {
+      event.target.src = defaultImage;
+    },
     handleScroll() {
       this.showScrollButton = window.scrollY > 200;
     },
@@ -146,6 +197,21 @@ export default {
         top: 0,
         behavior: "smooth",
       });
+    },
+    async getList() {
+      const urlCheckBranch =
+        "/qr_myorder/get_locations?appid=" + atob(this.$route.params.slug);
+      const branch = await FetchData.getData(urlCheckBranch);
+      this.dataStore = branch.data.data;
+    },
+    searchStore() {
+      if (this.searchQuery.trim() !== "") {
+        this.dataStore = this.dataStore.filter((store) =>
+          store.loc_name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      } else {
+        this.getList();
+      }
     },
   },
 };
