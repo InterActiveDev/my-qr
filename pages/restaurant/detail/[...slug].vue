@@ -900,7 +900,23 @@ export default defineComponent({
       let storedProducts = localStorage.getItem("data_menu");
       this.products = JSON.parse(storedProducts);
       this.countProduct = 0;
-      this.products.forEach((element) => {
+
+      const time = new Date().toLocaleTimeString();
+      this.category = JSON.parse(localStorage.getItem("data_menu"));
+
+      const filteredCategory = this.category.filter(
+        (item) =>
+          (item.order_time_start < item.order_time_end &&
+            item.order_time_start <= time &&
+            item.order_time_end >= time) ||
+          (item.order_time_start >= item.order_time_end &&
+            time >= item.order_time_start) ||
+          (item.order_time_start > item.order_time_end &&
+            item.order_time_start >= time &&
+            item.order_time_end >= time)
+      );
+
+      filteredCategory.forEach((element) => {
         this.countProduct += element.product_count;
       });
     },

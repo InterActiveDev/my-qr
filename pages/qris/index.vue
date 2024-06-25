@@ -263,11 +263,9 @@ export default defineComponent({
         invoiceId: invoiceId,
         refNo: refNo,
       };
-      console.log('data', data)
 
       FetchData.createData(url, data)
         .then((res) => {
-          console.log(res.data.data.status);
           if (res.data.data.status === "success") {
             clearInterval(this.intervalId);
             this.updatePayment();
