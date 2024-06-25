@@ -186,7 +186,6 @@ export default defineComponent({
         invoiceId: this.invoiceId,
         refNo: this.refNo,
       };
-
       FetchData.createData(url, data)
         .then((res) => {
           console.log(res.data.data.status);
@@ -264,6 +263,7 @@ export default defineComponent({
         invoiceId: invoiceId,
         refNo: refNo,
       };
+      console.log('data', data)
 
       FetchData.createData(url, data)
         .then((res) => {

@@ -378,7 +378,6 @@ export default {
       this.$refs.modal.close();
     },
     closeAddProduct() {
-      console.log("close detail product");
       this.quantity = 1;
       let modalAddProduct = document.getElementById("addProduct");
       modalAddProduct.close();
