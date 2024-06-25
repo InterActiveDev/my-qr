@@ -101,9 +101,8 @@
                   <div class="description cursor-pointer">
                     <span>{{ items.category_name }}</span>
                     <p>
-                      &nbsp;
-                      Temukan kejutan di setiap promo spesial kami, hanya untuk
-                      Anda!
+                      &nbsp; Temukan kejutan di setiap promo spesial kami, hanya
+                      untuk Anda!
                     </p>
                   </div>
                 </div>
@@ -249,7 +248,15 @@
                   <div class="head">
                     <div class="title">
                       <!-- icon -->
-                      <svg v-if="perProduct.category_name.toLowerCase().includes('mie') || perProduct.category_name.toLowerCase().includes('gacoan')"
+                      <svg
+                        v-if="
+                          perProduct.category_name
+                            .toLowerCase()
+                            .includes('mie') ||
+                          perProduct.category_name
+                            .toLowerCase()
+                            .includes('gacoan')
+                        "
                         xmlns="http://www.w3.org/2000/svg"
                         width="43"
                         height="44"
@@ -261,7 +268,8 @@
                           fill="#DA2424"
                         />
                       </svg>
-                      <svg v-else
+                      <svg
+                        v-else
                         xmlns="http://www.w3.org/2000/svg"
                         width="43"
                         height="44"
@@ -313,7 +321,10 @@
                     </button>
                   </div>
 
-                  <ProductSlider  :category="perProduct" :products="perProduct.product_details" />
+                  <ProductSlider
+                    :category="perProduct"
+                    :products="perProduct.product_details"
+                  />
                 </div>
               </div>
             </div>
@@ -339,7 +350,11 @@
                       v-for="items in filteredProducts"
                       :key="items.product_id"
                     >
-                      <ProductCard :product="items" :category="perProduct" :loading="loading" />
+                      <ProductCard
+                        :product="items"
+                        :category="perProduct"
+                        :loading="loading"
+                      />
                     </div>
                   </div>
                 </div>
@@ -549,6 +564,7 @@ export default defineComponent({
       localStorage.removeItem("qrContent");
 
       const decrypted = atob(urlData.slug[0]);
+
       if (decrypted.includes("&mymenu")) {
         const cleanLocId = decrypted.split("&mymenu")[0];
         locId = cleanLocId;
@@ -568,14 +584,17 @@ export default defineComponent({
     }
 
     if (appVersion == null) {
-      localStorage.setItem('appVersion', this.appVersion);
-      console.log('setting appVersion: ', this.appVersion);
-    }else if(appVersion != null && appVersion != this.appVersion){
       localStorage.setItem("appVersion", this.appVersion);
-      console.log('appVersion is different. Setting new appVersion: ', this.appVersion);
+      console.log("setting appVersion: ", this.appVersion);
+    } else if (appVersion != null && appVersion != this.appVersion) {
+      localStorage.setItem("appVersion", this.appVersion);
+      console.log(
+        "appVersion is different. Setting new appVersion: ",
+        this.appVersion
+      );
       console.log("appVersion is different. Sinkronkan ulang data ...");
       await this.starter(locId);
-    }else{
+    } else {
       console.log("appVersion: ", appVersion);
     }
 
@@ -700,6 +719,18 @@ export default defineComponent({
       //   }
       // }, 200);
     },
+    async checkBranch(url) {
+      const urlData = url;
+      const decrypted = atob(urlData.slug[0]);
+      const dataRes = JSON.parse(localStorage.getItem("data_restaurant"));
+
+      const urlCheckBranch = "/qr_myorder/get_locations?appid=" + dataRes.appid;
+      const branch = await FetchData.getData(urlCheckBranch);
+
+      if(branch.data.data.length >= 0){
+        return this.$router.push("/site/list-branch/" + urlData.slug[0])
+      }
+    },
     async starter(locId) {
       try {
         // set lokasi
@@ -717,7 +748,10 @@ export default defineComponent({
           "/qr_myorder/get_restaurant_detail?loc=" + locId;
         const restaurant = await FetchData.getData(urlGetRestoDetail);
         const appid = restaurant.data.data[0].appid;
-        localStorage.setItem("data_restaurant", JSON.stringify(restaurant.data.data[0]));
+        localStorage.setItem(
+          "data_restaurant",
+          JSON.stringify(restaurant.data.data[0])
+        );
         localStorage.setItem(
           "use_table",
           JSON.parse(
@@ -873,16 +907,18 @@ export default defineComponent({
     getListCategory() {
       const time = new Date().toLocaleTimeString();
       this.category = JSON.parse(localStorage.getItem("data_menu"));
-      
-      const filteredCategory = this.category.filter((item) => 
-                  (item.order_time_start < item.order_time_end &&
-                  item.order_time_start <= time &&
-                  item.order_time_end >= time) ||
-                  (item.order_time_start >= item.order_time_end &&
-                  time >= item.order_time_start) ||
-                  (item.order_time_start > item.order_time_end && 
-                  item.order_time_start >= time && item.order_time_end >= time)
-      )
+
+      const filteredCategory = this.category.filter(
+        (item) =>
+          (item.order_time_start < item.order_time_end &&
+            item.order_time_start <= time &&
+            item.order_time_end >= time) ||
+          (item.order_time_start >= item.order_time_end &&
+            time >= item.order_time_start) ||
+          (item.order_time_start > item.order_time_end &&
+            item.order_time_start >= time &&
+            item.order_time_end >= time)
+      );
       this.filteredCategory = filteredCategory;
     },
     getCartItems() {
@@ -903,13 +939,14 @@ export default defineComponent({
         this.products.forEach((product) => {
           const orderStart = product.order_time_start;
           const orderEnd = product.order_time_end;
-          const isOrderInRange = ((orderStart < orderEnd &&
-            orderStart <= currentTime &&
-            orderEnd >= currentTime) ||
-            (orderStart >= orderEnd &&
-            currentTime >= orderStart) ||
-            (orderStart > orderEnd && 
-            orderStart >= currentTime && orderEnd >= currentTime));
+          const isOrderInRange =
+            (orderStart < orderEnd &&
+              orderStart <= currentTime &&
+              orderEnd >= currentTime) ||
+            (orderStart >= orderEnd && currentTime >= orderStart) ||
+            (orderStart > orderEnd &&
+              orderStart >= currentTime &&
+              orderEnd >= currentTime);
 
           if (isOrderInRange) {
             const filteredDetails = product.product_details.filter((detail) =>
