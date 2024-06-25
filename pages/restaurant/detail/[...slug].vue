@@ -587,7 +587,17 @@ export default defineComponent({
     const last_updated_data = await FetchData.getData(urlCheckUpdate);
     if (last_updated_data.data.message != "No New Update Found.") {
       const date = new Date(last_updated_data.data.data[0].last_updated_data);
-      const last_update = date.toISOString().slice(0, 19).replace("T", " ");
+      const options = { 
+          timeZone: 'Asia/Jakarta', 
+          year: 'numeric', 
+          month: '2-digit', 
+          day: '2-digit', 
+          hour: '2-digit', 
+          minute: '2-digit', 
+          second: '2-digit',
+          hour12: false 
+      };
+      const last_update = new Intl.DateTimeFormat('en-US', options).format(date).replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2 $4:$5:$6');
       console.log("last updated data: ", last_update);
       localStorage.setItem("last_update", JSON.stringify(last_update));
     }
@@ -597,8 +607,7 @@ export default defineComponent({
       await this.starter(locId);
     } else {
       if (
-        last_updated_data.data.data[0].last_updated_data !==
-        data_restaurant.last_updated_data
+        last_updated_data.data.data[0].last_updated_data !== data_restaurant.last_updated_data
       ) {
         // jika data update terakhir tidak sesuai dengan data kita, sinkronkan data ulang
         console.log(
