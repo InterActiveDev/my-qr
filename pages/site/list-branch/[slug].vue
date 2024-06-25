@@ -72,7 +72,23 @@
             <span>Toko yang tersedia</span>
           </div>
 
-          <div class="list-branch">
+          <div class="list-branch" v-if="isSkeleton">
+            <div
+              class="card bg-base-100 shadow-xl"
+              rel="preload"
+              v-for="n in 4"
+              :key="n"
+            >
+              <div class="flex w-52 flex-col gap-4">
+                <div class="skeleton h-32 w-full"></div>
+                <div class="skeleton h-4 w-28"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-branch" v-else>
             <div
               class="card shadow-xl"
               rel="preload"
@@ -153,10 +169,13 @@ export default {
       dataStore: [],
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
+      isSkeleton: false,
     };
   },
   async mounted() {
+    this.isSkeleton = true;
     await this.getList();
+    this.isSkeleton = false;
     window.addEventListener("scroll", this.handleScroll);
   },
   beforeDestroy() {
@@ -180,17 +199,15 @@ export default {
       });
     },
     async getList() {
-      const dataRes = JSON.parse(localStorage.getItem("data_restaurant"));
-      const urlCheckBranch = "/qr_myorder/get_locations?appid=" + dataRes.appid;
+      const urlCheckBranch =
+        "/qr_myorder/get_locations?appid=" + atob(this.$route.params.slug);
       const branch = await FetchData.getData(urlCheckBranch);
       this.dataStore = branch.data.data;
     },
     searchStore() {
       if (this.searchQuery.trim() !== "") {
         this.dataStore = this.dataStore.filter((store) =>
-          store.loc_name
-            .toLowerCase()
-            .includes(this.searchQuery.toLowerCase())
+          store.loc_name.toLowerCase().includes(this.searchQuery.toLowerCase())
         );
       } else {
         this.getList();

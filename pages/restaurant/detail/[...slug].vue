@@ -621,8 +621,6 @@ export default defineComponent({
       localStorage.setItem("last_update", JSON.stringify(last_update));
     }
 
-    this.checkBranch(urlData);
-
     if (data_restaurant === null || data_menu === null) {
       console.log("Data restoran atau data menu kosong. Sinkronkan data ...");
       await this.starter(locId);
