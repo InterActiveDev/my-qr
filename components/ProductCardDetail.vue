@@ -41,7 +41,7 @@
         </span>
       </div>
       <div class="card-actions cursor-pointer">
-        <div class="btn-add-cart" @click="addProduct">
+        <div class="btn-add-cart" @click="addProduct(product, category)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="26"
@@ -83,6 +83,7 @@
   <AddProduct
     v-if="showAddProductModal"
     :getProduct="product"
+    :getCategory="category"
     v-bind:show-bottom-cart="showBottomCart"
     ref="modalComponent"
   />
@@ -113,15 +114,22 @@ export default {
       type: Object,
       required: true,
     },
+    category: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     setDefaultImage(event) {
       event.target.src = defaultImage;
     },
-    addProduct() {
+    // addProduct() {
+    addProduct(product, category) {
+      console.log('product', product)
+      console.log('category', category)
       this.showAddProductModal = true;
       this.$nextTick(() => {
-        this.$refs.modalComponent.showModal();
+        this.$refs.modalComponent.showModal(product, category);
       });
     },
     formatCurrency(amount) {
