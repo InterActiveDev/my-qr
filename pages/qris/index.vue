@@ -299,7 +299,7 @@ export default defineComponent({
         alpha += name.charAt(0).toUpperCase();
       });
 
-      let short = String(qrContent.contents.qrisData.invoiceId).slice(-4);
+      let short = String(qrContent.contents.transactionId).slice(-4);
       let shortNota = alpha + "5" + short + "Q";
 
       const data = {
@@ -311,7 +311,6 @@ export default defineComponent({
         nota_short: shortNota,
       };
       this.showModalWaitingQris = true; // to show the modal
-
       this.steps = "update payment";
       const urlUpdatePayment = "/qr_myorder/update_payment";
       FetchData.updateData(urlUpdatePayment, data)
@@ -328,7 +327,7 @@ export default defineComponent({
               getNota.data.data.myresto_ref !== ""
             ) {
               const qrContent = JSON.parse(localStorage.getItem("qrContent"));
-              qrContent.qr_nota_short = getNota.data.data[0].myresto_ref;
+              qrContent.qr_nota_short = getNota.data.data[0].myresto_ref? getNota.data.data[0].myresto_ref : shortNota;
               qrContent.qr_status = getNota.data.data[0].status;
               localStorage.removeItem("qrContent");
 
