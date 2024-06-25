@@ -286,7 +286,6 @@ export default defineComponent({
         timeOrder: this.customer.order_date,
         payment: this.payment.toUpperCase(),
         status: this.status,
-        products: this.products,
         total: this.locProducts[0],
       };
 

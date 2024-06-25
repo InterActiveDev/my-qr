@@ -233,14 +233,14 @@
             <div v-for="perProduct in products" :key="perProduct.category_id">
               <div
                 v-if="
-                  (perProduct.order_time_start < perProduct.order_time_end &&
-                    perProduct.order_time_start <= clockNow &&
-                    perProduct.order_time_end >= clockNow) ||
+                  (perProduct.order_time_start <= perProduct.order_time_end &&
+                    perProduct.order_time_start <= clockNow && perProduct.order_time_end >= clockNow) ||
                   (perProduct.order_time_start >= perProduct.order_time_end &&
-                    clockNow >= perProduct.order_time_start) ||
-                  (perProduct.order_time_start > perProduct.order_time_end &&
-                    perProduct.order_time_start >= clockNow &&
-                    perProduct.order_time_end >= clockNow)
+                  clockNow >= perProduct.order_time_start) ||
+                  (perProduct.order_time_start > perProduct.order_time_end && 
+                  perProduct.order_time_start >= clockNow && perProduct.order_time_end >= clockNow) ||
+                  (perProduct.order_time_start <= perProduct.order_time_end && 
+                  perProduct.order_time_start <= clockNow && perProduct.order_time_end >= clockNow)
                 "
               >
                 <div class="spacer"></div>
@@ -311,12 +311,8 @@
                         </defs>
                       </svg>
                       <!-- end icon -->
-
                       <span> {{ perProduct.category_name }} </span>
                     </div>
-
-                    <!-- <div class="border-list-product"></div> -->
-
                     <button
                       @click="toDetail(perProduct.category_id)"
                       class="link-see-all"
@@ -338,12 +334,13 @@
             <div class="spacer"></div>
             <div v-for="perProduct in products" :key="perProduct.category_id">
               <div
-                v-if="
-                  (perProduct.order_time_start < perProduct.order_time_end &&
-                    perProduct.order_time_start <= clockNow &&
-                    perProduct.order_time_end >= clockNow) ||
-                  (perProduct.order_time_start >= perProduct.order_time_end &&
-                    clockNow >= perProduct.order_time_start)
+                v-if="(perProduct.order_time_start < perProduct.order_time_end &&
+                      perProduct.order_time_start <= clockNow &&
+                      perProduct.order_time_end >= clockNow) ||
+                      (perProduct.order_time_start >= perProduct.order_time_end &&
+                      clockNow >= perProduct.order_time_start) ||
+                      (perProduct.order_time_start > perProduct.order_time_end && 
+                      perProduct.order_time_start >= clockNow && perProduct.order_time_end >= clockNow)
                 "
               >
                 <div class="list-product">
@@ -609,7 +606,17 @@ export default defineComponent({
     const last_updated_data = await FetchData.getData(urlCheckUpdate);
     if (last_updated_data.data.message != "No New Update Found.") {
       const date = new Date(last_updated_data.data.data[0].last_updated_data);
-      const last_update = date.toISOString().slice(0, 19).replace("T", " ");
+      const options = { 
+          timeZone: 'Asia/Jakarta', 
+          year: 'numeric', 
+          month: '2-digit', 
+          day: '2-digit', 
+          hour: '2-digit', 
+          minute: '2-digit', 
+          second: '2-digit',
+          hour12: false 
+      };
+      const last_update = new Intl.DateTimeFormat('en-US', options).format(date).replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2 $4:$5:$6');
       console.log("last updated data: ", last_update);
       localStorage.setItem("last_update", JSON.stringify(last_update));
     }
@@ -621,8 +628,7 @@ export default defineComponent({
       await this.starter(locId);
     } else {
       if (
-        last_updated_data.data.data[0].last_updated_data !==
-        data_restaurant.last_updated_data
+        last_updated_data.data.data[0].last_updated_data !== data_restaurant.last_updated_data
       ) {
         // jika data update terakhir tidak sesuai dengan data kita, sinkronkan data ulang
         console.log(
@@ -892,7 +898,7 @@ export default defineComponent({
       }
     },
     getList() {
-      this.clockNow = new Date().toLocaleTimeString();
+      this.clockNow = new Date().toLocaleTimeString('en-GB', { hour12: false });
       let storedProducts = localStorage.getItem("data_menu");
       this.products = JSON.parse(storedProducts);
       this.countProduct = 0;
@@ -955,7 +961,6 @@ export default defineComponent({
         });
 
         this.filteredProducts = tempArr;
-
         return this.filteredProducts;
       } else {
         this.filteredProducts = [];
