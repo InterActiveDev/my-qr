@@ -901,7 +901,8 @@ export default defineComponent({
       this.products = JSON.parse(storedProducts);
       this.countProduct = 0;
 
-      const time = new Date().toLocaleTimeString();
+      const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+
       this.category = JSON.parse(localStorage.getItem("data_menu"));
 
       const filteredCategory = this.category.filter(
@@ -921,7 +922,7 @@ export default defineComponent({
       });
     },
     getListCategory() {
-      const time = new Date().toLocaleTimeString();
+      const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
       this.category = JSON.parse(localStorage.getItem("data_menu"));
 
       const filteredCategory = this.category.filter(
@@ -949,7 +950,8 @@ export default defineComponent({
     },
     searchProducts() {
       if (this.searchQuery.trim() !== "") {
-        const currentTime = new Date().toLocaleTimeString(); // Get current time in milliseconds
+        const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false });
+
         let tempArr = []; // nanti hasilnya ditampung dulu kesini
 
         this.products.forEach((product) => {
