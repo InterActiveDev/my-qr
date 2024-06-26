@@ -340,9 +340,8 @@
                     :key="items.product_id"
                   >
                     <ProductCard
+                      :product="items"
                       :category="items"
-                      :products="items.product_details"
-
                       :loading="loading"
                     />
                   </div>
