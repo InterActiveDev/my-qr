@@ -332,34 +332,21 @@
 
           <div v-else class="else" :class="!isErrorUrl ? '' : 'hidden'">
             <div class="spacer"></div>
-            <div v-for="perProduct in products" :key="perProduct.category_id">
-              <div
-                v-if="(perProduct.order_time_start < perProduct.order_time_end &&
-                      perProduct.order_time_start <= clockNow &&
-                      perProduct.order_time_end >= clockNow) ||
-                      (perProduct.order_time_start >= perProduct.order_time_end &&
-                      clockNow >= perProduct.order_time_start) ||
-                      (perProduct.order_time_start > perProduct.order_time_end && 
-                      perProduct.order_time_start >= clockNow && perProduct.order_time_end >= clockNow)
-                "
-              >
-                <div class="list-product">
-                  <div class="product">
-                    <div
-                      class="product-item"
-                      v-for="items in filteredProducts"
-                      :key="items.product_id"
-                    >
-                      <ProductCard
-                        :product="items"
-                        :category="perProduct"
-                        :loading="loading"
-                      />
-                    </div>
+              <div class="list-product">
+                <div class="product">
+                  <div
+                    class="product-item"
+                    v-for="items in filteredProducts"
+                    :key="items.product_id"
+                  >
+                    <ProductCard
+                      :product="items"
+                      :category="perProduct"
+                      :loading="loading"
+                    />
                   </div>
                 </div>
               </div>
-            </div>
           </div>
 
           <!-- error page / not found page -->
