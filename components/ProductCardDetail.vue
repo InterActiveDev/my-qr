@@ -125,8 +125,6 @@ export default {
     },
     // addProduct() {
     addProduct(product, category) {
-      console.log('product', product)
-      console.log('category', category)
       this.showAddProductModal = true;
       this.$nextTick(() => {
         this.$refs.modalComponent.showModal(product, category);

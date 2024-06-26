@@ -340,20 +340,15 @@
                     :key="items.product_id"
                   >
                     <ProductCard
-                      :product="items"
-                      :category="perProduct"
+                      :category="items"
+                      :products="items.product_details"
+
                       :loading="loading"
                     />
                   </div>
                 </div>
               </div>
           </div>
-
-          <!-- error page / not found page -->
-          <!-- <div v-if="!isHidden || isLoading == 'close'">
-            <NotFound />
-          </div> -->
-          <!-- end sort item -->
 
           <BottomNavCart v-if="showBottomCart" />
         </div>
@@ -407,7 +402,7 @@ export default defineComponent({
   },
   data() {
     return {
-      appVersion: "1.0.1",
+      appVersion: "1.0.0",
       showScrollButton: false,
       navbarTo: "/",
       isHidden: true,
