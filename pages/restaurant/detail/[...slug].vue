@@ -407,7 +407,7 @@ export default defineComponent({
   },
   data() {
     return {
-      appVersion: "1.0.0",
+      appVersion: "1.0.1",
       showScrollButton: false,
       navbarTo: "/",
       isHidden: true,
