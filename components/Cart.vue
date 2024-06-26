@@ -75,7 +75,6 @@
                           {{ formatCurrency(item.topping.price) }}
                         </p>
                       </div>
-                      <p>{{ item.product.product_description }}</p>
                     </div>
 
                     <div class="trash">
