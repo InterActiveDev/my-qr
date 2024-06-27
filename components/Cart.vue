@@ -75,7 +75,7 @@
                           {{ formatCurrency(item.topping.price) }}
                         </p>
                       </div>
-                      <p class="break-words whitespace-normal">{{ item.product.product_description }}</p>
+                      <!-- <p class="break-words whitespace-normal">{{ item.product.product_description }}</p> -->
                     </div>
 
                     <div class="trash">

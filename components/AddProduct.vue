@@ -55,9 +55,17 @@
                 <span class="price">{{
                   formatCurrency(getProduct.product_pricenow)
                 }}</span>
-                
-                <span v-if="getProduct.product_stockstat === 'yes'" class="text-black font-medium text-center" :class="getProduct.product_stock <= 0? 'text-red-500': ''">
-                  {{ getProduct.product_stock > 0? 'Stock : ' + getProduct.product_stock: 'Habis' }}
+
+                <span
+                  v-if="getProduct.product_stockstat === 'yes'"
+                  class="text-black font-medium text-center"
+                  :class="getProduct.product_stock <= 0 ? 'text-red-500' : ''"
+                >
+                  {{
+                    getProduct.product_stock > 0
+                      ? "Stock : " + getProduct.product_stock
+                      : "Habis"
+                  }}
                 </span>
 
                 <div class="split-item">
@@ -317,11 +325,14 @@ export default {
     handlePaymentCart() {
       this.cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       let wrapStatus = 0;
+      var wrap = "";
 
       if (this.wrap === true) {
         wrapStatus = 1;
+        wrap = "Bungkus";
       } else {
         wrapStatus = 0;
+        wrap = "";
       }
       const newItem = {
         orderTimeStart: this.getCategory.order_time_start,
@@ -331,6 +342,7 @@ export default {
         topping: this.topping,
         quantityItem: this.quantity,
         istakeaway: wrapStatus,
+        wrap: wrap,
       };
 
       this.cartItems.push(newItem);
