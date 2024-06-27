@@ -49,7 +49,7 @@
                         <small
                           class="italic ml-2 text-red-700"
                           v-if="
-                            currentTime >= items.orderTimeEnd &&
+                            currentTime >= items.orderTimeEnd ||
                             currentTime <= items.orderTimeStart
                           "
                           >*Tidak tersedia diwaktu sekarang</small
@@ -697,7 +697,7 @@
 
     <!-- modal error  -->
     <dialog :open="showModalError" class="modal modal-general bg-black/50">
-      <div class="modal-box flex flex-col" style="gap: 0px;">
+      <div class="modal-box flex flex-col" style="gap: 0px">
         <div class="flex flex-row justify-end items-center">
           <button @click="closeErrorModal()">
             <svg
@@ -718,7 +718,7 @@
         <div class="flex justify-center">
           <img
             src="~/assets/images/illustration-error.png"
-            style="width: 200px !important;"
+            style="width: 200px !important"
             alt="error"
           />
         </div>
@@ -1344,33 +1344,44 @@ export default defineComponent({
       modalCustomer.close();
 
       let checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
-      const checkoutItem = {
-        product: this.products,
-        subTotal: this.subTotal,
-        promo: this.promo,
-        serviceFee: this.serviceFee,
-        serviceFeePercentage: this.serviceFeePercentage,
-        deliveryFee: this.deliveryFee,
-        total: this.totalPay,
-        tax: this.tax,
-        taxPercentage: this.taxPercentage,
-        rounding: this.rounding,
-      };
 
-      const existingIndex = checkoutData.findIndex((item) => {
-        return item.total === checkoutItem.total;
+      this.products.forEach((element) => {
+        // const checkoutItem = {};
+        if (
+          this.currentTime >= element.orderTimeEnd ||
+          this.currentTime <= element.orderTimeStart
+        ) {
+          this.showModalError = true;
+          this.errorMassage = "Ada item yang tidak tersedia diwaktu sekarang";
+        } else {
+          const checkoutItem = {
+            product: [element],
+            subTotal: this.subTotal,
+            promo: this.promo,
+            serviceFee: this.serviceFee,
+            serviceFeePercentage: this.serviceFeePercentage,
+            deliveryFee: this.deliveryFee,
+            total: this.totalPay,
+            tax: this.tax,
+            taxPercentage: this.taxPercentage,
+            rounding: this.rounding,
+          };
+
+          const existingIndex = checkoutData.findIndex((item) => {
+            return item.total === checkoutItem.total;
+          });
+
+          if (existingIndex !== -1) {
+            checkoutData.splice(existingIndex, 1, checkoutItem);
+          } else {
+            checkoutData.push(checkoutItem);
+          }
+
+          const checkoutDataString = JSON.stringify(checkoutData);
+          localStorage.setItem("checkoutData", checkoutDataString);
+          modal.showModal();
+        }
       });
-
-      if (existingIndex !== -1) {
-        checkoutData.splice(existingIndex, 1, checkoutItem);
-      } else {
-        checkoutData.push(checkoutItem);
-      }
-
-      const checkoutDataString = JSON.stringify(checkoutData);
-      localStorage.setItem("checkoutData", checkoutDataString);
-
-      modal.showModal();
     },
     getCookie(name) {
       const cookieName = name + "=";
@@ -1469,8 +1480,7 @@ export default defineComponent({
       const host = window.location.host;
       const appid = data_restaurant.appid;
 
-      // MP01M51463F20230206169: budidi, MP01M381F20190423491: keripiku
-      if(appid == 'MP01M51463F20230206169' && host == 'localhost:3001'){
+      if (appid == "MP01M381F20190423491" && host == "localhost:3000") {
         // console.log('checkoutData[0].product', checkoutData[0].product)
         // const url_check = "/qr_myorder/check_stock";
         // FetchData.createData(url_check, checkoutData[0].product)
@@ -1484,10 +1494,10 @@ export default defineComponent({
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
 
-            if(appid == 'MP01M381F20190423491' && host == 'localhost:3000'){
+            if (appid == "MP01M381F20190423491" && host == "localhost:3000") {
               // ini akses test
               this.getNota(result, transactionId);
-            }else{
+            } else {
               // ini akses real
               if (this.table.paymentMethod.payment_category != "e-money") {
                 // cash and other payment
@@ -1495,11 +1505,14 @@ export default defineComponent({
                 const noNota = {
                   no_nota: result.data.result[0].noNota,
                 };
-  
-                // ini karna ada case data nya myresto_key kosong 
-                if(this.table.paymentMethod.payment_myresto_key !== null){ 
+
+                // ini karna ada case data nya myresto_key kosong
+                if (this.table.paymentMethod.payment_myresto_key !== null) {
                   // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
-                  if(this.table.paymentMethod.payment_myresto_key.toLowerCase() == 'cash'){ 
+                  if (
+                    this.table.paymentMethod.payment_myresto_key.toLowerCase() ==
+                    "cash"
+                  ) {
                     // sync ke my Resto kalau payment cash
                     FetchData.syncMyResto(noNota, token)
                       .then((resultPos) => {
@@ -1545,8 +1558,8 @@ export default defineComponent({
                         console.log("err: ", err.message);
                       });
                   }
-                }else{
-                  // kalau data myresto_key kosong, langsung sync ke my Resto 
+                } else {
+                  // kalau data myresto_key kosong, langsung sync ke my Resto
                   FetchData.syncMyResto(noNota, token)
                     .then((resultPos) => {
                         // get nota
@@ -1583,7 +1596,6 @@ export default defineComponent({
                       console.log("err: ", err.message);
                     });
                 }
-  
               } else {
                 // get nota
                 this.getNota(result, transactionId);
