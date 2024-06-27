@@ -1387,20 +1387,12 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData =
-        JSON.parse(localStorage.getItem("checkoutData")) || [];
-      const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer =
-        JSON.parse(localStorage.getItem("data_customer")) || [];
-      const selectedOrderType = JSON.parse(
-        localStorage.getItem("selected_type_order")
-      );
-      const data_restaurant = JSON.parse(
-        localStorage.getItem("data_restaurant")
-      );
-      const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
+      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
+      const selectedOrderType = JSON.parse(localStorage.getItem("selected_type_order"));
+      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
       const tableCode = localStorage.getItem("table_code");
 
       localStorage.setItem("receipt", JSON.stringify(checkoutData));
@@ -1413,16 +1405,8 @@ export default defineComponent({
       }
       // console.log("ww", matchingMethods);
 
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const day = String(today.getDate()).padStart(2, "0");
-      // Retrieve current time
-      const hours = String(today.getHours()).padStart(2, "0");
-      const minutes = String(today.getMinutes()).padStart(2, "0");
-      const seconds = String(today.getSeconds()).padStart(2, "0");
-      const dateYMD = `${year}-${month}-${day}`;
-      const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      const dateYMD = this.today("dateYMD");
+      const dateYMDHMS = this.today("dateYMDHMS");
 
       const data = [
         {
@@ -1485,7 +1469,8 @@ export default defineComponent({
       const host = window.location.host;
       const appid = data_restaurant.appid;
 
-      if(appid == 'MP01M381F20190423491' && host == 'localhost:3000'){
+      // MP01M51463F20230206169: budidi, MP01M381F20190423491: keripiku
+      if(appid == 'MP01M51463F20230206169' && host == 'localhost:3001'){
         // console.log('checkoutData[0].product', checkoutData[0].product)
         // const url_check = "/qr_myorder/check_stock";
         // FetchData.createData(url_check, checkoutData[0].product)
@@ -1520,13 +1505,35 @@ export default defineComponent({
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
+
+                        // const dataDetail = {
+                        //   nota: result.data.result[0].noNota,
+                        //   notaShort: resultPos.data.data.shortOrderNumber,
+                        //   customer: dataCustomer,
+                        //   orderType: selectedOrderType,
+                        //   data: data[0],
+                        // };
+
+                        // let historyTemp = JSON.parse(localStorage.getItem('history'));
+                        
+                        // if(historyTemp === null){
+                        //   let history = {};
+                        //   history[locId] = [];
+                        //   history[locId].push({ data: dataDetail });
+
+                        //   localStorage.setItem('history', JSON.stringify(history));
+                        // }else{
+                        //   if (historyTemp.hasOwnProperty(locId)) {
+                        //     historyTemp[locId].data.push(dataDetail);
+                        //   }else{
+                        //     historyTemp.push(history);
+                        //   }
+                        //   localStorage.setItem('history', JSON.stringify(historyTemp));
+                        // }
                       })
                       .catch((err) => {
                         console.log("err: ", err.message);
                       });
-  
-                    // tes lokal
-                    // this.getNota(result, transactionId);
                   }else{
                     // edc and other (actually do the same atm)
                     FetchData.syncMyResto(noNota, token)
@@ -1542,15 +1549,39 @@ export default defineComponent({
                   // kalau data myresto_key kosong, langsung sync ke my Resto 
                   FetchData.syncMyResto(noNota, token)
                     .then((resultPos) => {
-                      // get nota
-                      this.getNota(result, transactionId);
+                        // get nota
+                        this.getNota(result, transactionId);
+
+                        // const dataDetail = {
+                        //   nota: result.data.result[0].noNota,
+                        //   notaShort: resultPos.data.data.shortOrderNumber,
+                        //   customer: dataCustomer,
+                        //   orderType: selectedOrderType,
+                        //   data: data[0],
+                        // };
+
+                        // const history = [{
+                        //   [locId]: {
+                        //     data: [dataDetail]
+                        //   }
+                        // }];
+
+                        // let historyTemp = JSON.parse(localStorage.getItem('history'));
+
+                        // if(historyTemp === null){
+                        //   localStorage.setItem('history', JSON.stringify(history));
+                        // }else{
+                        //   if (historyTemp.hasOwnProperty(locId)) {
+                        //     historyTemp[locId].data.push(dataDetail);
+                        //   }else{
+                        //     historyTemp.push(history);
+                        //   }
+                        //   localStorage.setItem('history', JSON.stringify(historyTemp));
+                        // }
                     })
                     .catch((err) => {
                       console.log("err: ", err.message);
                     });
-                  
-                  // tes lokal
-                  // this.getNota(result, transactionId);
                 }
   
               } else {
@@ -1570,6 +1601,23 @@ export default defineComponent({
           // }, 3000); // 3000 milliseconds = 3 seconds
           console.log("Error :", error);
         });
+
+
+    },
+    today(type) {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      // Retrieve current time
+      const hours = String(today.getHours()).padStart(2, "0");
+      const minutes = String(today.getMinutes()).padStart(2, "0");
+      const seconds = String(today.getSeconds()).padStart(2, "0");
+      if(type === "dateYMDHMS"){
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      }else{
+        return `${year}-${month}-${day}`;
+      }
     },
     openModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");
@@ -1618,7 +1666,6 @@ export default defineComponent({
       dataCustomer = dataCustomer ? JSON.parse(dataCustomer) : {};
 
       if (payment.payment_category === "cash") {
-        console.log("name", payment.payment_category);
         localStorage.removeItem("qrContent");
         let modalPayment = document.getElementById("modalSelectPayments");
         modalPayment.close();
