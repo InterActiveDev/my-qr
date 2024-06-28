@@ -24,7 +24,7 @@ export default {
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
       showAddProductModal: false,
-      displayLimit: 6,
+      // displayLimit: 6,
     };
   },
   computed: {
