@@ -49,14 +49,15 @@
                         <small
                           class="italic ml-2 text-red-700"
                           v-if="
-                            currentTime >= items.orderTimeEnd ||
-                            currentTime <= items.orderTimeStart
-                          "
-                          >*Tidak tersedia diwaktu sekarang</small
-                        >
+                              (items.orderTimeStart < items.orderTimeEnd && 
+                              currentTime < items.orderTimeStart) ||
+                              (items.orderTimeStart > items.orderTimeEnd && 
+                              currentTime < items.orderTimeStart && currentTime > items.orderTimeEnd)
+                            "
+                          >*Tidak tersedia diwaktu </small>
 
                         <p class="font-grey">
-                          {{ formatCurrency(items.product.product_pricenow) }}
+                          {{ formatCurrency(items.product.product_pricenow) }} 
                         </p>
                         <p class="topping">
                           {{
@@ -367,7 +368,7 @@
               <span>QRIS </span>
             </div>
           </div> -->
-          <div class="item" @click="openModal(payment)">
+          <div class="item" :class="payment.payment_category === 'e-money'? 'bg-gray-200':'' " @click="openModal(payment)">
             <div class="col-1">
               <img
                 v-if="payment.payment_category === 'e-money'"
@@ -724,7 +725,8 @@
         </div>
 
         <div class="mt-7 text-center">
-          <h1 class="text-slate-950">{{ errorMassage }}</h1>
+          <h1 class="text-slate-950">{{ errorMessage }}</h1>
+          
         </div>
       </div>
 
@@ -831,7 +833,7 @@ export default defineComponent({
       navbarTo: "/",
       errorsTable: "",
       errors: "",
-      errorMassage: "",
+      errorMessage: "",
       currentTime: "",
       name: "",
       table: "",
@@ -912,7 +914,10 @@ export default defineComponent({
       const now = new Date();
       const hours = now.getHours().toString().padStart(2, "0");
       const minutes = now.getMinutes().toString().padStart(2, "0");
-      this.currentTime = `${hours}:${minutes}`;
+      const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+      // this.currentTime = `${hours}:${minutes}`;
+      this.currentTime = time;
+
     },
     checkLocalStorage() {
       // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
@@ -1349,8 +1354,12 @@ export default defineComponent({
 
       this.products.forEach((element) => {
         if (
-          this.currentTime >= element.orderTimeEnd ||
-          this.currentTime <= element.orderTimeStart
+          // this.currentTime >= element.orderTimeEnd ||
+          // this.currentTime <= element.orderTimeStart
+          (element.orderTimeStart < element.orderTimeEnd && 
+          this.currentTime < element.orderTimeStart) ||
+          (element.orderTimeStart > element.orderTimeEnd && 
+          this.currentTime < element.orderTimeStart && this.currentTime > element.orderTimeEnd)
         ) {
           this.showModalError = true;
           this.errorMessage = "Ada item yang tidak tersedia di waktu sekarang";
@@ -1611,7 +1620,7 @@ export default defineComponent({
         .catch((error) => {
           this.showModalWaiting = false;
           this.showModalError = true;
-          this.errorMassage = error.message;
+          this.errorMessage = error.message;
           // setTimeout(() => {
           //   this.showModalError = false;
 
@@ -1703,6 +1712,7 @@ export default defineComponent({
           }, 1000);
         });
       } else if (payment.payment_category === "e-money") {
+        return false;
         localStorage.removeItem("qrContent");
         dataCustomer.paymentMethod = payment;
         this.openModalQrisMethod();
