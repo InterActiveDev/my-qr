@@ -1519,30 +1519,7 @@ export default defineComponent({
                         // get nota
                         this.getNota(result, transactionId);
 
-                        // const dataDetail = {
-                        //   nota: result.data.result[0].noNota,
-                        //   notaShort: resultPos.data.data.shortOrderNumber,
-                        //   customer: dataCustomer,
-                        //   orderType: selectedOrderType,
-                        //   data: data[0],
-                        // };
-
-                        // let historyTemp = JSON.parse(localStorage.getItem('history'));
-                        
-                        // if(historyTemp === null){
-                        //   let history = {};
-                        //   history[locId] = [];
-                        //   history[locId].push({ data: dataDetail });
-
-                        //   localStorage.setItem('history', JSON.stringify(history));
-                        // }else{
-                        //   if (historyTemp.hasOwnProperty(locId)) {
-                        //     historyTemp[locId].data.push(dataDetail);
-                        //   }else{
-                        //     historyTemp.push(history);
-                        //   }
-                        //   localStorage.setItem('history', JSON.stringify(historyTemp));
-                        // }
+                        this.setHistory(result, resultPos, dataCustomer, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
                         console.log("err: ", err.message);
@@ -1565,32 +1542,7 @@ export default defineComponent({
                         // get nota
                         this.getNota(result, transactionId);
 
-                        // const dataDetail = {
-                        //   nota: result.data.result[0].noNota,
-                        //   notaShort: resultPos.data.data.shortOrderNumber,
-                        //   customer: dataCustomer,
-                        //   orderType: selectedOrderType,
-                        //   data: data[0],
-                        // };
-
-                        // const history = [{
-                        //   [locId]: {
-                        //     data: [dataDetail]
-                        //   }
-                        // }];
-
-                        // let historyTemp = JSON.parse(localStorage.getItem('history'));
-
-                        // if(historyTemp === null){
-                        //   localStorage.setItem('history', JSON.stringify(history));
-                        // }else{
-                        //   if (historyTemp.hasOwnProperty(locId)) {
-                        //     historyTemp[locId].data.push(dataDetail);
-                        //   }else{
-                        //     historyTemp.push(history);
-                        //   }
-                        //   localStorage.setItem('history', JSON.stringify(historyTemp));
-                        // }
+                        this.setHistory(result, resultPos, dataCustomer, selectedOrderType, data, locId);
                     })
                     .catch((err) => {
                       console.log("err: ", err.message);
@@ -1615,6 +1567,32 @@ export default defineComponent({
         });
 
 
+    },
+    setHistory(result, resultPos, dataCustomer, selectedOrderType, data, locId){
+      const dataDetail = {
+        nota: result.data.result[0].noNota,
+        notaShort: resultPos.data.data.shortOrderNumber,
+        customer: dataCustomer,
+        orderType: selectedOrderType,
+        data: data[0],
+      };
+
+      let historyTemp = JSON.parse(localStorage.getItem('history'));
+      
+      if(historyTemp === null){
+        let history = {};
+        history[locId] = [];
+        history[locId].push(dataDetail);
+
+        localStorage.setItem('history', JSON.stringify(history));
+      }else{
+        if(historyTemp.hasOwnProperty(locId)) {
+          historyTemp[locId].push(dataDetail);
+        }else{
+          historyTemp[locId] = [dataDetail];
+        }
+        localStorage.setItem('history', JSON.stringify(historyTemp));
+      }
     },
     today(type) {
       const today = new Date();

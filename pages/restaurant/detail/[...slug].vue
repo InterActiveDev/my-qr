@@ -62,10 +62,9 @@
                 <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="currentColor" d="M9 5v4h12V5M9 19h12v-4H9m0-1h12v-4H9M4 9h4V5H4m0 14h4v-4H4m0-1h4v-4H4z"/></svg> -->
                 Kategori Lainya
               </button> 
-              <!-- <button class="btn btn-riwayat" @click="openModalCategory">
+              <button class="btn btn-riwayat" :show="isHistory" @click="goToHistory()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 8H12v5l4.28 2.54l.72-1.21l-3.5-2.08zM13 3a9 9 0 0 0-9 9H1l3.96 4.03L9 12H6a7 7 0 0 1 7-7a7 7 0 0 1 7 7a7 7 0 0 1-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.9 8.9 0 0 0 13 21a9 9 0 0 0 9-9a9 9 0 0 0-9-9"/></svg>
-              </button>> -->
-              <!-- <button class="b -->
+              </button>
             </div>
             <div class="full">
               <label class="input input-bordered flex items-center gap-2">
@@ -387,6 +386,7 @@ import ProductCard from "~/components/ProductCard.vue";
 import BottomNavCart from "@/components/BottomNavCart.vue";
 import FetchData from "~/middleware/services/Fetch.js";
 import { reactive, watch } from "vue";
+import { isIfStatement } from "@babel/types";
 
 export default defineComponent({
   webVitals: {
@@ -430,6 +430,7 @@ export default defineComponent({
       tableCode: null,
       isLoading: true,
       loadingProgress: 0,
+      isHistory: false,
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
       iconMie: `<svg
@@ -538,6 +539,10 @@ export default defineComponent({
   async mounted() {
     const appVersion = localStorage.getItem("appVersion");
     const location = localStorage.getItem("location");
+    const history = localStorage.getItem("history");
+    if(history !== null){
+      this.isHistory == true;
+    }
     const urlData = this.$route.params;
 
     let locId = "";
@@ -671,6 +676,9 @@ export default defineComponent({
   methods: {
     handleScroll() {
       this.showScrollButton = window.scrollY > 200;
+    },
+    goToHistory() {
+      this.$router.push("/restaurant/history-transaction");
     },
     scrollToTop() {
       window.scrollTo({
