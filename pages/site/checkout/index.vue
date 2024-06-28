@@ -368,7 +368,8 @@
               <span>QRIS </span>
             </div>
           </div> -->
-          <div class="item" :class="payment.payment_category === 'e-money'? 'bg-gray-200':'' " @click="openModal(payment)">
+          <!-- :class="payment.payment_category === 'e-money'? 'bg-gray-200':'' " -->
+          <div class="item" @click="openModal(payment)">
             <div class="col-1">
               <img
                 v-if="payment.payment_category === 'e-money'"
@@ -1712,7 +1713,6 @@ export default defineComponent({
           }, 1000);
         });
       } else if (payment.payment_category === "e-money") {
-        return false;
         localStorage.removeItem("qrContent");
         dataCustomer.paymentMethod = payment;
         this.openModalQrisMethod();
