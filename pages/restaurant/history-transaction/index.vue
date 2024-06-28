@@ -15,7 +15,7 @@
             </div>
 
             <!-- sisi proses -->
-            <div v-if="type === 'proses'" v-for="(data, index) in dataPending" :key="index" class="h-full border-2 border-[#00000020] mb-4 mx-3 rounded-sm">
+            <div v-if="type === 'proses'" v-for="(data, index) in dataPending" :key="data.nota" class="h-full border-2 border-[#00000020] mb-4 mx-3 rounded-sm">
               <div class="flex flex-col">
                 <div class="flex justify-between items-center px-3 text-black pt-4 pb-3">
                   <span>{{ data.orderType.name.toUpperCase() }}</span>
@@ -49,20 +49,20 @@
             </div>
 
             <!-- sisi lunas -->
-            <div v-else-if="type === 'sukses'" class="h-full border-2 border-[#00000020] mb-4 mx-3 rounded-sm">
+            <div v-else-if="type === 'lunas'" v-for="(data, index) in dataPending" :key="data.nota" class="h-full border-2 border-[#00000020] mb-4 mx-3 rounded-sm">
               <div class="flex flex-col">
                 <div class="flex justify-between items-center px-3 text-black pt-4 pb-3">
-                  <span>Dine in</span>
+                  <span>{{ data.orderType.name.toUpperCase() }}</span>
                   <span>2024-06-28 10:07:10 WIB</span>
                 </div>
                 <hr class="mx-3">
                 <div class="flex justify-between items-center px-3 text-black py-3">
                   <span class="text-gray-500">Meja</span>
-                  <span>Bungkus</span>
+                  <span>{{ data.data.restaurant_table }}</span>
                 </div>
                 <div class="flex justify-between items-center px-3 text-black py-3">
                   <span class="text-gray-500">No Nota</span>
-                  <span>HL-51203G-667E291A2BAFA</span>
+                  <span>{{ data.notaShort }}</span>
                 </div>
                 <div class="flex justify-between items-center px-3 text-black py-3">
                   <span class="text-gray-500">Detail Pesanan</span>
@@ -74,10 +74,10 @@
                 </div>
                 <div class="flex justify-between items-center px-3 font-bold py-3">
                   <span class="text-gray-600">Grand Total</span>
-                  <span class="text-black">Rp. 1</span>
+                  <span class="text-black">{{ formatCurrency(data.data.payment.gtotal) }}</span>
                 </div>
-                <button class="border border-red-600 mx-3 py-2 mb-4 rounded-lg hover:bg-red-600 text-red-600 hover:text-white ease-linear duration-200">
-                  <span >LIHAT DETAIL</span>
+                <button @click="toDetail(data.nota)" class="border border-red-600 mx-3 py-2 mb-4 rounded-lg hover:bg-red-600 text-red-600 hover:text-white ease-linear duration-200">
+                  <span>LIHAT DETAIL</span>
                 </button>
               </div>
             </div>
