@@ -23,6 +23,7 @@
           gap: 20px;
           padding: 20px;
           width: 100%;
+          min-width: 100%;
 
           .head {
             display: flex;
@@ -300,6 +301,8 @@
           gap: 20px;
           padding: 20px;
           width: 100%;
+          min-width: 100vw;
+          max-width: 100%;
 
           .head {
             display: flex;
@@ -577,7 +580,9 @@
           gap: 20px;
           padding: 20px;
           width: 100%;
-
+          min-width: 100vw;
+          max-width: 100%;
+          
           .head {
             display: flex;
             flex-direction: column;

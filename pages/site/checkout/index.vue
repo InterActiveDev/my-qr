@@ -1534,7 +1534,7 @@ export default defineComponent({
                         // get nota
                         this.getNota(result, transactionId);
 
-                        this.setHistory(result, resultPos, dataCustomer, selectedOrderType, data, locId);
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
                         console.log("err: ", err.message);
@@ -1545,6 +1545,7 @@ export default defineComponent({
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
                         console.log("err: ", err.message);
@@ -1557,7 +1558,7 @@ export default defineComponent({
                         // get nota
                         this.getNota(result, transactionId);
 
-                        this.setHistory(result, resultPos, dataCustomer, selectedOrderType, data, locId);
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                     })
                     .catch((err) => {
                       console.log("err: ", err.message);
@@ -1566,6 +1567,7 @@ export default defineComponent({
               } else {
                 // get nota
                 this.getNota(result, transactionId);
+                this.setHistory(result, null, selectedOrderType, data, locId);
               }
             }
           }
@@ -1583,11 +1585,10 @@ export default defineComponent({
 
 
     },
-    setHistory(result, resultPos, dataCustomer, selectedOrderType, data, locId){
+    setHistory(result, resultPos, selectedOrderType, data, locId){
       const dataDetail = {
         nota: result.data.result[0].noNota,
-        notaShort: resultPos.data.data.shortOrderNumber,
-        customer: dataCustomer,
+        notaShort: resultPos? resultPos.data.data.shortOrderNumber:null,
         orderType: selectedOrderType,
         data: data[0],
       };
