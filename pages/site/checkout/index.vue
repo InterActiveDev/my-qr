@@ -1345,43 +1345,48 @@ export default defineComponent({
 
       let checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
 
+      let checkoutDataArr = []; // Pastikan ini ada di tempat yang sesuai dalam kode Anda
+
       this.products.forEach((element) => {
-        // const checkoutItem = {};
         if (
           this.currentTime >= element.orderTimeEnd ||
           this.currentTime <= element.orderTimeStart
         ) {
           this.showModalError = true;
-          this.errorMassage = "Ada item yang tidak tersedia diwaktu sekarang";
+          this.errorMessage = "Ada item yang tidak tersedia di waktu sekarang";
         } else {
-          const checkoutItem = {
-            product: [element],
-            subTotal: this.subTotal,
-            promo: this.promo,
-            serviceFee: this.serviceFee,
-            serviceFeePercentage: this.serviceFeePercentage,
-            deliveryFee: this.deliveryFee,
-            total: this.totalPay,
-            tax: this.tax,
-            taxPercentage: this.taxPercentage,
-            rounding: this.rounding,
-          };
-
-          const existingIndex = checkoutData.findIndex((item) => {
-            return item.total === checkoutItem.total;
+          const existingIndex = checkoutDataArr.findIndex((item) => {
+            return (
+              item.subTotal === this.subTotal && item.total === this.totalPay
+            );
           });
 
           if (existingIndex !== -1) {
-            checkoutData.splice(existingIndex, 1, checkoutItem);
+            checkoutDataArr[existingIndex].product.push(element);
           } else {
-            checkoutData.push(checkoutItem);
+            const checkoutItem = {
+              product: [element],
+              subTotal: this.subTotal,
+              promo: this.promo,
+              serviceFee: this.serviceFee,
+              serviceFeePercentage: this.serviceFeePercentage,
+              deliveryFee: this.deliveryFee,
+              total: this.totalPay,
+              tax: this.tax,
+              taxPercentage: this.taxPercentage,
+              rounding: this.rounding,
+            };
+            checkoutDataArr.push(checkoutItem);
           }
-
-          const checkoutDataString = JSON.stringify(checkoutData);
-          localStorage.setItem("checkoutData", checkoutDataString);
-          modal.showModal();
         }
       });
+
+      // Pastikan Anda menyimpan checkoutData di localStorage dan menampilkan modal jika tidak ada error
+      if (!this.showModalError) {
+        const checkoutDataString = JSON.stringify(checkoutDataArr);
+        localStorage.setItem("checkoutData", checkoutDataString);
+        modal.showModal();
+      }
     },
     getCookie(name) {
       const cookieName = name + "=";
