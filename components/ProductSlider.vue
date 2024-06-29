@@ -5,7 +5,7 @@
       v-for="product in displayedProducts"
       :key="product.product_id"
     >
-      <ProductCard :product="product" :category="category"/>
+      <ProductCard :product="product" :category="category" />
     </div>
   </div>
 </template>
@@ -30,7 +30,8 @@ export default {
   computed: {
     displayedProducts() {
       // Slice array products untuk membatasi jumlah data yang ditampilkan menjadi 6
-      return this.products.slice(0, this.displayLimit);
+      // return this.products.slice(0, this.displayLimit);
+      return this.products;
     },
   },
   props: {
