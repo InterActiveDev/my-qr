@@ -137,9 +137,7 @@
                 v-model="note"
                 class="textarea textarea-bordered"
                 placeholder="Tambahkan Catatan (Opsional)"
-              >
-              ></textarea
-              >
+              ></textarea>
             </div>
             <!-- <div class="warning">
               <img
