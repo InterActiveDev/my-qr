@@ -139,7 +139,6 @@
                 placeholder="Tambahkan Catatan (Opsional)"
               ></textarea>
             </div>
-
             <!-- <div class="warning">
               <img
                 src="~/assets/icons/icon-warning.png"
@@ -401,6 +400,22 @@ export default {
         minimumFractionDigits: 0,
       });
       return formatter.format(amount);
+    },
+  },
+  watch: {
+    // Watcher untuk menginisialisasi nilai wrap berdasarkan nilai awal
+    note: {
+      handler(newNote) {
+        // const emojiRegex =
+        //   /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|["'])/g;
+        const emojiRegex = /[^a-zA-Z0-9,.&() \-]/g;
+
+        if (emojiRegex.test(newNote)) {
+          // Jika emoji terdeteksi, tidak ada yang dilakukan (atau bisa memberikan pesan kesalahan)
+          this.note = this.note.replace(emojiRegex, "");
+        }
+      },
+      deep: true,
     },
   },
 };
