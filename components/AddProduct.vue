@@ -137,6 +137,7 @@
                 v-model="note"
                 class="textarea textarea-bordered"
                 placeholder="Tambahkan Catatan (Opsional)"
+                @beforeinput="handleInput($event)"
               ></textarea>
             </div>
             <!-- <div class="warning">
@@ -401,6 +402,19 @@ export default {
       });
       return formatter.format(amount);
     },
+    handleInput(e) {
+      const textarea = e.target;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(start, end);
+      const newText = e.data || "";
+
+      const newLength = this.note.length - selectedText.length + newText.length;
+
+      if (newLength > 150 && e.inputType !== "deleteContentBackward") {
+        e.preventDefault();
+      }
+    },
   },
   watch: {
     // Watcher untuk menginisialisasi nilai wrap berdasarkan nilai awal
@@ -413,6 +427,9 @@ export default {
         if (emojiRegex.test(newNote)) {
           // Jika emoji terdeteksi, tidak ada yang dilakukan (atau bisa memberikan pesan kesalahan)
           this.note = this.note.replace(emojiRegex, "");
+        }
+        if (this.note.length > 30) {
+          return false;
         }
       },
       deep: true,

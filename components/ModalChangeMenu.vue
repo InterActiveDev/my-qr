@@ -135,6 +135,7 @@
                 v-model="note"
                 class="textarea textarea-bordered"
                 placeholder="Tambahkan Catatan (Opsional)"
+                @beforeinput="handleInput($event)"
               ></textarea>
             </div>
 
@@ -465,6 +466,19 @@ export default {
       const newValue = parseInt(this.quantity);
       if (!isNaN(newValue) && newValue > 0) {
         this.quantity = newValue;
+      }
+    },
+    handleInput(e) {
+      const textarea = e.target;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(start, end);
+      const newText = e.data || "";
+
+      const newLength = this.note.length - selectedText.length + newText.length;
+
+      if (newLength > 150 && e.inputType !== "deleteContentBackward") {
+        e.preventDefault();
       }
     },
   },
