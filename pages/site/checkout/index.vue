@@ -1332,7 +1332,13 @@ export default defineComponent({
       }
     },
     openModalDataCustomer() {
-      if (this.totalPay == 0) {
+      console.log('this.totalPay', this.totalPay)
+      if(this.totalPay == 0) {
+        return;
+      } else if(this.totalPay < 100){
+        this.showModalError = true;
+        this.errorMessage = "Minimum nominal transaksi adalah Rp. 100";
+
         return;
       }
       let modal = document.getElementById("modalInformationData");
