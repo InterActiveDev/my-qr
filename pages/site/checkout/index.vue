@@ -1332,15 +1332,10 @@ export default defineComponent({
       }
     },
     openModalDataCustomer() {
-      console.log('this.totalPay', this.totalPay)
       if(this.totalPay == 0) {
         return;
-      } else if(this.totalPay < 100){
-        this.showModalError = true;
-        this.errorMessage = "Minimum nominal transaksi adalah Rp. 100";
+      } 
 
-        return;
-      }
       let modal = document.getElementById("modalInformationData");
       modal.showModal();
 
@@ -1625,6 +1620,18 @@ export default defineComponent({
       modalSelectPayment.close();
     },
     openModalQrisMethod() {
+      if(this.totalPay < 100){
+        const mID = JSON.parse(localStorage.getItem("data_restaurant")).mID;
+        if(mID.substring(0, 2) == 'FM'){
+          let modal = document.getElementById("modalSelectPayments");
+          modal.close();
+
+          this.showModalError = true;
+          this.errorMessage = "Minimum nominal transaksi adalah Rp. 100";
+  
+          return;
+        }
+      }
       let modalPayment = document.getElementById("modalSelectPayments");
       modalPayment.close();
       this.showModalWaiting = true;
