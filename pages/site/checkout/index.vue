@@ -1544,34 +1544,12 @@ export default defineComponent({
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
-
-                        // const dataDetail = {
-                        //   nota: result.data.result[0].noNota,
-                        //   notaShort: resultPos.data.data.shortOrderNumber,
-                        //   customer: dataCustomer,
-                        //   orderType: selectedOrderType,
-                        //   data: data[0],
-                        // };
-
-                        // let historyTemp = JSON.parse(localStorage.getItem('history'));
-
-                        // if(historyTemp === null){
-                        //   let history = {};
-                        //   history[locId] = [];
-                        //   history[locId].push({ data: dataDetail });
-
-                        //   localStorage.setItem('history', JSON.stringify(history));
-                        // }else{
-                        //   if (historyTemp.hasOwnProperty(locId)) {
-                        //     historyTemp[locId].data.push(dataDetail);
-                        //   }else{
-                        //     historyTemp.push(history);
-                        //   }
-                        //   localStorage.setItem('history', JSON.stringify(historyTemp));
-                        // }
                       })
                       .catch((err) => {
-                        console.log("err: ", err.message);
+                        this.showModalWaiting = false;
+                        this.showModalError = true;
+                        this.errorMessage = error.message;
+                        console.log("err: ", err);
                       });
                   } else {
                     // edc and other (actually do the same atm)
@@ -1581,7 +1559,10 @@ export default defineComponent({
                         this.getNota(result, transactionId);
                       })
                       .catch((err) => {
-                        console.log("err: ", err.message);
+                        this.showModalWaiting = false;
+                        this.showModalError = true;
+                        this.errorMessage = error.message;
+                        console.log("err: ", err);
                       });
                   }
                 } else {
@@ -1590,36 +1571,12 @@ export default defineComponent({
                     .then((resultPos) => {
                       // get nota
                       this.getNota(result, transactionId);
-
-                      // const dataDetail = {
-                      //   nota: result.data.result[0].noNota,
-                      //   notaShort: resultPos.data.data.shortOrderNumber,
-                      //   customer: dataCustomer,
-                      //   orderType: selectedOrderType,
-                      //   data: data[0],
-                      // };
-
-                      // const history = [{
-                      //   [locId]: {
-                      //     data: [dataDetail]
-                      //   }
-                      // }];
-
-                      // let historyTemp = JSON.parse(localStorage.getItem('history'));
-
-                      // if(historyTemp === null){
-                      //   localStorage.setItem('history', JSON.stringify(history));
-                      // }else{
-                      //   if (historyTemp.hasOwnProperty(locId)) {
-                      //     historyTemp[locId].data.push(dataDetail);
-                      //   }else{
-                      //     historyTemp.push(history);
-                      //   }
-                      //   localStorage.setItem('history', JSON.stringify(historyTemp));
-                      // }
                     })
                     .catch((err) => {
-                      console.log("err: ", err.message);
+                      this.showModalWaiting = false;
+                      this.showModalError = true;
+                      this.errorMessage = error.message;
+                      console.log("err: ", err);
                     });
                 }
               } else {
