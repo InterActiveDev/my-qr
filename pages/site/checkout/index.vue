@@ -1548,8 +1548,8 @@ export default defineComponent({
                       .catch((err) => {
                         this.showModalWaiting = false;
                         this.showModalError = true;
-                        this.errorMessage = error.message;
-                        console.log("err: ", err);
+                        this.errorMessage = err.response.data.message;
+                        console.log("err: ", err.message);
                       });
                   } else {
                     // edc and other (actually do the same atm)
@@ -1561,8 +1561,8 @@ export default defineComponent({
                       .catch((err) => {
                         this.showModalWaiting = false;
                         this.showModalError = true;
-                        this.errorMessage = error.message;
-                        console.log("err: ", err);
+                        this.errorMessage = err.response.data.message;
+                        console.log("err: ", err.message);
                       });
                   }
                 } else {
@@ -1575,8 +1575,8 @@ export default defineComponent({
                     .catch((err) => {
                       this.showModalWaiting = false;
                       this.showModalError = true;
-                      this.errorMessage = error.message;
-                      console.log("err: ", err);
+                      this.errorMessage = err.response.data.message;
+                      console.log("err: ", err.message);
                     });
                 }
               } else {
@@ -1589,12 +1589,12 @@ export default defineComponent({
         .catch((error) => {
           this.showModalWaiting = false;
           this.showModalError = true;
-          this.errorMessage = error.message;
+          this.errorMessage = error.response.data.message;
+          console.log("err: ", error.message);
           // setTimeout(() => {
           //   this.showModalError = false;
 
           // }, 3000); // 3000 milliseconds = 3 seconds
-          console.log("Error :", error);
         });
     },
     today(type) {
