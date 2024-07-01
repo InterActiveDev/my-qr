@@ -52,8 +52,18 @@
                   formatCurrency(getProduct.product.product_pricenow)
                 }}</span>
 
-                <span v-if="getProduct.product.product_stockstat === 'yes'" class="text-black font-medium text-center" :class="getProduct.product.product_stock <= 0? 'text-red-500': ''">
-                  {{ getProduct.product.product_stock > 0? 'Stock : ' + getProduct.product.product_stock: 'Habis' }}
+                <span
+                  v-if="getProduct.product.product_stockstat === 'yes'"
+                  class="text-black font-medium text-center"
+                  :class="
+                    getProduct.product.product_stock <= 0 ? 'text-red-500' : ''
+                  "
+                >
+                  {{
+                    getProduct.product.product_stock > 0
+                      ? "Stock : " + getProduct.product.product_stock
+                      : "Habis"
+                  }}
                 </span>
 
                 <div class="split-item">
@@ -125,6 +135,7 @@
                 v-model="note"
                 class="textarea textarea-bordered"
                 placeholder="Tambahkan Catatan (Opsional)"
+                @beforeinput="handleInput($event)"
               ></textarea>
             </div>
 
@@ -338,6 +349,20 @@ export default {
       },
       immediate: true, // Memastikan watcher dipanggil saat komponen diinisialisasi
     },
+    note: {
+      // Watcher untuk menginisialisasi nilai wrap berdasarkan nilai awal
+      handler(newNote) {
+        // const emojiRegex =
+        //   /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|["'])/g;
+        const emojiRegex = /[^a-zA-Z0-9,.&() \-]/g;
+
+        if (emojiRegex.test(newNote)) {
+          // Jika emoji terdeteksi, tidak ada yang dilakukan (atau bisa memberikan pesan kesalahan)
+          this.note = this.note.replace(emojiRegex, "");
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     checkType() {
@@ -441,6 +466,19 @@ export default {
       const newValue = parseInt(this.quantity);
       if (!isNaN(newValue) && newValue > 0) {
         this.quantity = newValue;
+      }
+    },
+    handleInput(e) {
+      const textarea = e.target;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(start, end);
+      const newText = e.data || "";
+
+      const newLength = this.note.length - selectedText.length + newText.length;
+
+      if (newLength > 150 && e.inputType !== "deleteContentBackward") {
+        e.preventDefault();
       }
     },
   },

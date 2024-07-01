@@ -49,15 +49,17 @@
                         <small
                           class="italic ml-2 text-red-700"
                           v-if="
-                              (items.orderTimeStart < items.orderTimeEnd && 
+                            (items.orderTimeStart < items.orderTimeEnd &&
                               currentTime < items.orderTimeStart) ||
-                              (items.orderTimeStart > items.orderTimeEnd && 
-                              currentTime < items.orderTimeStart && currentTime > items.orderTimeEnd)
-                            "
-                          >*Tidak tersedia diwaktu </small>
+                            (items.orderTimeStart > items.orderTimeEnd &&
+                              currentTime < items.orderTimeStart &&
+                              currentTime > items.orderTimeEnd)
+                          "
+                          >*Tidak tersedia diwaktu
+                        </small>
 
                         <p class="font-grey">
-                          {{ formatCurrency(items.product.product_pricenow) }} 
+                          {{ formatCurrency(items.product.product_pricenow) }}
                         </p>
                         <p class="topping">
                           {{
@@ -249,8 +251,9 @@
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                    /></svg
-                ></span>
+                    />
+                  </svg>
+                </span>
               </div>
 
               <div class="promo-items" v-if="selectedPromo != ''">
@@ -378,7 +381,10 @@
                 alt=""
               />
               <img
-                v-else-if="payment.payment_category === 'cash' && payment.payment_method === 'EDC'"
+                v-else-if="
+                  payment.payment_category === 'cash' &&
+                  payment.payment_method === 'EDC'
+                "
                 src="~/assets/icons/edc.png"
                 loading="lazy"
                 alt=""
@@ -727,7 +733,6 @@
 
         <div class="mt-7 text-center">
           <h1 class="text-slate-950">{{ errorMessage }}</h1>
-          
         </div>
       </div>
 
@@ -915,10 +920,9 @@ export default defineComponent({
       const now = new Date();
       const hours = now.getHours().toString().padStart(2, "0");
       const minutes = now.getMinutes().toString().padStart(2, "0");
-      const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+      const time = new Date().toLocaleTimeString("en-GB", { hour12: false });
       // this.currentTime = `${hours}:${minutes}`;
       this.currentTime = time;
-
     },
     checkLocalStorage() {
       // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
@@ -1357,10 +1361,11 @@ export default defineComponent({
         if (
           // this.currentTime >= element.orderTimeEnd ||
           // this.currentTime <= element.orderTimeStart
-          (element.orderTimeStart < element.orderTimeEnd && 
-          this.currentTime < element.orderTimeStart) ||
-          (element.orderTimeStart > element.orderTimeEnd && 
-          this.currentTime < element.orderTimeStart && this.currentTime > element.orderTimeEnd)
+          (element.orderTimeStart < element.orderTimeEnd &&
+            this.currentTime < element.orderTimeStart) ||
+          (element.orderTimeStart > element.orderTimeEnd &&
+            this.currentTime < element.orderTimeStart &&
+            this.currentTime > element.orderTimeEnd)
         ) {
           this.showModalError = true;
           this.errorMessage = "Ada item yang tidak tersedia di waktu sekarang";
@@ -1413,12 +1418,18 @@ export default defineComponent({
       this.buttonClicked = true;
       this.table = JSON.parse(localStorage.getItem("data_customer"));
 
-      const checkoutData = JSON.parse(localStorage.getItem("checkoutData")) || [];
+      const checkoutData =
+        JSON.parse(localStorage.getItem("checkoutData")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
-      const dataCustomer = JSON.parse(localStorage.getItem("data_customer")) || [];
-      const selectedOrderType = JSON.parse(localStorage.getItem("selected_type_order"));
-      const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+      const dataCustomer =
+        JSON.parse(localStorage.getItem("data_customer")) || [];
+      const selectedOrderType = JSON.parse(
+        localStorage.getItem("selected_type_order")
+      );
+      const data_restaurant = JSON.parse(
+        localStorage.getItem("data_restaurant")
+      );
       const tableCode = localStorage.getItem("table_code");
 
       localStorage.setItem("receipt", JSON.stringify(checkoutData));
@@ -1534,20 +1545,26 @@ export default defineComponent({
                         // get nota
                         this.getNota(result, transactionId);
 
-                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
+                        // this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
+                        this.showModalWaiting = false;
+                        this.showModalError = true;
+                        this.errorMessage = err.response.data.message;
                         console.log("err: ", err.message);
                       });
-                  }else{
+                  } else {
                     // edc and other (actually do the same atm)
                     FetchData.syncMyResto(noNota, token)
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
-                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
+                        // this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
+                        this.showModalWaiting = false;
+                        this.showModalError = true;
+                        this.errorMessage = err.response.data.message;
                         console.log("err: ", err.message);
                       });
                   }
@@ -1555,19 +1572,24 @@ export default defineComponent({
                   // kalau data myresto_key kosong, langsung sync ke my Resto
                   FetchData.syncMyResto(noNota, token)
                     .then((resultPos) => {
+                      // get nota
+                      this.getNota(result, transactionId);
                         // get nota
                         this.getNota(result, transactionId);
 
-                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
+                        // this.setHistory(result, resultPos, selectedOrderType, data, locId);
                     })
                     .catch((err) => {
+                      this.showModalWaiting = false;
+                      this.showModalError = true;
+                      this.errorMessage = err.response.data.message;
                       console.log("err: ", err.message);
                     });
                 }
               } else {
                 // get nota
                 this.getNota(result, transactionId);
-                this.setHistory(result, null, selectedOrderType, data, locId);
+                // this.setHistory(result, null, selectedOrderType, data, locId);
               }
             }
           }
@@ -1575,7 +1597,8 @@ export default defineComponent({
         .catch((error) => {
           this.showModalWaiting = false;
           this.showModalError = true;
-          this.errorMessage = error.message;
+          this.errorMessage = error.response.data.message;
+          console.log("err: ", error.message);
           // setTimeout(() => {
           //   this.showModalError = false;
 
@@ -1619,9 +1642,9 @@ export default defineComponent({
       const hours = String(today.getHours()).padStart(2, "0");
       const minutes = String(today.getMinutes()).padStart(2, "0");
       const seconds = String(today.getSeconds()).padStart(2, "0");
-      if(type === "dateYMDHMS"){
+      if (type === "dateYMDHMS") {
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      }else{
+      } else {
         return `${year}-${month}-${day}`;
       }
     },
