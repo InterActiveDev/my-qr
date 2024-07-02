@@ -49,11 +49,14 @@
                         <small
                           class="italic ml-2 text-red-700"
                           v-if="
-                            currentTime >= items.orderTimeEnd ||
-                            currentTime <= items.orderTimeStart
+                            (items.orderTimeStart < items.orderTimeEnd &&
+                              currentTime < items.orderTimeStart) ||
+                            (items.orderTimeStart > items.orderTimeEnd &&
+                              currentTime < items.orderTimeStart &&
+                              currentTime > items.orderTimeEnd)
                           "
-                          >*Tidak tersedia diwaktu sekarang</small
-                        >
+                          >*Tidak tersedia diwaktu
+                        </small>
 
                         <p class="font-grey">
                           {{ formatCurrency(items.product.product_pricenow) }}
@@ -248,8 +251,9 @@
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                    /></svg
-                ></span>
+                    />
+                  </svg>
+                </span>
               </div>
 
               <div class="promo-items" v-if="selectedPromo != ''">
@@ -367,11 +371,21 @@
               <span>QRIS </span>
             </div>
           </div> -->
+          <!-- :class="payment.payment_category === 'e-money'? 'bg-gray-200':'' " -->
           <div class="item" @click="openModal(payment)">
             <div class="col-1">
               <img
                 v-if="payment.payment_category === 'e-money'"
                 src="~/assets/icons/qris.png"
+                loading="lazy"
+                alt=""
+              />
+              <img
+                v-else-if="
+                  payment.payment_category === 'cash' &&
+                  payment.payment_method === 'EDC'
+                "
+                src="~/assets/icons/edc.png"
                 loading="lazy"
                 alt=""
               />
@@ -718,7 +732,7 @@
         </div>
 
         <div class="mt-7 text-center">
-          <h1 class="text-slate-950">{{ errorMassage }}</h1>
+          <h1 class="text-slate-950">{{ errorMessage }}</h1>
         </div>
       </div>
 
@@ -825,7 +839,7 @@ export default defineComponent({
       navbarTo: "/",
       errorsTable: "",
       errors: "",
-      errorMassage: "",
+      errorMessage: "",
       currentTime: "",
       name: "",
       table: "",
@@ -906,7 +920,9 @@ export default defineComponent({
       const now = new Date();
       const hours = now.getHours().toString().padStart(2, "0");
       const minutes = now.getMinutes().toString().padStart(2, "0");
-      this.currentTime = `${hours}:${minutes}`;
+      const time = new Date().toLocaleTimeString("en-GB", { hour12: false });
+      // this.currentTime = `${hours}:${minutes}`;
+      this.currentTime = time;
     },
     checkLocalStorage() {
       // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
@@ -1316,9 +1332,10 @@ export default defineComponent({
       }
     },
     openModalDataCustomer() {
-      if (this.totalPay == 0) {
+      if(this.totalPay == 0) {
         return;
-      }
+      } 
+
       let modal = document.getElementById("modalInformationData");
       modal.showModal();
 
@@ -1343,8 +1360,13 @@ export default defineComponent({
 
       this.products.forEach((element) => {
         if (
-          this.currentTime >= element.orderTimeEnd ||
-          this.currentTime <= element.orderTimeStart
+          // this.currentTime >= element.orderTimeEnd ||
+          // this.currentTime <= element.orderTimeStart
+          (element.orderTimeStart < element.orderTimeEnd &&
+            this.currentTime < element.orderTimeStart) ||
+          (element.orderTimeStart > element.orderTimeEnd &&
+            this.currentTime < element.orderTimeStart &&
+            this.currentTime > element.orderTimeEnd)
         ) {
           this.showModalError = true;
           this.errorMessage = "Ada item yang tidak tersedia di waktu sekarang";
@@ -1399,7 +1421,6 @@ export default defineComponent({
 
       const checkoutData =
         JSON.parse(localStorage.getItem("checkoutData")) || [];
-      const tableList = JSON.parse(localStorage.getItem("table_list")) || [];
       const location = localStorage.getItem("location");
       const locId = atob(location);
       const dataCustomer =
@@ -1410,7 +1431,6 @@ export default defineComponent({
       const data_restaurant = JSON.parse(
         localStorage.getItem("data_restaurant")
       );
-      const paymentMethod = JSON.parse(localStorage.getItem("payment_method"));
       const tableCode = localStorage.getItem("table_code");
 
       localStorage.setItem("receipt", JSON.stringify(checkoutData));
@@ -1421,18 +1441,9 @@ export default defineComponent({
       if (!this.nameMethod) {
         console.error("No matching payment method found.");
       }
-      // console.log("ww", matchingMethods);
 
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const day = String(today.getDate()).padStart(2, "0");
-      // Retrieve current time
-      const hours = String(today.getHours()).padStart(2, "0");
-      const minutes = String(today.getMinutes()).padStart(2, "0");
-      const seconds = String(today.getSeconds()).padStart(2, "0");
-      const dateYMD = `${year}-${month}-${day}`;
-      const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      const dateYMD = this.today("dateYMD");
+      const dateYMDHMS = this.today("dateYMDHMS");
 
       const data = [
         {
@@ -1503,6 +1514,8 @@ export default defineComponent({
         //     console.log('result xxx', result)
         //   })
       }
+      
+      localStorage.setItem("dataTemp", JSON.stringify(data));
 
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
@@ -1533,21 +1546,27 @@ export default defineComponent({
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
+
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
+                        this.showModalWaiting = false;
+                        this.showModalError = true;
+                        this.errorMessage = err.response.data.message;
                         console.log("err: ", err.message);
                       });
-
-                    // tes lokal
-                    // this.getNota(result, transactionId);
                   } else {
                     // edc and other (actually do the same atm)
                     FetchData.syncMyResto(noNota, token)
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
+                        this.showModalWaiting = false;
+                        this.showModalError = true;
+                        this.errorMessage = err.response.data.message;
                         console.log("err: ", err.message);
                       });
                   }
@@ -1557,17 +1576,20 @@ export default defineComponent({
                     .then((resultPos) => {
                       // get nota
                       this.getNota(result, transactionId);
+
+                      this.setHistory(result, resultPos, selectedOrderType, data, locId);
                     })
                     .catch((err) => {
+                      this.showModalWaiting = false;
+                      this.showModalError = true;
+                      this.errorMessage = err.response.data.message;
                       console.log("err: ", err.message);
                     });
-
-                  // tes lokal
-                  // this.getNota(result, transactionId);
                 }
               } else {
                 // get nota
                 this.getNota(result, transactionId);
+                this.setHistory(result, null, selectedOrderType, data, locId);
               }
             }
           }
@@ -1575,13 +1597,62 @@ export default defineComponent({
         .catch((error) => {
           this.showModalWaiting = false;
           this.showModalError = true;
-          this.errorMassage = error.message;
+          this.errorMessage = error.response.data.message;
+          console.log("err: ", error.message);
           // setTimeout(() => {
           //   this.showModalError = false;
 
           // }, 3000); // 3000 milliseconds = 3 seconds
           console.log("Error :", error);
         });
+
+
+    },
+    setHistory(result, resultPos, selectedOrderType, data, locId){
+      const dr = JSON.parse(localStorage.getItem("data_restaurant"));
+      // MP01M51463F20230206169 budidi | MP01M32319F20221011805 geprek
+      if(dr.appid == 'MP01M51463F20230206169' || dr.appid == 'MP01M32319F20221011805'){
+        const dataDetail = {
+          nota: result.data.result[0].noNota,
+          notaShort: resultPos? resultPos.data.data.shortOrderNumber:null,
+          orderType: selectedOrderType,
+          data: data[0],
+          status: 'pending',
+          isChecked: false,
+        };
+  
+        let historyTemp = JSON.parse(localStorage.getItem('history'));
+        
+        if(historyTemp === null){
+          let history = {};
+          history[locId] = [];
+          history[locId].push(dataDetail);
+  
+          localStorage.setItem('history', JSON.stringify(history));
+        }else{
+          if(historyTemp.hasOwnProperty(locId)) {
+            historyTemp[locId].push(dataDetail);
+          }else{
+            historyTemp[locId] = [dataDetail];
+          }
+          localStorage.setItem('history', JSON.stringify(historyTemp));
+        }
+      }
+    },
+    today(type) {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      // Retrieve current time
+      const hours = String(today.getHours()).padStart(2, "0");
+      const minutes = String(today.getMinutes()).padStart(2, "0");
+      const seconds = String(today.getSeconds()).padStart(2, "0");
+      if (type === "dateYMDHMS") {
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      } else {
+        return `${year}-${month}-${day}`;
+      }
     },
     openModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");
@@ -1590,6 +1661,18 @@ export default defineComponent({
       modalSelectPayment.close();
     },
     openModalQrisMethod() {
+      if(this.totalPay < 100){
+        const mID = JSON.parse(localStorage.getItem("data_restaurant")).mID;
+        if(mID.substring(0, 2) == 'FM'){
+          let modal = document.getElementById("modalSelectPayments");
+          modal.close();
+
+          this.showModalError = true;
+          this.errorMessage = "Minimum nominal transaksi adalah Rp. 100";
+  
+          return;
+        }
+      }
       let modalPayment = document.getElementById("modalSelectPayments");
       modalPayment.close();
       this.showModalWaiting = true;
@@ -1630,7 +1713,6 @@ export default defineComponent({
       dataCustomer = dataCustomer ? JSON.parse(dataCustomer) : {};
 
       if (payment.payment_category === "cash") {
-        console.log("name", payment.payment_category);
         localStorage.removeItem("qrContent");
         let modalPayment = document.getElementById("modalSelectPayments");
         modalPayment.close();

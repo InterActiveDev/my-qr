@@ -64,7 +64,7 @@
 
                 <div class="content">
                   <div class="description">
-                    <div class="information">
+                    <div class="information max-w-full w-full min-w-full text-wrap ">
                       <div class="title">{{ item.product.product_name }}</div>
                       <div class="price">
                         {{ formatCurrency(item.product.product_pricenow) }}
@@ -75,6 +75,7 @@
                           {{ formatCurrency(item.topping.price) }}
                         </p>
                       </div>
+                      <!-- <p class="break-words whitespace-normal">{{ item.product.product_description }}</p> -->
                     </div>
 
                     <div class="trash">

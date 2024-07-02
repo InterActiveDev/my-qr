@@ -53,13 +53,17 @@
 
           <!-- sort item -->
           <div class="sort-item" v-if="products && isErrorUrl == false">
-            <div class="flex gap-6 btn-group">
+            <div class="btn-group flex items-center justify-start gap-2 max-w-full min-w-full overflow-auto">
               <button class="btn btn-primary">
-                Semua Produk
-                <div class="badge">{{ countProduct }}</div>
+                  <span>Semua Produk</span>
+                  <span class="bg-white rounded-lg text-[#DA2424] px-1 py-1">{{ countProduct }}</span>
               </button>
               <button class="btn btn-muted" @click="openModalCategory">
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="currentColor" d="M9 5v4h12V5M9 19h12v-4H9m0-1h12v-4H9M4 9h4V5H4m0 14h4v-4H4m0-1h4v-4H4z"/></svg> -->
                 Kategori Lainya
+              </button> 
+              <button class="btn btn-riwayat" v-if="isHistory" @click="goToHistory()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 8H12v5l4.28 2.54l.72-1.21l-3.5-2.08zM13 3a9 9 0 0 0-9 9H1l3.96 4.03L9 12H6a7 7 0 0 1 7-7a7 7 0 0 1 7 7a7 7 0 0 1-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.9 8.9 0 0 0 13 21a9 9 0 0 0 9-9a9 9 0 0 0-9-9"/></svg>
               </button>
             </div>
             <div class="full">
@@ -332,41 +336,22 @@
 
           <div v-else class="else" :class="!isErrorUrl ? '' : 'hidden'">
             <div class="spacer"></div>
-            <div v-for="perProduct in products" :key="perProduct.category_id">
-              <div
-                v-if="(perProduct.order_time_start < perProduct.order_time_end &&
-                      perProduct.order_time_start <= clockNow &&
-                      perProduct.order_time_end >= clockNow) ||
-                      (perProduct.order_time_start >= perProduct.order_time_end &&
-                      clockNow >= perProduct.order_time_start) ||
-                      (perProduct.order_time_start > perProduct.order_time_end && 
-                      perProduct.order_time_start >= clockNow && perProduct.order_time_end >= clockNow)
-                "
-              >
-                <div class="list-product">
-                  <div class="product">
-                    <div
-                      class="product-item"
-                      v-for="items in filteredProducts"
-                      :key="items.product_id"
-                    >
-                      <ProductCard
-                        :product="items"
-                        :category="perProduct"
-                        :loading="loading"
-                      />
-                    </div>
+              <div class="list-product">
+                <div class="product">
+                  <div
+                    class="product-item"
+                    v-for="items in filteredProducts"
+                    :key="items.product_id"
+                  >
+                    <ProductCard
+                      :product="items"
+                      :category="items"
+                      :loading="loading"
+                    />
                   </div>
                 </div>
               </div>
-            </div>
           </div>
-
-          <!-- error page / not found page -->
-          <!-- <div v-if="!isHidden || isLoading == 'close'">
-            <NotFound />
-          </div> -->
-          <!-- end sort item -->
 
           <BottomNavCart v-if="showBottomCart" />
         </div>
@@ -401,6 +386,7 @@ import ProductCard from "~/components/ProductCard.vue";
 import BottomNavCart from "@/components/BottomNavCart.vue";
 import FetchData from "~/middleware/services/Fetch.js";
 import { reactive, watch } from "vue";
+import { isIfStatement } from "@babel/types";
 
 export default defineComponent({
   webVitals: {
@@ -444,6 +430,7 @@ export default defineComponent({
       tableCode: null,
       isLoading: true,
       loadingProgress: 0,
+      isHistory: false,
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
       iconMie: `<svg
@@ -552,6 +539,11 @@ export default defineComponent({
   async mounted() {
     const appVersion = localStorage.getItem("appVersion");
     const location = localStorage.getItem("location");
+    const history = localStorage.getItem("history");
+    const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+    if(history !== null && (data_restaurant.appid == 'MP01M51463F20230206169' || data_restaurant.appid == 'MP01M32319F20221011805')){
+      this.isHistory = true;
+    }
     const urlData = this.$route.params;
 
     let locId = "";
@@ -598,7 +590,6 @@ export default defineComponent({
       console.log("appVersion: ", appVersion);
     }
 
-    const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
     const data_menu = JSON.parse(localStorage.getItem("data_menu"));
 
     // cek update data
@@ -685,6 +676,9 @@ export default defineComponent({
   methods: {
     handleScroll() {
       this.showScrollButton = window.scrollY > 200;
+    },
+    goToHistory() {
+      this.$router.push("/restaurant/history-transaction");
     },
     scrollToTop() {
       window.scrollTo({
@@ -901,7 +895,8 @@ export default defineComponent({
       this.products = JSON.parse(storedProducts);
       this.countProduct = 0;
 
-      const time = new Date().toLocaleTimeString();
+      const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+
       this.category = JSON.parse(localStorage.getItem("data_menu"));
 
       const filteredCategory = this.category.filter(
@@ -921,7 +916,7 @@ export default defineComponent({
       });
     },
     getListCategory() {
-      const time = new Date().toLocaleTimeString();
+      const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
       this.category = JSON.parse(localStorage.getItem("data_menu"));
 
       const filteredCategory = this.category.filter(
@@ -949,7 +944,8 @@ export default defineComponent({
     },
     searchProducts() {
       if (this.searchQuery.trim() !== "") {
-        const currentTime = new Date().toLocaleTimeString(); // Get current time in milliseconds
+        const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false });
+
         let tempArr = []; // nanti hasilnya ditampung dulu kesini
 
         this.products.forEach((product) => {
