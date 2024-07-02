@@ -287,9 +287,7 @@ export default defineComponent({
         const selectedHistory = selectedLocation.filter((item) => item.nota == hlCode);
         const tableCode = localStorage.getItem("table_code");
 
-        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode);
         this.customer = selectedHistory[0].data.guest_detail;
-        console.log('this.customer', this.customer)
         this.typeOrder = selectedHistory[0].orderType;
         this.paymentDetail = selectedHistory[0].data.payment;
         this.products = selectedHistory[0].data.data;
