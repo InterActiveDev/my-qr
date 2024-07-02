@@ -131,19 +131,20 @@
       if(this.history !== null){
         this.dataPending = this.history.filter((item) => item.status === "pending"); 
         this.dataSuccess = this.history.filter((item) => item.status === "selesai"); 
-        // this.dataCheck = this.dataPending.map((item) => item.nota); 
-        // if(this.dataCheck.length > 0){
-          // const url_check = "/qr_myorder/check_history";
-          // FetchData.createData(url_check, this.dataCheck)
-          // console.log('this.dataCheck', this.dataCheck)
-        // }
+        this.dataCheck = this.dataPending.map((item) => item.nota); 
+        if(this.dataCheck.length > 0){
+          const url_check = "/qr_myorder/check_history";
+          FetchData.createData(url_check, this.dataCheck).then((res) => {
+            console.log('res', res)
+          }).catch((err) => {
+            console.log('err', err)
+          })
+        }
       }
 
       const location = localStorage.getItem("location");
       const tableCode = localStorage.getItem("table_code");
       const urlTable = tableCode? "?table_code=" + btoa(tableCode): '';
-      console.log('tableCode', urlTable)
-
       this.navbarTo = "/restaurant/detail/" + location + urlTable;
 
     },
