@@ -83,7 +83,7 @@
                         <span>{{ data.product_name }}</span>
                         <p>
                           <!-- {{ data.topping }} -->
-                            topping
+                            <!-- topping -->
                         </p>
                         <p>
                           {{
