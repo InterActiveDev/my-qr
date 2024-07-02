@@ -1576,8 +1576,8 @@ export default defineComponent({
                     .then((resultPos) => {
                       // get nota
                       this.getNota(result, transactionId);
-                        // get nota
-                        this.getNota(result, transactionId);
+
+                      this.setHistory(result, resultPos, selectedOrderType, data, locId);
                     })
                     .catch((err) => {
                       this.showModalWaiting = false;
@@ -1609,7 +1609,6 @@ export default defineComponent({
 
     },
     setHistory(result, resultPos, selectedOrderType, data, locId){
-      console.log('set history')
       const dr = JSON.parse(localStorage.getItem("data_restaurant"));
       // MP01M51463F20230206169 budidi | MP01M32319F20221011805 geprek
       if(dr.appid == 'MP01M51463F20230206169' || dr.appid == 'MP01M32319F20221011805'){
