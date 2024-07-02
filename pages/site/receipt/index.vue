@@ -288,7 +288,9 @@ export default defineComponent({
         status: this.status,
         total: this.locProducts[0],
         logo: this.restaurant.loc_logo,
-        address: this.restaurant.loc_addr
+        address: this.restaurant.loc_addr,
+        isRemoveFooter: "0",
+        restaurantName: this.restaurant.loc_name
       };
 
       Android.showToast(JSON.stringify(data));
