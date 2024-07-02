@@ -287,6 +287,8 @@ export default defineComponent({
         payment: this.payment.toUpperCase(),
         status: this.status,
         total: this.locProducts[0],
+        logo: this.restaurant.loc_logo,
+        address: this.restaurant.loc_addr
       };
 
       Android.showToast(JSON.stringify(data));
