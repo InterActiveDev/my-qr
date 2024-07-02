@@ -141,7 +141,10 @@
 
       const location = localStorage.getItem("location");
       const tableCode = localStorage.getItem("table_code");
-      this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode);
+      const urlTable = tableCode? "?table_code=" + btoa(tableCode): '';
+      console.log('tableCode', urlTable)
+
+      this.navbarTo = "/restaurant/detail/" + location + urlTable;
 
     },
     methods: {
