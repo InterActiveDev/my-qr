@@ -52,7 +52,7 @@
                   formatCurrency(getProduct.product.product_pricenow)
                 }}</span>
 
-                <span
+                <!-- <span
                   v-if="getProduct.product.product_stockstat === 'yes'"
                   class="text-black font-medium text-center"
                   :class="
@@ -64,7 +64,7 @@
                       ? "Stock : " + getProduct.product.product_stock
                       : "Habis"
                   }}
-                </span>
+                </span> -->
 
                 <div class="split-item">
                   <div class="btn-minus">

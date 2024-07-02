@@ -1545,7 +1545,7 @@ export default defineComponent({
                         // get nota
                         this.getNota(result, transactionId);
 
-                        // this.setHistory(result, resultPos, selectedOrderType, data, locId);
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
                         this.showModalWaiting = false;
@@ -1559,7 +1559,7 @@ export default defineComponent({
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
-                        // this.setHistory(result, resultPos, selectedOrderType, data, locId);
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
                         this.showModalWaiting = false;
@@ -1577,7 +1577,7 @@ export default defineComponent({
                         // get nota
                         this.getNota(result, transactionId);
 
-                        // this.setHistory(result, resultPos, selectedOrderType, data, locId);
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                     })
                     .catch((err) => {
                       this.showModalWaiting = false;
@@ -1589,7 +1589,7 @@ export default defineComponent({
               } else {
                 // get nota
                 this.getNota(result, transactionId);
-                // this.setHistory(result, null, selectedOrderType, data, locId);
+                this.setHistory(result, null, selectedOrderType, data, locId);
               }
             }
           }
