@@ -540,7 +540,8 @@ export default defineComponent({
     const appVersion = localStorage.getItem("appVersion");
     const location = localStorage.getItem("location");
     const history = localStorage.getItem("history");
-    if(history !== null){
+    const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+    if(history !== null && (data_restaurant.appid == 'MP01M51463F20230206169' || data_restaurant.appid == 'MP01M32319F20221011805')){
       this.isHistory = true;
     }
     const urlData = this.$route.params;
@@ -589,7 +590,6 @@ export default defineComponent({
       console.log("appVersion: ", appVersion);
     }
 
-    const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
     const data_menu = JSON.parse(localStorage.getItem("data_menu"));
 
     // cek update data

@@ -1578,8 +1578,6 @@ export default defineComponent({
                       this.getNota(result, transactionId);
                         // get nota
                         this.getNota(result, transactionId);
-
-                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                     })
                     .catch((err) => {
                       this.showModalWaiting = false;
@@ -1611,30 +1609,34 @@ export default defineComponent({
 
     },
     setHistory(result, resultPos, selectedOrderType, data, locId){
-      const dataDetail = {
-        nota: result.data.result[0].noNota,
-        notaShort: resultPos? resultPos.data.data.shortOrderNumber:null,
-        orderType: selectedOrderType,
-        data: data[0],
-        status: 'pending',
-        isChecked: false,
-      };
-
-      let historyTemp = JSON.parse(localStorage.getItem('history'));
-      
-      if(historyTemp === null){
-        let history = {};
-        history[locId] = [];
-        history[locId].push(dataDetail);
-
-        localStorage.setItem('history', JSON.stringify(history));
-      }else{
-        if(historyTemp.hasOwnProperty(locId)) {
-          historyTemp[locId].push(dataDetail);
+      const dr = JSON.parse(localStorage.getItem("data_restaurant"));
+      // MP01M51463F20230206169 budidi | MP01M32319F20221011805 geprek
+      if(dr.appid == 'MP01M51463F20230206169' || dr.appid == 'MP01M32319F20221011805'){
+        const dataDetail = {
+          nota: result.data.result[0].noNota,
+          notaShort: resultPos? resultPos.data.data.shortOrderNumber:null,
+          orderType: selectedOrderType,
+          data: data[0],
+          status: 'pending',
+          isChecked: false,
+        };
+  
+        let historyTemp = JSON.parse(localStorage.getItem('history'));
+        
+        if(historyTemp === null){
+          let history = {};
+          history[locId] = [];
+          history[locId].push(dataDetail);
+  
+          localStorage.setItem('history', JSON.stringify(history));
         }else{
-          historyTemp[locId] = [dataDetail];
+          if(historyTemp.hasOwnProperty(locId)) {
+            historyTemp[locId].push(dataDetail);
+          }else{
+            historyTemp[locId] = [dataDetail];
+          }
+          localStorage.setItem('history', JSON.stringify(historyTemp));
         }
-        localStorage.setItem('history', JSON.stringify(historyTemp));
       }
     },
     today(type) {

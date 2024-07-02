@@ -321,8 +321,6 @@ export default defineComponent({
               const qrContent = JSON.parse(localStorage.getItem("qrContent"));
               qrContent.qr_nota_short = getNota.data.data[0].myresto_ref? getNota.data.data[0].myresto_ref : shortNota;
               qrContent.qr_status = getNota.data.data[0].status;
-
-
               localStorage.removeItem("qrContent");
               
               localStorage.setItem("qrContent", JSON.stringify(qrContent));
@@ -330,8 +328,13 @@ export default defineComponent({
               const dataTemp = JSON.parse(localStorage.getItem("dataTemp"));
               const location = localStorage.getItem("location");
               const locId = atob(location);
+              const dr = JSON.parse(localStorage.getItem("data_restaurant"));
+
               if(dataTemp){
-                this.setHistory(qrContent.nota, shortNota, selectedOrderType, dataTemp, locId)
+                // MP01M51463F20230206169 budidi | MP01M32319F20221011805 geprek
+                if(dr.appid == 'MP01M51463F20230206169' || dr.appid == 'MP01M32319F20221011805'){
+                  this.setHistory(qrContent.nota, shortNota, selectedOrderType, dataTemp, locId)
+                }
               }
               localStorage.removeItem("dataTemp");
               setTimeout(() => {
