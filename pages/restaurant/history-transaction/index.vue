@@ -128,15 +128,15 @@
       this.locId = localStorage.getItem("location") === null? null: atob(localStorage.getItem("location"));
       const historyTemp = localStorage.getItem("history") === null? null: JSON.parse(localStorage.getItem("history"));
       this.history = historyTemp[this.locId]
-      if(this.history === null){
+      if(this.history !== null){
         this.dataPending = this.history.filter((item) => item.status === "pending"); 
         this.dataSuccess = this.history.filter((item) => item.status === "selesai"); 
-        this.dataCheck = this.dataPending.map((item) => item.nota); 
-        if(this.dataCheck.length > 0){
-          const url_check = "/qr_myorder/check_history";
-          FetchData.createData(url_check, this.dataCheck)
-          console.log('this.dataCheck', this.dataCheck)
-        }
+        // this.dataCheck = this.dataPending.map((item) => item.nota); 
+        // if(this.dataCheck.length > 0){
+          // const url_check = "/qr_myorder/check_history";
+          // FetchData.createData(url_check, this.dataCheck)
+          // console.log('this.dataCheck', this.dataCheck)
+        // }
       }
 
       const location = localStorage.getItem("location");
