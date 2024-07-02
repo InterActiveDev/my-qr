@@ -5,7 +5,7 @@
         <Navbar :to="navbarTo" v-if="!isGeneratingPDF" />
         <section id="receipt">
           <div class="wrapper">
-            <div class="content">
+            <div class="content ">
               <div class="head">
                 <div class="logo">
                   <img :src="restaurant.loc_logo" alt="" />
@@ -17,16 +17,16 @@
                 </div>
               </div>
 
-              <div class="transactions-details">
+              <div class="transactions-details w-full min-w-full">
                 <div class="row">
                   <div class="items">
                     <span class="title">Pelanggan</span>
-                    <span class="detail">{{ customer.name }}</span>
+                    <span class="detail">{{ customer.guest_name }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Tanggal Order</span>
                     <span class="detail">{{
-                      customer.order_date ? formatDate(customer.order_date) : ""
+                      customer.guest_addr ? formatDate(customer.guest_addr.dateadd) : ""
                     }}</span>
                   </div>
                 </div>
@@ -51,7 +51,7 @@
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
                     <span class="detail">{{
-                      customer.order_date ? formatDate(customer.order_date) : ""
+                      customer.guest_addr ? formatDate(customer.guest_addr.dateadd) : ""
                     }}</span>
                   </div>
                 </div>
@@ -59,7 +59,7 @@
                 <div class="row">
                   <div class="items">
                     <span class="title">Pembayaran</span>
-                    <span class="detail">{{ payment.toUpperCase() }}</span>
+                    <span class="detail">{{ payment }}</span>
                   </div>
                   <div class="items">
                     <span class="title">Status</span>
@@ -67,10 +67,7 @@
                   </div>
                 </div>
 
-                <span class="note"
-                  >Silakan tunjukkan Kode Transaksi ini kepada Kasir untuk
-                  menyelesaikan pesanan Anda.</span
-                >
+                <span class="note"></span>
               </div>
 
               <div class="orders-details">
@@ -81,11 +78,12 @@
                 <div class="row" v-for="(data, index) in products" :key="index">
                   <div class="items">
                     <div class="col-1">
-                      <div class="qty">{{ data.quantityItem }}x</div>
+                      <div class="qty">{{ data.qty }}x</div>
                       <div class="product">
-                        <span>{{ data.product.product_name }}</span>
+                        <span>{{ data.product_name }}</span>
                         <p>
-                          {{ data.product.topping }}
+                          <!-- {{ data.topping }} -->
+                            topping
                         </p>
                         <p>
                           {{
@@ -98,21 +96,21 @@
                       </div>
                     </div>
                     <div class="col-2">
-                      {{ formatCurrency(data.product.product_pricenow) }}
+                      {{ formatCurrency(data.price) }}
                     </div>
                   </div>
                 </div>
 
                 <div
                   class="total-details"
-                  v-if="locProducts && locProducts.length > 0 && locProducts[0]"
+                  v-if="paymentDetail"
                 >
                   <div class="border">
                     <div class="total">
                       <div class="detail">
                         <div class="title-total">Total</div>
                         <div class="price">
-                          {{ formatCurrency(locProducts[0].subTotal) }}
+                          {{ formatCurrency(paymentDetail.stotal) }}
                         </div>
                       </div>
                     </div>
@@ -120,31 +118,31 @@
                   <div class="row-total">
                     <div class="title-total">Sub Total</div>
                     <div class="price">
-                      {{ formatCurrency(locProducts[0].subTotal) }}
+                      {{ formatCurrency(paymentDetail.stotal) }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="locProducts[0].promo != 0">
+                  <div class="row-total" v-if="paymentDetail.promo && paymentDetail.promo != 0">
                     <div class="title-total">Promo</div>
                     <div class="price">
-                      {{ formatCurrency(locProducts[0].promo) }}
+                      {{ formatCurrency(paymentDetail.promo? paymentDetail.promo:0) }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="locProducts[0].serviceFee != 0">
+                  <div class="row-total" v-if="paymentDetail.serviceFee && paymentDetail.serviceFee != 0">
                     <div class="title-total">Biaya layanan</div>
                     <div class="price">
-                      {{ formatCurrency(locProducts[0].serviceFee) }}
+                      {{ formatCurrency(paymentDetail.serviceFee? paymentDetail.serviceFee:0) }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="locProducts[0].rounding != 0">
+                  <div class="row-total" v-if="paymentDetail.rounding && paymentDetail.rounding != 0">
                     <div class="title-total">Rounding</div>
                     <div class="price">
-                      {{ formatCurrency(locProducts[0].rounding) }}
+                      {{ formatCurrency(paymentDetail.rounding? paymentDetail.rounding:0) }}
                     </div>
                   </div>
                   <div class="row-total">
                     <div class="title-total-bold">Total Semua</div>
                     <div class="price-bold">
-                      {{ formatCurrency(locProducts[0].total) }}
+                      {{ formatCurrency(paymentDetail.gtotal) }}
                     </div>
                   </div>
                 </div>
@@ -175,45 +173,6 @@
       </div>
     </div>
 
-    <!-- modal nota cash -->
-    <dialog id="modalNotaCash" class="modal">
-      <div class="modal-box">
-        <div class="description">
-          <h2>
-            Mohon tunjukkan Kode Transaksi ini kepada Kasir untuk
-            penyelesaiannya memesan.
-          </h2>
-          <p>
-            Kode transaksi :
-            <span class="no-nota">{{ noNota }}</span>
-          </p>
-
-          <button class="btn btn-primary" @click="closeModalNotaCash">
-            Tutup
-          </button>
-        </div>
-      </div>
-    </dialog>
-    <!-- end modal nota cash -->
-
-    <!-- modal waiting bill -->
-    <dialog id="modalWaitingBill" class="modal">
-      <div class="modal-box">
-        <img
-          src="~/assets/images/illustration-waiting-bill.png"
-          class="buble-img"
-          loading="lazy"
-          preload
-          alt="Buble"
-        />
-
-        <div class="description">
-          <h2>Tunggu ya Bill sedang kami cetak</h2>
-          <p>Silahkan Ambil bukti transaksi Anda terlebih dahulu</p>
-        </div>
-      </div>
-    </dialog>
-    <!-- end modal waiting bill -->
   </div>
 </template>
 
@@ -233,28 +192,23 @@ export default defineComponent({
     return {
       test: "",
       isAndroid: "",
-      navbarTo: "/site/checkout",
-      email: "",
+      navbarTo: "/restaurant/history-transaction",
       isAndroid: "",
       isIOS: "",
       noNota: "",
       status: "PENDING",
       payment: "",
-      transID: "",
-      buttonClicked: false,
+      paymentDetail: null,
       table: "",
       customer: {},
-      nameMethod: 0,
       typeOrder: {},
       products: [],
       locProducts: {},
-      transaction: {},
       isGeneratingPDF: false,
       restaurant: {},
     };
   },
   mounted() {
-    // this.$refs.inputField.focus();
     this.isAndroid = navigator.userAgent.toLowerCase().includes("android");
     this.isIOS =
       /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -286,9 +240,7 @@ export default defineComponent({
         timeOrder: this.customer.order_date,
         payment: this.payment.toUpperCase(),
         status: this.status,
-        total: this.locProducts[0],
-        logo: this.restaurant.loc_logo,
-        address: this.restaurant.loc_addr
+        total: this.payment[0],
       };
 
       Android.showToast(JSON.stringify(data));
@@ -327,47 +279,25 @@ export default defineComponent({
     getData() {
       if (process.client) {
         localStorage.removeItem("checkoutData");
-        const customerData = localStorage.getItem("data_customer");
-        const typeOrderData = localStorage.getItem("selected_type_order");
-        const checkoutData = localStorage.getItem("receipt");
-        const transactions = JSON.parse(localStorage.getItem("qrContent"));
         const location = localStorage.getItem("location");
-        const dataRestaurant = localStorage.getItem("data_restaurant");
-        this.table = localStorage.getItem("table_code");
-
-        if (!customerData || !typeOrderData || !checkoutData || !transactions) {
-          this.$router.push("/restaurant/detail/" + location);
-          return;
-        }
-
+        const locId = atob(location);
+        const history = JSON.parse(localStorage.getItem("history"));
+        const selectedLocation = history[locId];
+        const hlCode = this.$route.params.id;
+        const selectedHistory = selectedLocation.filter((item) => item.nota == hlCode);
         const tableCode = localStorage.getItem("table_code");
-        this.navbarTo =
-          "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode);
 
-        this.customer = customerData ? JSON.parse(customerData) : {};
-        this.typeOrder = typeOrderData ? JSON.parse(typeOrderData) : {};
-        this.locProducts = checkoutData ? JSON.parse(checkoutData) : [];
-        this.transaction = transactions ? transactions : {};
-        this.restaurant = dataRestaurant ? JSON.parse(dataRestaurant) : {};
-
-        this.noNota =
-          transactions.noNotaNew != null
-            ? transactions.noNotaNew
-            : transactions.qr_nota_short
-            ? transactions.qr_nota_short
-            : "";
-        this.payment = this.customer.paymentMethod.payment_myresto_key? this.customer.paymentMethod.payment_myresto_key:this.customer.paymentMethod.payment_method;
-        if (transactions.contents.status == 0) {
-          this.status = "PENDING";
-        } else if (transactions.contents.status == undefined) {
-          this.status = transactions.qr_status == 1 ? "LUNAS" : "PENDING";
-        }
-
-        if (this.locProducts.length > 0) {
-          this.products = this.locProducts[0].product || [];
-        } else {
-          this.products = [];
-        }
+        this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode);
+        this.customer = selectedHistory[0].data.guest_detail;
+        console.log('this.customer', this.customer)
+        this.typeOrder = selectedHistory[0].orderType;
+        this.paymentDetail = selectedHistory[0].data.payment;
+        this.products = selectedHistory[0].data.data;
+        this.noNota = selectedHistory[0].notaShort;
+        this.payment = this.paymentDetail.payment_name.toUpperCase();
+        this.restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+        this.table = selectedHistory[0].data.restaurant_table;
+        this.status = selectedHistory[0].status.toUpperCase();
       }
     },
     openModalCash() {
@@ -376,10 +306,6 @@ export default defineComponent({
 
       let modalBill = document.getElementById("modalNotaCash");
       modalBill.showModal();
-    },
-    closeModalNotaCash() {
-      let modalBill = document.getElementById("modalNotaCash");
-      modalBill.close();
     },
     backToHome() {
       localStorage.removeItem("qrContent");
@@ -401,25 +327,6 @@ export default defineComponent({
         this.$router.push("/restaurant/detail/" + location);
       }
     },
-    getCookie(name) {
-      const cookieName = name + "=";
-      const decodedCookie = decodeURIComponent(document.cookie);
-      const cookieArray = decodedCookie.split(";");
-      for (let i = 0; i < cookieArray.length; i++) {
-        let cookie = cookieArray[i];
-        while (cookie.charAt(0) === " ") {
-          cookie = cookie.substring(1);
-        }
-        if (cookie.indexOf(cookieName) === 0) {
-          return cookie.substring(cookieName.length, cookie.length);
-        }
-      }
-      return "";
-    },
-    total(price, qty) {
-      const total = price * qty;
-      return this.formatCurrency(total);
-    },
     formatCurrency(amount) {
       const formatter = new Intl.NumberFormat("id-ID", {
         style: "currency",
@@ -427,21 +334,6 @@ export default defineComponent({
         minimumFractionDigits: 0,
       });
       return formatter.format(amount);
-    },
-    getDate() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const day = String(today.getDate()).padStart(2, "0");
-      const hours = String(today.getHours()).padStart(2, "0");
-      const minutes = String(today.getMinutes()).padStart(2, "0");
-      const seconds = String(today.getSeconds()).padStart(2, "0");
-      const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
-      return dateYMDHMS;
-    },
-    money(nominal) {
-      return nominal.toLocaleString().replace(/,/g, ".");
     },
     formatDate(dateString) {
       const months = [
@@ -468,16 +360,6 @@ export default defineComponent({
       const minutes = String(date.getMinutes()).padStart(2, "0");
 
       return `${day} ${month} ${year} - ${hours}:${minutes}`;
-    },
-    formatHours(dateString) {
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      const seconds = String(date.getSeconds()).padStart(2, "0");
-      return `${hours}:${minutes}:${seconds}`;
     },
   },
 });

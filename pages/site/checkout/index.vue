@@ -1441,7 +1441,6 @@ export default defineComponent({
       if (!this.nameMethod) {
         console.error("No matching payment method found.");
       }
-      // console.log("ww", matchingMethods);
 
       const dateYMD = this.today("dateYMD");
       const dateYMDHMS = this.today("dateYMDHMS");
@@ -1515,6 +1514,8 @@ export default defineComponent({
         //     console.log('result xxx', result)
         //   })
       }
+      
+      localStorage.setItem("dataTemp", JSON.stringify(data));
 
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
@@ -1545,6 +1546,8 @@ export default defineComponent({
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
+
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
                         this.showModalWaiting = false;
@@ -1558,6 +1561,7 @@ export default defineComponent({
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
                         this.showModalWaiting = false;
@@ -1572,6 +1576,8 @@ export default defineComponent({
                     .then((resultPos) => {
                       // get nota
                       this.getNota(result, transactionId);
+                        // get nota
+                        this.getNota(result, transactionId);
                     })
                     .catch((err) => {
                       this.showModalWaiting = false;
@@ -1583,6 +1589,7 @@ export default defineComponent({
               } else {
                 // get nota
                 this.getNota(result, transactionId);
+                // this.setHistory(result, null, selectedOrderType, data, locId);
               }
             }
           }
@@ -1596,7 +1603,41 @@ export default defineComponent({
           //   this.showModalError = false;
 
           // }, 3000); // 3000 milliseconds = 3 seconds
+          console.log("Error :", error);
         });
+
+
+    },
+    setHistory(result, resultPos, selectedOrderType, data, locId){
+      const dr = JSON.parse(localStorage.getItem("data_restaurant"));
+      // MP01M51463F20230206169 budidi | MP01M32319F20221011805 geprek
+      if(dr.appid == 'MP01M51463F20230206169' || dr.appid == 'MP01M32319F20221011805'){
+        const dataDetail = {
+          nota: result.data.result[0].noNota,
+          notaShort: resultPos? resultPos.data.data.shortOrderNumber:null,
+          orderType: selectedOrderType,
+          data: data[0],
+          status: 'pending',
+          isChecked: false,
+        };
+  
+        let historyTemp = JSON.parse(localStorage.getItem('history'));
+        
+        if(historyTemp === null){
+          let history = {};
+          history[locId] = [];
+          history[locId].push(dataDetail);
+  
+          localStorage.setItem('history', JSON.stringify(history));
+        }else{
+          if(historyTemp.hasOwnProperty(locId)) {
+            historyTemp[locId].push(dataDetail);
+          }else{
+            historyTemp[locId] = [dataDetail];
+          }
+          localStorage.setItem('history', JSON.stringify(historyTemp));
+        }
+      }
     },
     today(type) {
       const today = new Date();
