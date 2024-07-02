@@ -26,7 +26,7 @@
                   <div class="items">
                     <span class="title">Tanggal Order</span>
                     <span class="detail">{{
-                      customer.order_date ? formatDate(customer.order_date) : ""
+                      customer.guest_addr ? formatDate(customer.guest_addr.dateadd) : ""
                     }}</span>
                   </div>
                 </div>
@@ -51,7 +51,7 @@
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
                     <span class="detail">{{
-                      customer.order_date ? formatDate(customer.order_date) : ""
+                      customer.guest_addr ? formatDate(customer.guest_addr.dateadd) : ""
                     }}</span>
                   </div>
                 </div>
@@ -121,19 +121,19 @@
                       {{ formatCurrency(paymentDetail.stotal) }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="paymentDetail.promo != 0">
+                  <div class="row-total" v-if="paymentDetail.promo && paymentDetail.promo != 0">
                     <div class="title-total">Promo</div>
                     <div class="price">
                       {{ formatCurrency(paymentDetail.promo? paymentDetail.promo:0) }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="paymentDetail.serviceFee != 0">
+                  <div class="row-total" v-if="paymentDetail.serviceFee && paymentDetail.serviceFee != 0">
                     <div class="title-total">Biaya layanan</div>
                     <div class="price">
                       {{ formatCurrency(paymentDetail.serviceFee? paymentDetail.serviceFee:0) }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="paymentDetail.rounding != 0">
+                  <div class="row-total" v-if="paymentDetail.rounding && paymentDetail.rounding != 0">
                     <div class="title-total">Rounding</div>
                     <div class="price">
                       {{ formatCurrency(paymentDetail.rounding? paymentDetail.rounding:0) }}
@@ -192,7 +192,7 @@ export default defineComponent({
     return {
       test: "",
       isAndroid: "",
-      navbarTo: "/site/checkout",
+      navbarTo: "/restaurant/history-transaction",
       isAndroid: "",
       isIOS: "",
       noNota: "",
@@ -289,6 +289,7 @@ export default defineComponent({
 
         this.navbarTo = "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode);
         this.customer = selectedHistory[0].data.guest_detail;
+        console.log('this.customer', this.customer)
         this.typeOrder = selectedHistory[0].orderType;
         this.paymentDetail = selectedHistory[0].data.payment;
         this.products = selectedHistory[0].data.data;
@@ -296,7 +297,7 @@ export default defineComponent({
         this.payment = this.paymentDetail.payment_name.toUpperCase();
         this.restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
         this.table = selectedHistory[0].data.restaurant_table;
-        this.status = "PENDING";
+        this.status = selectedHistory[0].status.toUpperCase();
       }
     },
     openModalCash() {

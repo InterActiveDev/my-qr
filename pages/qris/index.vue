@@ -276,17 +276,8 @@ export default defineComponent({
         });
     },
     updatePayment() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const day = String(today.getDate()).padStart(2, "0");
-      // Retrieve current time
-      const hours = String(today.getHours()).padStart(2, "0");
-      const minutes = String(today.getMinutes()).padStart(2, "0");
-      const seconds = String(today.getSeconds()).padStart(2, "0");
-      const dateYMD = `${year}-${month}-${day}`;
-      const dateYMDHMS = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
+      const dateYMD = this.today('dateYMD');
+      const dateYMDHMS = this.today('dateYMDHMS');
       const checkoutData = JSON.parse(localStorage.getItem("receipt")) || [];
       const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
       const qrContent = JSON.parse(localStorage.getItem("qrContent"));
@@ -310,6 +301,7 @@ export default defineComponent({
         date_process: dateYMDHMS,
         nota_short: shortNota,
       };
+
       this.showModalWaitingQris = true; // to show the modal
       this.steps = "update payment";
       const urlUpdatePayment = "/qr_myorder/update_payment";
@@ -329,9 +321,19 @@ export default defineComponent({
               const qrContent = JSON.parse(localStorage.getItem("qrContent"));
               qrContent.qr_nota_short = getNota.data.data[0].myresto_ref? getNota.data.data[0].myresto_ref : shortNota;
               qrContent.qr_status = getNota.data.data[0].status;
-              localStorage.removeItem("qrContent");
 
+
+              localStorage.removeItem("qrContent");
+              
               localStorage.setItem("qrContent", JSON.stringify(qrContent));
+              const selectedOrderType = JSON.parse(localStorage.getItem("selected_type_order"));
+              const dataTemp = JSON.parse(localStorage.getItem("dataTemp"));
+              const location = localStorage.getItem("location");
+              const locId = atob(location);
+              if(dataTemp){
+                this.setHistory(qrContent.nota, shortNota, selectedOrderType, dataTemp, locId)
+              }
+              localStorage.removeItem("dataTemp");
               setTimeout(() => {
                 this.toInputReceipt();
               }, 1000);
@@ -341,6 +343,48 @@ export default defineComponent({
         .catch((error) => {
           console.log("error message (3) : ", error.message);
         });
+    },
+    setHistory(notaHL, shortNota, selectedOrderType, data, locId){
+      const dataDetail = {
+        nota: notaHL,
+        notaShort: shortNota? shortNota:null,
+        orderType: selectedOrderType,
+        data: data? data[0]:null,
+        status: 'selesai',
+        isChecked: true,
+      };
+
+      let historyTemp = JSON.parse(localStorage.getItem('history'));
+      
+      if(historyTemp === null){
+        let history = {};
+        history[locId] = [];
+        history[locId].push(dataDetail);
+
+        localStorage.setItem('history', JSON.stringify(history));
+      }else{
+        if(historyTemp.hasOwnProperty(locId)) {
+          historyTemp[locId].push(dataDetail);
+        }else{
+          historyTemp[locId] = [dataDetail];
+        }
+        localStorage.setItem('history', JSON.stringify(historyTemp));
+      }
+    },
+    today(type){
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      const hours = String(today.getHours()).padStart(2, "0");
+      const minutes = String(today.getMinutes()).padStart(2, "0");
+      const seconds = String(today.getSeconds()).padStart(2, "0");
+
+      if(type == 'dateYMDHMS'){
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      }else{
+        return `${year}-${month}-${day}`;
+      }
     },
     getQr() {
       localStorage.removeItem("checkoutData");

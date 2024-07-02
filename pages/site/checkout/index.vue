@@ -1440,7 +1440,6 @@ export default defineComponent({
       if (!this.nameMethod) {
         console.error("No matching payment method found.");
       }
-      // console.log("ww", matchingMethods);
 
       const dateYMD = this.today("dateYMD");
       const dateYMDHMS = this.today("dateYMDHMS");
@@ -1514,6 +1513,8 @@ export default defineComponent({
         //     console.log('result xxx', result)
         //   })
       }
+      
+      localStorage.setItem("dataTemp", JSON.stringify(data));
 
       FetchData.createData(url_insert_transaction, data[0])
         .then((result) => {
@@ -1589,7 +1590,7 @@ export default defineComponent({
               } else {
                 // get nota
                 this.getNota(result, transactionId);
-                this.setHistory(result, null, selectedOrderType, data, locId);
+                // this.setHistory(result, null, selectedOrderType, data, locId);
               }
             }
           }
@@ -1614,6 +1615,8 @@ export default defineComponent({
         notaShort: resultPos? resultPos.data.data.shortOrderNumber:null,
         orderType: selectedOrderType,
         data: data[0],
+        status: 'pending',
+        isChecked: false,
       };
 
       let historyTemp = JSON.parse(localStorage.getItem('history'));

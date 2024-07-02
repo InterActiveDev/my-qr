@@ -540,9 +540,8 @@ export default defineComponent({
     const appVersion = localStorage.getItem("appVersion");
     const location = localStorage.getItem("location");
     const history = localStorage.getItem("history");
-    console.log('history', history)
     if(history !== null){
-      this.isHistory == true;
+      this.isHistory = true;
     }
     const urlData = this.$route.params;
 
