@@ -753,6 +753,7 @@
   <ModalChangeMenu
     v-if="showModalChangeMenu"
     :getProduct="changeItem"
+    :key="modalKey"
     ref="modalComponent"
   />
 
@@ -902,6 +903,7 @@ export default defineComponent({
       selectedPromo: [],
       showModalChangeMenu: false,
       changeItem: null,
+      modalKey: 0,
     };
   },
   mounted() {
@@ -1845,6 +1847,7 @@ export default defineComponent({
 
       // Tampilkan modal perubahan menu
       this.showModalChangeMenu = true;
+      this.modalKey++;
       this.$nextTick(() => {
         if (this.$refs.modalComponent) {
           this.$refs.modalComponent.showModal(this.changeMenuState); // Perubahan disini juga

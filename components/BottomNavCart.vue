@@ -136,20 +136,22 @@ export default {
       this.total();
     },
     recalculatePayment() {
-      this.totalPrice = this.getItem.reduce(
-        (total, item) =>
-          total +
-          (item.product.product_pricenow + (item.topping?.price || 0)) *
-            item.quantityItem,
-        0
-      );
+      this.totalPrice = this.getItem.reduce((total, item) => {
+        // Calculate the total price of all toppings for the current item
+        const toppingTotal = item.topping ? item.topping.reduce((toppingSum, topping) => toppingSum + topping.price, 0) : 0;
+        
+        // Add the product price and topping total, multiplied by the quantity
+        return total + (item.product.product_pricenow + toppingTotal) * item.quantityItem;
+      }, 0);
     },
     total() {
       if (Array.isArray(this.getItem)) {
         this.getItem.forEach((item) => {
-          this.totalPrice +=
-            parseFloat(item.product.product_pricenow) * item.quantityItem;
+          const toppingTotal = item.topping ? item.topping.reduce((toppingSum, topping) => toppingSum + topping.price, 0) : 0;
+          
+          this.totalPrice += parseFloat(item.product.product_pricenow) * item.quantityItem + toppingTotal;
         });
+        // console.log('toppingTotal', toppingTotal)
       }
 
       return this.totalPrice;

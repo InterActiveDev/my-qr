@@ -67,7 +67,7 @@
                     <div class="information max-w-full w-full min-w-full text-wrap ">
                       <div class="title">{{ item.product.product_name }}</div>
                       <div class="price">
-                        {{ formatCurrency(item.product.product_pricenow) }}
+                        {{ formatCurrency(item.product.product_pricenow + (item.topping?.reduce((acc, t) => acc + t.price, 0) || 0) ) }}
                       </div>
                       <div v-if="item.topping?.name != null">
                         <p>
@@ -243,6 +243,7 @@
     v-if="showModalChangeMenu"
     :getProduct="changeItem"
     ref="modalComponent"
+    :key="modalKey"
   />
 </template>
 
@@ -271,6 +272,7 @@ export default {
       showModalChangeMenu: false,
       changeItem: null,
       localStorageListener: null,
+      modalKey: 0, // Add this line
     };
   },
   created() {
@@ -315,7 +317,7 @@ export default {
       this.totalPrice = this.getItem.reduce(
         (total, item) =>
           total +
-          (item.product.product_pricenow + (item.topping?.price || 0)) *
+          (item.product.product_pricenow + (item.topping?.reduce((acc, t) => acc + t.price, 0) || 0)) *
             item.quantityItem,
         0
       );
@@ -447,6 +449,7 @@ export default {
 
       // Tampilkan modal perubahan menu
       this.showModalChangeMenu = true;
+      this.modalKey++; // Add this line to re render new modal
       this.$nextTick(() => {
         if (this.$refs.modalComponent) {
           this.$refs.modalComponent.showModal(this.changeMenuState); // Perubahan disini juga

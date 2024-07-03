@@ -162,50 +162,75 @@
         <div v-if="modifiers.length > 0" class="cart-wrapper">
           <div class="card-cart">
             <div class="head-topping">
-              <span>Pilih Topping</span>
-              <div class="text-important">
-                <span class="dark">Diperlukan</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="7"
-                  height="8"
-                  viewBox="0 0 7 8"
-                  fill="none"
-                >
-                  <circle
-                    cx="3.20239"
-                    cy="3.20239"
-                    r="3.20239"
-                    transform="matrix(1 0 0 -1 0 7.20239)"
-                    fill="#B1B1B1"
-                  />
-                </svg>
-                <span class="muted">Pilih item</span>
-              </div>
-            </div>
+              <span class="border-b-4 pb-2">Pilih Topping (Opsional)</span>
+              <div v-for="modifier in modifiers" :key="modifier.mdf_id" class="mb-2">
+                <div class="text-important">
+                  <span class="dark ">{{ modifier.mdf_name }} ({{ modifier.mdf_type }}) </span>
+                  <!-- <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="7"
+                    height="8"
+                    viewBox="0 0 7 8"
+                    fill="none"
+                  >
+                    <circle
+                      cx="3.20239"
+                      cy="3.20239"
+                      r="3.20239"
+                      transform="matrix(1 0 0 -1 0 7.20239)"
+                      fill="#B1B1B1"
+                    />
+                  </svg> -->
+                  <!-- <span class="muted">Pilih item</span> -->
+                </div>
 
-            <div v-if="modifiers.length > 0">
-              <div class="topping">
-                <div v-for="perModifier in modifiers" :key="perModifier.mdf_id">
-                  <div class="item">
+                <div class="grid grid-cols-2 gap-3">
+                  <div
+                  class="flex gap-4 items-center border"
+                  v-for="perModifier in modifier.children"
+                  :key="perModifier.mdf_id"
+                >
+                  <div v-if="modifier.mdf_type === 'justone'">
                     <input
                       type="radio"
-                      :name="perModifier.mdf_id"
+                      :name="modifier.mdf_id"
+                      :id="'radio-' + perModifier.mdf_id"
                       class="radio radio-info"
                       @change="
                         addTopping(
+                          perModifier.mdf_parent,
                           perModifier.mdf_id,
                           perModifier.mdf_name,
-                          perModifier.mdf_price
+                          perModifier.mdf_price,
+                          perModifier.mdf_type
                         )
                       "
                     />
-
-                    <div class="description">
-                      <span>{{ perModifier.mdf_name }}</span>
-                      <small>{{ formatCurrency(perModifier.mdf_price) }}</small>
-                    </div>
                   </div>
+                  <div v-else-if="modifier.mdf_type === 'multiple'">
+                    <input
+                      type="checkbox"
+                      :id="'checkbox-' + perModifier.mdf_id"
+                      class="checkbox checkbox-info"
+                      @change="addTopping(
+                        perModifier.mdf_parent,
+                        perModifier.mdf_id,
+                        perModifier.mdf_name,
+                        perModifier.mdf_price,
+                        modifier.mdf_type
+                      )"
+                    />
+                  </div>
+                
+                  <label
+                    :for="modifier.mdf_type === 'justone' ? 'radio-' + perModifier.mdf_id : 'checkbox-' + perModifier.mdf_id"
+                    class="cursor-pointer"
+                  >
+                    <p class="text-black font-semibold">{{ perModifier.mdf_name }}</p>
+                    <small class="text-black font-semibold">{{ formatCurrency(perModifier.mdf_price) }}</small>
+                  </label>
+                </div>
+                
                 </div>
               </div>
             </div>
@@ -292,12 +317,33 @@ export default {
   },
   data() {
     const modifiers = this.getProduct.modifier;
+
+    // Create a map to store nodes by their id
+    const map = {};
+
+    // Populate the map with all nodes
+    modifiers.forEach(item => {
+        map[item.mdf_id] = { ...item, children: [] };
+    });
+
+    const result = [];
+
+    modifiers.forEach(item => {
+        if (item.mdf_parent === 0) {
+            result.push(map[item.mdf_id]);
+        } else {
+            if (map[item.mdf_parent]) {
+                map[item.mdf_parent].children.push(map[item.mdf_id]);
+            }
+        }
+    });
+
     return {
       showModalCart: false,
-      modifiers: modifiers,
+      modifiers: result, //modifiers
       note: "",
       itemToCart: [],
-      topping: "",
+      topping: [],
       quantity: 1,
       wrap: false,
       wrapDefault: null,
@@ -309,6 +355,7 @@ export default {
     };
   },
   mounted() {
+    // console.log('isChecked', this.isChecked)
     // this.checkType();
   },
   methods: {
@@ -361,7 +408,7 @@ export default {
         modal.close();
         this.$refs.modal.close();
         this.note = "";
-        this.topping = "";
+        this.topping = [];
         this.quantity = 1;
         this.showBottomCart = true;
       }, 500);
@@ -374,13 +421,33 @@ export default {
         this.quantity--;
       }
     },
-    addTopping(mdf_id, mdf_name, mdf_price) {
+    addTopping(mdf_parent, mdf_id, mdf_name, mdf_price, mdf_type) {
       const item = {
+        parentId: mdf_parent,
         id: mdf_id,
         name: mdf_name,
         price: mdf_price,
+        type: mdf_type,
       };
-      this.topping = item;
+
+      if (mdf_type === 'justone') {
+        // Remove all items with the same parentId
+        this.topping = this.topping.filter(t => t.parentId !== mdf_parent || t.id === mdf_id);
+        
+        // Add the new item
+        this.topping.push(item);
+      } else if (mdf_type === 'multiple') {
+        // Check if the item already exists in the array
+        const index = this.topping.findIndex(t => t.id === mdf_id);
+
+        if (index === -1) {
+          // If the item doesn't exist, add it to the array
+          this.topping.push(item);
+        } else {
+          // If the item exists, remove it from the array
+          this.topping.splice(index, 1);
+        }
+      }
     },
     showModal() {
       // Fungsi untuk menampilkan modal tambahan
@@ -434,6 +501,11 @@ export default {
       },
       deep: true,
     },
+    topping: {
+      handler(topping){
+        // console.log('topping', this.topping)
+      }
+    }
   },
 };
 </script>

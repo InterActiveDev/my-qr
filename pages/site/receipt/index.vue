@@ -85,7 +85,7 @@
                       <div class="product">
                         <span>{{ data.product.product_name }}</span>
                         <p>
-                          {{ data.product.topping }}
+                          {{ data.topping }}
                         </p>
                         <p>
                           {{
