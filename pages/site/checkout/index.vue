@@ -1504,6 +1504,7 @@ export default defineComponent({
 
       const host = window.location.host;
       const appid = data_restaurant.appid;
+      const url_insert_transaction = "/qr_myorder/insert_transaction";
       
       localStorage.setItem("dataTemp", JSON.stringify(data));
 
