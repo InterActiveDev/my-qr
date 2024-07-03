@@ -290,7 +290,7 @@ export default defineComponent({
         logo: this.restaurant.loc_logo,
         address: this.restaurant.loc_addr,
         isRemoveFooter: "0",
-        restaurantName: this.restaurant.loc_name
+        restaurantName: this.restaurant.loc_name,
       };
 
       Android.showToast(JSON.stringify(data));
