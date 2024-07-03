@@ -130,12 +130,16 @@
       this.history = historyTemp[this.locId]
       if(this.history !== null){
         this.dataPending = this.history.filter((item) => item.status === "pending"); 
+        console.log('this.dataPending', this.dataPending)
         this.dataSuccess = this.history.filter((item) => item.status === "selesai"); 
         this.dataCheck = this.dataPending.map((item) => item.nota); 
         if(this.dataCheck.length > 0){
           const url_check = "/qr_myorder/check_history";
           FetchData.createData(url_check, this.dataCheck).then((res) => {
-            console.log('res', res)
+            res.data.data[0].forEach((item) => {
+              this.dataPending.find((data) => data.nota === item.noNota).status = "selesai"
+            })
+            console.log('this.dataPending', this.dataPending)
           }).catch((err) => {
             console.log('err', err)
           })
