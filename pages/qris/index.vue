@@ -331,8 +331,8 @@ export default defineComponent({
               const dr = JSON.parse(localStorage.getItem("data_restaurant"));
 
               if(dataTemp){
-                // MP01M51463F20230206169 budidi | MP01M32319F20221011805 geprek
-                if(dr.appid == 'MP01M51463F20230206169' || dr.appid == 'MP01M32319F20221011805'){
+                // MP01M51463F20230206169 budidi | MP01M32319F20221011805 geprek | MP01M381F20190423491 keripiku
+                if(dr.appid == 'MP01M51463F20230206169' || dr.appid == 'MP01M32319F20221011805' || dr.appid == 'MP01M381F20190423491') {
                   this.setHistory(qrContent.nota, shortNota, selectedOrderType, dataTemp, locId)
                 }
               }
