@@ -123,16 +123,31 @@
         dataCheck: null,
       };
     },
-    async mounted() {
-      console.log('before')
-      await this.checkHistory();
-      console.log('after')
-
+    mounted() {
       this.locId = localStorage.getItem("location") === null? null: atob(localStorage.getItem("location"));
       const historyTemp = localStorage.getItem("history") === null? null: JSON.parse(localStorage.getItem("history"));
       this.history = historyTemp[this.locId]
-      this.dataPending = this.history.filter((item) => item.status === "pending"); 
-      this.dataSuccess = this.history.filter((item) => item.status === "selesai"); 
+      if(this.history !== null){
+        this.dataPending = this.history.filter((item) => item.status === "pending").sort((a, b) => new Date(b.data.guest_detail.guest_addr.dateadd) - new Date(a.data.guest_detail.guest_addr.dateadd));
+        this.dataSuccess = this.history.filter((item) => item.status === "selesai").sort((a, b) => new Date(b.data.guest_detail.guest_addr.dateadd) - new Date(a.data.guest_detail.guest_addr.dateadd));
+        this.dataCheck = this.dataPending.map((item) => item.nota); 
+        if(this.dataCheck.length > 0){
+          const url_check = "/qr_myorder/check_history";
+          FetchData.createData(url_check, this.dataCheck).then((res) => {
+            res.data.data[0].forEach((item) => {
+              if (item.status === 1) {
+                const dataItem = this.dataPending.find((data) => data.nota === item.noNota);
+                if (dataItem) {
+                  dataItem.status = "selesai";
+                }
+              }
+            });
+            localStorage.setItem("history", JSON.stringify(historyTemp));
+          }).catch((err) => {
+            console.log('err', err)
+          })
+        }
+      }
 
       const location = localStorage.getItem("location");
       const tableCode = localStorage.getItem("table_code");
@@ -141,34 +156,6 @@
 
     },
     methods: {
-      checkHistory() {
-        console.log('between')
-        this.locId = localStorage.getItem("location") === null? null: atob(localStorage.getItem("location"));
-        const historyTemp = localStorage.getItem("history") === null? null: JSON.parse(localStorage.getItem("history"));
-        this.history = historyTemp[this.locId];
-        
-        if(this.history !== null){
-          const checkData = this.history.filter((item) => item.status === "pending"); 
-          this.dataCheck = checkData.map((item) => item.nota); 
-
-          if(checkData.length > 0){
-            const url_check = "/qr_myorder/check_history";
-            FetchData.createData(url_check, this.dataCheck).then((res) => {
-              res.data.data[0].forEach((item) => {
-                if (item.status === 1) {
-                  const dataItem = this.dataPending.find((data) => data.nota === item.noNota);
-                  if (dataItem) {
-                    dataItem.status = "selesai";
-                  }
-                }
-              });
-              localStorage.setItem("history", JSON.stringify(historyTemp));
-            }).catch((err) => {
-              console.log('err', err)
-            })
-          }
-        }
-      },
       setType(type) {
         this.type = type;
       },
