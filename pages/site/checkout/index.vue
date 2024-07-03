@@ -61,14 +61,14 @@
                         <p class="font-grey">
                           {{ formatCurrency(items.product.product_pricenow) }}
                         </p>
-                        <p class="topping">
+                        <p class="topping" v-for="topping in items.topping">
                           {{
-                            items.topping.name != undefined
-                              ? "(" +
-                                items.topping.name +
+                            topping.name != undefined
+                              ? "( " +
+                                topping.name +
                                 " - " +
-                                formatCurrency(items.topping.price) +
-                                ")"
+                                formatCurrency(topping.price) +
+                                " )"
                               : ""
                           }}
                         </p>
@@ -187,8 +187,7 @@
                       <p>
                         {{
                           formatCurrency(
-                            (items.product.product_pricenow +
-                              (items.topping?.price || 0)) *
+                            (items.product.product_pricenow + (items.product.modifier?.reduce((acc, t) => acc + t.mdf_price, 0) || 0)) *
                               parseInt(items.quantityItem)
                           )
                         }}
