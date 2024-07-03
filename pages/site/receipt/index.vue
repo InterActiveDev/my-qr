@@ -276,6 +276,7 @@ export default defineComponent({
   },
   methods: {
     printAndroid() {
+      // processing android
       this.test = "print android success";
       const data = {
         name: this.customer.name,
