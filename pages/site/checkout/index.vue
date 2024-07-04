@@ -140,7 +140,7 @@
                           </div>
                         </div>
 
-                        <div class="btn-edit" @click="handleMenuChange(items)">
+                        <div class="btn-edit" @click="handleMenuChange(items, index)">
                           <button>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1516,9 +1516,12 @@ export default defineComponent({
       const url_insert_transaction = "/qr_myorder/insert_transaction";
       
       localStorage.setItem("dataTemp", JSON.stringify(data));
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000); // 10 seconds
 
-      FetchData.createData(url_insert_transaction, data[0])
+      FetchData.createData(url_insert_transaction, data[0], { signal: controller.signal })
         .then((result) => {
+          clearTimeout(timeoutId);
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
 
@@ -1680,14 +1683,19 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          this.showModalWaiting = false;
-          this.showModalError = true;
-          this.errorMessage = error.response.data.message;
-          console.log("err: ", error.message);
-          console.log("Error :", error);
+          clearTimeout(timeoutId);
+
+          if (error.name === 'AbortError') {
+            alert('Request timed out');
+          } else {
+            this.showModalWaiting = false;
+            this.showModalError = true;
+            // // this.errorMessage = error.response?.data?.message;
+            this.errorMessage = "Terjadi kesalahan. Coba lagi atau gunakan metode pembayaran lain.";
+            console.log("err: ", error.message);
+            console.log("Error :", error);
+          }
         });
-
-
     },
     setHistory(result, resultPos, selectedOrderType, data, locId){
       const dr = JSON.parse(localStorage.getItem("data_restaurant"));
@@ -1915,14 +1923,15 @@ export default defineComponent({
           : this.openModalPayment();
       }
     },
-    handleMenuChange(item) {
+    handleMenuChange(item, index) {
       // Dapatkan data dari localStorage dengan kunci 'cart_items'
       let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
 
       // Cari item yang sama berdasarkan product_id
-      let existingItem = cartItems.find(
-        (cartItem) => cartItem.product.product_id === item.product.product_id
-      );
+      // let existingItem = cartItems.find(
+      //   (cartItem) => cartItem.product.product_id === item.product.product_id
+      // );
+      let existingItem = cartItems[index];
 
       if (existingItem) {
         this.changeItem = existingItem;
@@ -1933,10 +1942,11 @@ export default defineComponent({
       this.modalKey++;
       this.$nextTick(() => {
         if (this.$refs.modalComponent) {
+          this.changeMenuState = item;
           this.$refs.modalComponent.showModal(this.changeMenuState); // Perubahan disini juga
         }
       });
-      this.$refs.modal.close();
+      // this.$refs.modal.close();
     },
   },
 });
