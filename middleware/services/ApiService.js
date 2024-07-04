@@ -26,7 +26,7 @@ const ApiService = {
     return axios.get(resource);
   },
 
-  post(resource, data, token) {
+  postOld(resource, data, token) {
     if (token != null) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
@@ -36,6 +36,23 @@ const ApiService = {
     } else {
       const newData = JSON.parse(data);
       return axios.post(resource, newData[0]);
+    }
+  },
+
+  post(resource, data, cancelToken = null, token = null) {
+    if (token != null) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+
+    const config = {
+      cancelToken: cancelToken,
+    };
+
+    if (typeof data === "object") {
+      return axios.post(resource, data, config);
+    } else {
+      const newData = JSON.parse(data);
+      return axios.post(resource, newData[0], config);
     }
   },
 
