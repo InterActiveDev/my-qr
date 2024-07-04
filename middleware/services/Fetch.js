@@ -47,7 +47,7 @@ const FetchService = {
 
   syncMyResto(data, token) {
     const urlSync = "https://myprofit.interactiveholic.net/myprofit/api/myorder_pwa_send_to_myresto"
-    return ApiService.post(urlSync, data, token);
+    return ApiService.post(urlSync, data, null, token);
   },
 
   synchronize(locId){
