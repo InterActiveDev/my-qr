@@ -187,7 +187,7 @@
                       <p>
                         {{
                           formatCurrency(
-                            (items.product.product_pricenow + items.topping.reduce((acc, mdf) => acc + mdf.price, 0) ) *
+                            (items.product.product_pricenow + (items.topping? items.topping.reduce((acc, mdf) => acc + mdf.price, 0):0 ) ) *
                               parseInt(items.quantityItem)
                           )
                         }}
