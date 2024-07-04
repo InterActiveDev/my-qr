@@ -82,7 +82,7 @@
           </div>
         </div>
 
-        <div v-if="history === null" class="h-full border-2 border-[#00000020] mb-4 mx-3 rounded-sm">
+        <div v-if="!history" class="h-full border-2 border-[#00000020] mb-4 mx-3 rounded-sm">
           <div class="flex flex-col">
             <div class="flex justify-center items-center px-3 text-black pt-4 pb-3">
               <span>DATA KOSONG</span>
@@ -127,7 +127,7 @@
       this.locId = localStorage.getItem("location") === null? null: atob(localStorage.getItem("location"));
       const historyTemp = localStorage.getItem("history") === null? null: JSON.parse(localStorage.getItem("history"));
       this.history = historyTemp[this.locId]
-      if(this.history !== null){
+      if(this.history){
         this.dataPending = this.history.filter((item) => item.status === "pending").sort((a, b) => new Date(b.data.guest_detail.guest_addr.dateadd) - new Date(a.data.guest_detail.guest_addr.dateadd));
         this.dataSuccess = this.history.filter((item) => item.status === "selesai").sort((a, b) => new Date(b.data.guest_detail.guest_addr.dateadd) - new Date(a.data.guest_detail.guest_addr.dateadd));
         this.dataCheck = this.dataPending.map((item) => item.nota); 
