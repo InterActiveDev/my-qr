@@ -371,8 +371,8 @@
             </div>
           </div> -->
           <!-- :class="payment.payment_category === 'e-money'? 'bg-gray-200':'' " -->
-          <div class="item" @click="openModal(payment)">
-            <div class="col-1">
+          <div class="item cursor-pointer" @click="openModal(payment)">
+            <div class="col-1 ">
               <img
                 v-if="payment.payment_category === 'e-money'"
                 src="~/assets/icons/qris.png"
@@ -1516,13 +1516,9 @@ export default defineComponent({
       const url_insert_transaction = "/qr_myorder/insert_transaction";
       
       localStorage.setItem("dataTemp", JSON.stringify(data));
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000); // 10 seconds
 
-
-      FetchData.createData(url_insert_transaction, data[0], { signal: controller.signal })
-        .then((result) => {
-          clearTimeout(timeoutId);
+      FetchData.createData(url_insert_transaction, data[0], 15000)
+      .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
 
@@ -1552,7 +1548,8 @@ export default defineComponent({
                         .catch((err) => {
                           this.showModalWaiting = false;
                           this.showModalError = true;
-                          this.errorMessage = err.response.data.message;
+                          // this.errorMessage = err.response.data.message;
+                          this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
@@ -1570,7 +1567,8 @@ export default defineComponent({
                         .catch((err) => {
                           this.showModalWaiting = false;
                           this.showModalError = true;
-                          this.errorMessage = err.response.data.message;
+                          // this.errorMessage = err.response.data.message;
+                          this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
@@ -1590,7 +1588,8 @@ export default defineComponent({
                       .catch((err) => {
                         this.showModalWaiting = false;
                         this.showModalError = true;
-                        this.errorMessage = err.response.data.message;
+                        // this.errorMessage = err.response.data.message;
+                        this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
                         console.log("err: ", err.message);
                       });
                   }else{
@@ -1628,7 +1627,8 @@ export default defineComponent({
                         .catch((err) => {
                           this.showModalWaiting = false;
                           this.showModalError = true;
-                          this.errorMessage = err.response.data.message;
+                          // this.errorMessage = err.response.data.message;
+                          this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
@@ -1646,7 +1646,8 @@ export default defineComponent({
                         .catch((err) => {
                           this.showModalWaiting = false;
                           this.showModalError = true;
-                          this.errorMessage = err.response.data.message;
+                          // this.errorMessage = err.response.data.message;
+                          this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
@@ -1666,7 +1667,8 @@ export default defineComponent({
                       .catch((err) => {
                         this.showModalWaiting = false;
                         this.showModalError = true;
-                        this.errorMessage = err.response.data.message;
+                        // this.errorMessage = err.response.data.message;
+                        this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
                         console.log("err: ", err.message);
                       });
                   }else{
@@ -1684,17 +1686,15 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          clearTimeout(timeoutId); // Clear the timeout if an error occurs
-          console.log('timeoutId', timeoutId)
-          if (error.name === 'AbortError') {
-            alert('The request took too long and was aborted.');
-          } else {
+          // if (error.name === 'CanceledError') {
+          //   alert('The request took too long and was aborted.');
+          // } else {
             this.showModalWaiting = false;
             this.showModalError = true;
-            this.errorMessage = error.response?.data?.message || 'An error occurred';
+            this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
             console.log("err: ", error.message);
             console.log("Error :", error);
-          }
+          // }
         });
     },
     setHistory(result, resultPos, selectedOrderType, data, locId){

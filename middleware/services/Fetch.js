@@ -10,8 +10,26 @@ const FetchService = {
     return ApiService.get(baseURL+url);
   },
 
-  createData(url, data) {
+  createDataOld(url, data) {
     return ApiService.post(baseURL+url, data);
+  },
+
+  async createData(url, data, timeout = 360000) {
+    // default 3 menit
+    const source = axios.CancelToken.source();
+    const timeoutId = setTimeout(() => {
+      source.cancel('The request took too long and was aborted.');
+    }, timeout);
+
+    return ApiService.post(baseURL + url, data, source.token)
+      .then((result) => {
+        clearTimeout(timeoutId); // Clear the timeout if the request is successful
+        return result;
+      })
+      .catch((error) => {
+        clearTimeout(timeoutId); // Clear the timeout if an error occurs
+        throw error;
+      });
   },
 
   updateData(url, data) {

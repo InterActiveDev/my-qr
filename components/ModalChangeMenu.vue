@@ -185,7 +185,7 @@
 
                 <div class="grid grid-cols-2 gap-3">
                   <div
-                  class="flex gap-4 items-center border"
+                  class="flex gap-4 items-center pt-1"
                   v-for="perModifier in modifier.children"
                   :key="perModifier.mdf_id"
                 >
