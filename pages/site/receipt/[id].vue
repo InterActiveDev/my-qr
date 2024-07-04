@@ -269,7 +269,7 @@ export default defineComponent({
         "-" +
         this.customer.guest_name +
         "-" +
-        date +
+        this.formatDate(this.customer.guest_addr.dateadd) +
         "-" +
         this.noNota;
       html2canvas(document.getElementById("receipt"), {
