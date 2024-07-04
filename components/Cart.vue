@@ -97,7 +97,7 @@
                   </div>
 
                   <div class="btn-group">
-                    <div class="btn" @click="handleMenuChange(item)">
+                    <div class="btn" @click="handleMenuChange(item, index)">
                       <button>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -434,14 +434,15 @@ export default {
         this.removeItem(index);
       }
     },
-    handleMenuChange(item) {
+    handleMenuChange(item, index) {
       // Dapatkan data dari localStorage dengan kunci 'cart_items'
       let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
 
       // Cari item yang sama berdasarkan product_id
-      let existingItem = cartItems.find(
-        (cartItem) => cartItem.product.product_id === item.product.product_id
-      );
+      // let existingItem = cartItems.find(
+      //   (cartItem) => cartItem.product.product_id === item.product.product_id
+      // );
+      let existingItem = cartItems[index];
 
       if (existingItem) {
         this.changeItem = existingItem;
@@ -452,7 +453,7 @@ export default {
       this.modalKey++; // Add this line to re render new modal
       this.$nextTick(() => {
         if (this.$refs.modalComponent) {
-          this.$refs.modalComponent.showModal(this.changeMenuState); // Perubahan disini juga
+          this.$refs.modalComponent.showModal(item); // Perubahan disini juga
         }
       });
       this.$refs.modal.close();

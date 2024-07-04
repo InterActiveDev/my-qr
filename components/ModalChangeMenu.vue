@@ -437,7 +437,6 @@ export default {
       } else {
         wrapStatus = 0;
       }
-
       const newItem = {
         product: this.getProduct.product,
         note: this.note,
