@@ -1516,9 +1516,83 @@ export default defineComponent({
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
 
+            // MP01M381F20190423491 keripiku
             if (appid == "MP01M381F20190423491" && host == "localhost:3000") {
-              // ini akses test
-              this.getNota(result, transactionId);
+              // ini test
+              if (this.table.paymentMethod.payment_category != "e-money") {
+                // cash and other payment
+                const token = localStorage.getItem("token");
+                const noNota = {
+                  no_nota: result.data.result[0].noNota,
+                };
+
+                // ini karna ada case data nya myresto_key kosong
+                if (this.table.paymentMethod.payment_myresto_key !== null) {
+                  // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
+                  if (this.table.paymentMethod.payment_myresto_key.toLowerCase() == "cash") {
+                    if(data_restaurant.isintegrated_myresto === '1'){
+                      // sync ke my Resto kalau payment cash
+                      FetchData.syncMyResto(noNota, token)
+                        .then((resultPos) => {
+                          // get nota
+                          this.getNota(result, transactionId);
+
+                          this.setHistory(result, resultPos, selectedOrderType, data, locId);
+                        })
+                        .catch((err) => {
+                          this.showModalWaiting = false;
+                          this.showModalError = true;
+                          this.errorMessage = err.response.data.message;
+                          console.log("err: ", err.message);
+                        });
+                    }else{
+                      this.getNota(result, transactionId);
+                    }
+                  } else {
+                    if(data_restaurant.isintegrated_myresto === '1'){
+                      // edc and other (actually do the same atm)
+                      FetchData.syncMyResto(noNota, token)
+                        .then((resultPos) => {
+                          // get nota
+                          this.getNota(result, transactionId);
+                          this.setHistory(result, resultPos, selectedOrderType, data, locId);
+                        })
+                        .catch((err) => {
+                          this.showModalWaiting = false;
+                          this.showModalError = true;
+                          this.errorMessage = err.response.data.message;
+                          console.log("err: ", err.message);
+                        });
+                    }else{
+                      this.getNota(result, transactionId);
+                    }
+                  }
+                } else {
+                  if(data_restaurant.isintegrated_myresto === '1'){
+                    // kalau data myresto_key kosong, langsung sync ke my Resto
+                    FetchData.syncMyResto(noNota, token)
+                      .then((resultPos) => {
+                        // get nota
+                        this.getNota(result, transactionId);
+
+                        this.setHistory(result, resultPos, selectedOrderType, data, locId);
+                      })
+                      .catch((err) => {
+                        this.showModalWaiting = false;
+                        this.showModalError = true;
+                        this.errorMessage = err.response.data.message;
+                        console.log("err: ", err.message);
+                      });
+                  }else{
+                    this.getNota(result, transactionId);
+                    this.setHistory(result, null, selectedOrderType, data, locId);
+                  }
+                }
+              } else {
+                // get nota
+                this.getNota(result, transactionId);
+                this.setHistory(result, null, selectedOrderType, data, locId);
+              }
             } else {
               // ini akses real
               if (this.table.paymentMethod.payment_category != "e-money") {
@@ -1587,9 +1661,11 @@ export default defineComponent({
                       });
                   }else{
                     this.getNota(result, transactionId);
+                    this.setHistory(result, null, selectedOrderType, data, locId);
                   }
                 }
               } else {
+                  console.log('ggg')
                 // get nota
                 this.getNota(result, transactionId);
                 this.setHistory(result, null, selectedOrderType, data, locId);

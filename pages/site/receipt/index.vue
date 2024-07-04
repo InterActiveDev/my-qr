@@ -95,12 +95,9 @@
                               : ""
                           }}
                         </p>
-                        <p>
+                        <p class="font-bold">
                           {{
-                            data.note
-                              ? data.note.slice(0, 30) +
-                                (data.note.length > 30 ? "..." : "")
-                              : ""
+                            data.note ? 'Note: ' + data.note.slice(0, 30) + (data.note.length > 30 ? "..." : "") : ""
                           }}
                         </p>
                       </div>
