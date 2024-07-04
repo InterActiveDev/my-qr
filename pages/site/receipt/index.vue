@@ -103,7 +103,7 @@
                       </div>
                     </div>
                     <div class="col-2">
-                      {{ formatCurrency(data.product.product_pricenow + data.topping? data.topping.reduce((acc, mdf) => acc + mdf.price, 0):0 ) }}
+                      {{ formatCurrency(data.product.product_pricenow + (data.topping? data.topping.reduce((acc, mdf) => acc + mdf.price, 0):0) ) }}
                     </div>
                   </div>
                 </div>
