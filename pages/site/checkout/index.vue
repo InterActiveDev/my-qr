@@ -1517,7 +1517,7 @@ export default defineComponent({
       
       localStorage.setItem("dataTemp", JSON.stringify(data));
 
-      FetchData.createData(url_insert_transaction, data[0], 15000)
+      FetchData.createData(url_insert_transaction, data[0], 30000) // 30 detik
       .then((result) => {
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
