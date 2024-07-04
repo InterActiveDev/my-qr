@@ -84,8 +84,16 @@
                       <div class="qty">{{ data.quantityItem }}x</div>
                       <div class="product">
                         <span>{{ data.product.product_name }}</span>
-                        <p>
-                          {{ data.topping }}
+                        <p class="topping" v-for="topping in data.topping">
+                          {{
+                            topping.name != undefined
+                              ? "( " +
+                                topping.name +
+                                " - " +
+                                formatCurrency(topping.price) +
+                                " )"
+                              : ""
+                          }}
                         </p>
                         <p>
                           {{
@@ -98,7 +106,8 @@
                       </div>
                     </div>
                     <div class="col-2">
-                      {{ formatCurrency(data.product.product_pricenow) }}
+                      {{ formatCurrency(data.product.product_pricenow + data.topping.reduce((acc, mdf) => acc + mdf.price, 0) ) }}
+                      <!-- items.topping.reduce((acc, mdf) => acc + mdf.price, 0) ) -->
                     </div>
                   </div>
                 </div>
@@ -127,6 +136,12 @@
                     <div class="title-total">Promo</div>
                     <div class="price">
                       {{ formatCurrency(locProducts[0].promo) }}
+                    </div>
+                  </div>
+                  <div class="row-total" v-if="locProducts[0].tax != 0">
+                    <div class="title-total">Tax</div>
+                    <div class="price">
+                      {{ formatCurrency(locProducts[0].tax) }}
                     </div>
                   </div>
                   <div class="row-total" v-if="locProducts[0].serviceFee != 0">
@@ -291,6 +306,7 @@ export default defineComponent({
         address: this.restaurant.loc_addr,
         isRemoveFooter: "0",
         restaurantName: this.restaurant.loc_name,
+        restaurantPhone: this.restaurant.loc_phone,
       };
 
       Android.showToast(JSON.stringify(data));
@@ -351,13 +367,7 @@ export default defineComponent({
         this.locProducts = checkoutData ? JSON.parse(checkoutData) : [];
         this.transaction = transactions ? transactions : {};
         this.restaurant = dataRestaurant ? JSON.parse(dataRestaurant) : {};
-
-        this.noNota =
-          transactions.noNotaNew != null
-            ? transactions.noNotaNew
-            : transactions.qr_nota_short
-            ? transactions.qr_nota_short
-            : "";
+        this.noNota = transactions.noNotaNew != null? transactions.noNotaNew: transactions.qr_nota_short? transactions.qr_nota_short: transactions.contents.noNota;
         this.payment = this.customer.paymentMethod.payment_myresto_key? this.customer.paymentMethod.payment_myresto_key:this.customer.paymentMethod.payment_method;
         if (transactions.contents.status == 0) {
           this.status = "PENDING";

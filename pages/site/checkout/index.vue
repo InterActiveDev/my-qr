@@ -187,7 +187,7 @@
                       <p>
                         {{
                           formatCurrency(
-                            (items.product.product_pricenow + (items.product.modifier?.reduce((acc, t) => acc + t.mdf_price, 0) || 0)) *
+                            (items.product.product_pricenow + items.topping.reduce((acc, mdf) => acc + mdf.price, 0) ) *
                               parseInt(items.quantityItem)
                           )
                         }}
@@ -971,9 +971,10 @@ export default defineComponent({
       this.orderTypes = JSON.parse(localStorage.getItem("order_type")) || [];
       this.dataRestaurant = data_restaurant;
       this.products = cartItems;
+
       this.countSubTotal = cartItems.length;
       const dataTotal = this.calculateTotal(cartItems, data_restaurant);
-      this.subTotal = dataTotal["totalPrice"];
+      this.subTotal = dataTotal["totalPrice"] + dataTotal["totalModifier"];
       this.serviceFeeType = data_restaurant.service_type_val;
       this.taxName = data_restaurant.tax_name;
       this.serviceFeeName = data_restaurant.service_name;
@@ -1201,7 +1202,7 @@ export default defineComponent({
       }
       this.showModalPromoDetail = false;
     },
-    calculateTotal(items) {
+    calculateTotal(items, data_restaurant) {
       let productIds = "";
       if (this.selectedPromo != "") {
         productIds = this.selectedPromo.product_ids
@@ -1212,29 +1213,30 @@ export default defineComponent({
 
       let totalPrice = 0;
       let totalPromo = 0;
+      let totalModifier = 0;
       items.forEach((item) => {
         if (
           item.product &&
           item.product.product_pricenow &&
           item.quantityItem
         ) {
-          let modifierPrice = item.topping?.price || 0;
           totalPrice +=
-            (parseFloat(item.product.product_pricenow) + modifierPrice) *
+            (parseFloat(item.product.product_pricenow)) *
             item.quantityItem;
 
           // Calculate total promo for items with product_id in productIds
           if (productIds.includes(item.product.product_id)) {
             totalPromo +=
-              (parseFloat(item.product.product_pricenow) + modifierPrice) *
+              (parseFloat(item.product.product_pricenow)) *
               item.quantityItem;
           }
+          totalModifier += (parseFloat(item.topping.reduce((acc, mdf) => acc + mdf.price, 0))) * item.quantityItem;
         }
       });
-
       const data = {
         totalPrice: totalPrice,
         totalPromo: totalPromo,
+        totalModifier: totalModifier,
       };
 
       return data;
