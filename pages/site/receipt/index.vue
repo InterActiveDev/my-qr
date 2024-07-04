@@ -104,7 +104,6 @@
                     </div>
                     <div class="col-2">
                       {{ formatCurrency(data.product.product_pricenow + data.topping.reduce((acc, mdf) => acc + mdf.price, 0) ) }}
-                      <!-- items.topping.reduce((acc, mdf) => acc + mdf.price, 0) ) -->
                     </div>
                   </div>
                 </div>

@@ -24,11 +24,11 @@
             <hr class="mx-3">
             <div class="flex justify-between items-center px-3 text-black py-3">
               <span class="text-gray-500">Meja</span>
-              <span>{{ data.data.restaurant_table }}</span>
+              <span>{{ data.data.restaurant_table? data.data.restaurant_table:'-' }}</span>
             </div>
             <div class="flex justify-between items-center px-3 text-black py-3">
               <span class="text-gray-500">No Nota</span>
-              <span>{{ data.notaShort }}</span>
+              <span>{{ data.notaShort? data.notaShort : data.nota }}</span>
             </div>
             <div class="flex justify-between items-center px-3 text-black py-3">
               <span class="text-gray-500">Jumlah Pesanan</span>

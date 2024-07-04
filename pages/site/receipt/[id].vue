@@ -81,14 +81,20 @@
                       <div class="qty">{{ data.qty }}x</div>
                       <div class="product">
                         <span>{{ data.product_name }}</span>
-                        <p>
-                          <!-- {{ data.topping }} -->
-                            <!-- topping -->
+                        <p class="topping" v-for="topping in data.topping">
+                          {{
+                            topping.name != undefined
+                              ? "( " +
+                                topping.name +
+                                " - " +
+                                formatCurrency(topping.price) +
+                                " )"
+                              : ""
+                          }}
                         </p>
                         <p>
                           {{
-                            data.note
-                              ? data.note.slice(0, 30) +
+                            data.note ? 'Note: ' + data.note.slice(0, 30) +
                                 (data.note.length > 30 ? "..." : "")
                               : ""
                           }}
@@ -96,7 +102,8 @@
                       </div>
                     </div>
                     <div class="col-2">
-                      {{ formatCurrency(data.price) }}
+                      <!-- {{ formatCurrency(data.price) }} -->
+                      {{ formatCurrency(data.price + data.topping.reduce((acc, mdf) => acc + mdf.price, 0) ) }}
                     </div>
                   </div>
                 </div>
@@ -125,6 +132,12 @@
                     <div class="title-total">Promo</div>
                     <div class="price">
                       {{ formatCurrency(paymentDetail.promo? paymentDetail.promo:0) }}
+                    </div>
+                  </div>
+                  <div class="row-total" v-if="paymentDetail.tax && paymentDetail.tax != 0">
+                    <div class="title-total">Tax</div>
+                    <div class="price">
+                      {{ formatCurrency(paymentDetail.tax? paymentDetail.tax:0) }}
                     </div>
                   </div>
                   <div class="row-total" v-if="paymentDetail.serviceFee && paymentDetail.serviceFee != 0">
@@ -249,12 +262,12 @@ export default defineComponent({
       const dataRestaurant = JSON.parse(
         localStorage.getItem("data_restaurant")
       );
-      const dataCustomer = JSON.parse(localStorage.getItem("data_customer"));
+      console.log('dataCustomer')
       const date = this.formatDate(this.customer.order_date);
       const filename =
         dataRestaurant.loc_name +
         "-" +
-        dataCustomer.name +
+        this.customer.guest_name +
         "-" +
         date +
         "-" +
@@ -291,10 +304,10 @@ export default defineComponent({
         this.typeOrder = selectedHistory[0].orderType;
         this.paymentDetail = selectedHistory[0].data.payment;
         this.products = selectedHistory[0].data.data;
-        this.noNota = selectedHistory[0].notaShort;
+        this.noNota = selectedHistory[0].notaShort? selectedHistory[0].notaShort : selectedHistory[0].nota;
         this.payment = this.paymentDetail.payment_name.toUpperCase();
         this.restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
-        this.table = selectedHistory[0].data.restaurant_table;
+        this.table = selectedHistory[0].data.restaurant_table? selectedHistory[0].data.restaurant_table : '-';
         this.status = selectedHistory[0].status.toUpperCase();
       }
     },

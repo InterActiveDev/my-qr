@@ -1447,7 +1447,7 @@ export default defineComponent({
 
       const dateYMD = this.today("dateYMD");
       const dateYMDHMS = this.today("dateYMDHMS");
-
+      
       const data = [
         {
           mID: data_restaurant.mID, // kalau pakai qris
@@ -1462,6 +1462,11 @@ export default defineComponent({
             diskonall: 0,
             rounding: checkoutData[0].rounding,
             tax: checkoutData[0].tax,
+            taxPercentage: checkoutData[0].taxPercentage,
+            promo: checkoutData[0].promo,
+            serviceFee: checkoutData[0].serviceFee,
+            serviceFeePercentage: checkoutData[0].serviceFeePercentage,
+            deliveryFee: checkoutData[0].deliveryFee,
             stotal: checkoutData[0].subTotal,
             gtotal: checkoutData[0].total,
             payment_method: this.nameMethod, // cash
@@ -1502,6 +1507,7 @@ export default defineComponent({
           description: element.product.product_description,
           indx: index + 1,
           note: element.note,
+          topping: element.topping
         });
       });
 

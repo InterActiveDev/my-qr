@@ -541,7 +541,7 @@ export default defineComponent({
     const location = localStorage.getItem("location");
     const history = localStorage.getItem("history");
     const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
-    if(history !== null && (data_restaurant.appid == 'MP01M51463F20230206169' || data_restaurant.appid == 'MP01M32319F20221011805')){
+    if(history !== null){
       this.isHistory = true;
     }
     const urlData = this.$route.params;
