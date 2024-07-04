@@ -1517,7 +1517,8 @@ export default defineComponent({
       
       localStorage.setItem("dataTemp", JSON.stringify(data));
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000); // 10 seconds
+      const timeoutId = setTimeout(() => controller.abort(), 3000); // 10 seconds
+
 
       FetchData.createData(url_insert_transaction, data[0], { signal: controller.signal })
         .then((result) => {
@@ -1683,15 +1684,14 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          clearTimeout(timeoutId);
-
+          clearTimeout(timeoutId); // Clear the timeout if an error occurs
+          console.log('timeoutId', timeoutId)
           if (error.name === 'AbortError') {
-            alert('Request timed out');
+            alert('The request took too long and was aborted.');
           } else {
             this.showModalWaiting = false;
             this.showModalError = true;
-            // // this.errorMessage = error.response?.data?.message;
-            this.errorMessage = "Terjadi kesalahan. Coba lagi atau gunakan metode pembayaran lain.";
+            this.errorMessage = error.response?.data?.message || 'An error occurred';
             console.log("err: ", error.message);
             console.log("Error :", error);
           }
