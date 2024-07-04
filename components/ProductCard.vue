@@ -6,7 +6,7 @@
         <img
           v-if="product.product_images"
           :src="product.product_images"
-          class="image-card min-w-full"
+          class="image-card min-w-full cursor-pointer"
           width="327"
           height="322"
           loading="lazy"
@@ -86,6 +86,7 @@
     :getProduct="product"
     :getCategory="category"
     ref="modalComponent"
+    :key="modalKey"
   />
   <!-- v-bind:show-bottom-cart="showBottomCart" -->
 </template>
@@ -104,6 +105,7 @@ export default {
       productPlaceholder:
         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect x="0" y="0" width="100%" height="100%" fill="%23f3f3f3" /%3E%3C/svg%3E',
       showAddProductModal: false,
+      modalKey: 0, // Add this line
     };
   },
   props: {
@@ -126,6 +128,7 @@ export default {
     },
     addProduct(product, category) {
       this.showAddProductModal = true;
+      this.modalKey++; // Add this line to re render new modal
       this.$nextTick(() => {
         if (
           this.$refs.modalComponent &&
