@@ -187,7 +187,7 @@
                       <p>
                         {{
                           formatCurrency(
-                            (items.product.product_pricenow + items.topping.reduce((acc, mdf) => acc + mdf.price, 0) ) *
+                            (items.product.product_pricenow + (items.topping? items.topping.reduce((acc, mdf) => acc + mdf.price, 0):0 ) ) *
                               parseInt(items.quantityItem)
                           )
                         }}
@@ -1230,7 +1230,7 @@ export default defineComponent({
               (parseFloat(item.product.product_pricenow)) *
               item.quantityItem;
           }
-          totalModifier += (parseFloat(item.topping.reduce((acc, mdf) => acc + mdf.price, 0))) * item.quantityItem;
+          totalModifier += (item.topping? parseFloat(item.topping.reduce((acc, mdf) => acc + mdf.price, 0)):0) * item.quantityItem;
         }
       });
       const data = {
