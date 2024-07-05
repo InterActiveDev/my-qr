@@ -1554,6 +1554,7 @@ export default defineComponent({
                         });
                     }else{
                       this.getNota(result, transactionId);
+                      this.setHistory(result, null, selectedOrderType, data, locId);
                     }
                   } else {
                     if(data_restaurant.isintegrated_myresto === '1'){
@@ -1573,6 +1574,7 @@ export default defineComponent({
                         });
                     }else{
                       this.getNota(result, transactionId);
+                      this.setHistory(result, null, selectedOrderType, data, locId);
                     }
                   }
                 } else {
@@ -1633,6 +1635,7 @@ export default defineComponent({
                         });
                     }else{
                       this.getNota(result, transactionId);
+                      this.setHistory(result, null, selectedOrderType, data, locId);
                     }
                   } else {
                     if(data_restaurant.isintegrated_myresto === '1'){
@@ -1652,6 +1655,7 @@ export default defineComponent({
                         });
                     }else{
                       this.getNota(result, transactionId);
+                      this.setHistory(result, null, selectedOrderType, data, locId);
                     }
                   }
                 } else {
@@ -1661,7 +1665,6 @@ export default defineComponent({
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
-
                         this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
