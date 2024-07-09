@@ -1549,7 +1549,7 @@ export default defineComponent({
                           this.showModalWaiting = false;
                           this.showModalError = true;
                           // this.errorMessage = err.response.data.message;
-                          this.errorMessage = 'Silahkan coba kembali atau ganti metode pembayaran lain.';
+                          this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
@@ -1569,7 +1569,7 @@ export default defineComponent({
                           this.showModalWaiting = false;
                           this.showModalError = true;
                           // this.errorMessage = err.response.data.message;
-                          this.errorMessage = 'Silahkan coba kembali atau ganti metode pembayaran lain.';
+                          this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
@@ -1591,7 +1591,7 @@ export default defineComponent({
                         this.showModalWaiting = false;
                         this.showModalError = true;
                         // this.errorMessage = err.response.data.message;
-                        this.errorMessage = 'Silahkan coba kembali atau ganti metode pembayaran lain.';
+                        this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                         console.log("err: ", err.message);
                       });
                   }else{
@@ -1630,7 +1630,7 @@ export default defineComponent({
                           this.showModalWaiting = false;
                           this.showModalError = true;
                           // this.errorMessage = err.response.data.message;
-                          this.errorMessage = 'Silahkan coba kembali atau ganti metode pembayaran lain.';
+                          this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
@@ -1650,7 +1650,7 @@ export default defineComponent({
                           this.showModalWaiting = false;
                           this.showModalError = true;
                           // this.errorMessage = err.response.data.message;
-                          this.errorMessage = 'Silahkan coba kembali atau ganti metode pembayaran lain.';
+                          this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
@@ -1671,7 +1671,7 @@ export default defineComponent({
                         this.showModalWaiting = false;
                         this.showModalError = true;
                         // this.errorMessage = err.response.data.message;
-                        this.errorMessage = 'Silahkan coba kembali atau ganti metode pembayaran lain.';
+                        this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                         console.log("err: ", err.message);
                       });
                   }else{
@@ -1694,7 +1694,7 @@ export default defineComponent({
           // } else {
             this.showModalWaiting = false;
             this.showModalError = true;
-            this.errorMessage = 'Silahkan coba kembali atau ganti metode pembayaran lain.';
+            this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
             console.log("err: ", error.message);
             console.log("Error :", error);
           // }
