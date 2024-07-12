@@ -29,7 +29,16 @@
 
               <div id="qrisBarcode" v-if="qrCodeImage">
                 <!-- Tampilkan QR code jika sudah digenerate -->
-                <img :src="qrCodeImage" alt="QR Code" />
+                <div v-if="qrCodeImage == 'error'">
+                  <div class="flex w-[250px] h-[150px] items-center">
+                    <span class="text-center text-red-500 font-bold">{{
+                      messageErrorQR
+                    }}</span>
+                  </div>
+                </div>
+                <div v-else>
+                  <img :src="qrCodeImage" alt="QR Code" />
+                </div>
               </div>
               <div v-else>
                 <!-- Placeholder blur ketika QR code belum tergenerate -->
@@ -116,6 +125,7 @@ export default defineComponent({
     return {
       navbarTo: "/site/checkout",
       countDown: 1200,
+      total: 0,
       expiredDate: "",
       showModalWaitingQris: false,
       showModalCancel: false,
@@ -131,6 +141,7 @@ export default defineComponent({
       nmid: "",
       messagePaymentError: "",
       messagePaymentSuccess: "",
+      messageErrorQR: "",
     };
   },
   async mounted() {
@@ -418,7 +429,7 @@ export default defineComponent({
       const checkoutData = localStorage.getItem("receipt");
       const checkout = checkoutData ? JSON.parse(checkoutData) : "";
 
-      if (data && mid && checkout) {
+      if (data && mid && checkout && data.contents.qrisData.content) {
         this.expiredDate = data.expired;
         this.transactionId = data.contents.transactionId;
         this.link = data.contents.qrisData.content;
@@ -431,6 +442,10 @@ export default defineComponent({
         this.refNo = data.ref;
 
         this.generateQRCode(this.link);
+      } else {
+        this.qrCodeImage = "error";
+        this.messageErrorQR =
+          "Harap scan ulang QR Code pada meja untuk mengulangi pesanan";
       }
     },
     toInputReceipt() {
