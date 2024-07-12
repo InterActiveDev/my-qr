@@ -44,8 +44,12 @@
               </div>
 
               <div class="description">
-                <span class="message-error">{{ messagePaymentError }}</span>
-                <span class="message-success">{{ messagePaymentSuccess }}</span>
+                <span class="text-center mb-1 text-red-500">{{
+                  messagePaymentError
+                }}</span>
+                <span class="text-center mb-1 text-green-500">{{
+                  messagePaymentSuccess
+                }}</span>
                 <button class="btn btn-check mb-5" @click="checkPaymentTrigger">
                   Periksa Status Pembayaran
                 </button>
@@ -55,7 +59,7 @@
                 >
                   Download
                 </button>
-                <p class="caption">Selesaikan pembayaran sebelum :</p>
+                <p class="caption">Selesaikan pembayaran sebelum</p>
                 <p class="caption" v-if="expiredDate">
                   {{ formatDate(expiredDate) }}
                 </p>
@@ -242,11 +246,12 @@ export default defineComponent({
         const qrCodeDataURL = await QRCode.toDataURL(content);
         this.qrCodeImage = qrCodeDataURL;
         const intervalId = setInterval(() => {
-          if (timerStop <= 240) { // 20 menit
+          if (timerStop <= 240) {
+            // 20 menit
             // buat stop proses di background, biar ga jalan terus pengecekannya
             this.checkPayment(this.mID, this.invoiceId, this.refNo);
             timerStop++;
-          }else{
+          } else {
             clearInterval(this.intervalId);
           }
         }, 5000); // tiap 5 detik
@@ -276,8 +281,8 @@ export default defineComponent({
         });
     },
     updatePayment() {
-      const dateYMD = this.today('dateYMD');
-      const dateYMDHMS = this.today('dateYMDHMS');
+      const dateYMD = this.today("dateYMD");
+      const dateYMDHMS = this.today("dateYMDHMS");
       const checkoutData = JSON.parse(localStorage.getItem("receipt")) || [];
       const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
       const qrContent = JSON.parse(localStorage.getItem("qrContent"));
@@ -319,21 +324,35 @@ export default defineComponent({
               getNota.data.data.myresto_ref !== ""
             ) {
               const qrContent = JSON.parse(localStorage.getItem("qrContent"));
-              qrContent.qr_nota_short = getNota.data.data[0].myresto_ref? getNota.data.data[0].myresto_ref : shortNota;
+              qrContent.qr_nota_short = getNota.data.data[0].myresto_ref
+                ? getNota.data.data[0].myresto_ref
+                : shortNota;
               qrContent.qr_status = getNota.data.data[0].status;
               localStorage.removeItem("qrContent");
-              
+
               localStorage.setItem("qrContent", JSON.stringify(qrContent));
-              const selectedOrderType = JSON.parse(localStorage.getItem("selected_type_order"));
+              const selectedOrderType = JSON.parse(
+                localStorage.getItem("selected_type_order")
+              );
               const dataTemp = JSON.parse(localStorage.getItem("dataTemp"));
               const location = localStorage.getItem("location");
               const locId = atob(location);
               const dr = JSON.parse(localStorage.getItem("data_restaurant"));
 
-              if(dataTemp){
+              if (dataTemp) {
                 // MP01M51463F20230206169 budidi | MP01M32319F20221011805 geprek | MP01M381F20190423491 keripiku
-                if(dr.appid == 'MP01M51463F20230206169' || dr.appid == 'MP01M32319F20221011805' || dr.appid == 'MP01M381F20190423491') {
-                  this.setHistory(qrContent.nota, shortNota, selectedOrderType, dataTemp, locId)
+                if (
+                  dr.appid == "MP01M51463F20230206169" ||
+                  dr.appid == "MP01M32319F20221011805" ||
+                  dr.appid == "MP01M381F20190423491"
+                ) {
+                  this.setHistory(
+                    qrContent.nota,
+                    shortNota,
+                    selectedOrderType,
+                    dataTemp,
+                    locId
+                  );
                 }
               }
               localStorage.removeItem("dataTemp");
@@ -347,34 +366,34 @@ export default defineComponent({
           console.log("error message (3) : ", error.message);
         });
     },
-    setHistory(notaHL, shortNota, selectedOrderType, data, locId){
+    setHistory(notaHL, shortNota, selectedOrderType, data, locId) {
       const dataDetail = {
         nota: notaHL,
-        notaShort: shortNota? shortNota:null,
+        notaShort: shortNota ? shortNota : null,
         orderType: selectedOrderType,
-        data: data? data[0]:null,
-        status: 'selesai',
+        data: data ? data[0] : null,
+        status: "selesai",
         isChecked: true,
       };
 
-      let historyTemp = JSON.parse(localStorage.getItem('history'));
-      
-      if(historyTemp === null){
+      let historyTemp = JSON.parse(localStorage.getItem("history"));
+
+      if (historyTemp === null) {
         let history = {};
         history[locId] = [];
         history[locId].push(dataDetail);
 
-        localStorage.setItem('history', JSON.stringify(history));
-      }else{
-        if(historyTemp.hasOwnProperty(locId)) {
+        localStorage.setItem("history", JSON.stringify(history));
+      } else {
+        if (historyTemp.hasOwnProperty(locId)) {
           historyTemp[locId].push(dataDetail);
-        }else{
+        } else {
           historyTemp[locId] = [dataDetail];
         }
-        localStorage.setItem('history', JSON.stringify(historyTemp));
+        localStorage.setItem("history", JSON.stringify(historyTemp));
       }
     },
-    today(type){
+    today(type) {
       const today = new Date();
       const year = today.getFullYear();
       const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -383,9 +402,9 @@ export default defineComponent({
       const minutes = String(today.getMinutes()).padStart(2, "0");
       const seconds = String(today.getSeconds()).padStart(2, "0");
 
-      if(type == 'dateYMDHMS'){
+      if (type == "dateYMDHMS") {
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      }else{
+      } else {
         return `${year}-${month}-${day}`;
       }
     },
