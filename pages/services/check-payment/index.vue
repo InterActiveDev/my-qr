@@ -10,7 +10,7 @@
           class="collapse w-full min-h-full flex flex-col text-black gap-2"
         >
           <summary
-            class="collapse-title font-medium bg-gray-200 border-2 shadow-xl border-gray-300"
+            class="collapse-title px-2 py-2 min-h-2 font-medium bg-gray-200 border-2 shadow-xl border-gray-300"
           >
             <div class="flex gap-4">
               <svg
@@ -66,12 +66,14 @@
                 <div class="label text-black">
                   <span class="text-black">Lokasi</span>
                 </div>
-                <select class="select select-bordered bg-white">
-                  <option selected>All Data</option>
-                  <option v-for="(gc, index) in dataGacoan">
-                    {{ gc.loc_name }}
-                  </option>
-                </select>
+                <div class="overflow-y-visible h-[50px]">
+                  <select class="select min-h-[50px] select-bordered bg-white">
+                    <option selected>All Data</option>
+                    <option v-for="(gc, index) in dataGacoan">
+                      {{ gc.loc_name }}
+                    </option>
+                  </select>
+                </div>
               </label>
               <label class="form-control w-5/12 max-w-xs">
                 <div class="label">
@@ -206,6 +208,8 @@ export default defineComponent({
   },
   mounted() {
     // do somehting
+    const st = "13 Juli 2024 - 11:55";
+    console.log("first", st.toLowerCase().includes("juli"));
     // console.log("dataGacoan", this.dataGacoan[133555]);
   },
   methods: {
@@ -296,11 +300,24 @@ export default defineComponent({
       // this.datasCopy = this.datas.filter((detail) =>
       //   detail.myresto_ref.toLowerCase().includes(inputSearch.toUpperCase())
       // );
+
       console.log("inputSearch", inputSearch);
-      const filteredDetails = this.datas.filter((detail) =>
-        detail.myresto_ref.toLowerCase().includes(inputSearch.toUpperCase())
+      const filteredDetails = this.datas.filter(
+        (detail) =>
+          detail.myresto_ref
+            .toLowerCase()
+            .includes(inputSearch.toLowerCase()) ||
+          detail.noNota.toLowerCase().includes(inputSearch.toLowerCase()) ||
+          detail.loc_name.toLowerCase().includes(inputSearch.toLowerCase()) ||
+          this.formatDate(detail.tanggalBukaNota)
+            .toLowerCase()
+            .includes(inputSearch.toLowerCase()) ||
+          detail.gtotal.toString().includes(inputSearch)
       );
-      this.datasCopy.push(...filteredDetails);
+      let tempArr = [];
+
+      tempArr.push(...filteredDetails);
+      this.datasCopy = tempArr;
     },
   },
 });
