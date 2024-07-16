@@ -1,21 +1,26 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { VitePWA } from 'vite-plugin-pwa'
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      apiBase: 'https://myorderpwa.hungryline.com/api/myorder'
-    }
+      apiBase: "https://myorderpwa.hungryline.com/api/myorder",
+    },
   },
 
   app: {
     head: {
-      title: 'My Order',
-      viewport: 'initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width, height=device-height, target-densitydpi=device-dpi',
+      title: "My Order",
+      viewport:
+        "initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width, height=device-height, target-densitydpi=device-dpi",
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: 'https://interactive.co.id/product/images/assets/product_detail/favicon.png' }
+        {
+          rel: "icon",
+          type: "image/x-icon",
+          href: "https://interactive.co.id/product/images/assets/product_detail/favicon.png",
+        },
       ],
-    }
+    },
   },
 
   ssr: false,
@@ -25,41 +30,41 @@ export default defineNuxtConfig({
   },
 
   delayHydration: {
-    mode: 'mount',
-    debug: process.env.NODE_ENV === 'development'
+    mode: "mount",
+    debug: process.env.NODE_ENV === "development",
   },
 
   plugins: [
     {
-      src: '~/plugins/vidle.js'
-    }
+      src: "~/plugins/vidle.js",
+    },
   ],
 
   devtools: { enabled: true },
 
   modules: [
-    '@nuxtjs/tailwindcss',
-    '@vite-pwa/nuxt',
-    '@nuxt/image',
-    'nuxt-delay-hydration',
-    '@nuxtjs/web-vitals',
-    'nuxt-swiper',
+    "@nuxtjs/tailwindcss",
+    "@vite-pwa/nuxt",
+    "@nuxt/image",
+    "nuxt-delay-hydration",
+    "@nuxtjs/web-vitals",
+    "nuxt-swiper",
     "nuxt-lazy-hydrate",
-    '@averjs/nuxt-compression',
+    "@averjs/nuxt-compression",
   ],
 
   webVitals: {
     debug: false,
-    disabled: false
+    disabled: false,
   },
 
   image: {
     inject: true,
     quality: 80,
-    format: ['webp'],
+    format: ["webp"],
     cloudinary: {
-      baseURL: 'https://res.cloudinary.com/dskhxnocs/image/upload/'
-    }
+      baseURL: "https://res.cloudinary.com/dskhxnocs/image/upload/",
+    },
   },
 
   pwa: {
@@ -109,5 +114,7 @@ export default defineNuxtConfig({
     },
     registerType: "autoUpdate",
   },
-
-})
+  build: {
+    transpile: ["@vuepic/vue-datepicker"],
+  },
+});

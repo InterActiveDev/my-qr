@@ -1549,11 +1549,12 @@ export default defineComponent({
                           this.showModalWaiting = false;
                           this.showModalError = true;
                           // this.errorMessage = err.response.data.message;
-                          this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
+                          this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
                       this.getNota(result, transactionId);
+                      this.setHistory(result, null, selectedOrderType, data, locId);
                     }
                   } else {
                     if(data_restaurant.isintegrated_myresto === '1'){
@@ -1568,11 +1569,12 @@ export default defineComponent({
                           this.showModalWaiting = false;
                           this.showModalError = true;
                           // this.errorMessage = err.response.data.message;
-                          this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
+                          this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
                       this.getNota(result, transactionId);
+                      this.setHistory(result, null, selectedOrderType, data, locId);
                     }
                   }
                 } else {
@@ -1589,7 +1591,7 @@ export default defineComponent({
                         this.showModalWaiting = false;
                         this.showModalError = true;
                         // this.errorMessage = err.response.data.message;
-                        this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
+                        this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                         console.log("err: ", err.message);
                       });
                   }else{
@@ -1628,11 +1630,12 @@ export default defineComponent({
                           this.showModalWaiting = false;
                           this.showModalError = true;
                           // this.errorMessage = err.response.data.message;
-                          this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
+                          this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
                       this.getNota(result, transactionId);
+                      this.setHistory(result, null, selectedOrderType, data, locId);
                     }
                   } else {
                     if(data_restaurant.isintegrated_myresto === '1'){
@@ -1647,11 +1650,12 @@ export default defineComponent({
                           this.showModalWaiting = false;
                           this.showModalError = true;
                           // this.errorMessage = err.response.data.message;
-                          this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
+                          this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                           console.log("err: ", err.message);
                         });
                     }else{
                       this.getNota(result, transactionId);
+                      this.setHistory(result, null, selectedOrderType, data, locId);
                     }
                   }
                 } else {
@@ -1661,14 +1665,13 @@ export default defineComponent({
                       .then((resultPos) => {
                         // get nota
                         this.getNota(result, transactionId);
-
                         this.setHistory(result, resultPos, selectedOrderType, data, locId);
                       })
                       .catch((err) => {
                         this.showModalWaiting = false;
                         this.showModalError = true;
                         // this.errorMessage = err.response.data.message;
-                        this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
+                        this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
                         console.log("err: ", err.message);
                       });
                   }else{
@@ -1691,7 +1694,7 @@ export default defineComponent({
           // } else {
             this.showModalWaiting = false;
             this.showModalError = true;
-            this.errorMessage = 'Terjadi kesalahan. Silahkan coba kembali atau ganti metode pembayaran lain.';
+            this.errorMessage = 'Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.';
             console.log("err: ", error.message);
             console.log("Error :", error);
           // }

@@ -166,9 +166,9 @@
 
         <div class="bottom-nav-receipt" v-if="!isGeneratingPDF">
           <div class="row-bottom-nav">
-            <button class="btn btn-primary-outline" @click="backToHome">
+            <!-- <button class="btn btn-primary-outline" @click="backToHome">
               Pesan Lagi
-            </button>
+            </button> -->
             <button
               class="btn btn-primary"
               v-if="payment == 'cash'"
