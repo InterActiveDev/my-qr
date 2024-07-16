@@ -67,9 +67,17 @@
                   <span class="text-black">Lokasi</span>
                 </div>
                 <div class="overflow-y-visible h-[50px]">
-                  <select class="select min-h-[50px] select-bordered bg-white">
-                    <option selected>All Data</option>
-                    <option v-for="(gc, index) in dataGacoan">
+                  <select
+                    class="select min-h-[50px] select-bordered bg-white"
+                    v-model="locQuery"
+                    @change="filter"
+                  >
+                    <option value="all data">All Data</option>
+                    <option
+                      v-for="(gc, index) in dataGacoan"
+                      :key="index"
+                      :value="gc.loc_name"
+                    >
                       {{ gc.loc_name }}
                     </option>
                   </select>
@@ -79,9 +87,14 @@
                 <div class="label">
                   <span class="text-black">Status</span>
                 </div>
-                <select class="select select-bordered bg-white">
-                  <option>Pending MyOrder</option>
-                  <option>Pending POS</option>
+                <select
+                  class="select select-bordered bg-white"
+                  v-model="statusQuery"
+                  @change="filter()"
+                >
+                  <option value="All Status">All Status</option>
+                  <option value="Pending Payment">Pending Payment</option>
+                  <option value="Pending POS">Pending POS</option>
                 </select>
               </label>
             </div>
@@ -93,8 +106,8 @@
                   type="text"
                   class="grow bg-white"
                   placeholder="Search"
-                  v-model="inputSearch"
-                  @keyup="filter(inputSearch)"
+                  v-model="searchQuery"
+                  @input="filter"
                 />
               </label>
               <button @click="searchData" class="btn w-5/12">Search</button>
@@ -106,7 +119,7 @@
           :key="index"
           class="collapse flex justify-between items-center w-full max-w bg-white h-full border-2 border-[#00000020] mb-4 rounded-sm"
         >
-          <summary>
+          <summary class="cursor-pointer hover:bg-gray-200">
             <div
               class="flex flex-rpw mx-5 justify-between items-center text-black pt-4 pb-3"
             >
@@ -128,7 +141,7 @@
               <span>{{ formatCurrency(data.gtotal) }}</span>
             </div>
             <div class="flex justify-between items-center text-black py-3">
-              <span class="text-gray-500">Status MyOrder</span>
+              <span class="text-gray-500">Status Payment</span>
               <span class="font-bold text-red-700" v-if="data.lunas == '0'">
                 {{ data.lunas == "0" ? "PENDING" : "LUNAS" }}
               </span>
@@ -140,9 +153,16 @@
             </div>
             <div class="flex justify-between items-center text-black py-3">
               <span class="text-gray-500">Status POS</span>
-              <span class="font-bold text-red-700">{{
-                data.myresto_qris_status.toUpperCase()
-              }}</span>
+              <span
+                class="font-bold text-red-700"
+                v-if="data.myresto_qris_status == 'pending'"
+                >{{ data.myresto_qris_status.toUpperCase() }}</span
+              >
+              <span
+                class="font-bold text-green-700"
+                v-else-if="data.myresto_qris_status == 'lunas'"
+                >{{ data.myresto_qris_status.toUpperCase() }}</span
+              >
             </div>
           </div>
         </details>
@@ -160,7 +180,6 @@ import FetchData from "~/middleware/services/Fetch.js";
 
 const startDate = ref();
 const endDate = ref();
-const inputSearch = ref();
 
 export default defineComponent({
   components: {
@@ -173,8 +192,10 @@ export default defineComponent({
       endDate: null,
       datas: [],
       datasCopy: [],
+      searchQuery: "",
+      statusQuery: "All Status",
+      locQuery: "all data",
       isOpen: false,
-      inputSearch: "",
       dataGacoan: {
         83724: { loc_name: "Me Gacoan" },
         83883: { loc_name: "Mie Gacoan Kediri Pare" },
@@ -208,28 +229,243 @@ export default defineComponent({
   },
   mounted() {
     // do somehting
-    const st = "13 Juli 2024 - 11:55";
-    console.log("first", st.toLowerCase().includes("juli"));
-    // console.log("dataGacoan", this.dataGacoan[133555]);
+    // this.searchData();
+    // this.datas = [
+    //   {
+    //     idTransaksi: 3005499,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T04:55:21.000Z",
+    //     noNota: "HL-104190G-669208B9CA4D9",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001848",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY55499Q",
+    //     myresto_qris_status: "lunas",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 56001,
+    //   },
+    //   {
+    //     idTransaksi: 3008213,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T09:22:33.000Z",
+    //     noNota: "HL-104190G-6692475933B5D",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001883",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY18213C",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 61001,
+    //   },
+    //   {
+    //     idTransaksi: 3009606,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T11:17:39.000Z",
+    //     noNota: "HL-104190G-66926253CC44E",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001900",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY59606Q",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 40001,
+    //   },
+    //   {
+    //     idTransaksi: 3010010,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T11:45:29.000Z",
+    //     noNota: "HL-104190G-669268D95B178",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001906",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY50010Q",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 75002,
+    //   },
+    //   {
+    //     idTransaksi: 3010958,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T12:52:18.000Z",
+    //     noNota: "HL-104190G-669278829D067",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001922",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY50958Q",
+    //     myresto_qris_status: "lunas",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 18501,
+    //   },
+    //   {
+    //     idTransaksi: 3010996,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T12:54:32.000Z",
+    //     noNota: "HL-104190G-6692790820360",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001925",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY10996C",
+    //     myresto_qris_status: "lunas",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 18501,
+    //   },
+    //   {
+    //     idTransaksi: 3011635,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 83883,
+    //     tanggalBukaNota: "2024-07-13T13:41:44.000Z",
+    //     noNota: "HL-104190G-6692841913852",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001931",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY51635Q",
+    //     myresto_qris_status: "lunas",
+    //     loc_name: "Mie Gacoan Kediri Pare",
+    //     gtotal: 72003,
+    //   },
+    //   {
+    //     idTransaksi: 3011637,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T13:41:48.000Z",
+    //     noNota: "HL-104190G-6692841C64914",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001932",
+    //     lunas: 1,
+    //     myresto_ref: "GS8AY11637C",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 44502,
+    //   },
+    //   {
+    //     idTransaksi: 3012399,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T14:39:28.000Z",
+    //     noNota: "HL-104190G-669291A024732",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001954",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY52399Q",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 57001,
+    //   },
+    //   {
+    //     idTransaksi: 3012475,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T14:46:09.000Z",
+    //     noNota: "HL-104190G-669293312CFD2",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001959",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY32475E",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 54502,
+    //   },
+    //   {
+    //     idTransaksi: 3013123,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 83883,
+    //     tanggalBukaNota: "2024-07-13T16:05:55.000Z",
+    //     noNota: "HL-104190G-6692A5E3CF280",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001981",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY13123C",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Mie Gacoan Kediri Pare",
+    //     gtotal: 37001,
+    //   },
+    //   {
+    //     idTransaksi: 3013317,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T16:30:37.000Z",
+    //     noNota: "HL-104190G-6692ABAD35A39",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001989",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY13317C",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 112002,
+    //   },
+    //   {
+    //     idTransaksi: 3013549,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 133454,
+    //     tanggalBukaNota: "2024-07-13T17:09:36.000Z",
+    //     noNota: "HL-104190G-6692B4D0DDD19",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560001997",
+    //     lunas: 1,
+    //     myresto_ref: "GS8AY13549C",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Mie Gacoan Cab Surabaya Merr",
+    //     gtotal: 48001,
+    //   },
+    //   {
+    //     idTransaksi: 3013860,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 104190,
+    //     tanggalBukaNota: "2024-07-13T18:37:21.000Z",
+    //     noNota: "HL-104190G-6692C9614AA59",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560002010",
+    //     lunas: 0,
+    //     myresto_ref: "GS8AY53860Q",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Gacoan Surabaya 8 Ahmad Yani",
+    //     gtotal: 22000,
+    //   },
+    //   {
+    //     idTransaksi: 3013899,
+    //     appid: "MP01M89093F20230801804",
+    //     loc_id: 133454,
+    //     tanggalBukaNota: "2024-07-13T19:08:50.000Z",
+    //     noNota: "HL-104190G-6692D0C23824C",
+    //     jenistran: "hungryline",
+    //     qren_invoice_id: "INV58560002015",
+    //     lunas: 1,
+    //     myresto_ref: "GS8AY13899C",
+    //     myresto_qris_status: "pending",
+    //     loc_name: "Mie Gacoan Cab Surabaya Merr",
+    //     gtotal: 32002,
+    //   },
+    // ];
+    // this.datasCopy = this.datas;
   },
   methods: {
     searchData() {
       const startDateValue = this.startDate;
       const endDateValue = this.endDate;
+      // const startDateValue = "2024-07-13 09-23-00";
+      // const endDateValue = "2024-07-14 09-23-00";
       if (startDateValue && endDateValue) {
-        console.log(`Start Date: ${this.escapeDate(startDateValue)}`);
-        console.log(`End Date: ${this.escapeDate(endDateValue)}`);
+        // console.log(`Start Date: ${this.escapeDate(startDateValue)}`);
+        // console.log(`End Date: ${this.escapeDate(endDateValue)}`);
 
         const url = "/qr_myorder/transaction_monitor";
         const data = {
           appid: "MP01M89093F20230801804",
           locid: "104190",
           tag: "hungryline",
-          isDel: "0",
           startDate: this.escapeDate(startDateValue),
           endDate: this.escapeDate(endDateValue),
+          isDel: "0",
           status: "pending",
         };
+        // startDate: startDateValue,
+        // endDate: endDateValue,
         FetchData.createData(url, data)
           .then((res) => {
             this.datas = res.data.data[0];
@@ -296,27 +532,41 @@ export default defineComponent({
 
       return `${year}-${month}-${day} ${hours}-${minutes}-${seconds}`;
     },
-    filter(inputSearch) {
-      // this.datasCopy = this.datas.filter((detail) =>
-      //   detail.myresto_ref.toLowerCase().includes(inputSearch.toUpperCase())
-      // );
-
-      console.log("inputSearch", inputSearch);
-      const filteredDetails = this.datas.filter(
+    filter() {
+      console.log("inputSearch", this.searchQuery);
+      console.log("statusQuery", this.statusQuery);
+      console.log("locQuery", this.locQuery);
+      const filteredSearchQuery = this.datas.filter(
         (detail) =>
-          detail.myresto_ref
-            .toLowerCase()
-            .includes(inputSearch.toLowerCase()) ||
-          detail.noNota.toLowerCase().includes(inputSearch.toLowerCase()) ||
-          detail.loc_name.toLowerCase().includes(inputSearch.toLowerCase()) ||
-          this.formatDate(detail.tanggalBukaNota)
-            .toLowerCase()
-            .includes(inputSearch.toLowerCase()) ||
-          detail.gtotal.toString().includes(inputSearch)
+          (this.locQuery == "all data" || this.locQuery == null
+            ? true
+            : detail.loc_name == this.locQuery) &&
+          (this.searchQuery != ""
+            ? detail.myresto_ref
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase()) ||
+              detail.noNota
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase()) ||
+              detail.loc_name
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase()) ||
+              this.formatDate(detail.tanggalBukaNota)
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase()) ||
+              detail.gtotal.toString().includes(this.searchQuery)
+            : true) &&
+          (this.statusQuery == "All Status"
+            ? true
+            : this.statusQuery == "Pending Payment"
+            ? detail.lunas == "0"
+            : this.statusQuery == "Pending POS"
+            ? detail.myresto_qris_status == "pending"
+            : true)
       );
-      let tempArr = [];
 
-      tempArr.push(...filteredDetails);
+      let tempArr = [];
+      tempArr.push(...filteredSearchQuery);
       this.datasCopy = tempArr;
     },
   },

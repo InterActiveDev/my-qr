@@ -5,7 +5,7 @@
         <Navbar :to="navbarTo" v-if="!isGeneratingPDF" />
         <section id="receipt">
           <div class="wrapper">
-            <div class="content ">
+            <div class="content">
               <div class="head">
                 <div class="logo">
                   <img :src="restaurant.loc_logo" alt="" />
@@ -26,7 +26,9 @@
                   <div class="items">
                     <span class="title">Tanggal Order</span>
                     <span class="detail">{{
-                      customer.guest_addr ? formatDate(customer.guest_addr.dateadd) : ""
+                      customer.guest_addr
+                        ? formatDate(customer.guest_addr.dateadd)
+                        : ""
                     }}</span>
                   </div>
                 </div>
@@ -51,7 +53,9 @@
                   <div class="items">
                     <span class="title">Waktu Transaksi</span>
                     <span class="detail">{{
-                      customer.guest_addr ? formatDate(customer.guest_addr.dateadd) : ""
+                      customer.guest_addr
+                        ? formatDate(customer.guest_addr.dateadd)
+                        : ""
                     }}</span>
                   </div>
                 </div>
@@ -67,7 +71,10 @@
                   </div>
                 </div>
 
-                <span class="note"></span>
+                <span class="note"
+                  >Silahkan perlihatkan nota ini ke kasir untuk konfirmasi
+                  pembayaran.</span
+                >
               </div>
 
               <div class="orders-details">
@@ -94,7 +101,9 @@
                         </p>
                         <p>
                           {{
-                            data.note ? 'Note: ' + data.note.slice(0, 30) +
+                            data.note
+                              ? "Note: " +
+                                data.note.slice(0, 30) +
                                 (data.note.length > 30 ? "..." : "")
                               : ""
                           }}
@@ -103,15 +112,22 @@
                     </div>
                     <div class="col-2">
                       <!-- {{ formatCurrency(data.price) }} -->
-                      {{ formatCurrency(data.price + (data.topping? data.topping.reduce((acc, mdf) => acc + mdf.price, 0):0) ) }}
+                      {{
+                        formatCurrency(
+                          data.price +
+                            (data.topping
+                              ? data.topping.reduce(
+                                  (acc, mdf) => acc + mdf.price,
+                                  0
+                                )
+                              : 0)
+                        )
+                      }}
                     </div>
                   </div>
                 </div>
 
-                <div
-                  class="total-details"
-                  v-if="paymentDetail"
-                >
+                <div class="total-details" v-if="paymentDetail">
                   <div class="border">
                     <div class="total">
                       <div class="detail">
@@ -128,28 +144,60 @@
                       {{ formatCurrency(paymentDetail.stotal) }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="paymentDetail.promo && paymentDetail.promo != 0">
+                  <div
+                    class="row-total"
+                    v-if="paymentDetail.promo && paymentDetail.promo != 0"
+                  >
                     <div class="title-total">Promo</div>
                     <div class="price">
-                      {{ formatCurrency(paymentDetail.promo? paymentDetail.promo:0) }}
+                      {{
+                        formatCurrency(
+                          paymentDetail.promo ? paymentDetail.promo : 0
+                        )
+                      }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="paymentDetail.tax && paymentDetail.tax != 0">
+                  <div
+                    class="row-total"
+                    v-if="paymentDetail.tax && paymentDetail.tax != 0"
+                  >
                     <div class="title-total">Tax</div>
                     <div class="price">
-                      {{ formatCurrency(paymentDetail.tax? paymentDetail.tax:0) }}
+                      {{
+                        formatCurrency(
+                          paymentDetail.tax ? paymentDetail.tax : 0
+                        )
+                      }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="paymentDetail.serviceFee && paymentDetail.serviceFee != 0">
+                  <div
+                    class="row-total"
+                    v-if="
+                      paymentDetail.serviceFee && paymentDetail.serviceFee != 0
+                    "
+                  >
                     <div class="title-total">Biaya layanan</div>
                     <div class="price">
-                      {{ formatCurrency(paymentDetail.serviceFee? paymentDetail.serviceFee:0) }}
+                      {{
+                        formatCurrency(
+                          paymentDetail.serviceFee
+                            ? paymentDetail.serviceFee
+                            : 0
+                        )
+                      }}
                     </div>
                   </div>
-                  <div class="row-total" v-if="paymentDetail.rounding && paymentDetail.rounding != 0">
+                  <div
+                    class="row-total"
+                    v-if="paymentDetail.rounding && paymentDetail.rounding != 0"
+                  >
                     <div class="title-total">Rounding</div>
                     <div class="price">
-                      {{ formatCurrency(paymentDetail.rounding? paymentDetail.rounding:0) }}
+                      {{
+                        formatCurrency(
+                          paymentDetail.rounding ? paymentDetail.rounding : 0
+                        )
+                      }}
                     </div>
                   </div>
                   <div class="row-total">
@@ -185,7 +233,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -262,7 +309,7 @@ export default defineComponent({
       const dataRestaurant = JSON.parse(
         localStorage.getItem("data_restaurant")
       );
-      console.log('dataCustomer')
+      console.log("dataCustomer");
       const date = this.formatDate(this.customer.order_date);
       const filename =
         dataRestaurant.loc_name +
@@ -297,17 +344,23 @@ export default defineComponent({
         const history = JSON.parse(localStorage.getItem("history"));
         const selectedLocation = history[locId];
         const hlCode = this.$route.params.id;
-        const selectedHistory = selectedLocation.filter((item) => item.nota == hlCode);
+        const selectedHistory = selectedLocation.filter(
+          (item) => item.nota == hlCode
+        );
         const tableCode = localStorage.getItem("table_code");
 
         this.customer = selectedHistory[0].data.guest_detail;
         this.typeOrder = selectedHistory[0].orderType;
         this.paymentDetail = selectedHistory[0].data.payment;
         this.products = selectedHistory[0].data.data;
-        this.noNota = selectedHistory[0].notaShort? selectedHistory[0].notaShort : selectedHistory[0].nota;
+        this.noNota = selectedHistory[0].notaShort
+          ? selectedHistory[0].notaShort
+          : selectedHistory[0].nota;
         this.payment = this.paymentDetail.payment_name.toUpperCase();
         this.restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
-        this.table = selectedHistory[0].data.restaurant_table? selectedHistory[0].data.restaurant_table : '-';
+        this.table = selectedHistory[0].data.restaurant_table
+          ? selectedHistory[0].data.restaurant_table
+          : "-";
         this.status = selectedHistory[0].status.toUpperCase();
       }
     },

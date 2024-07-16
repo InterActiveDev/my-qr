@@ -3,7 +3,7 @@ import axios from "axios";
 
 // const baseURL = "http://localhost:4000/api/myorder"; // dev mode
 const baseURL = "https://myorderpwa.hungryline.com/api/myorder"; // prod mode
-// const baseURL = "https://pwaapi.azurewebsites.net/api/myorder"; // prod mode
+// const baseURL = "https://pwaapi.azurewebsites.net/api/myorder"; // prod mode api baru
 
 const FetchService = {
   // CRUD
