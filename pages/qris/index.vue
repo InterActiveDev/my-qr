@@ -145,6 +145,12 @@ export default defineComponent({
     };
   },
   async mounted() {
+    const check = localStorage.getItem("qrContent");
+    const checkPayment = JSON.parse(check).contents.paymentMethod;
+    if (checkPayment == "cash") {
+      this.$router.push("/site/receipt");
+    }
+
     await this.getQr();
   },
   methods: {
