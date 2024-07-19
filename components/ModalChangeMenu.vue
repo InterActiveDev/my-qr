@@ -161,10 +161,16 @@
         <div v-if="getProduct.product.modifier.length > 0" class="cart-wrapper">
           <div class="card-cart">
             <div class="head-topping">
-              <span class="border-b-4 pb-2">Pilih Topping (Opsional)  </span>
-              <div v-for="modifier in modifiers" :key="modifier.mdf_id" class="mb-2">
+              <span class="border-b-4 pb-2">Pilih Topping (Opsional) </span>
+              <div
+                v-for="modifier in modifiers"
+                :key="modifier.mdf_id"
+                class="mb-2"
+              >
                 <div class="text-important">
-                  <span class="dark ">{{ modifier.mdf_name }} ({{ modifier.mdf_type }}) </span>
+                  <span class="dark"
+                    >{{ modifier.mdf_name }} ({{ modifier.mdf_type }})
+                  </span>
                   <!-- <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="7"
@@ -185,53 +191,62 @@
 
                 <div class="grid grid-cols-2 gap-3">
                   <div
-                  class="flex gap-4 items-center pt-1"
-                  v-for="perModifier in modifier.children"
-                  :key="perModifier.mdf_id"
-                >
-                  <div v-if="modifier.mdf_type === 'justone'">
-                    <input
-                      type="radio"
-                      :name="modifier.mdf_id"
-                      :id="'radio-' + perModifier.mdf_id"
-                      class="radio radio-info"
-                      :checked="isSelected(perModifier.mdf_id)"
-                      @change="
-                        addTopping(
-                          perModifier.mdf_parent,
-                          perModifier.mdf_id,
-                          perModifier.mdf_name,
-                          perModifier.mdf_price,
-                          perModifier.mdf_type
-                        )
-                      "
-                    />
-                  </div>
-                  <div v-else-if="modifier.mdf_type === 'multiple'">
-                    <input
-                      type="checkbox"
-                      :id="'checkbox-' + perModifier.mdf_id"
-                      class="checkbox checkbox-info"
-                      :checked="isSelected(perModifier.mdf_id)"
-                      @change="addTopping(
-                        perModifier.mdf_parent,
-                        perModifier.mdf_id,
-                        perModifier.mdf_name,
-                        perModifier.mdf_price,
-                        modifier.mdf_type
-                      )"
-                    />
-                  </div>
-                
-                  <label
-                    :for="modifier.mdf_type === 'justone' ? 'radio-' + perModifier.mdf_id : 'checkbox-' + perModifier.mdf_id"
-                    class="cursor-pointer"
+                    class="flex gap-4 items-center pt-1"
+                    v-for="perModifier in modifier.children"
+                    :key="perModifier.mdf_id"
                   >
-                    <p class="text-black font-semibold">{{ perModifier.mdf_name }}</p>
-                    <small class="text-black font-semibold">{{ formatCurrency(perModifier.mdf_price) }}</small>
-                  </label>
-                </div>
-                
+                    <div v-if="modifier.mdf_type === 'justone'">
+                      <input
+                        type="radio"
+                        :name="modifier.mdf_id"
+                        :id="'radio-' + perModifier.mdf_id"
+                        class="radio radio-info"
+                        :checked="isSelected(perModifier.mdf_id)"
+                        @change="
+                          addTopping(
+                            perModifier.mdf_parent,
+                            perModifier.mdf_id,
+                            perModifier.mdf_name,
+                            perModifier.mdf_price,
+                            perModifier.mdf_type
+                          )
+                        "
+                      />
+                    </div>
+                    <div v-else-if="modifier.mdf_type === 'multiple'">
+                      <input
+                        type="checkbox"
+                        :id="'checkbox-' + perModifier.mdf_id"
+                        class="checkbox checkbox-info"
+                        :checked="isSelected(perModifier.mdf_id)"
+                        @change="
+                          addTopping(
+                            perModifier.mdf_parent,
+                            perModifier.mdf_id,
+                            perModifier.mdf_name,
+                            perModifier.mdf_price,
+                            modifier.mdf_type
+                          )
+                        "
+                      />
+                    </div>
+
+                    <label
+                      :for="
+                        modifier.mdf_type === 'justone'
+                          ? 'radio-' + perModifier.mdf_id
+                          : 'checkbox-' + perModifier.mdf_id
+                      "
+                      class="cursor-pointer"
+                    >
+                      <p class="text-black font-semibold">
+                        {{ perModifier.mdf_name }}
+                      </p>
+                      <small class="text-black font-semibold">{{
+                        formatCurrency(perModifier.mdf_price)
+                      }}</small>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -317,20 +332,20 @@ export default {
     const map = {};
 
     // Populate the map with all nodes
-    modifiers.forEach(item => {
-        map[item.mdf_id] = { ...item, children: [] };
+    modifiers.forEach((item) => {
+      map[item.mdf_id] = { ...item, children: [] };
     });
 
     const result = [];
 
-    modifiers.forEach(item => {
-        if (item.mdf_parent === 0) {
-            result.push(map[item.mdf_id]);
-        } else {
-            if (map[item.mdf_parent]) {
-                map[item.mdf_parent].children.push(map[item.mdf_id]);
-            }
+    modifiers.forEach((item) => {
+      if (item.mdf_parent === 0) {
+        result.push(map[item.mdf_id]);
+      } else {
+        if (map[item.mdf_parent]) {
+          map[item.mdf_parent].children.push(map[item.mdf_id]);
         }
+      }
     });
     return {
       showModalCart: false,
@@ -420,16 +435,16 @@ export default {
         : (this.wrapDefault = false);
     },
     isSelected(mdf_id) {
-      if(this.topping != ''){
-        const isFound = this.topping.find(x => x.id === mdf_id);
-        return isFound? true:false; // Convert to boolean
+      if (this.topping != "") {
+        const isFound = this.topping.find((x) => x.id === mdf_id);
+        return isFound ? true : false; // Convert to boolean
       }
     },
     showchangeMenuModal() {
       this.modalVisible = true;
     },
     handlePaymentCart() {
-      let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+      let cartItems = JSON.parse(localStorage.getItem("cart_items")).data || [];
       let wrapStatus = 0;
 
       if (this.wrap === true) {
@@ -437,7 +452,10 @@ export default {
       } else {
         wrapStatus = 0;
       }
+      console.log("this.getProduct", this.getProduct);
       const newItem = {
+        orderTimeStart: this.getProduct.orderTimeStart,
+        orderTimeEnd: this.getProduct.orderTimeEnd,
         product: this.getProduct.product,
         note: this.note,
         topping: this.topping,
@@ -455,7 +473,10 @@ export default {
         cartItems.push(newItem);
       }
 
-      localStorage.setItem("cart_items", JSON.stringify(cartItems));
+      localStorage.setItem(
+        "cart_items",
+        JSON.stringify({ isDone: false, data: cartItems })
+      );
       localStorage.removeItem("temporary_item_cart");
 
       this.showModalWaitingProduct = true;
@@ -491,15 +512,17 @@ export default {
         type: mdf_type,
       };
 
-      if (mdf_type === 'justone') {
+      if (mdf_type === "justone") {
         // Remove all items with the same parentId
-        this.topping = this.topping.filter(t => t.parentId !== mdf_parent || t.id === mdf_id);
-        
+        this.topping = this.topping.filter(
+          (t) => t.parentId !== mdf_parent || t.id === mdf_id
+        );
+
         // Add the new item
         this.topping.push(item);
-      } else if (mdf_type === 'multiple') {
+      } else if (mdf_type === "multiple") {
         // Check if the item already exists in the array
-        const index = this.topping.findIndex(t => t.id === mdf_id);
+        const index = this.topping.findIndex((t) => t.id === mdf_id);
 
         if (index === -1) {
           // If the item doesn't exist, add it to the array

@@ -64,10 +64,20 @@
 
                 <div class="content">
                   <div class="description">
-                    <div class="information max-w-full w-full min-w-full text-wrap ">
+                    <div
+                      class="information max-w-full w-full min-w-full text-wrap"
+                    >
                       <div class="title">{{ item.product.product_name }}</div>
                       <div class="price">
-                        {{ formatCurrency(item.product.product_pricenow + (item.topping?.reduce((acc, t) => acc + t.price, 0) || 0) ) }}
+                        {{
+                          formatCurrency(
+                            item.product.product_pricenow +
+                              (item.topping?.reduce(
+                                (acc, t) => acc + t.price,
+                                0
+                              ) || 0)
+                          )
+                        }}
                       </div>
                       <div v-if="item.topping?.name != null">
                         <p>
@@ -299,12 +309,16 @@ export default {
     },
     getCartItems() {
       const cartItems = JSON.parse(localStorage.getItem("cart_items"));
-      this.getItem = cartItems;
+      this.getItem = cartItems.data;
     },
     removeItem(index) {
       this.getItem.splice(index, 1);
-      localStorage.setItem("cart_items", JSON.stringify(this.getItem));
-      const cartItems = JSON.parse(localStorage.getItem("cart_items"));
+
+      localStorage.setItem(
+        "cart_items",
+        JSON.stringify({ isDone: false, data: this.getItem })
+      );
+      const cartItems = JSON.parse(localStorage.getItem("cart_items")[0].data);
 
       if (cartItems.length == 0) {
         this.totalPrice = 0;
@@ -317,7 +331,8 @@ export default {
       this.totalPrice = this.getItem.reduce(
         (total, item) =>
           total +
-          (item.product.product_pricenow + (item.topping?.reduce((acc, t) => acc + t.price, 0) || 0)) *
+          (item.product.product_pricenow +
+            (item.topping?.reduce((acc, t) => acc + t.price, 0) || 0)) *
             item.quantityItem,
         0
       );
@@ -423,20 +438,28 @@ export default {
     incrementValue(index) {
       this.getItem[index].quantityItem++;
       this.calculateTotalPrice();
-      localStorage.setItem("cart_items", JSON.stringify(this.getItem));
+
+      localStorage.setItem(
+        "cart_items",
+        JSON.stringify({ isDone: false, data: this.getItem })
+      );
     },
     decrementValue(index) {
       if (this.getItem[index].quantityItem > 1) {
         this.getItem[index].quantityItem--;
         this.calculateTotalPrice();
-        localStorage.setItem("cart_items", JSON.stringify(this.getItem));
+
+        localStorage.setItem(
+          "cart_items",
+          JSON.stringify({ isDone: false, data: this.getItem })
+        );
       } else {
         this.removeItem(index);
       }
     },
     handleMenuChange(item, index) {
       // Dapatkan data dari localStorage dengan kunci 'cart_items'
-      let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+      let cartItems = JSON.parse(localStorage.getItem("cart_items")).data || [];
 
       // Cari item yang sama berdasarkan product_id
       // let existingItem = cartItems.find(
