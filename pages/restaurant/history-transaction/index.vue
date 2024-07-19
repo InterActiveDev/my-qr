@@ -192,7 +192,6 @@ export default defineComponent({
         ? null
         : JSON.parse(localStorage.getItem("history"));
     this.history = historyTemp[this.locId];
-    console.log("this.history", this.history);
     if (this.history) {
       this.dataPending = this.history
         .filter((item) => item.status === "pending")

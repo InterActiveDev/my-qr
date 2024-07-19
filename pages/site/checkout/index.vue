@@ -937,7 +937,7 @@ export default defineComponent({
     checkLocalStorage() {
       // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       const currentCartItems =
-        JSON.parse(localStorage.getItem("cart_items")) || [];
+        JSON.parse(localStorage.getItem("cart_items")).data || [];
       // if (JSON.stringify(currentCartItems) !== []) {
       if (currentCartItems.length !== 0) {
         this.getList();
@@ -958,7 +958,8 @@ export default defineComponent({
           "?table_code=" +
           btoa(tableCodeRaw);
       }
-      const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+      const cartItems =
+        JSON.parse(localStorage.getItem("cart_items")).data || [];
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
@@ -1178,8 +1179,11 @@ export default defineComponent({
     removeItem(index) {
       this.products.splice(index, 1);
 
-      localStorage.setItem("cart_items", JSON.stringify(this.products));
-      const cartItems = JSON.parse(localStorage.getItem("cart_items"));
+      localStorage.setItem(
+        "cart_items",
+        JSON.stringify({ isDone: false, data: this.products })
+      );
+      const cartItems = JSON.parse(localStorage.getItem("cart_items")).data;
       if (cartItems.length == 0) {
         localStorage.removeItem("cart_items");
         localStorage.removeItem("checkoutData");
@@ -1534,7 +1538,7 @@ export default defineComponent({
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
 
-            // MP01M381F20190423491 keripiku
+            // MP01M381F20190423491 keripiku buat dev
             if (appid == "MP01M381F20190423491" && host == "localhost:3000") {
               // ini test
               if (this.table.paymentMethod.payment_category != "e-money") {
@@ -1873,8 +1877,17 @@ export default defineComponent({
 
       const checkQrContent = setInterval(() => {
         const data = JSON.parse(localStorage.getItem("qrContent"));
+        const cartItemTemp = JSON.parse(
+          localStorage.getItem("cart_items")
+        ).data;
+
         if (data) {
           clearInterval(checkQrContent);
+
+          localStorage.setItem(
+            "cart_items",
+            JSON.stringify({ isDone: true, data: cartItemTemp })
+          );
           this.$router.push("/qris");
         }
       }, 2000);
@@ -1915,8 +1928,17 @@ export default defineComponent({
 
           const checkQrContent = setInterval(() => {
             const data = JSON.parse(localStorage.getItem("qrContent"));
+            const cartItemTemp = JSON.parse(
+              localStorage.getItem("cart_items")
+            ).data;
+
             if (data) {
               clearInterval(checkQrContent);
+
+              localStorage.setItem(
+                "cart_items",
+                JSON.stringify({ isDone: true, data: cartItemTemp })
+              );
               this.$router.push("/site/receipt");
             }
           }, 1000);
@@ -1967,19 +1989,29 @@ export default defineComponent({
     },
     updateQuantity(index, event) {
       this.$set(this.products[index], "quantityItem", event.target.value);
-      localStorage.setItem("cart_items", JSON.stringify(this.products));
+
+      localStorage.setItem(
+        "cart_items",
+        JSON.stringify({ isDone: false, data: this.products })
+      );
     },
     incrementValue(index) {
       this.products[index].quantityItem++;
       this.recalculatePayment();
 
-      localStorage.setItem("cart_items", JSON.stringify(this.products));
+      localStorage.setItem(
+        "cart_items",
+        JSON.stringify({ isDone: false, data: this.products })
+      );
     },
     decrementValue(index) {
       if (this.products[index].quantityItem > 1) {
         this.products[index].quantityItem--;
         this.recalculatePayment();
-        localStorage.setItem("cart_items", JSON.stringify(this.products));
+        localStorage.setItem(
+          "cart_items",
+          JSON.stringify({ isDone: false, data: this.products })
+        );
       }
     },
     formatDate(dateString) {
@@ -2025,7 +2057,7 @@ export default defineComponent({
     },
     handleMenuChange(item, index) {
       // Dapatkan data dari localStorage dengan kunci 'cart_items'
-      let cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+      let cartItems = JSON.parse(localStorage.getItem("cart_items")).data || [];
 
       // Cari item yang sama berdasarkan product_id
       // let existingItem = cartItems.find(

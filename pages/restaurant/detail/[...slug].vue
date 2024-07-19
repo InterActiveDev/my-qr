@@ -427,7 +427,7 @@ export default defineComponent({
   },
   data() {
     return {
-      appVersion: "1.0.0",
+      appVersion: "1.0.1",
       showScrollButton: false,
       navbarTo: "/",
       isHidden: true,
@@ -562,6 +562,14 @@ export default defineComponent({
     const location = localStorage.getItem("location");
     const history = localStorage.getItem("history");
     const data_restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+    const tempCart = localStorage.getItem("cart_items");
+
+    if (tempCart) {
+      if (JSON.parse(tempCart).isDone === true) {
+        localStorage.removeItem("cart_items");
+      }
+    }
+
     if (history !== null) {
       this.isHistory = true;
     }
