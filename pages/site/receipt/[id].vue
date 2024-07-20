@@ -361,7 +361,10 @@ export default defineComponent({
         this.table = selectedHistory[0].data.restaurant_table
           ? selectedHistory[0].data.restaurant_table
           : "-";
-        this.status = selectedHistory[0].status.toUpperCase();
+        this.status =
+          selectedHistory[0].status == "selesai"
+            ? "LUNAS"
+            : selectedHistory[0].status.toUpperCase();
       }
     },
     openModalCash() {
