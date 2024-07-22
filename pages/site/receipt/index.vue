@@ -340,7 +340,6 @@ export default defineComponent({
         "-" +
         this.noNota;
 
-      // domtoimage.toPng(node, { cacheBust: true })
       // eed
       html2canvas(document.getElementById("receipt"), {
         logging: true,
@@ -385,69 +384,6 @@ export default defineComponent({
         this.transaction = transactions ? transactions : {};
         this.restaurant = dataRestaurant ? JSON.parse(dataRestaurant) : {};
         // eed
-        const imageURL =
-          "https://myprofit.interactiveholic.net/myprofit/images/locations/logo/230206-161523-700.jpg";
-        this.imageUrlToBase64(imageURL).then(console.log);
-
-        // const imageDescription = "The Mozilla logo";
-
-        // // Ensure imageBox is defined and exists in the DOM
-        // const imageBox = document.getElementById("imageBox");
-        // if (!imageBox) {
-        //   console.error('Element with id "imageBox" not found.');
-        // }
-
-        // const downloadedImg = new Image();
-        // downloadedImg.crossOrigin = "anonymous"; // Handle cross-origin requests
-        // downloadedImg.alt = imageDescription; // Set image description
-        // downloadedImg.src = imageURL;
-
-        // downloadedImg.addEventListener("load", imageReceived, false);
-        // downloadedImg.addEventListener("error", imageLoadError, false);
-
-        // function imageReceived() {
-        //   // Create and configure canvas
-        //   const canvas = document.createElement("canvas");
-        //   const context = canvas.getContext("2d");
-
-        //   if (!context) {
-        //     console.error("Failed to get canvas context.");
-        //     return;
-        //   }
-
-        //   // Set canvas size to image size
-        //   canvas.width = downloadedImg.width;
-        //   canvas.height = downloadedImg.height;
-
-        //   // Draw image onto canvas
-        //   context.drawImage(downloadedImg, 0, 0);
-
-        //   // Optionally add text to canvas
-        //   context.font = "16px Arial";
-        //   context.fillStyle = "black";
-        //   context.fillText(downloadedImg.alt, 10, 20); // Draw text on canvas
-
-        //   // Append canvas to the imageBox
-        //   if (imageBox) {
-        //     imageBox.appendChild(canvas);
-        //   }
-
-        //   // Save canvas image data to localStorage
-        //   try {
-        //     localStorage.setItem(
-        //       "saved-image-example",
-        //       canvas.toDataURL("image/png")
-        //     );
-
-        //     console.log("Image saved to localStorage.");
-        //   } catch (err) {
-        //     console.error(`Error saving image to localStorage: ${err}`);
-        //   }
-        // }
-
-        // function imageLoadError() {
-        //   console.error("Failed to load image.");
-        // }
 
         this.noNota =
           transactions.noNotaNew != null
@@ -470,19 +406,6 @@ export default defineComponent({
           this.products = [];
         }
       }
-    },
-    async imageUrlToBase64(url) {
-      const data = await fetch(url);
-      const blob = await data.blob();
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        reader.onloadend = () => {
-          const base64data = reader.result;
-          resolve(base64data);
-        };
-        reader.onerror = reject;
-      });
     },
     openModalCash() {
       // edw receipt

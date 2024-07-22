@@ -8,7 +8,7 @@
             <div class="content">
               <div class="head">
                 <div class="logo">
-                  <img :src="restaurant.loc_logo" alt="" />
+                  <img :src="restaurant.loc_logo_base64" alt="" />
                 </div>
 
                 <div class="title">
