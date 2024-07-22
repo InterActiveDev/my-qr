@@ -338,7 +338,8 @@ export default defineComponent({
             // sukses simpan transaksi
             if (
               getNota.data.data.status === 1 ||
-              getNota.data.data.myresto_ref !== ""
+              getNota.data.data.myresto_ref !== "" ||
+              getNota.data.data.myresto_ref !== null
             ) {
               const qrContent = JSON.parse(localStorage.getItem("qrContent"));
               qrContent.qr_nota_short = getNota.data.data[0].myresto_ref
