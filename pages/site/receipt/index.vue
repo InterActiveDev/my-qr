@@ -391,65 +391,67 @@ export default defineComponent({
         // eed
         const imageURL =
           "https://myprofit.interactiveholic.net/myprofit/images/locations/logo/230206-161523-700.jpg";
-        const imageDescription = "The Mozilla logo";
+        this.imageUrlToBase64(imageURL).then(console.log);
 
-        // Ensure imageBox is defined and exists in the DOM
-        const imageBox = document.getElementById("imageBox");
-        if (!imageBox) {
-          console.error('Element with id "imageBox" not found.');
-        }
+        // const imageDescription = "The Mozilla logo";
 
-        const downloadedImg = new Image();
-        downloadedImg.crossOrigin = "anonymous"; // Handle cross-origin requests
-        downloadedImg.alt = imageDescription; // Set image description
-        downloadedImg.src = imageURL;
+        // // Ensure imageBox is defined and exists in the DOM
+        // const imageBox = document.getElementById("imageBox");
+        // if (!imageBox) {
+        //   console.error('Element with id "imageBox" not found.');
+        // }
 
-        downloadedImg.addEventListener("load", imageReceived, false);
-        downloadedImg.addEventListener("error", imageLoadError, false);
+        // const downloadedImg = new Image();
+        // downloadedImg.crossOrigin = "anonymous"; // Handle cross-origin requests
+        // downloadedImg.alt = imageDescription; // Set image description
+        // downloadedImg.src = imageURL;
 
-        function imageReceived() {
-          // Create and configure canvas
-          const canvas = document.createElement("canvas");
-          const context = canvas.getContext("2d");
+        // downloadedImg.addEventListener("load", imageReceived, false);
+        // downloadedImg.addEventListener("error", imageLoadError, false);
 
-          if (!context) {
-            console.error("Failed to get canvas context.");
-            return;
-          }
+        // function imageReceived() {
+        //   // Create and configure canvas
+        //   const canvas = document.createElement("canvas");
+        //   const context = canvas.getContext("2d");
 
-          // Set canvas size to image size
-          canvas.width = downloadedImg.width;
-          canvas.height = downloadedImg.height;
+        //   if (!context) {
+        //     console.error("Failed to get canvas context.");
+        //     return;
+        //   }
 
-          // Draw image onto canvas
-          context.drawImage(downloadedImg, 0, 0);
+        //   // Set canvas size to image size
+        //   canvas.width = downloadedImg.width;
+        //   canvas.height = downloadedImg.height;
 
-          // Optionally add text to canvas
-          context.font = "16px Arial";
-          context.fillStyle = "black";
-          context.fillText(downloadedImg.alt, 10, 20); // Draw text on canvas
+        //   // Draw image onto canvas
+        //   context.drawImage(downloadedImg, 0, 0);
 
-          // Append canvas to the imageBox
-          if (imageBox) {
-            imageBox.appendChild(canvas);
-          }
+        //   // Optionally add text to canvas
+        //   context.font = "16px Arial";
+        //   context.fillStyle = "black";
+        //   context.fillText(downloadedImg.alt, 10, 20); // Draw text on canvas
 
-          // Save canvas image data to localStorage
-          try {
-            localStorage.setItem(
-              "saved-image-example",
-              canvas.toDataURL("image/png")
-            );
+        //   // Append canvas to the imageBox
+        //   if (imageBox) {
+        //     imageBox.appendChild(canvas);
+        //   }
 
-            console.log("Image saved to localStorage.");
-          } catch (err) {
-            console.error(`Error saving image to localStorage: ${err}`);
-          }
-        }
+        //   // Save canvas image data to localStorage
+        //   try {
+        //     localStorage.setItem(
+        //       "saved-image-example",
+        //       canvas.toDataURL("image/png")
+        //     );
 
-        function imageLoadError() {
-          console.error("Failed to load image.");
-        }
+        //     console.log("Image saved to localStorage.");
+        //   } catch (err) {
+        //     console.error(`Error saving image to localStorage: ${err}`);
+        //   }
+        // }
+
+        // function imageLoadError() {
+        //   console.error("Failed to load image.");
+        // }
 
         this.noNota =
           transactions.noNotaNew != null
@@ -472,6 +474,19 @@ export default defineComponent({
           this.products = [];
         }
       }
+    },
+    async imageUrlToBase64(url) {
+      const data = await fetch(url);
+      const blob = await data.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          const base64data = reader.result;
+          resolve(base64data);
+        };
+        reader.onerror = reject;
+      });
     },
     openModalCash() {
       // edw receipt
