@@ -371,16 +371,16 @@ export default {
   },
   mounted() {
     // console.log('isChecked', this.isChecked)
-    // this.checkType();
+    this.checkType();
   },
   methods: {
     setDefaultImage(event) {
       event.target.src = defaultImage;
     },
     checkType() {
-      const check = JSON.parse(localStorage.getItem("type_order"));
-      check.name === "Take away" ? (this.wrap = true) : (this.wrap = false);
-      check.name === "Take away"
+      const check = localStorage.getItem("table_code");
+      check === "BUNGKUS" ? (this.wrap = true) : (this.wrap = false);
+      check === "BUNGKUS"
         ? (this.wrapDefault = true)
         : (this.wrapDefault = false);
     },
