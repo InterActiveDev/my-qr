@@ -1984,21 +1984,12 @@ export default defineComponent({
           const matchedData = jsonData.find(
             (data) => data.code_type === code_type
           );
-          //   this.selectedOrderType = matchedData;
-          console.log("matchedData", matchedData);
           localStorage.setItem(
             "selected_type_order",
             JSON.stringify(matchedData)
           );
         }
-
-        // console.log(
-        //   'option.querySelector("h2").innerText',
-        //   option.querySelector("h2").innerText
-        // );
       });
-
-      // console.log("this", this.selectedOrderType);
     },
     closeModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");
