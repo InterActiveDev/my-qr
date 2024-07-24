@@ -17,7 +17,9 @@
             <div class="type-order-data" v-if="orderTypes">
               <div
                 class="type-order-option"
-                :class="{ active: index === 0 }"
+                :class="{
+                  active: tableCode == 'BUNGKUS' ? index === 1 : index === 0,
+                }"
                 v-for="(order, index) in orderTypes"
                 :key="index"
                 @click="typeOrderSelect(order.name, order.code_type)"
@@ -918,9 +920,26 @@ export default defineComponent({
     // localStorage.removeItem("qrContent");
     // localStorage.removeItem("checkoutData");
     this.getList();
+
+    this.tableCode = this.tableCode ? this.tableCode : "";
+    let orderTypeData = localStorage.getItem("order_type");
+    if (this.tableCode == "BUNGKUS") {
+      localStorage.setItem(
+        "selected_type_order",
+        JSON.stringify(JSON.parse(orderTypeData)[1])
+      );
+    } else {
+      localStorage.setItem(
+        "selected_type_order",
+        JSON.stringify(JSON.parse(orderTypeData)[0])
+      );
+    }
+    this.selectedOrderType = JSON.parse(orderTypeData)[0];
+
     this.updateCurrentTime();
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
   },
+  created() {},
   beforeDestroy() {
     // Clear the interval timer when the component is destroyed
     clearInterval(this.localStorageTimer);
@@ -938,6 +957,7 @@ export default defineComponent({
       // const currentCartItems = JSON.parse(localStorage.getItem("cart_items"));
       const currentCartItems =
         JSON.parse(localStorage.getItem("cart_items")).data || [];
+
       // if (JSON.stringify(currentCartItems) !== []) {
       if (currentCartItems.length !== 0) {
         this.getList();
@@ -946,6 +966,7 @@ export default defineComponent({
     getList() {
       const location = localStorage.getItem("location");
       const tableCodeRaw = localStorage.getItem("table_code");
+      this.tableCode = tableCodeRaw;
       if (
         localStorage.getItem("table_code") == "null" ||
         localStorage.getItem("table_code") == null
@@ -963,13 +984,6 @@ export default defineComponent({
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
-      this.tableCode = tableCodeRaw ? tableCodeRaw : "";
-      let orderTypeData = localStorage.getItem("order_type");
-      localStorage.setItem(
-        "selected_type_order",
-        JSON.stringify(JSON.parse(orderTypeData)[0])
-      );
-      this.selectedOrderType = JSON.parse(orderTypeData)[0];
 
       if (!this.selectedOrderType) {
         this.$router.push("/restaurant/detail/" + location);
@@ -1958,22 +1972,33 @@ export default defineComponent({
       let orderTypeData = localStorage.getItem("order_type");
       const jsonData = JSON.parse(orderTypeData);
 
+      // First, remove the 'active' class from all options
+      typeOrderOptions.forEach((option) => {
+        option.classList.remove("active");
+      });
+
+      // Then, find and add the 'active' class to the matched option
       typeOrderOptions.forEach((option) => {
         if (option.querySelector("h2").innerText === name) {
           option.classList.add("active");
-
           const matchedData = jsonData.find(
             (data) => data.code_type === code_type
           );
-          this.selectedOrderType = matchedData;
+          //   this.selectedOrderType = matchedData;
+          console.log("matchedData", matchedData);
           localStorage.setItem(
             "selected_type_order",
             JSON.stringify(matchedData)
           );
-        } else {
-          option.classList.remove("active");
         }
+
+        // console.log(
+        //   'option.querySelector("h2").innerText',
+        //   option.querySelector("h2").innerText
+        // );
       });
+
+      // console.log("this", this.selectedOrderType);
     },
     closeModalConfrimOrder() {
       let modalConfirm = document.getElementById("modalConfirmOrder");

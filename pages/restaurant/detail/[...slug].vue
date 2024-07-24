@@ -54,7 +54,7 @@
           <!-- sort item -->
           <div class="sort-item" v-if="products && isErrorUrl == false">
             <div
-              class="btn-group flex items-center justify-start gap-2 max-w-full min-w-full overflow-auto"
+              class="btn-group flex items-center justify-start gap-2 max-w-full min-w-full overflow-x-auto"
             >
               <button class="btn btn-primary">
                 <span>Semua Produk</span>
@@ -64,7 +64,7 @@
               </button>
               <button class="btn btn-muted" @click="openModalCategory">
                 <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="currentColor" d="M9 5v4h12V5M9 19h12v-4H9m0-1h12v-4H9M4 9h4V5H4m0 14h4v-4H4m0-1h4v-4H4z"/></svg> -->
-                Kategori Lainya
+                Kategori
               </button>
               <button
                 class="btn btn-riwayat"
@@ -427,7 +427,7 @@ export default defineComponent({
   },
   data() {
     return {
-      appVersion: "1.0.4",
+      appVersion: "1.0.5",
       showScrollButton: false,
       navbarTo: "/",
       isHidden: true,
