@@ -70,6 +70,7 @@
                     <div class="flex gap-3">
                       <span class="detail">{{ status }}</span>
                       <button
+                        v-if="payment === 'QRIS'"
                         type="button"
                         @click="checkPaymentTrigger"
                         class="px-2 py-1 relative rounded group text-center text-white inline-block"
