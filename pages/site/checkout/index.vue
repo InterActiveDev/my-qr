@@ -14,7 +14,26 @@
           <div class="type-order">
             <span class="">Jenis Pesanan</span>
 
-            <div class="type-order-data" v-if="orderTypes">
+            <div class="type-order-data" v-if="orderTypes && user === 'gacoan'">
+              <div v-for="(order, index) in orderTypes" :key="index">
+                <div
+                  v-if="tableCode === 'BUNGKUS' && index === 1"
+                  class="type-order-option active"
+                  @click="typeOrderSelect(order.name, order.code_type)"
+                >
+                  <h2>{{ order.name }}</h2>
+                </div>
+                <div
+                  v-else-if="tableCode !== 'BUNGKUS' && index === 0"
+                  class="type-order-option active"
+                  @click="typeOrderSelect(order.name, order.code_type)"
+                >
+                  <h2>{{ order.name }}</h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="type-order-data" v-if="orderTypes && user !== 'gacoan'">
               <div
                 class="type-order-option"
                 :class="{
@@ -57,7 +76,7 @@
                               currentTime < items.orderTimeStart &&
                               currentTime > items.orderTimeEnd)
                           "
-                          >*Tidak tersedia diwaktu
+                          >*Sedang tidak tersedia
                         </small>
 
                         <p class="font-grey">
@@ -914,6 +933,12 @@ export default defineComponent({
       showModalChangeMenu: false,
       changeItem: null,
       modalKey: 0,
+      resultData: null,
+      resultPosData: null,
+      selectedOrderTypeData: null,
+      dataData: null,
+      locIdData: null,
+      user: "",
     };
   },
   mounted() {
@@ -984,6 +1009,17 @@ export default defineComponent({
       const data_restaurant =
         JSON.parse(localStorage.getItem("data_restaurant")) || [];
       this.promos = JSON.parse(localStorage.getItem("promo")) || [];
+
+      if (data_restaurant.appid === "MP01M51463F20230206169") {
+        // test budidi MP01M51463F20230206169,
+        this.user = "tester";
+      } else if (data_restaurant.appid === "MP01M89093F20230801804") {
+        // gacoan
+        this.user = "gacoan";
+      } else {
+        // other
+        this.user = "other";
+      }
 
       if (!this.selectedOrderType) {
         this.$router.push("/restaurant/detail/" + location);
@@ -1552,253 +1588,46 @@ export default defineComponent({
           if (result && result.data.status === "success") {
             const transactionId = result.data.result[0].transactionId;
 
-            // MP01M381F20190423491 keripiku buat dev
-            if (appid == "MP01M381F20190423491" && host == "localhost:3000") {
-              // ini test
-              if (this.table.paymentMethod.payment_category != "e-money") {
-                // cash and other payment
-                const token = localStorage.getItem("token");
-                const noNota = {
-                  no_nota: result.data.result[0].noNota,
-                };
+            // ini akses real
+            if (this.table.paymentMethod.payment_category != "e-money") {
+              // cash and other payment
+              const token = localStorage.getItem("token");
+              const noNota = {
+                no_nota: result.data.result[0].noNota,
+              };
 
-                // ini karna ada case data nya myresto_key kosong
-                if (this.table.paymentMethod.payment_myresto_key !== null) {
-                  // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
-                  if (
-                    this.table.paymentMethod.payment_myresto_key.toLowerCase() ==
-                    "cash"
-                  ) {
-                    if (data_restaurant.isintegrated_myresto === "1") {
-                      // sync ke my Resto kalau payment cash
-                      FetchData.syncMyResto(noNota, token)
-                        .then((resultPos) => {
-                          // get nota
-                          this.getNota(result, transactionId);
-
-                          this.setHistory(
-                            result,
-                            resultPos,
-                            selectedOrderType,
-                            data,
-                            locId
-                          );
-                        })
-                        .catch((err) => {
-                          this.showModalWaiting = false;
-                          this.showModalError = true;
-                          // this.errorMessage = err.response.data.message;
-                          this.errorMessage =
-                            "Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.";
-                          console.log("err: ", err.message);
-                        });
-                    } else {
-                      this.getNota(result, transactionId);
-                      this.setHistory(
-                        result,
-                        null,
-                        selectedOrderType,
-                        data,
-                        locId
-                      );
-                    }
-                  } else {
-                    if (data_restaurant.isintegrated_myresto === "1") {
-                      // edc and other (actually do the same atm)
-                      FetchData.syncMyResto(noNota, token)
-                        .then((resultPos) => {
-                          // get nota
-                          this.getNota(result, transactionId);
-                          this.setHistory(
-                            result,
-                            resultPos,
-                            selectedOrderType,
-                            data,
-                            locId
-                          );
-                        })
-                        .catch((err) => {
-                          this.showModalWaiting = false;
-                          this.showModalError = true;
-                          // this.errorMessage = err.response.data.message;
-                          this.errorMessage =
-                            "Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.";
-                          console.log("err: ", err.message);
-                        });
-                    } else {
-                      this.getNota(result, transactionId);
-                      this.setHistory(
-                        result,
-                        null,
-                        selectedOrderType,
-                        data,
-                        locId
-                      );
-                    }
-                  }
-                } else {
-                  if (data_restaurant.isintegrated_myresto === "1") {
-                    // kalau data myresto_key kosong, langsung sync ke my Resto
-                    FetchData.syncMyResto(noNota, token)
-                      .then((resultPos) => {
-                        // get nota
-                        this.getNota(result, transactionId);
-
-                        this.setHistory(
-                          result,
-                          resultPos,
-                          selectedOrderType,
-                          data,
-                          locId
-                        );
-                      })
-                      .catch((err) => {
-                        this.showModalWaiting = false;
-                        this.showModalError = true;
-                        // this.errorMessage = err.response.data.message;
-                        this.errorMessage =
-                          "Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.";
-                        console.log("err: ", err.message);
-                      });
-                  } else {
+              // ini karna ada case data nya myresto_key kosong
+              if (data_restaurant.isintegrated_myresto === "1") {
+                // sync ke my Resto kalau payment cash
+                FetchData.syncMyResto(noNota, token)
+                  .then((resultPos) => {
+                    // get nota
                     this.getNota(result, transactionId);
-                    this.setHistory(
+
+                    this.setData(
                       result,
-                      null,
+                      resultPos,
                       selectedOrderType,
                       data,
                       locId
                     );
-                  }
-                }
+                  })
+                  .catch((err) => {
+                    this.showModalWaiting = false;
+                    this.showModalError = true;
+                    // this.errorMessage = err.response.data.message;
+                    this.errorMessage =
+                      "Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.";
+                    console.log("err: ", err.message);
+                  });
               } else {
-                // get nota
                 this.getNota(result, transactionId);
-                this.setHistory(result, null, selectedOrderType, data, locId);
+                this.setData(result, null, selectedOrderType, data, locId);
               }
             } else {
-              // ini akses real
-              if (this.table.paymentMethod.payment_category != "e-money") {
-                // cash and other payment
-                const token = localStorage.getItem("token");
-                const noNota = {
-                  no_nota: result.data.result[0].noNota,
-                };
-
-                // ini karna ada case data nya myresto_key kosong
-                if (this.table.paymentMethod.payment_myresto_key !== null) {
-                  // ini kalau data myresto_key ga kosong, di compare lagi beneran cash atau method lain, edc misalnya
-                  if (
-                    this.table.paymentMethod.payment_myresto_key.toLowerCase() ==
-                    "cash"
-                  ) {
-                    if (data_restaurant.isintegrated_myresto === "1") {
-                      // sync ke my Resto kalau payment cash
-                      FetchData.syncMyResto(noNota, token)
-                        .then((resultPos) => {
-                          // get nota
-                          this.getNota(result, transactionId);
-
-                          this.setHistory(
-                            result,
-                            resultPos,
-                            selectedOrderType,
-                            data,
-                            locId
-                          );
-                        })
-                        .catch((err) => {
-                          this.showModalWaiting = false;
-                          this.showModalError = true;
-                          // this.errorMessage = err.response.data.message;
-                          this.errorMessage =
-                            "Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.";
-                          console.log("err: ", err.message);
-                        });
-                    } else {
-                      this.getNota(result, transactionId);
-                      this.setHistory(
-                        result,
-                        null,
-                        selectedOrderType,
-                        data,
-                        locId
-                      );
-                    }
-                  } else {
-                    if (data_restaurant.isintegrated_myresto === "1") {
-                      // edc and other (actually do the same atm)
-                      FetchData.syncMyResto(noNota, token)
-                        .then((resultPos) => {
-                          // get nota
-                          this.getNota(result, transactionId);
-                          this.setHistory(
-                            result,
-                            resultPos,
-                            selectedOrderType,
-                            data,
-                            locId
-                          );
-                        })
-                        .catch((err) => {
-                          this.showModalWaiting = false;
-                          this.showModalError = true;
-                          // this.errorMessage = err.response.data.message;
-                          this.errorMessage =
-                            "Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.";
-                          console.log("err: ", err.message);
-                        });
-                    } else {
-                      this.getNota(result, transactionId);
-                      this.setHistory(
-                        result,
-                        null,
-                        selectedOrderType,
-                        data,
-                        locId
-                      );
-                    }
-                  }
-                } else {
-                  if (data_restaurant.isintegrated_myresto === "1") {
-                    // kalau data myresto_key kosong, langsung sync ke my Resto
-                    FetchData.syncMyResto(noNota, token)
-                      .then((resultPos) => {
-                        // get nota
-                        this.getNota(result, transactionId);
-                        this.setHistory(
-                          result,
-                          resultPos,
-                          selectedOrderType,
-                          data,
-                          locId
-                        );
-                      })
-                      .catch((err) => {
-                        this.showModalWaiting = false;
-                        this.showModalError = true;
-                        // this.errorMessage = err.response.data.message;
-                        this.errorMessage =
-                          "Koneksi sedang tidak stabil Silahkan coba kembali beberapa saat lagi atau ganti metode pembayaran lain.";
-                        console.log("err: ", err.message);
-                      });
-                  } else {
-                    this.getNota(result, transactionId);
-                    this.setHistory(
-                      result,
-                      null,
-                      selectedOrderType,
-                      data,
-                      locId
-                    );
-                  }
-                }
-              } else {
-                console.log("ggg");
-                // get nota
-                this.getNota(result, transactionId);
-                this.setHistory(result, null, selectedOrderType, data, locId);
-              }
+              // get nota
+              this.getNota(result, transactionId);
+              this.setData(result, null, selectedOrderType, data, locId);
             }
           }
         })
@@ -1815,17 +1644,38 @@ export default defineComponent({
           // }
         });
     },
+    generateNotaManual(restaurant, qrContent) {
+      // creating short no nota manual
+      let alpha = "";
+      let restoname = restaurant.loc_name.split(" ");
+
+      restoname.forEach(function (name) {
+        alpha += name.charAt(0).toUpperCase();
+      });
+
+      let short = String(qrContent.contents.transactionId).slice(-4);
+      return alpha + "5" + short + "Q";
+    },
     setHistory(result, resultPos, selectedOrderType, data, locId) {
-      const dr = JSON.parse(localStorage.getItem("data_restaurant"));
-      // MP01M51463F20230206169 budidi | MP01M32319F20221011805 geprek | MP01M381F20190423491 keripiku
-      // if(dr.appid == 'MP01M51463F20230206169' || dr.appid == 'MP01M32319F20221011805' || dr.appid == 'MP01M381F20190423491') {
+      const qrContent = JSON.parse(localStorage.getItem("qrContent"));
+      const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+
+      // creating short no nota manual
+      let shortNota = this.generateNotaManual(restaurant, qrContent);
+
       const dataDetail = {
         nota: result.data.result[0].noNota,
-        notaShort: resultPos ? resultPos.data.data.shortOrderNumber : null,
+        notaShort: shortNota,
         orderType: selectedOrderType,
         data: data[0],
         status: "pending",
         isChecked: false,
+        qrContent: {
+          transactionId: qrContent.contents.transactionId,
+          noNota: qrContent.contents.noNota,
+          paymentMethod: qrContent.contents.paymentMethod,
+          qrisData: qrContent.contents.qrisData,
+        },
       };
 
       let historyTemp = JSON.parse(localStorage.getItem("history"));
@@ -1844,7 +1694,13 @@ export default defineComponent({
         }
         localStorage.setItem("history", JSON.stringify(historyTemp));
       }
-      // }
+    },
+    setData(result, resultPos, selectedOrderType, data, locId) {
+      this.resultData = result;
+      this.resultPosData = resultPos;
+      this.selectedOrderTypeData = selectedOrderType;
+      this.dataData = data;
+      this.locIdData = locId;
     },
     today(type) {
       const today = new Date();
@@ -1902,6 +1758,15 @@ export default defineComponent({
             "cart_items",
             JSON.stringify({ isDone: true, data: cartItemTemp })
           );
+
+          this.setHistory(
+            this.resultData,
+            this.resultPosData,
+            this.selectedOrderTypeData,
+            this.dataData,
+            this.locIdData
+          );
+
           this.$router.push("/qris");
         }
       }, 2000);
@@ -1953,6 +1818,15 @@ export default defineComponent({
                 "cart_items",
                 JSON.stringify({ isDone: true, data: cartItemTemp })
               );
+
+              this.setHistory(
+                this.resultData,
+                this.resultPosData,
+                this.selectedOrderTypeData,
+                this.dataData,
+                this.locIdData
+              );
+
               this.$router.push("/site/receipt");
             }
           }, 1000);
