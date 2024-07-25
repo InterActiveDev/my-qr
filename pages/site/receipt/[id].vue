@@ -67,10 +67,48 @@
                   </div>
                   <div class="items">
                     <span class="title">Status</span>
-                    <span class="detail">{{ status }}</span>
+                    <div class="flex gap-3">
+                      <span class="detail">{{ status }}</span>
+                      <button
+                        v-if="payment === 'QRIS'"
+                        type="button"
+                        @click="checkPaymentTrigger"
+                        class="px-2 py-1 relative rounded group text-center text-white inline-block"
+                      >
+                        <span
+                          class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-[#da2424] to-red-500"
+                        ></span>
+                        <span
+                          class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-[#da2424] to-red-500"
+                        ></span>
+                        <span
+                          class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-[#da2424] to-red-500"
+                        ></span>
+                        <span
+                          class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-[#da2424] from-red-500"
+                        ></span>
+                        <span class="relative"> Check Payment </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
 
+                <span
+                  class="text-right underline font-bold"
+                  :class="
+                    statusTransaksi == 'Transaksi Sukses'
+                      ? 'text-green-500 mr-10'
+                      : 'text-red-500 mr-6'
+                  "
+                >
+                  {{ statusTransaksi }}
+                </span>
+                <hr />
+                <span class="note" v-if="expiredDate">
+                  Batas maksimal pembayaran QRIS adalah : <br />
+                  {{ this.formatDate(expiredDate) }}
+                </span>
+                <hr v-if="expiredDate" />
                 <span class="note"
                   >Silahkan perlihatkan nota ini ke kasir untuk konfirmasi
                   pembayaran.</span
@@ -111,7 +149,6 @@
                       </div>
                     </div>
                     <div class="col-2">
-                      <!-- {{ formatCurrency(data.price) }} -->
                       {{
                         formatCurrency(
                           data.price +
@@ -258,6 +295,9 @@ export default defineComponent({
       noNota: "",
       status: "PENDING",
       payment: "",
+      mID: "",
+      invoiceId: "",
+      refNo: "",
       paymentDetail: null,
       table: "",
       customer: {},
@@ -266,6 +306,12 @@ export default defineComponent({
       locProducts: {},
       isGeneratingPDF: false,
       restaurant: {},
+      qrContent: {},
+      selectedHistory: {},
+      expiredDate: null,
+      statusTransaksi: "",
+      messagePaymentError: "",
+      messagePaymentError: "",
     };
   },
   mounted() {
@@ -278,17 +324,64 @@ export default defineComponent({
     if (dataRes.loc_myorderqr_print == 1) {
       if (this.isAndroid) {
         console.log("Android detected");
-        this.getData();
         this.printAndroid();
-      } else {
-        this.getData();
       }
     } else {
       console.log("Other OS detected");
-      this.getData();
     }
+    this.getData();
   },
   methods: {
+    checkPaymentTrigger() {
+      const url = "/qr_myorder/check_payment_qris";
+      const data = {
+        mID: this.selectedHistory.data.mID,
+        invoiceId: this.selectedHistory.qrContent.qrisData.invoiceId,
+        refNo: this.selectedHistory.qrContent.qrisData.refNo,
+      };
+
+      const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+
+      FetchData.createData(url, data)
+        .then((res) => {
+          if (res.data.data.status === "success") {
+            this.messagePaymentError = "";
+            this.messagePaymentSuccess = "Pembayaran berhasil";
+            this.status = "LUNAS";
+            this.statusTransaksi = "Transaksi Sukses";
+            const hlCode = this.$route.params.id;
+
+            let historyTemp = localStorage.getItem("history")
+              ? JSON.parse(localStorage.getItem("history"))
+              : [];
+            historyTemp[restaurant.loc_id].forEach((item) => {
+              if (item.nota === hlCode) {
+                item.status = "selesai";
+              }
+            });
+            localStorage.setItem("history", JSON.stringify(historyTemp));
+
+            // res.data.data[0].forEach((item) => {
+            //   if (item.status === 1) {
+            //     const dataItem = this.dataPending.find(
+            //       (data) => data.nota === item.noNota
+            //     );
+            //     if (dataItem) {
+            //       dataItem.status = "selesai";
+            //     }
+            //   }
+            // });
+            // localStorage.setItem("history", JSON.stringify(historyTemp));
+          } else {
+            console.log("last", res.data.data.message);
+            this.statusTransaksi = "Transaksi Pending";
+            this.messagePaymentError = "Pembayaran tertunda";
+          }
+        })
+        .catch((error) => {
+          console.log("error message (1) : ", error);
+        });
+    },
     printAndroid() {
       this.test = "print android success";
       const data = {
@@ -347,8 +440,9 @@ export default defineComponent({
         const selectedHistory = selectedLocation.filter(
           (item) => item.nota == hlCode
         );
-        const tableCode = localStorage.getItem("table_code");
 
+        this.selectedHistory = selectedHistory[0];
+        this.expiredDate = selectedHistory[0].qrContent.qrisData.expiredDate;
         this.customer = selectedHistory[0].data.guest_detail;
         this.typeOrder = selectedHistory[0].orderType;
         this.paymentDetail = selectedHistory[0].data.payment;
@@ -365,6 +459,7 @@ export default defineComponent({
           selectedHistory[0].status == "selesai"
             ? "LUNAS"
             : selectedHistory[0].status.toUpperCase();
+        this.mID = selectedHistory[0].data.mID;
       }
     },
     openModalCash() {

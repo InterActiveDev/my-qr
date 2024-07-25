@@ -297,13 +297,7 @@ export default defineComponent({
           console.log("error message (2) : ", error.message);
         });
     },
-    updatePayment() {
-      const dateYMD = this.today("dateYMD");
-      const dateYMDHMS = this.today("dateYMDHMS");
-      const checkoutData = JSON.parse(localStorage.getItem("receipt")) || [];
-      const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
-      const qrContent = JSON.parse(localStorage.getItem("qrContent"));
-
+    generateNotaManual(restaurant, qrContent) {
       // creating short no nota manual
       let alpha = "";
       let restoname = restaurant.loc_name.split(" ");
@@ -313,7 +307,17 @@ export default defineComponent({
       });
 
       let short = String(qrContent.contents.transactionId).slice(-4);
-      let shortNota = alpha + "5" + short + "Q";
+      return alpha + "5" + short + "Q";
+    },
+    updatePayment() {
+      const dateYMD = this.today("dateYMD");
+      const dateYMDHMS = this.today("dateYMDHMS");
+      const checkoutData = JSON.parse(localStorage.getItem("receipt")) || [];
+      const restaurant = JSON.parse(localStorage.getItem("data_restaurant"));
+      const qrContent = JSON.parse(localStorage.getItem("qrContent"));
+
+      // creating short no nota manual
+      let shortNota = this.generateNotaManual(restaurant, qrContent);
 
       const data = {
         transaction_id: this.transactionId,
