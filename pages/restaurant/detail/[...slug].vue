@@ -336,7 +336,7 @@
                         </defs>
                       </svg>
                       <!-- end icon -->
-                      <span> {{ perProduct.category_name }} </span>
+                      <span> {{ perProduct.category_name }}</span>
                     </div>
                     <button
                       @click="toDetail(perProduct.category_id)"
@@ -922,25 +922,25 @@ export default defineComponent({
       }
     },
     getList() {
-      this.clockNow = new Date().toLocaleTimeString("en-GB", { hour12: false });
       let storedProducts = localStorage.getItem("data_menu");
       this.products = JSON.parse(storedProducts);
       this.countProduct = 0;
 
-      const time = new Date().toLocaleTimeString("en-GB", { hour12: false });
+      const timeRaw = new Date().toLocaleTimeString("en-GB", { hour12: false });
+      this.clockNow = String(timeRaw);
 
       this.category = JSON.parse(localStorage.getItem("data_menu"));
 
       const filteredCategory = this.category.filter(
         (item) =>
           (item.order_time_start < item.order_time_end &&
-            item.order_time_start <= time &&
-            item.order_time_end >= time) ||
+            item.order_time_start <= this.clockNow &&
+            item.order_time_end >= this.clockNow) ||
           (item.order_time_start >= item.order_time_end &&
-            time >= item.order_time_start) ||
+            this.clockNow >= item.order_time_start) ||
           (item.order_time_start > item.order_time_end &&
-            item.order_time_start >= time &&
-            item.order_time_end >= time)
+            item.order_time_start >= this.clockNow &&
+            item.order_time_end >= this.clockNow)
       );
 
       filteredCategory.forEach((element) => {
@@ -948,7 +948,8 @@ export default defineComponent({
       });
     },
     getListCategory() {
-      const time = new Date().toLocaleTimeString("en-GB", { hour12: false });
+      const timeRaw = new Date().toLocaleTimeString("en-GB", { hour12: false });
+      const time = String(timeRaw);
       this.category = JSON.parse(localStorage.getItem("data_menu"));
 
       const filteredCategory = this.category.filter(
@@ -976,9 +977,10 @@ export default defineComponent({
     },
     searchProducts() {
       if (this.searchQuery.trim() !== "") {
-        const currentTime = new Date().toLocaleTimeString("en-GB", {
+        const timeRaw = new Date().toLocaleTimeString("en-GB", {
           hour12: false,
         });
+        const currentTime = String(timeRaw);
 
         let tempArr = []; // nanti hasilnya ditampung dulu kesini
 
