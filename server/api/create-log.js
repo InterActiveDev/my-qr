@@ -10,6 +10,9 @@ export default defineEventHandler(async (event) => {
       userAgentData,
       languages,
       platform,
+      appVersion,
+      lastUpdate,
+      url,
     } = await readBody(event);
 
     const now = new Date();
@@ -31,6 +34,9 @@ export default defineEventHandler(async (event) => {
   userAgentData: ${JSON.stringify(userAgentData)}
   languages: ${JSON.stringify(languages)}
   platform: ${platform}
+  appVersion: ${appVersion}
+  lastUpdate: ${lastUpdate}
+  url: ${url}
 ]\n`;
 
     // Check if the file exists

@@ -429,7 +429,7 @@ export default defineComponent({
   },
   data() {
     return {
-      appVersion: "1.0.5",
+      appVersion: "1.0.6",
       showScrollButton: false,
       navbarTo: "/",
       isHidden: true,
@@ -738,6 +738,9 @@ export default defineComponent({
             userAgentData,
             languages,
             platform,
+            appVersion,
+            lastUpdate,
+            url,
           }),
         });
         const result = await response.json();
