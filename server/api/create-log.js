@@ -13,6 +13,8 @@ export default defineEventHandler(async (event) => {
       appVersion,
       lastUpdate,
       url,
+      locName,
+      table,
     } = await readBody(event);
 
     const now = new Date();
@@ -28,6 +30,9 @@ export default defineEventHandler(async (event) => {
 
     const timeStr = now.toISOString().split("T")[1].split(".")[0]; // Get the time part without milliseconds
     const content = `${dateStr} ${timeStr} [
+  locName: ${locName}
+  table: ${table}
+  url: ${url}
   ipLocal: ${ipAddress} 
   ipPublic: ${JSON.stringify(publicIp)}
   userAgent: ${userAgent}
@@ -36,7 +41,6 @@ export default defineEventHandler(async (event) => {
   platform: ${platform}
   appVersion: ${appVersion}
   lastUpdate: ${lastUpdate}
-  url: ${url}
 ]\n`;
 
     // Check if the file exists
