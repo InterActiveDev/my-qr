@@ -408,6 +408,8 @@ import BottomNavCart from "@/components/BottomNavCart.vue";
 import FetchData from "~/middleware/services/Fetch.js";
 import { reactive, watch } from "vue";
 import { isIfStatement } from "@babel/types";
+import axios from "axios";
+import { useFetch } from "#app";
 
 export default defineComponent({
   webVitals: {
@@ -558,6 +560,8 @@ export default defineComponent({
     }
   },
   async mounted() {
+    this.createLogFile();
+
     const appVersion = localStorage.getItem("appVersion");
     const location = localStorage.getItem("location");
     const history = localStorage.getItem("history");
@@ -706,6 +710,46 @@ export default defineComponent({
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    async createLogFile() {
+      console.log("first", window);
+      const { data } = await useFetch("/api/get-ip");
+      const ipAddress = ref(data.value.ip).value;
+      const publicIpRaw = await axios.get("https://api.ipify.org?format=json");
+      const publicIp = publicIpRaw.data.ip;
+      const userAgent = window.clientInformation.userAgent;
+      const userAgentData = window.clientInformation.userAgentData;
+      const languages = window.clientInformation.languages;
+      const platform = window.clientInformation.platform;
+      const appVersion = window.localStorage.appVersion;
+      const lastUpdate = window.localStorage.last_update;
+      const url = window.location.href;
+      // console.log("userAgentData", userAgentData);
+
+      try {
+        const response = await fetch("/api/create-log", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ipAddress,
+            publicIp,
+            userAgent,
+            userAgentData,
+            languages,
+            platform,
+          }),
+        });
+        const result = await response.json();
+        if (response.ok) {
+          console.log("File updated successfully:", result.fileName);
+        } else {
+          console.error("Error updating file:", result.error);
+        }
+      } catch (error) {
+        console.error("Error making API request:", error);
+      }
+    },
     handleScroll() {
       this.showScrollButton = window.scrollY > 200;
     },
