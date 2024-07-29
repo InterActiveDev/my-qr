@@ -711,7 +711,7 @@ export default defineComponent({
   },
   methods: {
     async createLogFile() {
-      // console.log("first", window);
+      // console.log("first", window.localStorage);
       const { data } = await useFetch("/api/get-ip");
       const ipAddress = ref(data.value.ip).value;
       const publicIpRaw = await axios.get("https://api.ipify.org?format=json");
@@ -723,6 +723,8 @@ export default defineComponent({
       const appVersion = window.localStorage.appVersion;
       const lastUpdate = window.localStorage.last_update;
       const url = window.location.href;
+      const locName = JSON.parse(window.localStorage.data_restaurant).loc_name;
+      const table = window.localStorage.table_code;
 
       try {
         const response = await fetch("/api/create-log", {
@@ -740,6 +742,8 @@ export default defineComponent({
             appVersion,
             lastUpdate,
             url,
+            locName,
+            table,
           }),
         });
         const result = await response.json();

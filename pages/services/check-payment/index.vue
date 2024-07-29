@@ -119,7 +119,7 @@
           :key="index"
           class="collapse flex justify-between items-center w-full max-w bg-white h-full border-2 border-[#00000020] mb-4 rounded-sm"
         >
-          <summary class="cursor-pointer hover:bg-gray-200">
+          <summary class="cursor-pointer bg-slate-200 hover:bg-gray-300">
             <div
               class="flex flex-rpw mx-5 justify-between items-center text-black pt-4 pb-3"
             >
