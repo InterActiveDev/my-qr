@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { DateTime } from "luxon";
 
 export default defineEventHandler(async (event) => {
   try {
@@ -17,9 +18,9 @@ export default defineEventHandler(async (event) => {
       table,
     } = await readBody(event);
 
-    const now = new Date();
-    const yearMonth = now.toISOString().split("T")[0].slice(0, 7); // Get the year and month part of the ISO string
-    const dateStr = now.toISOString().split("T")[0]; // Get the date part of the ISO string
+    const now = DateTime.now().setZone("Asia/Jakarta");
+    const yearMonth = now.toISODate().slice(0, 7); // Get the year and month part of the ISO string
+    const dateStr = now.toISODate(); // Get the date part of the ISO string
     const fileName = `${dateStr}.txt`;
     const logDir = path.join(process.cwd(), "log", yearMonth);
 
@@ -28,7 +29,7 @@ export default defineEventHandler(async (event) => {
 
     const filePath = path.join(logDir, fileName);
 
-    const timeStr = now.toISOString().split("T")[1].split(".")[0]; // Get the time part without milliseconds
+    const timeStr = now.toFormat("HH:mm:ss"); // Get the time part in HH:mm:ss format
     const content = `${dateStr} ${timeStr} [
   locName: ${locName}
   table: ${table}
