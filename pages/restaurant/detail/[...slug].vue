@@ -560,8 +560,6 @@ export default defineComponent({
     }
   },
   async mounted() {
-    this.createLogFile();
-
     const appVersion = localStorage.getItem("appVersion");
     const location = localStorage.getItem("location");
     const history = localStorage.getItem("history");
@@ -705,13 +703,14 @@ export default defineComponent({
       this.getCartItems();
     }
     window.addEventListener("scroll", this.handleScroll);
+
+    this.createLogFile();
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     async createLogFile() {
-      // console.log("first", window.localStorage);
       const { data } = await useFetch("/api/get-ip");
       const ipAddress = ref(data.value.ip).value;
       const publicIpRaw = await axios.get("https://api.ipify.org?format=json");
@@ -723,8 +722,9 @@ export default defineComponent({
       const appVersion = window.localStorage.appVersion;
       const lastUpdate = window.localStorage.last_update;
       const url = window.location.href;
-      const locName = JSON.parse(window.localStorage.data_restaurant).loc_name;
-      const table = window.localStorage.table_code;
+      const locNameRaw = await JSON.parse(window.localStorage.data_restaurant);
+      const locName = locNameRaw.loc_name;
+      const table = await window.localStorage.table_code;
 
       try {
         const response = await fetch("/api/create-log", {
