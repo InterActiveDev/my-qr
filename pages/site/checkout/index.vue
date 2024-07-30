@@ -1008,6 +1008,7 @@ export default defineComponent({
       dataData: null,
       locIdData: null,
       user: "",
+      timeUpdateTimer: null,
     };
   },
   mounted() {
@@ -1031,11 +1032,13 @@ export default defineComponent({
     this.selectedOrderType = JSON.parse(orderTypeData)[0];
 
     this.updateCurrentTime();
+    this.timeUpdateTimer = setInterval(this.updateCurrentTime, 1000);
     this.localStorageTimer = setInterval(this.checkLocalStorage, 500);
   },
   created() {},
   beforeDestroy() {
     // Clear the interval timer when the component is destroyed
+    clearInterval(this.timeUpdateTimer);
     clearInterval(this.localStorageTimer);
   },
   methods: {
