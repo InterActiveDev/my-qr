@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
 
     const filePath = path.join(logDir, fileName);
 
-    const timeStr = now.toFormat("HH:mm:ss"); // Get the time part in HH:mm:ss format
+    const timeStr = now.toFormat("HH:mm:ss");
     const content = `${dateStr} ${timeStr} [
   locName: ${locName}
   table: ${table}
