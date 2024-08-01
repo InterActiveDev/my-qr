@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     const yearMonth = now.toISODate().slice(0, 7);
     const dateStr = now.toISODate();
     const fileName = `${dateStr}.txt`;
-    const logDir = path.join(process.cwd(), "log", yearMonth);
+    const logDir = path.join(process.cwd(), "public", "logs", yearMonth);
 
     // Ensure the log directory exists
     await fs.mkdir(logDir, { recursive: true });
