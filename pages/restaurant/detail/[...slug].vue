@@ -725,6 +725,15 @@ export default defineComponent({
       const locNameRaw = await JSON.parse(window.localStorage.data_restaurant);
       const locName = locNameRaw.loc_name;
       const table = await window.localStorage.table_code;
+      const todayDateRaw = new Date();
+      const todayDate =
+        todayDateRaw.toISOString().slice(0, 10) +
+        " " +
+        todayDateRaw.getHours() +
+        ":" +
+        todayDateRaw.getMinutes() +
+        ":" +
+        todayDateRaw.getSeconds();
 
       try {
         const response = await fetch("/api/create-log", {
@@ -744,6 +753,7 @@ export default defineComponent({
             url,
             locName,
             table,
+            todayDate,
           }),
         });
         const result = await response.json();

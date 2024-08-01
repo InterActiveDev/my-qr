@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
       url,
       locName,
       table,
+      todayDate,
     } = await readBody(event);
 
     const now = DateTime.now().setZone("Asia/Jakarta");
@@ -42,6 +43,8 @@ export default defineEventHandler(async (event) => {
   platform: ${platform}
   appVersion: ${appVersion}
   lastUpdate: ${lastUpdate}
+  luxonTime: ${dateStr} ${timeStr}
+  todayDate: ${todayDate} 
 ]\n`;
 
     // Try to append to the file; if it doesn't exist, create it
