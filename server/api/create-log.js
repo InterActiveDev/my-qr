@@ -19,8 +19,8 @@ export default defineEventHandler(async (event) => {
     } = await readBody(event);
 
     const now = DateTime.now().setZone("Asia/Jakarta");
-    const yearMonth = now.toISODate().slice(0, 7); // Get the year and month part of the ISO string
-    const dateStr = now.toISODate(); // Get the date part of the ISO string
+    const yearMonth = now.toISODate().slice(0, 7);
+    const dateStr = now.toISODate();
     const fileName = `${dateStr}.txt`;
     const logDir = path.join(process.cwd(), "log", yearMonth);
 
