@@ -53,7 +53,6 @@ export default defineEventHandler(async (event) => {
         // File does not exist, create it
         await fs.writeFile(filePath, content, "utf8");
       } else {
-        // Another error occurred
         throw error;
       }
     }
