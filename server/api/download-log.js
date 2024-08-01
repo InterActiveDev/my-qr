@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const logDir = path.join(process.cwd(), "public", "logs", yearMonth);
-  const fileName = `${date}.txt`;
+  const fileName = `${date}.log`;
   const filePath = path.join(logDir, fileName);
 
   try {
