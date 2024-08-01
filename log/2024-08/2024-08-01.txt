@@ -505,3 +505,1550 @@
   appVersion: 1.0.6
   lastUpdate: "2024-07-31 17:46:11"
 ]
+2024-08-01 13:43:34 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 47
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/NDc=
+  ipLocal: 140.213.33.181:34889, 20.205.82.200:30500
+  ipPublic: "140.213.0.90"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Chromium","version":"124"},{"brand":"Google Chrome","version":"124"},{"brand":"Not-A.Brand","version":"99"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:43:54 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 83
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/ODM=
+  ipLocal: 114.79.17.183:43025, 20.205.82.199:21275
+  ipPublic: "114.79.23.139"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Google Chrome","version":"125"},{"brand":"Chromium","version":"125"},{"brand":"Not.A/Brand","version":"24"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:43:59 [
+  locName: Mie Gacoan Cab Surabaya Manyar
+  table: 14
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDUy/MTQ=
+  ipLocal: 140.213.52.119:62609, 20.205.82.200:30500
+  ipPublic: "140.213.52.119"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:01 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 46
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/NDY=
+  ipLocal: 114.10.79.46:39565, 20.205.82.200:54343
+  ipPublic: "114.10.79.46"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:01 [
+  locName: Mie Gacoan Cab Sby Manukan
+  table: 13
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUz?table_code=MTM=
+  ipLocal: 114.5.110.147:32044, 20.205.82.200:30500
+  ipPublic: "114.5.110.147"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:21 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 22
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/MjI=
+  ipLocal: 120.188.80.2:25533, 20.205.82.200:63946
+  ipPublic: "120.188.80.2"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:22 [
+  locName: Mie Gacoan Cab Sby Mayjend Sungkono
+  table: 19
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDYw/MTk=
+  ipLocal: 182.1.118.101:56044, 20.205.82.199:4176
+  ipPublic: "182.1.118.101"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:24 [
+  locName: Mie Gacoan Cab Sby Manukan
+  table: 21
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUz/MjE=
+  ipLocal: 182.4.134.119:45296, 20.205.82.200:54343
+  ipPublic: "182.4.134.119"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:26 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 22
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/MjI=
+  ipLocal: 120.188.80.2:25533, 20.205.82.200:30333
+  ipPublic: "120.188.80.2"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:34 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 05
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/MDU=
+  ipLocal: 182.2.140.130:53322, 20.205.82.199:45985
+  ipPublic: "182.2.140.130"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:36 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 08
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2/MDg=
+  ipLocal: 182.1.67.177:38466, 20.205.82.200:30333
+  ipPublic: "182.1.67.177"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","en","id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:38 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 05
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/MDU=
+  ipLocal: 182.2.140.130:53322, 20.205.82.199:45985
+  ipPublic: "182.2.140.130"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:41 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 08
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2/MDg=
+  ipLocal: 182.1.67.177:38466, 20.205.82.200:22780
+  ipPublic: "182.1.67.177"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","en","id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:44:46 [
+  locName: Mie Gacoan Cab Sby Kenjeran 2
+  table: 16
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU0/MTY=
+  ipLocal: 120.188.79.28:29343, 20.205.82.200:54343
+  ipPublic: "120.188.79.28"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3.1 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:21:28"
+]
+2024-08-01 13:44:58 [
+  locName: Mie Gacoan Cab Panglima Sudirman
+  table: 11
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQx/MTE=
+  ipLocal: 182.1.103.68:39918, 20.205.82.199:28047
+  ipPublic: "114.125.124.160"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","en","id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:45:04 [
+  locName: Mie Gacoan Sidoarjo Krian
+  table: 19
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc1/MTk=
+  ipLocal: 120.188.84.24:56987, 20.205.82.200:63946
+  ipPublic: "120.188.84.24"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:45:25 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 27
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/Mjc=
+  ipLocal: 182.1.81.45:56287, 20.205.82.199:4176
+  ipPublic: "182.1.81.45"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["en-GB"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:45:29 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 33
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2/MzM=
+  ipLocal: 114.5.110.175:36064, 20.205.82.200:30333
+  ipPublic: "114.5.110.175"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:45:42 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 26
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/MjY=
+  ipLocal: 114.79.23.139:51649, 20.205.82.200:22780
+  ipPublic: "114.79.23.139"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Google Chrome","version":"125"},{"brand":"Chromium","version":"125"},{"brand":"Not.A/Brand","version":"24"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:46:17 [
+  locName: Mie Gacoan Cab Sby Kenjeran 2
+  table: 40
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU0/NDA=
+  ipLocal: 114.79.23.141:46123, 20.205.82.200:54343
+  ipPublic: "114.79.23.141"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/25.0 Chrome/121.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not A(Brand","version":"99"},{"brand":"Samsung Internet","version":"25.0"},{"brand":"Chromium","version":"121"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","en-GB","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:21:28"
+]
+2024-08-01 13:46:20 [
+  locName: Mie Gacoan Cab Sby Manukan
+  table: 36
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUz/MzY=
+  ipLocal: 114.5.110.191:21342, 20.205.82.200:22780
+  ipPublic: "114.5.110.191"
+  userAgent: Mozilla/5.0 (Linux; U; Android 13; id-id; Redmi Note 12 Build/TKQ1.221114.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.25.2.6-gn
+  userAgentData: undefined
+  languages: ["id-ID","en-US"]
+  platform: Linux aarch64
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:46:29 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 52
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/NTI=
+  ipLocal: 182.2.166.128:39950, 20.205.82.200:22780
+  ipPublic: "182.2.166.128"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:46:39 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 36
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2/MzY=
+  ipLocal: 36.68.221.76:4751, 20.205.82.200:30333
+  ipPublic: "36.68.221.76"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","en-US","id","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:00 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 27
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2/Mjc=
+  ipLocal: 114.5.245.148:7452, 20.205.82.200:50056
+  ipPublic: "114.5.245.148"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:00 [
+  locName: Mie Gacoan Cab Panglima Sudirman
+  table: 18
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQx/MTg=
+  ipLocal: 120.188.86.41:38076, 20.205.82.200:22187
+  ipPublic: "120.188.86.41"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:01 [
+  locName: Mie Gacoan Sidoarjo Krian
+  table: 20
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc1/MjA=
+  ipLocal: 120.188.75.153:23316, 20.205.82.200:22780
+  ipPublic: "120.188.75.153"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:02 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 22
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MjI=
+  ipLocal: 114.5.110.180:22763, 20.205.82.200:30333
+  ipPublic: "114.5.110.180"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:05 [
+  locName: Mie Gacoan Cab Sby Kenjeran 2
+  table: 02
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU0?table_code=MDI=
+  ipLocal: 114.5.102.73:2333, 20.205.82.200:22187
+  ipPublic: "114.5.102.73"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:21:28"
+]
+2024-08-01 13:47:06 [
+  locName: Mie Gacoan Cab Sby Kenjeran 2
+  table: 16
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU0/MTY=
+  ipLocal: 120.188.79.28:29343, 20.205.82.200:22780
+  ipPublic: "120.188.79.28"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3.1 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:21:28"
+]
+2024-08-01 13:47:17 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 28
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/Mjg=
+  ipLocal: 114.10.47.168:29343, 20.205.82.200:22780
+  ipPublic: "114.10.47.168"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/25.0 Chrome/121.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not A(Brand","version":"99"},{"brand":"Samsung Internet","version":"25.0"},{"brand":"Chromium","version":"121"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:18 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 22
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MjI=
+  ipLocal: 114.125.77.88:62138, 20.205.82.199:55216
+  ipPublic: "114.125.77.88"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["en-GB"]
+  platform: iPhone
+  appVersion: undefined
+  lastUpdate: undefined
+]
+2024-08-01 13:47:23 [
+  locName: Mie Gacoan Sidoarjo Krian
+  table: 13
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc1/MTM=
+  ipLocal: 182.1.98.51:46068, 20.205.82.200:50056
+  ipPublic: "182.1.98.51"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Google Chrome","version":"119"},{"brand":"Chromium","version":"119"},{"brand":"Not?A_Brand","version":"24"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:24 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 28
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/Mjg=
+  ipLocal: 114.10.47.168:29343, 20.205.82.200:22780
+  ipPublic: "114.10.47.168"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/25.0 Chrome/121.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not A(Brand","version":"99"},{"brand":"Samsung Internet","version":"25.0"},{"brand":"Chromium","version":"121"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:27 [
+  locName: Mie Gacoan Cab Surabaya Merr
+  table: 20
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU0/MjA=
+  ipLocal: 203.78.117.12:41858, 20.205.82.200:22187
+  ipPublic: "203.78.117.12"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/25.0 Chrome/121.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not A(Brand","version":"99"},{"brand":"Samsung Internet","version":"25.0"},{"brand":"Chromium","version":"121"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:32 [
+  locName: Mie Gacoan Cab Surabaya Merr
+  table: 20
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU0/MjA=
+  ipLocal: 203.78.117.12:41858, 20.205.82.200:22780
+  ipPublic: "203.78.117.12"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/25.0 Chrome/121.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not A(Brand","version":"99"},{"brand":"Samsung Internet","version":"25.0"},{"brand":"Chromium","version":"121"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:44 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 36
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2?table_code=MzY=
+  ipLocal: 36.68.221.76:4751, 20.205.82.200:22780
+  ipPublic: "36.68.221.76"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","en-US","id","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:50 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 10
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/MTA=
+  ipLocal: 182.2.165.211:64927, 20.205.82.200:54343
+  ipPublic: "182.2.165.223"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["en-GB"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:47:54 [
+  locName: Mie Gacoan Cab Sby Kenjeran 2
+  table: 23
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU0/MjM=
+  ipLocal: 114.5.104.189:57487, 20.205.82.200:22780
+  ipPublic: "114.5.104.189"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:21:28"
+]
+2024-08-01 13:47:59 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 27
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2/Mjc=
+  ipLocal: 114.5.245.148:7452, 20.205.82.200:30333
+  ipPublic: "114.5.245.148"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:48:03 [
+  locName: Mie Gacoan Kediri Pare
+  table: 18
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/ODM4ODM=/MTg=
+  ipLocal: 112.215.241.34:36279, 20.205.82.199:55216
+  ipPublic: "112.215.241.34"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:35:33"
+]
+2024-08-01 13:48:04 [
+  locName: Mie Gacoan Kediri Pare
+  table: 18
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/ODM4ODM=/MTg=
+  ipLocal: 112.215.241.34:36279, 20.205.82.199:56988
+  ipPublic: "112.215.241.34"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:35:33"
+]
+2024-08-01 13:48:12 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 27
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2/Mjc=
+  ipLocal: 114.5.245.148:7452, 20.205.82.200:54343
+  ipPublic: "114.5.245.148"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:48:15 [
+  locName: Mie Gacoan Sidoarjo Krian
+  table: 10
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc1/MTA=
+  ipLocal: 182.1.98.51:46158, 20.205.82.200:22780
+  ipPublic: "182.1.98.51"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Google Chrome","version":"119"},{"brand":"Chromium","version":"119"},{"brand":"Not?A_Brand","version":"24"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:48:22 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 02
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/MDI=
+  ipLocal: 36.68.222.96:55800, 20.205.82.200:30333
+  ipPublic: "36.68.222.96"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:48:24 [
+  locName: Gacoan Surabaya 8 Ahmad Yani
+  table: 02
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTkw/MDI=
+  ipLocal: 114.125.87.8:44730, 20.205.82.199:26639
+  ipPublic: "114.125.84.154"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:48:42 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 10
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MTA=
+  ipLocal: 182.1.85.51:63437, 20.205.82.199:26639
+  ipPublic: "182.1.85.51"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-id"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:48:51 [
+  locName: Gacoan Surabaya 8 Ahmad Yani
+  table: 02
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTkw/MDI=
+  ipLocal: 114.125.87.8:44730, 20.205.82.199:56988
+  ipPublic: "114.125.84.154"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:48:59 [
+  locName: Mie Gacoan Cab Sby Mayjend Sungkono
+  table: 06
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDYw/MDY=
+  ipLocal: 112.215.153.228:56430, 20.205.82.200:30333
+  ipPublic: "112.215.153.228"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:49:29 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 01
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2/MDE=
+  ipLocal: 114.125.69.13:47332, 20.205.82.200:22187
+  ipPublic: "114.125.69.13"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:49:29 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 07
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2/MDc=
+  ipLocal: 182.1.73.99:46408, 20.205.82.199:56988
+  ipPublic: "182.1.73.99"
+  userAgent: Mozilla/5.0 (Linux; Android 14; SAMSUNG SM-A528B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/22.0 Chrome/111.0.5563.116 Mobile Safari/537.36
+  userAgentData: undefined
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux aarch64
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:49:32 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 07
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2/MDc=
+  ipLocal: 182.1.73.99:46408, 20.205.82.199:12428
+  ipPublic: "182.1.73.99"
+  userAgent: Mozilla/5.0 (Linux; Android 14; SAMSUNG SM-A528B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/22.0 Chrome/111.0.5563.116 Mobile Safari/537.36
+  userAgentData: undefined
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux aarch64
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:49:37 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 10
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MTA=
+  ipLocal: 182.1.85.51:63437, 20.205.82.199:56988
+  ipPublic: "182.1.85.51"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-id"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:49:40 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 33
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2/MzM=
+  ipLocal: 114.79.16.18:56787, 20.205.82.199:25511
+  ipPublic: "114.79.20.142"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["en-GB"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:49:44 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 08
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2/MDg=
+  ipLocal: 114.79.21.152:63337, 20.205.82.200:22780
+  ipPublic: "114.79.21.152"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-AU","id-ID","id","en-GB","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:50:12 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 10
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MTA=
+  ipLocal: 182.1.85.51:63437, 20.205.82.199:56988
+  ipPublic: "182.1.85.51"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-id"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:50:15 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 50
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/NTA=
+  ipLocal: 114.10.79.16:63014, 20.205.82.199:25511
+  ipPublic: "114.10.79.16"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:50:20 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 33
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2/MzM=
+  ipLocal: 114.79.16.18:56787, 20.205.82.199:56988
+  ipPublic: "114.79.20.142"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["en-GB"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:50:27 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 16
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/MTY=
+  ipLocal: 114.79.19.229:40512, 20.205.82.199:26639
+  ipPublic: "114.79.19.229"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:50:29 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 33
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2/MzM=
+  ipLocal: 114.79.16.18:56787, 20.205.82.199:55216
+  ipPublic: "114.79.20.142"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["en-GB"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:50:31 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 28
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/Mjg=
+  ipLocal: 140.213.56.126:65464, 20.205.82.199:25511
+  ipPublic: "140.213.56.126"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3.1 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:50:53 [
+  locName: Mie Gacoan Cab Ambengan
+  table: 03
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ0/MDM=
+  ipLocal: 114.125.78.123:49235, 20.205.82.199:56988
+  ipPublic: "182.1.87.23"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:51:11 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 10
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MTA=
+  ipLocal: 114.125.108.143:37364, 20.205.82.200:60207
+  ipPublic: "114.125.108.143"
+  userAgent: Mozilla/5.0 (Linux; Android 13; V2322; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 VivoBrowser/12.5.2.3
+  userAgentData: undefined
+  languages: ["id-ID","en-US"]
+  platform: Linux aarch64
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:51:11 [
+  locName: Mie Gacoan Cab Ambengan
+  table: 06
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ0/MDY=
+  ipLocal: 182.253.116.51:18012, 20.205.82.200:60207
+  ipPublic: "182.253.116.51"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/25.0 Chrome/121.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not A(Brand","version":"99"},{"brand":"Samsung Internet","version":"25.0"},{"brand":"Chromium","version":"121"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","id-ID","id","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:51:16 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 04
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/MDQ=
+  ipLocal: 140.213.48.188:46952, 20.205.82.200:20507
+  ipPublic: "140.213.48.188"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:51:29 [
+  locName: Mie Gacoan Cab Ambengan
+  table: 06
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ0/MDY=
+  ipLocal: 182.253.116.51:18012, 20.205.82.200:22187
+  ipPublic: "182.253.116.51"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/25.0 Chrome/121.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not A(Brand","version":"99"},{"brand":"Samsung Internet","version":"25.0"},{"brand":"Chromium","version":"121"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","id-ID","id","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:51:40 [
+  locName: Mie Gacoan Cab Sby Manukan
+  table: 41
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUz/NDE=
+  ipLocal: 114.5.221.124:50338, 20.205.82.199:56988
+  ipPublic: "114.5.221.124"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Chromium","version":"118"},{"brand":"Google Chrome","version":"118"},{"brand":"Not=A?Brand","version":"99"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:51:46 [
+  locName: Mie Gacoan Cab Surabaya Manyar
+  table: 57
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDUy/NTc=
+  ipLocal: 114.5.243.214:17565, 20.205.82.199:26639
+  ipPublic: "114.5.243.214"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6.6 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["en-GB"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:51:46 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 22
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MjI=
+  ipLocal: 140.213.44.141:28754, 20.205.82.200:60207
+  ipPublic: "140.213.44.141"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","id-ID","id","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:51:50 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 28
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/Mjg=
+  ipLocal: 140.213.56.126:39442, 20.205.82.200:60207
+  ipPublic: "140.213.56.126"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:51:59 [
+  locName: Mie Gacoan Cab Sby Mulyorejo
+  table: 35
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU2/MzU=
+  ipLocal: 114.5.110.209:36782, 20.205.82.199:56988
+  ipPublic: "114.5.110.209"
+  userAgent: Mozilla/5.0 (Linux; Android 10; V2027 Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/126.0.6478.188 Mobile Safari/537.36 CamScanner/6.68.0.2407180000;webank/h5face;webank/2.0
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Android WebView","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US"]
+  platform: Linux armv8l
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:52:03 [
+  locName: Mie Gacoan Kediri Pare
+  table: 21
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/ODM4ODM=?table_code=MjE=
+  ipLocal: 140.213.218.112:36101, 20.205.82.200:20507
+  ipPublic: "140.213.218.112"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/25.0 Chrome/121.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not A(Brand","version":"99"},{"brand":"Samsung Internet","version":"25.0"},{"brand":"Chromium","version":"121"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:35:33"
+]
+2024-08-01 13:52:17 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 51
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/NTE=
+  ipLocal: 120.188.38.162:28135, 20.205.82.199:55216
+  ipPublic: "120.188.38.162"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:52:36 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 10
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MTA=
+  ipLocal: 114.125.108.143:37364, 20.205.82.200:49207
+  ipPublic: "114.125.108.143"
+  userAgent: Mozilla/5.0 (Linux; Android 13; V2322; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 VivoBrowser/12.5.2.3
+  userAgentData: undefined
+  languages: ["id-ID","en-US"]
+  platform: Linux aarch64
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:52:45 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 04
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MDQ=
+  ipLocal: 120.188.72.113:28525, 20.205.82.199:25511
+  ipPublic: "120.188.72.113"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:53:11 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 01
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/MDE=
+  ipLocal: 114.10.79.96:9630, 20.205.82.200:49207
+  ipPublic: "114.10.79.96"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:53:35 [
+  locName: Mie Gacoan Cab Sby Kenjeran 2
+  table: 39
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU0/Mzk=
+  ipLocal: 114.79.18.152:46016, 20.205.82.200:9046
+  ipPublic: "114.79.18.152"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.136 Mobile Safari/537.36 XiaoMi/MiuiBrowser/14.13.0-gn
+  userAgentData: undefined
+  languages: ["id-ID","en-US"]
+  platform: Linux aarch64
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:21:28"
+]
+2024-08-01 13:53:40 [
+  locName: Mie Gacoan Cab Ambengan
+  table: 03
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ0/MDM=
+  ipLocal: 182.1.80.19:49263, 20.205.82.200:20507
+  ipPublic: "182.1.87.23"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:53:44 [
+  locName: Mie Gacoan Cab Wiyung
+  table: 22
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ2/MjI=
+  ipLocal: 140.213.44.141:28754, 20.205.82.200:9046
+  ipPublic: "140.213.44.141"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","id-ID","id","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:53:45 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 06
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/MDY=
+  ipLocal: 112.215.237.185:54936, 20.205.82.199:31708
+  ipPublic: "112.215.237.185"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:53:50 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 06
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/MDY=
+  ipLocal: 112.215.237.185:54936, 20.205.82.199:25511
+  ipPublic: "112.215.237.185"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:54:01 [
+  locName: Mie Gacoan Sidoarjo Krian
+  table: 19
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc1/MTk=
+  ipLocal: 120.188.84.24:4455, 20.205.82.199:31708
+  ipPublic: "120.188.84.24"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:54:02 [
+  locName: Mie Gacoan Cab Surabaya Manyar
+  table: 57
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDUy/NTc=
+  ipLocal: 114.5.243.214:17565, 20.205.82.199:31708
+  ipPublic: "114.5.243.214"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6.6 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["en-GB"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:55:46 [
+  locName: Mie Gacoan Cab Sby Kenjeran 2
+  table: 39
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU0?table_code=Mzk=
+  ipLocal: 114.79.18.152:46016, 20.205.82.200:60207
+  ipPublic: "114.79.18.152"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.136 Mobile Safari/537.36 XiaoMi/MiuiBrowser/14.13.0-gn
+  userAgentData: undefined
+  languages: ["id-ID","en-US"]
+  platform: Linux aarch64
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:21:28"
+]
+2024-08-01 13:56:08 [
+  locName: Mie Gacoan Sidoarjo Krian
+  table: 19
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc1/MTk=
+  ipLocal: 120.188.84.24:4455, 20.205.82.199:31312
+  ipPublic: "120.188.84.24"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:58:37 [
+  locName: Mie Gacoan Cab Sby Manukan
+  table: 02
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUz/MDI=
+  ipLocal: 114.5.222.177:62752, 20.205.82.199:56988
+  ipPublic: "114.5.222.177"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:58:38 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 36
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/MzY=
+  ipLocal: 140.213.44.35:34108, 20.205.82.199:31312
+  ipPublic: "140.213.44.35"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:58:43 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 36
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/MzY=
+  ipLocal: 140.213.44.35:34108, 20.205.82.199:31708
+  ipPublic: "140.213.44.35"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:58:44 [
+  locName: Mie Gacoan Cab Sby Mayjend Sungkono
+  table: 26
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDYw/MjY=
+  ipLocal: 114.5.222.1:42371, 20.205.82.199:5701
+  ipPublic: "114.5.222.1"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:58:44 [
+  locName: Mie Gacoan Cab Sby Mayjend Sungkono
+  table: 26
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDYw/MjY=
+  ipLocal: 114.5.222.1:42371, 20.205.82.199:31708
+  ipPublic: "114.5.222.1"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:58:46 [
+  locName: Mie Gacoan Cab Sby Mayjend Sungkono
+  table: 26
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDYw/MjY=
+  ipLocal: 114.5.222.1:42371, 20.205.82.199:5701
+  ipPublic: "114.5.222.1"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:58:46 [
+  locName: Mie Gacoan Cab Sby Mayjend Sungkono
+  table: 26
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDYw/MjY=
+  ipLocal: 114.5.222.1:42371, 20.205.82.199:31708
+  ipPublic: "114.5.222.1"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:58:48 [
+  locName: Mie Gacoan Cab Sby Bung Tomo
+  table: 68
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU1/Njg=
+  ipLocal: 112.215.173.49:41686, 20.205.82.200:9046
+  ipPublic: "112.215.173.49"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-GB"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:59:07 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 13
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2/MTM=
+  ipLocal: 120.188.76.142:43583, 20.205.82.199:56988
+  ipPublic: "120.188.76.142"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/324.0.648915268 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:59:12 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 10
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2/MTA=
+  ipLocal: 114.125.116.9:59648, 20.205.82.199:56988
+  ipPublic: "114.125.118.31"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:59:26 [
+  locName: Mie Gacoan Cab Ambengan
+  table: 37
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ0/Mzc=
+  ipLocal: 180.253.163.175:1988, 20.205.82.199:25511
+  ipPublic: "180.253.163.175"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:59:34 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 30
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/MzA=
+  ipLocal: 114.79.17.179:36732, 20.205.82.200:38562
+  ipPublic: "114.79.17.179"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:59:38 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 30
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/MzA=
+  ipLocal: 114.79.17.179:36732, 20.205.82.200:38562
+  ipPublic: "114.79.17.179"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:59:53 [
+  locName: Mie Gacoan Cab Gresik 2 GKB
+  table: 26
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc2/MjY=
+  ipLocal: 182.1.104.99:48726, 20.205.82.199:25511
+  ipPublic: "182.1.104.99"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/26.0 Chrome/122.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Chromium","version":"122"},{"brand":"Not(A:Brand","version":"24"},{"brand":"Samsung Internet","version":"26.0"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","en-AU","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:59:53 [
+  locName: Mie Gacoan Depok Kelapa Dua
+  table: 69
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/OTMwNzI=/Njk=
+  ipLocal: 114.79.1.199:61573, 20.205.82.200:38562
+  ipPublic: "114.79.1.199"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 13:59:55 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 21
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2/MjE=
+  ipLocal: 182.1.69.220:51203, 20.205.82.199:31312
+  ipPublic: "182.1.69.220"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_7_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:06 [
+  locName: Mie Gacoan Cab Ambengan
+  table: 50
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ0/NTA=
+  ipLocal: 182.1.116.178:42064, 20.205.82.199:25511
+  ipPublic: "182.1.116.178"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["en-US","en","id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:10 [
+  locName: Mie Gacoan Cab Surabaya Manyar
+  table: 17
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDUy?table_code=MTc=
+  ipLocal: 120.188.83.193:25969, 20.205.82.199:5701
+  ipPublic: "120.188.83.193"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:29 [
+  locName: Mie Gacoan Cab Sby Mayjend Sungkono
+  table: 06
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDYw/MDY=
+  ipLocal: 120.188.80.37:56397, 20.205.82.200:62478
+  ipPublic: "120.188.80.37"
+  userAgent: Mozilla/5.0 (Linux; Android 14; V2318 Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/126.0.6478.186 Mobile Safari/537.36 AgentWeb/4.1.9  UCBrowser/11.6.4.950 
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Android WebView","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","en-US"]
+  platform: Linux aarch64
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:34 [
+  locName: Mie Gacoan Cab Sby Bung Tomo
+  table: 68
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU1?table_code=Njg=
+  ipLocal: 112.215.173.49:41686, 20.205.82.200:12303
+  ipPublic: "112.215.173.49"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-GB"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:36 [
+  locName: Mie Gacoan Sidoarjo Krian
+  table: 75
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc1/NzU=
+  ipLocal: 114.5.244.166:14063, 20.205.82.199:5701
+  ipPublic: "114.5.244.166"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:45 [
+  locName: Mie Gacoan Cab Sby Bung Tomo
+  table: 68
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU1?table_code=Njg=
+  ipLocal: 112.215.173.49:41686, 20.205.82.200:55512
+  ipPublic: "112.215.173.49"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["en-GB"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:47 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 21
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2?table_code=MjE=
+  ipLocal: 182.1.69.220:51203, 20.205.82.199:56988
+  ipPublic: "182.1.69.220"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_7_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:48 [
+  locName: Mie Gacoan Kediri Pare
+  table: 24
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/ODM4ODM=/MjQ=
+  ipLocal: 120.188.82.96:14256, 20.205.82.199:31312
+  ipPublic: "120.188.82.96"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:35:33"
+]
+2024-08-01 14:00:48 [
+  locName: Mie Gacoan Cab Ambengan
+  table: 21
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQ0/MjE=
+  ipLocal: 203.78.113.39:55739, 20.205.82.200:55512
+  ipPublic: "203.78.112.144"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:56 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 21
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/MjE=
+  ipLocal: 182.1.67.233:36000, 20.205.82.200:12303
+  ipPublic: "182.1.67.233"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Google Chrome","version":"125"},{"brand":"Chromium","version":"125"},{"brand":"Not.A/Brand","version":"24"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:00:59 [
+  locName: Mie Gacoan Cab Sby Kenjeran
+  table: 21
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTUy/MjE=
+  ipLocal: 182.1.67.233:36000, 20.205.82.200:34491
+  ipPublic: "182.1.67.233"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Google Chrome","version":"125"},{"brand":"Chromium","version":"125"},{"brand":"Not.A/Brand","version":"24"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:01:08 [
+  locName: Mie Gacoan Sidoarjo Krian
+  table: 75
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc1?table_code=NzU=
+  ipLocal: 114.5.244.166:14063, 20.205.82.199:31312
+  ipPublic: "114.5.244.166"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:01:14 [
+  locName: Mie Gacoan Cab Sby Mayjend Sungkono
+  table: 26
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDYw?table_code=MjY=
+  ipLocal: 114.5.222.1:42371, 20.205.82.199:25511
+  ipPublic: "114.5.222.1"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:01:42 [
+  locName: Mie Gacoan Cab Surabaya Merr
+  table: 13
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU0/MTM=
+  ipLocal: 182.1.99.64:58016, 20.205.82.200:55512
+  ipPublic: "182.1.99.64"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:01:43 [
+  locName: Mie Gacoan Cab Sby Bung Tomo
+  table: 33
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNTU1/MzM=
+  ipLocal: 114.5.110.61:8435, 20.205.82.199:56988
+  ipPublic: "114.5.110.61"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not_A Brand","version":"8"},{"brand":"Chromium","version":"120"},{"brand":"Google Chrome","version":"120"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:01:45 [
+  locName: Mie Gacoan Cab Margorejo
+  table: 21
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDU2?table_code=MjE=
+  ipLocal: 182.1.69.220:51203, 20.205.82.199:56988
+  ipPublic: "182.1.69.220"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_7_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:01:45 [
+  locName: Mie Gacoan Sidoarjo Krian
+  table: 75
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTA0MTc1?table_code=NzU=
+  ipLocal: 114.5.244.166:14063, 20.205.82.199:56988
+  ipPublic: "114.5.244.166"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not/A)Brand","version":"8"},{"brand":"Chromium","version":"126"},{"brand":"Google Chrome","version":"126"}],"mobile":true,"platform":"Android"}
+  languages: ["id-ID","id","en-US","en"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:01:46 [
+  locName: Mie Gacoan Cab Panglima Sudirman
+  table: 10
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDQx/MTA=
+  ipLocal: 114.5.221.187:31378, 20.205.82.199:25511
+  ipPublic: "114.5.221.187"
+  userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/320.0.639621854 Mobile/15E148 Safari/604.1
+  userAgentData: undefined
+  languages: ["id-ID"]
+  platform: iPhone
+  appVersion: 1.0.6
+  lastUpdate: "2024-07-31 17:46:11"
+]
+2024-08-01 14:01:46 [
+  locName: Mie Gacoan Kediri Pare
+  table: 24
+  url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/ODM4ODM=?table_code=MjQ=
+  ipLocal: 120.188.82.96:14256, 20.205.82.199:25511
+  ipPublic: "120.188.82.96"
+  userAgent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36
+  userAgentData: {"brands":[{"brand":"Not)A;Brand","version":"99"},{"brand":"Google Chrome","version":"127"},{"brand":"Chromium","version":"127"}],"mobile":true,"platform":"Android"}
+  languages: ["id"]
+  platform: Linux armv81
+  appVersion: 1.0.6
+  lastUpdate: "2024-08-01 02:35:33"
+]

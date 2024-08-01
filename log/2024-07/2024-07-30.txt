@@ -13,7 +13,7 @@
 ]
 2024-07-30 01:58:27 [
   locName: Mie Gacoan QR
-  table: BUNGKUS
+  table: BUNGKUS 
   url: http://localhost:3000/restaurant/detail/NTEyMDM=?table_code=QlVOR0tVUw==
   ipLocal: 127.0.0.1 
   ipPublic: "36.90.57.99"
