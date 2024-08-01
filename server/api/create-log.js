@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     const now = DateTime.now().setZone("Asia/Jakarta");
     const yearMonth = now.toISODate().slice(0, 7);
     const dateStr = now.toISODate();
-    const fileName = `${dateStr}.txt`;
+    const fileName = `${dateStr}.log`;
     const logDir = path.join(process.cwd(), "public", "logs", yearMonth);
 
     // Ensure the log directory exists
