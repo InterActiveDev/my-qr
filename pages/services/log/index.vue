@@ -87,7 +87,7 @@ export default defineComponent({
           const yearMonth = startDateValue.toISOString().slice(0, 7);
           const date = startDateValue.toISOString().slice(0, 10);
 
-          if (password !== config.public.logSalt) {
+          if (btoa(password) !== btoa(config.public.logSalt)) {
             return alert("Password salah!");
           }
 

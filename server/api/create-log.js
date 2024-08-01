@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
   locName: ${locName}
   table: ${table}
   url: ${url}
-  ipLocal: ${ipAddress} 
+  ipLocal: ${ipAddress}
   ipPublic: ${JSON.stringify(publicIp)}
   userAgent: ${userAgent}
   userAgentData: ${JSON.stringify(userAgentData)}
@@ -44,14 +44,18 @@ export default defineEventHandler(async (event) => {
   lastUpdate: ${lastUpdate}
 ]\n`;
 
-    // Check if the file exists
+    // Try to append to the file; if it doesn't exist, create it
     try {
       await fs.access(filePath);
-      // If the file exists, append the content
       await fs.appendFile(filePath, content, "utf8");
     } catch (error) {
-      // If the file does not exist, create it with the content
-      await fs.writeFile(filePath, content, "utf8");
+      if (error.code === "ENOENT") {
+        // File does not exist, create it
+        await fs.writeFile(filePath, content, "utf8");
+      } else {
+        // Another error occurred
+        throw error;
+      }
     }
 
     return {
