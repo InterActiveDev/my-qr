@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const logDir = path.join(process.cwd(), "log", yearMonth);
+  const logDir = path.join(process.cwd(), "public", "logs", yearMonth);
   const fileName = `${date}.txt`;
   const filePath = path.join(logDir, fileName);
 
