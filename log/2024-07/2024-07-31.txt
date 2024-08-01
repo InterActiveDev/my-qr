@@ -26,7 +26,7 @@
 ]
 2024-07-31 06:42:53 [
   locName: Mie Gacoan Cab Surabaya Manyar
-  table: 05
+  table: 05 
   url: https://icy-sky-01ed32e00.5.azurestaticapps.net/restaurant/detail/MTMzNDUy/MDU=
   ipLocal: 182.1.119.216:47208, 20.205.82.199:19756 
   ipPublic: "182.1.114.120"
