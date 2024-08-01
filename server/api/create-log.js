@@ -47,8 +47,8 @@ export default defineEventHandler(async (event) => {
   todayDate: ${todayDate} 
 ]\n`;
 
-    // Try to append to the file; if it doesn't exist, create it
     try {
+      // Try to append to the file; if it doesn't exist, create it
       await fs.access(filePath);
       await fs.appendFile(filePath, content, "utf8");
     } catch (error) {
