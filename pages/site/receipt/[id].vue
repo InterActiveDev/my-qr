@@ -312,12 +312,19 @@ export default defineComponent({
       statusTransaksi: "",
       messagePaymentError: "",
       messagePaymentError: "",
+      route: "restaurant",
     };
   },
   mounted() {
     this.isAndroid = navigator.userAgent.toLowerCase().includes("android");
     this.isIOS =
       /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const route = localStorage.getItem("route")
+      ? localStorage.getItem("route")
+      : "restaurant";
+    this.route = route;
+
+    this.navbarTo = "/" + this.route + "/history-transaction";
 
     const dataRes = JSON.parse(localStorage.getItem("data_restaurant"));
 
@@ -483,10 +490,15 @@ export default defineComponent({
 
       if (tableCode) {
         this.$router.push(
-          "/restaurant/detail/" + location + "?table_code=" + btoa(tableCode)
+          "/" +
+            this.route +
+            "/detail/" +
+            location +
+            "?table_code=" +
+            btoa(tableCode)
         );
       } else {
-        this.$router.push("/restaurant/detail/" + location);
+        this.$router.push("/" + this.route + "/detail/" + location);
       }
     },
     formatCurrency(amount) {

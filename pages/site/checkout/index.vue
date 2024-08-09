@@ -1009,12 +1009,17 @@ export default defineComponent({
       locIdData: null,
       user: "",
       timeUpdateTimer: null,
+      route: "restaurant",
     };
   },
   mounted() {
     // localStorage.removeItem("qrContent");
     // localStorage.removeItem("checkoutData");
     this.getList();
+    const route = localStorage.getItem("route")
+      ? localStorage.getItem("route")
+      : "restaurant";
+    this.route = route;
 
     this.tableCode = this.tableCode ? this.tableCode : "";
     let orderTypeData = localStorage.getItem("order_type");
@@ -1064,10 +1069,12 @@ export default defineComponent({
         localStorage.getItem("table_code") == "null" ||
         localStorage.getItem("table_code") == null
       ) {
-        this.navbarTo = "/restaurant/detail/" + location;
+        this.navbarTo = "/" + this.route + "/detail/" + location;
       } else {
         this.navbarTo =
-          "/restaurant/detail/" +
+          "/" +
+          this.route +
+          "/detail/" +
           location +
           "?table_code=" +
           btoa(tableCodeRaw);
@@ -1090,7 +1097,7 @@ export default defineComponent({
       }
 
       if (!this.selectedOrderType) {
-        this.$router.push("/restaurant/detail/" + location);
+        this.$router.push("/" + this.route + "/detail/" + location);
         return;
       }
 
@@ -1462,10 +1469,15 @@ export default defineComponent({
       const tableCodeRaw = localStorage.getItem("table_code");
       if (tableCodeRaw) {
         this.$router.push(
-          "/restaurant/detail/" + location + "?table_code=" + btoa(tableCodeRaw)
+          "/" +
+            this.route +
+            "/detail/" +
+            location +
+            "?table_code=" +
+            btoa(tableCodeRaw)
         );
       } else {
-        this.$router.push("/restaurant/detail/" + location);
+        this.$router.push("/" + this.route + "/detail/" + location);
       }
     },
     openModalDataCustomer() {

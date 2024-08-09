@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     public: {
       apiBase: "https://myorderpwa.hungryline.com/api/myorder",
       logSalt: process.env.LOG_SALT,
+      appVersion: process.env.APP_VERSION,
     },
   },
 
