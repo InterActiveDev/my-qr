@@ -827,6 +827,7 @@ export default defineComponent({
         localStorage.removeItem("cart_items");
         localStorage.removeItem("selected_type_order");
         localStorage.removeItem("qrContent");
+        localStorage.removeItem("route");
 
         // set detail restaurant
         this.steps = "get restaurant detail";
