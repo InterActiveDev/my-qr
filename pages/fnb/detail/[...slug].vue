@@ -611,13 +611,10 @@ export default defineComponent({
 
     if (appVersion == null) {
       localStorage.setItem("appVersion", this.appVersion);
-      console.log("setting appVersion: ", this.appVersion);
+      // console.log("setting appVersion: ", this.appVersion);
     } else if (appVersion != null && appVersion != this.appVersion) {
       localStorage.setItem("appVersion", this.appVersion);
-      console.log(
-        "appVersion is different. Setting new appVersion: ",
-        this.appVersion
-      );
+
       console.log("appVersion is different. Sinkronkan ulang data ...");
       await this.starter(locId);
     } else {
@@ -773,7 +770,7 @@ export default defineComponent({
       this.showScrollButton = window.scrollY > 200;
     },
     goToHistory() {
-      this.$router.push("/restaurant/history-transaction");
+      this.$router.push("/fnb/history-transaction");
     },
     scrollToTop() {
       window.scrollTo({
@@ -1082,7 +1079,7 @@ export default defineComponent({
       }
     },
     toDetail(id) {
-      this.$router.push("/restaurant/detail/category/" + id);
+      this.$router.push("/fnb/detail/category/" + id);
     },
     openModalCategory() {
       this.showModalCategory = true;

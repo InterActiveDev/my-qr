@@ -773,7 +773,7 @@ export default defineComponent({
       this.showScrollButton = window.scrollY > 200;
     },
     goToHistory() {
-      this.$router.push("/restaurant/history-transaction");
+      this.$router.push("/retail/history-transaction");
     },
     scrollToTop() {
       window.scrollTo({
@@ -1082,7 +1082,7 @@ export default defineComponent({
       }
     },
     toDetail(id) {
-      this.$router.push("/restaurant/detail/category/" + id);
+      this.$router.push("/retail/detail/category/" + id);
     },
     openModalCategory() {
       this.showModalCategory = true;
